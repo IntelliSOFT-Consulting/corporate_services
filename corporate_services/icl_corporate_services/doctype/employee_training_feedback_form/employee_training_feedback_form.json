@@ -6,8 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_2ycd",
-  "custom_employee_name",
-  "custom_department",
+  "employee_name",
+  "department",
   "column_break_krvs",
   "custom_course_name",
   "custom_course_start_date",
@@ -17,28 +17,13 @@
   "skills_obtained_that_will_improve_performance",
   "column_break_qdlw",
   "custom_improvement",
-  "custom_cascading_timeline"
+  "custom_cascading_timeline",
+  "amended_from"
  ],
  "fields": [
   {
    "fieldname": "section_break_2ycd",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "custom_employee_name",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Employee Name",
-   "options": "Employee",
-   "reqd": 1
-  },
-  {
-   "fieldname": "custom_department",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Department",
-   "options": "Department",
-   "reqd": 1
   },
   {
    "fieldname": "column_break_krvs",
@@ -96,12 +81,39 @@
    "hide_seconds": 1,
    "label": "Timeline for Cascading Skills",
    "reqd": 1
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee_name.department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Training Feedback Form",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-06 18:20:25.068482",
+ "modified": "2024-05-23 15:25:05.556640",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Employee Training Feedback Form",
