@@ -610,244 +610,6 @@
  {
   "cards": [
    {
-    "card": "Leave Type",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Leave Allocation",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Leave Application",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Leave Policy",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Leave Policy Assignment",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Leave Block List",
-    "parent": "Leave Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   }
-  ],
-  "chart_options": null,
-  "charts": [
-   {
-    "chart": null,
-    "parent": "Leave Management",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   }
-  ],
-  "dashboard_name": "Leave Management",
-  "docstatus": 0,
-  "doctype": "Dashboard",
-  "is_default": 0,
-  "is_standard": 1,
-  "modified": "2024-06-26 09:48:41.108283",
-  "module": "ICL Corporate Services",
-  "name": "Leave Management"
- },
- {
-  "cards": [
-   {
-    "card": "Total Present (This Month)",
-    "parent": "Attendance",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Total Absent (This Month)",
-    "parent": "Attendance",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Late Entry (This Month)",
-    "parent": "Attendance",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Early Exit (This Month)",
-    "parent": "Attendance",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   }
-  ],
-  "chart_options": null,
-  "charts": [
-   {
-    "chart": "Attendance Count",
-    "parent": "Attendance",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Full"
-   },
-   {
-    "chart": "Timesheet Activity Breakup",
-    "parent": "Attendance",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   },
-   {
-    "chart": "Shift Assignment Breakup",
-    "parent": "Attendance",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   },
-   {
-    "chart": "Department wise Timesheet Hours",
-    "parent": "Attendance",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Full"
-   }
-  ],
-  "dashboard_name": "Attendance",
-  "docstatus": 0,
-  "doctype": "Dashboard",
-  "is_default": 0,
-  "is_standard": 1,
-  "modified": "2022-08-21 18:12:38.531243",
-  "module": "HR",
-  "name": "Attendance"
- },
- {
-  "cards": [
-   {
-    "card": "Expense Claims (This Month)",
-    "parent": "Expense Claims",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Approved Claims (This Month)",
-    "parent": "Expense Claims",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Rejected Claims (This Month)",
-    "parent": "Expense Claims",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   }
-  ],
-  "chart_options": null,
-  "charts": [
-   {
-    "chart": "Expense Claims",
-    "parent": "Expense Claims",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Full"
-   },
-   {
-    "chart": "Claims by Type",
-    "parent": "Expense Claims",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   },
-   {
-    "chart": "Employee Advance Status",
-    "parent": "Expense Claims",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   },
-   {
-    "chart": "Department wise Expense Claims",
-    "parent": "Expense Claims",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Full"
-   }
-  ],
-  "dashboard_name": "Expense Claims",
-  "docstatus": 0,
-  "doctype": "Dashboard",
-  "is_default": 0,
-  "is_standard": 1,
-  "modified": "2022-09-16 11:36:44.704033",
-  "module": "HR",
-  "name": "Expense Claims"
- },
- {
-  "cards": [
-   {
-    "card": "Training Application Request",
-    "parent": "Training Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Training Program",
-    "parent": "Training Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Trainings Event",
-    "parent": "Training Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Training Result",
-    "parent": "Training Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   },
-   {
-    "card": "Training Feedback",
-    "parent": "Training Management",
-    "parentfield": "cards",
-    "parenttype": "Dashboard"
-   }
-  ],
-  "chart_options": null,
-  "charts": [
-   {
-    "chart": null,
-    "parent": "Training Management",
-    "parentfield": "charts",
-    "parenttype": "Dashboard",
-    "width": "Half"
-   }
-  ],
-  "dashboard_name": "Training Management",
-  "docstatus": 0,
-  "doctype": "Dashboard",
-  "is_default": 0,
-  "is_standard": 1,
-  "modified": "2024-06-17 19:52:48.066207",
-  "module": "ICL Corporate Services",
-  "name": "Training Management"
- },
- {
-  "cards": [
-   {
     "card": "Job Openings",
     "parent": "Recruitment",
     "parentfield": "cards",
@@ -998,7 +760,7 @@
     "parenttype": "Dashboard"
    },
    {
-    "card": "Trainings Event",
+    "card": "Trainings (This Month)",
     "parent": "Employee Lifecycle",
     "parentfield": "cards",
     "parenttype": "Dashboard"
@@ -1043,6 +805,134 @@
   "modified": "2022-08-22 11:05:25.627559",
   "module": "HR",
   "name": "Employee Lifecycle"
+ },
+ {
+  "cards": [
+   {
+    "card": "Total Present (This Month)",
+    "parent": "Attendance",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Total Absent (This Month)",
+    "parent": "Attendance",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Late Entry (This Month)",
+    "parent": "Attendance",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Early Exit (This Month)",
+    "parent": "Attendance",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Attendance Count",
+    "parent": "Attendance",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Full"
+   },
+   {
+    "chart": "Timesheet Activity Breakup",
+    "parent": "Attendance",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Half"
+   },
+   {
+    "chart": "Shift Assignment Breakup",
+    "parent": "Attendance",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Half"
+   },
+   {
+    "chart": "Department wise Timesheet Hours",
+    "parent": "Attendance",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Full"
+   }
+  ],
+  "dashboard_name": "Attendance",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 0,
+  "is_standard": 1,
+  "modified": "2022-08-21 18:12:38.531243",
+  "module": "HR",
+  "name": "Attendance"
+ },
+ {
+  "cards": [
+   {
+    "card": "Expense Claims (This Month)",
+    "parent": "Expense Claims",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Approved Claims (This Month)",
+    "parent": "Expense Claims",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   },
+   {
+    "card": "Rejected Claims (This Month)",
+    "parent": "Expense Claims",
+    "parentfield": "cards",
+    "parenttype": "Dashboard"
+   }
+  ],
+  "chart_options": null,
+  "charts": [
+   {
+    "chart": "Expense Claims",
+    "parent": "Expense Claims",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Full"
+   },
+   {
+    "chart": "Claims by Type",
+    "parent": "Expense Claims",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Half"
+   },
+   {
+    "chart": "Employee Advance Status",
+    "parent": "Expense Claims",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Half"
+   },
+   {
+    "chart": "Department wise Expense Claims",
+    "parent": "Expense Claims",
+    "parentfield": "charts",
+    "parenttype": "Dashboard",
+    "width": "Full"
+   }
+  ],
+  "dashboard_name": "Expense Claims",
+  "docstatus": 0,
+  "doctype": "Dashboard",
+  "is_default": 0,
+  "is_standard": 1,
+  "modified": "2022-09-16 11:36:44.704033",
+  "module": "HR",
+  "name": "Expense Claims"
  },
  {
   "cards": [

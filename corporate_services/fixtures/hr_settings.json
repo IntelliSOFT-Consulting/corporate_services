@@ -1,7 +1,6 @@
 [
  {
   "allow_employee_checkin_from_mobile_app": 1,
-  "allow_geolocation_tracking": 0,
   "allow_multiple_shift_assignments": 0,
   "auto_leave_encashment": 0,
   "check_vacancies": 0,

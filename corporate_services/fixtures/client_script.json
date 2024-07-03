@@ -2,23 +2,12 @@
  {
   "docstatus": 0,
   "doctype": "Client Script",
-  "dt": "Travel Request",
+  "dt": "Job Requisition",
   "enabled": 1,
-  "modified": "2024-06-11 09:06:09.449940",
-  "module": "ICL Corporate Services",
-  "name": "Travel Request Filters",
-  "script": "frappe.ui.form.on('Travel Request', {\n\trefresh(frm) {\n\t\tfrm.set_query('employee', function() {\n            return {\n                filters: {\n                    user_id: frappe.session.user\n                }\n            };\n        });\n\t}\n})",
-  "view": "Form"
- },
- {
-  "docstatus": 0,
-  "doctype": "Client Script",
-  "dt": "Work Continuity Plan",
-  "enabled": 1,
-  "modified": "2024-06-11 08:34:52.784625",
-  "module": "ICL Corporate Services",
-  "name": "Work Continuity Plan leave Checklist",
-  "script": "frappe.ui.form.on('Work Continuity Plan', {\n\trefresh(frm) {\n     // Insert HTML using jQuery\n        frm.dashboard.add_section(`\n        <h2>IntelliSOFT CONSULTING Work Continuity Plan</h2>\n            <br>\n            <h3>Leave Checklist</h3>\n            <ol>\n                <li>Set out-of-office Autoresponder.</li>\n                <li>Set out-of-office calender.</li>\n                <li>Log off email & work docs.</li>\n            </ol>\n        `);\t\n    }\n});",
+  "modified": "2024-06-11 11:53:27.263078",
+  "module": null,
+  "name": "Job Requisition Notify HR",
+  "script": "frappe.ui.form.on(\"Job Requisition\", {\r\n    after_save: function(frm) {\r\n        // Function to send email notification\r\n        console.log({ frm })\r\n        function sendEmailNotification(subject, message, recipients) {\r\n            console.log({ subject, message, recipients })\r\n            // frappe.call({\r\n            //     method: \"your_custom_app.module_name.script_name.send_email_notification\",\r\n            //     args: {\r\n            //         subject: subject,\r\n            //         message: message,\r\n            //         recipients: recipients\r\n            //     },\r\n            //     callback: function(response) {\r\n            //         if (response.message) {\r\n            //             frappe.show_alert(\"Email notification sent successfully\", 5);\r\n            //         } else {\r\n            //             frappe.show_alert(\"Failed to send email notification\", 5, \"error\");\r\n            //         }\r\n            //     }\r\n            // });\r\n        }\r\n\r\n        // Function to send Frappe notification\r\n        function sendFrappeNotification(message, user) {\r\n            frappe.publish_realtime(\"msgprint\", {\r\n                message: message\r\n            }, user);\r\n        }\r\n\r\n        // Get HR emails\r\n        frappe.call({\r\n            method: \"get_hr_emails\",\r\n            callback: function(response) {\r\n                console.log({ response })\r\n                // var hrEmails = response.message;\r\n                // if (hrEmails && hrEmails.length > 0) {\r\n                //     var subject = \"New Job Requisition Created\";\r\n                //     var message = \"A new job requisition (\" + frm.doc.name + \") has been created.\\n\\nPlease take necessary action.\";\r\n                //     sendEmailNotification(subject, message, hrEmails);\r\n                //     sendFrappeNotification(\"New job requisition '\" + frm.doc.name + \"' created\", frappe.session.user);\r\n                // }\r\n            }\r\n        });\r\n    }\r\n});\r\n",
   "view": "Form"
  },
  {
@@ -26,32 +15,21 @@
   "doctype": "Client Script",
   "dt": "Travel Request",
   "enabled": 1,
-  "modified": "2024-06-11 08:23:59.003398",
+  "modified": "2024-06-09 14:57:26.242100",
   "module": "ICL Corporate Services",
   "name": "Travel Request Actions",
-  "script": "frappe.ui.form.on('Travel Request', {\r\n    refresh: function(frm) {\r\n        // Insert HTML using jQuery\r\n        frm.dashboard.add_section(`<br>\r\n        <h2>IntelliSOFT CONSULTING TRAVEL AUTHORIZATION FORM <h2>\r\n        <br>\r\n        <h3>Instructions</h3>\r\n        <ol>\r\n            <li>Please fill out the Travel Authorization Form below.</li>\r\n            <li>Obtain approval from your direct supervisor and HR/Operations and Finance Office prior to making reservations.</li>\r\n            <li>Attach a detailed travel budget using the ICL travel budget template.</li>\r\n        </ol>\r\n        `);\r\n    }\r\n});\r\n",
+  "script": "frappe.ui.form.on('Travel Request', {\r\n    refresh: function(frm) {\r\n        // Insert HTML using jQuery\r\n        frm.dashboard.add_section(`<br>\r\n        <h3>Instructions</h3>\r\n        <ol>\r\n            <li>Please fill out the Travel Authorization Form below.</li>\r\n            <li>Obtain approval from your direct supervisor and HR/Operations and Finance Office prior to making reservations.</li>\r\n            <li>Attach a detailed travel budget using the ICL travel budget template.</li>\r\n        </ol>\r\n        `);\r\n    }\r\n});\r\n",
   "view": "Form"
  },
  {
   "docstatus": 0,
   "doctype": "Client Script",
-  "dt": "Asset Custodianship Requisition",
+  "dt": "Travel Request",
   "enabled": 1,
-  "modified": "2024-06-13 11:08:00.666723",
+  "modified": "2024-06-09 15:33:58.624431",
   "module": "ICL Corporate Services",
-  "name": "Asset Custodianship Requisition Terms",
-  "script": "frappe.ui.form.on('Asset Custodianship Requisition', {\n\trefresh(frm) {\n        frm.dashboard.add_section(`\n        <h2>Asset Requisition Application Form</h2>\n            <br>\n            <p>In acceptance of this asset for usage, I agree to the terms and conditions stated below:</p>\n            <ul>\n                <li>I understand that I am responsible for the asset whilst in my possession, regardless of whether the asset is used in the office, at my place of residence, or in any other location such as a hotel, conference room, car or airport.</li>\n                <li>I am responsible for keeping the asset in good condition while using it and until the time of return.</li>\n                <li>I should be the only authorized person to have access to and use this asset, any unauthorized access to this asset is a violation of this company's policy and employment regulation and employment/consultant contract.</li>\n                <li>In the event of loss, theft, or damage, this must be reported to the police within 24-48 hours, and a copy of a Police report or incident report must be submitted to the company for verification purposes.</li>\n                <li>I understand that any violation of these policies shall lead to a disciplinary action by the company.</li>\n            </ul>\n        `);\t\n    }\n});",
-  "view": "Form"
- },
- {
-  "docstatus": 0,
-  "doctype": "Client Script",
-  "dt": "Employee Grievance",
-  "enabled": 1,
-  "modified": "2024-06-24 10:56:42.597912",
-  "module": "ICL Corporate Services",
-  "name": "Grievance Script",
-  "script": "frappe.ui.form.on('Employee Grievance', {\n    refresh: function(frm) {\n        function toggle_fields() {\n            if (frappe.user.has_role('Employee')) {\n                if (frm.doc.workflow_state === 'Draft') {\n                    frm.toggle_display(['investigation_details_section','resolution_details_section','custom_actions_taken'], false);\n                }\n            }\n            if (frappe.user.has_role('HR Manager')) {\n                if (frm.doc.workflow_state === 'Submitted to HR') {\n                    frm.toggle_display(['investigation_details_section','resolution_details_section','custom_actions_taken'], true);\n                }\n            }\n        }\n\n        toggle_fields();\n\n        frm.fields_dict.workflow_state.$input.on('change', function() {\n            toggle_fields();\n        });\n    },\n    before_save: function(frm) {\n        if (frappe.user.has_role('Employee')) {\n            frm.toggle_display(['investigation_details_section','resolution_details_section','custom_actions_taken'], false);\n        }\n    }\n});\n",
+  "name": "Travel Request Filters",
+  "script": "frappe.ui.form.on('Travel Request', {\n\trefresh(frm) {\n\t\t// your code here\n\t\t\n\t\tfrm.set_query('employee', function() {\n            return {\n                filters: {\n                    user_id: frappe.session.user\n                }\n            };\n        });\n\t}\n})",
   "view": "Form"
  }
 ]
