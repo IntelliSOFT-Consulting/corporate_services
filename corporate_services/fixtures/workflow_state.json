@@ -1,4 +1,4 @@
- [
+[
  {
   "docstatus": 0,
   "doctype": "Workflow State",
@@ -34,6 +34,24 @@
   "name": "Submitted to Director",
   "style": "",
   "workflow_state_name": "Submitted to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-06-03 15:39:43.592797",
+  "name": "Approved by HR",
+  "style": "",
+  "workflow_state_name": "Approved by HR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-06-03 15:39:43.608146",
+  "name": "Submitted to HR",
+  "style": "",
+  "workflow_state_name": "Submitted to HR"
  },
  {
   "docstatus": 0,
@@ -93,24 +111,6 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2024-06-03 15:39:43.592797",
-  "name": "Approved by HR",
-  "style": "",
-  "workflow_state_name": "Approved by HR"
- },
- {
-  "docstatus": 0,
-  "doctype": "Workflow State",
-  "icon": "",
-  "modified": "2024-07-22 09:56:42.270134",
-  "name": "Rejected by HR",
-  "style": "",
-  "workflow_state_name": "Rejected by HR"
- },
- {
-  "docstatus": 0,
-  "doctype": "Workflow State",
-  "icon": "",
   "modified": "2024-06-03 15:39:43.630727",
   "name": "Approved by Supervisor",
   "style": "",
@@ -120,10 +120,10 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2024-06-03 15:39:43.608146",
-  "name": "Submitted to HR",
+  "modified": "2024-06-03 15:39:43.643271",
+  "name": "Submitted to Supervisor",
   "style": "",
-  "workflow_state_name": "Submitted to HR"
+  "workflow_state_name": "Submitted to Supervisor"
  },
  {
   "docstatus": 0,
@@ -133,14 +133,5 @@
   "name": "Submitted to Finance",
   "style": "",
   "workflow_state_name": "Submitted to Finance"
- },
- {
-  "docstatus": 0,
-  "doctype": "Workflow State",
-  "icon": "",
-  "modified": "2024-06-03 15:39:43.643271",
-  "name": "Submitted to Supervisor",
-  "style": "",
-  "workflow_state_name": "Submitted to Supervisor"
  }
 ]
