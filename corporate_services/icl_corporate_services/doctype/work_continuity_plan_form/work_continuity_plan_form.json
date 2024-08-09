@@ -28,9 +28,11 @@
   },
   {
    "fieldname": "responsibility",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "in_list_view": 1,
-   "label": "Responsibility"
+   "label": "Responsibility",
+   "options": "Employee"
   },
   {
    "fieldname": "timeline",
@@ -49,7 +51,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-20 12:19:18.639503",
+ "modified": "2024-08-07 15:44:38.466643",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Work Continuity Plan Form",

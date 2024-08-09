@@ -173,22 +173,17 @@ on_update_map = {
     
     "Asset Requisition": "corporate_services.api.notification.asset_requisition.alert",
     
-}
-before_submit_map = {
-    # "Timesheet Submission":"corporate_services.api.timesheet.timesheet_submission.before_save"
+    
+    # timesheet submission
+    "Timesheet Submission":"corporate_services.api.notification.timesheet.alert"
+
 }
 
-after_insert_map = {
-    
-    # "Timesheet": "corporate_services.api.notification.timesheet.alert",
-    # "Timesheet Submission":"corporate_services.api.timesheet.task_import"
-    
-}
+
+
 
 event_maps = {
     "on_update": on_update_map,
-    # "after_insert":after_insert_map,
-    # "before_save":before_submit_map
 }
 
 doc_events = generate_doc_events(event_maps)
