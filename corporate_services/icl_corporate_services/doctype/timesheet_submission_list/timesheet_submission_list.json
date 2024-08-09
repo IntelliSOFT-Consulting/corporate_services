@@ -8,12 +8,13 @@
  "field_order": [
   "column_break_faid",
   "timesheet",
+  "timesheet_type",
   "project_name",
   "month",
   "total_hours",
   "status",
-  "section_break_mulj",
-  "placeholder_table"
+  "pay",
+  "percent"
  ],
  "fields": [
   {
@@ -46,16 +47,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "placeholder_table",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Placeholder Table"
-  },
-  {
-   "fieldname": "section_break_mulj",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "column_break_faid",
    "fieldtype": "Column Break",
    "read_only": 1
@@ -67,12 +58,29 @@
    "label": "Project",
    "options": "Project",
    "read_only": 1
+  },
+  {
+   "fieldname": "pay",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Pay"
+  },
+  {
+   "fieldname": "percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Percent"
+  },
+  {
+   "fieldname": "timesheet_type",
+   "fieldtype": "Data",
+   "label": "Timesheet Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-05 17:31:22.218849",
+ "modified": "2024-08-08 12:09:23.774296",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission List",
