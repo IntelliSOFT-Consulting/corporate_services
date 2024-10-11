@@ -2525,5 +2525,189 @@
   "workflow_data": "[{\"type\":\"state\",\"dimensions\":{\"width\":85,\"height\":53},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":38.96875,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":88.9375,\"y\":23,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":38.96875,\"y\":57,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":23,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":374.4000000000001,\"y\":-382.7999999999997,\"z\":0},\"id\":\"1\",\"position\":{\"x\":374.4000000000001,\"y\":-382.7999999999997}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1064,\"y\":-396,\"z\":0},\"id\":\"2\",\"position\":{\"x\":1064,\"y\":-396}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":538,\"y\":-216,\"z\":0},\"id\":\"3\",\"position\":{\"x\":538,\"y\":-216}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1546,\"y\":-164,\"z\":0},\"id\":\"4\",\"position\":{\"x\":1546,\"y\":-164}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":906,\"y\":-40,\"z\":0},\"id\":\"5\",\"position\":{\"x\":906,\"y\":-40}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":658,\"y\":246,\"z\":0},\"id\":\"6\",\"position\":{\"x\":658,\"y\":246}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.5,\"y\":-11,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":166,\"y\":33.5,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.5,\"y\":78,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11,\"y\":33.5,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1252.0000000000005,\"y\":248,\"z\":0},\"id\":\"7\",\"position\":{\"x\":1252.0000000000005,\"y\":248}},{\"type\":\"action\",\"dimensions\":{\"width\":164,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":78.8125,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":159.640625,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":78.8125,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":764,\"y\":-374,\"z\":0},\"id\":\"action-1\",\"position\":{\"x\":764,\"y\":-374},\"data\":{\"from_id\":\"1\",\"to_id\":\"2\"}},{\"type\":\"action\",\"dimensions\":{\"width\":78,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":36.125,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":74.25,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":36.125,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":704,\"y\":-294,\"z\":0},\"id\":\"action-2\",\"position\":{\"x\":704,\"y\":-294},\"data\":{\"from_id\":\"2\",\"to_id\":\"3\"}},{\"type\":\"action\",\"dimensions\":{\"width\":64,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":28.953125,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":59.90625,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":28.953125,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1492,\"y\":-296,\"z\":0},\"id\":\"action-3\",\"position\":{\"x\":1492,\"y\":-296},\"data\":{\"from_id\":\"2\",\"to_id\":\"4\"}},{\"type\":\"action\",\"dimensions\":{\"width\":78,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":36.125,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":74.25,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":36.125,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":700,\"y\":116,\"z\":0},\"id\":\"action-4\",\"position\":{\"x\":700,\"y\":116},\"data\":{\"from_id\":\"5\",\"to_id\":\"6\"}},{\"type\":\"action\",\"dimensions\":{\"width\":64,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":28.953125,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":59.90625,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":28.953125,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1218,\"y\":62,\"z\":0},\"id\":\"action-5\",\"position\":{\"x\":1218,\"y\":62},\"data\":{\"from_id\":\"5\",\"to_id\":\"7\"}},{\"type\":\"action\",\"dimensions\":{\"width\":143,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":68.359375,\"y\":-2,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":138.734375,\"y\":13.5,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":68.359375,\"y\":29,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2,\"y\":13.5,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":551.5,\"y\":-19.5,\"z\":0},\"id\":\"action-6\",\"position\":{\"x\":551.5,\"y\":-19.5},\"data\":{\"from_id\":\"3\",\"to_id\":\"5\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"1\",\"target\":\"action-1\",\"updatable\":true,\"id\":\"edge-1-action-1\",\"animated\":true,\"sourceX\":470.3375000000001,\"sourceY\":-356.2999999999997,\"targetX\":762,\"targetY\":-357.5},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-1\",\"target\":\"2\",\"updatable\":true,\"id\":\"edge-action-1-2\",\"animated\":true,\"sourceX\":929.640625,\"sourceY\":-357.5,\"targetX\":1053,\"targetY\":-359,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"}},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"right\",\"type\":\"transition\",\"source\":\"2\",\"target\":\"action-2\",\"updatable\":true,\"animated\":true,\"sourceX\":1145,\"sourceY\":-311,\"targetX\":784.25,\"targetY\":-277.5,\"id\":\"vueflow__edge-2bottom-action-2right\"},{\"sourceHandle\":\"left\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"action-2\",\"target\":\"3\",\"updatable\":true,\"animated\":true,\"sourceX\":702,\"sourceY\":-277.5,\"targetX\":619,\"targetY\":-227,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-2left-3top\"},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"2\",\"target\":\"action-3\",\"updatable\":true,\"animated\":true,\"sourceX\":1145,\"sourceY\":-311,\"targetX\":1490,\"targetY\":-279.5,\"id\":\"vueflow__edge-2bottom-action-3left\"},{\"sourceHandle\":\"right\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"action-3\",\"target\":\"4\",\"updatable\":true,\"animated\":true,\"sourceX\":1557.90625,\"sourceY\":-279.5,\"targetX\":1627,\"targetY\":-175,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-3right-4top\"},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"5\",\"target\":\"action-4\",\"updatable\":true,\"animated\":true,\"sourceX\":987,\"sourceY\":45,\"targetX\":739.125,\"targetY\":114,\"id\":\"vueflow__edge-5bottom-action-4top\"},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"action-4\",\"target\":\"6\",\"updatable\":true,\"animated\":true,\"sourceX\":739.125,\"sourceY\":151,\"targetX\":739,\"targetY\":235,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-4bottom-6top\"},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"5\",\"target\":\"action-5\",\"updatable\":true,\"animated\":true,\"sourceX\":987,\"sourceY\":45,\"targetX\":1216,\"targetY\":78.5,\"id\":\"vueflow__edge-5bottom-action-5left\"},{\"sourceHandle\":\"right\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"action-5\",\"target\":\"7\",\"updatable\":true,\"animated\":true,\"sourceX\":1283.90625,\"sourceY\":78.5,\"targetX\":1333.0000000000005,\"targetY\":237,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-5right-7top\"},{\"sourceHandle\":\"bottom\",\"targetHandle\":\"top\",\"type\":\"transition\",\"source\":\"3\",\"target\":\"action-6\",\"updatable\":true,\"animated\":true,\"sourceX\":619,\"sourceY\":-131,\"targetX\":622.859375,\"targetY\":-21.5,\"id\":\"vueflow__edge-3bottom-action-6top\"},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-6\",\"target\":\"5\",\"updatable\":true,\"animated\":true,\"sourceX\":696.234375,\"sourceY\":-3,\"targetX\":895,\"targetY\":-3,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-6right-5left\"}]",
   "workflow_name": "Asset Replacement Request Workflow",
   "workflow_state_field": "workflow_state"
+},
+{
+ "docstatus": 0,
+ "doctype": "Workflow",
+ "document_type": "Purchase Order",
+ "is_active": 1,
+ "modified": "2024-10-09 15:36:26.023612",
+ "name": "Purchase Order Request Workflow",
+ "override_status": 0,
+ "send_email_alert": 0,
+ "states": [
+  {
+   "allow_edit": "Purchase Manager",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Draft",
+   "update_field": "status",
+   "update_value": "Draft",
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Purchase Manager",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Pending",
+   "update_field": "",
+   "update_value": null,
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Finance",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Approved by Finance",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Finance",
+   "avoid_status_override": 0,
+   "doc_status": "1",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Rejected by Finance",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  }
+ ],
+ "transitions": [
+  {
+   "action": "Submit to Finance",
+   "allow_self_approval": 1,
+   "allowed": "Purchase Manager",
+   "condition": null,
+   "next_state": "Pending",
+   "state": "Draft",
+   "workflow_builder_id": null
+  },
+  {
+   "action": "Approve",
+   "allow_self_approval": 1,
+   "allowed": "Finance",
+   "condition": null,
+   "next_state": "Approved by Finance",
+   "state": "Pending",
+   "workflow_builder_id": null
+  },
+  {
+   "action": "Reject",
+   "allow_self_approval": 1,
+   "allowed": "Finance",
+   "condition": null,
+   "next_state": "Rejected by Finance",
+   "state": "Pending",
+   "workflow_builder_id": null
+  }
+ ],
+ "workflow_data": null,
+ "workflow_name": "Purchase Order Request Workflow",
+ "workflow_state_field": "workflow_state"
+},
+{
+ "docstatus": 0,
+ "doctype": "Workflow",
+ "document_type": "Purchase Invoice",
+ "is_active": 1,
+ "modified": "2024-10-09 15:38:21.349246",
+ "name": "Purchase Invoice Workflow",
+ "override_status": 0,
+ "send_email_alert": 0,
+ "states": [
+  {
+   "allow_edit": "Purchase Manager",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Draft",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Purchase Manager",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Pending",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Finance",
+   "avoid_status_override": 0,
+   "doc_status": "0",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Approved by Finance",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  },
+  {
+   "allow_edit": "Finance",
+   "avoid_status_override": 0,
+   "doc_status": "1",
+   "is_optional_state": 0,
+   "message": null,
+   "next_action_email_template": null,
+   "state": "Rejected by Finance",
+   "update_field": null,
+   "update_value": null,
+   "workflow_builder_id": null
+  }
+ ],
+ "transitions": [
+  {
+   "action": "Review",
+   "allow_self_approval": 1,
+   "allowed": "Purchase Manager",
+   "condition": null,
+   "next_state": "Pending",
+   "state": "Draft",
+   "workflow_builder_id": null
+  },
+  {
+   "action": "Approve",
+   "allow_self_approval": 1,
+   "allowed": "Finance",
+   "condition": null,
+   "next_state": "Approved by Finance",
+   "state": "Pending",
+   "workflow_builder_id": null
+  },
+  {
+   "action": "Reject",
+   "allow_self_approval": 1,
+   "allowed": "Finance",
+   "condition": null,
+   "next_state": "Rejected by Finance",
+   "state": "Pending",
+   "workflow_builder_id": null
+  }
+ ],
+ "workflow_data": null,
+ "workflow_name": "Purchase Invoice Workflow",
+ "workflow_state_field": "workflow_state"
  }
 ]
