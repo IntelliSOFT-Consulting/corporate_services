@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "budget_line",
+  "sub_budget_line",
   "unit_loe_type",
   "unit_loe",
   "rate",
@@ -15,16 +16,17 @@
  "fields": [
   {
    "fieldname": "budget_line",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Budget Line",
+   "options": "Payment Entry Budget Line",
    "reqd": 1
   },
   {
-   "fieldname": "unit_loe_type",
+   "fieldname": "sub_budget_line",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Unit LOE (type)"
+   "label": "Sub Budget Line"
   },
   {
    "fieldname": "unit_loe",
@@ -42,13 +44,20 @@
    "fieldname": "cost",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Cost"
+   "label": "Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "unit_loe_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Unit LOE Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-30 09:39:07.316113",
+ "modified": "2024-11-25 11:19:23.823365",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Budget Line Template",

@@ -6,55 +6,87 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "column_break_skme",
   "risk_level_and_contextual_description",
   "risk_mitigation_strategies",
-  "response_capacity",
+  "technical",
+  "administrative",
   "implementation_capacity",
+  "response_capacity",
   "jutisfication",
   "decision_go_no_go"
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "risk_level_and_contextual_description",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Risk Level and Contextual Description"
   },
   {
+   "columns": 1,
    "fieldname": "risk_mitigation_strategies",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Risk Mitigation strategies"
   },
   {
+   "columns": 2,
    "fieldname": "response_capacity",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Response Capacity"
+   "label": "Comment"
   },
   {
+   "columns": 1,
    "fieldname": "implementation_capacity",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Implementation Capacity"
+   "label": "Implementation Capacity",
+   "options": "1\n2\n3"
   },
   {
+   "columns": 2,
    "fieldname": "jutisfication",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Jutisfication"
   },
   {
+   "columns": 1,
    "fieldname": "decision_go_no_go",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Decision Go No Go"
+   "label": "Decision Go No Go",
+   "options": "Go\nNo Go"
+  },
+  {
+   "columns": 1,
+   "fieldname": "technical",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Technical",
+   "options": "1\n2\n3"
+  },
+  {
+   "columns": 1,
+   "fieldname": "administrative",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Administrative",
+   "options": "1\n2\n3"
+  },
+  {
+   "description": "1-Strong capacity\n2-Weak Capacity\n3-No Capacity",
+   "fieldname": "column_break_skme",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-03 09:09:04.550245",
+ "modified": "2024-12-10 09:05:11.560413",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Opportunity BOAT Analysis",

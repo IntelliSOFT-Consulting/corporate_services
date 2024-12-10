@@ -1,0 +1,114 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:budget_name",
+ "creation": "2024-11-25 08:35:02.459672",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "budget_name",
+  "section_break_dlag",
+  "budget_line_template",
+  "section_break_lmwr",
+  "indirect_cost_rate",
+  "column_break_mtkg",
+  "indirect_cost_on_all_costs",
+  "section_break_kzqc",
+  "budget_template_summary",
+  "budget_tracker_analysis"
+ ],
+ "fields": [
+  {
+   "fieldname": "budget_line_template",
+   "fieldtype": "Table",
+   "label": "Budget Line Template",
+   "options": "Budget Line Template"
+  },
+  {
+   "fieldname": "budget_tracker_analysis",
+   "fieldtype": "Table",
+   "label": "Budget Tracker Analysis",
+   "options": "Budget Tracker Analysis"
+  },
+  {
+   "fieldname": "budget_template_summary",
+   "fieldtype": "Table",
+   "label": "Budget Template Summary",
+   "options": "Budget Template Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "budget_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Budget Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_dlag",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.indirect_cost_rate",
+   "fieldname": "indirect_cost_on_all_costs",
+   "fieldtype": "Data",
+   "label": "Indirect Cost on all Costs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "indirect_cost_rate",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Indirect Cost Rate",
+   "precision": "2",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_lmwr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_mtkg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_kzqc",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-25 11:47:04.125418",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "ICL Budget Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Finance",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
