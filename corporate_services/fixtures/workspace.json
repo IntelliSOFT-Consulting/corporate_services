@@ -1,7 +1,7 @@
 [
  {
   "charts": [],
-  "content": "[{\"id\":\"Luo6h-vTm_\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Project Manager</span>\",\"col\":12}},{\"id\":\"5Y4qDrXUoT\",\"type\":\"paragraph\",\"data\":{\"text\":\"Hi! Welcome to the ICL Project Management workspace.\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dQ9gIFnNSU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"oYaUUEisrE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task\",\"col\":3}},{\"id\":\"xqwoGvhbUD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Billing Summary\",\"col\":3}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}},{\"id\":\"JKO-8U2h6P\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet\",\"col\":3}},{\"id\":\"j6weDuThio\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"d7P9-SOxUE\",\"type\":\"paragraph\",\"data\":{\"text\":\"Reports\",\"col\":12}},{\"id\":\"_a4cBcFcc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Summary\",\"col\":3}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":4}},{\"id\":\"5SHWbgQ_vx\",\"type\":\"card\",\"data\":{\"card_name\":\"Projects\",\"col\":4}}]",
+  "content": "[{\"id\":\"Luo6h-vTm_\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Project Manager</span>\",\"col\":12}},{\"id\":\"5Y4qDrXUoT\",\"type\":\"paragraph\",\"data\":{\"text\":\"Hi! Welcome to the ICL Project Management workspace.\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dQ9gIFnNSU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3}},{\"id\":\"oYaUUEisrE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Task\",\"col\":3}},{\"id\":\"xqwoGvhbUD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Billing Summary\",\"col\":3}},{\"id\":\"j6weDuThio\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"d7P9-SOxUE\",\"type\":\"paragraph\",\"data\":{\"text\":\"Reports\",\"col\":12}},{\"id\":\"_a4cBcFcc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Summary\",\"col\":3}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":4}},{\"id\":\"5SHWbgQ_vx\",\"type\":\"card\",\"data\":{\"card_name\":\"Projects\",\"col\":4}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"VV_WvzKaRz\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}}]",
   "custom_blocks": [],
   "docstatus": 0,
   "doctype": "Workspace",
@@ -181,15 +181,75 @@
     "parentfield": "links",
     "parenttype": "Workspace",
     "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Bidding",
+    "link_count": 2,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Project Manager",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Opportunity",
+    "link_count": 0,
+    "link_to": "Opportunity",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Project Manager",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Opportunity Type",
+    "link_count": 0,
+    "link_to": "Opportunity Type",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Project Manager",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "type": "Link"
    }
   ],
-  "modified": "2024-10-30 08:19:25.192756",
+  "modified": "2024-12-10 08:32:47.861476",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
   "parent_page": "",
   "public": 1,
-  "quick_lists": [],
+  "quick_lists": [
+   {
+    "document_type": "Opportunity",
+    "label": "Opportunity",
+    "parent": "ICL Project Manager",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   }
+  ],
   "restrict_to_domain": null,
   "roles": [
    {
@@ -215,22 +275,6 @@
     "kanban_board": null,
     "label": "Task",
     "link_to": "Task",
-    "parent": "ICL Project Manager",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Timesheet",
-    "link_to": "Timesheet",
     "parent": "ICL Project Manager",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",
@@ -1200,7 +1244,7 @@
  },
  {
   "charts": [],
-  "content": "[{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Travel Process\",\"col\":4}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zW8yHYXlAD\",\"type\":\"card\",\"data\":{\"card_name\":\"🛅 Leave Process\",\"col\":4}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":4}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"👨‍👩‍👧‍👧 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"qBittLPmrC\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m7sIDTXslA\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Timesheet Process</span>\",\"col\":12}},{\"id\":\"z-Wl_JwACU\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet Process\",\"col\":4}},{\"id\":\"CUchwvt6eT\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}}]",
+  "content": "[{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Travel Process\",\"col\":4}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zW8yHYXlAD\",\"type\":\"card\",\"data\":{\"card_name\":\"🛅 Leave Process\",\"col\":4}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":4}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"2_-7zFiDv_\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"👨‍👩‍👧‍👧 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"qBittLPmrC\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m7sIDTXslA\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Timesheet Process</span>\",\"col\":12}},{\"id\":\"z-Wl_JwACU\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet Process\",\"col\":4}},{\"id\":\"CUchwvt6eT\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}}]",
   "custom_blocks": [],
   "docstatus": 0,
   "doctype": "Workspace",
@@ -1467,7 +1511,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2024-12-05 10:27:46.159173",
+  "modified": "2024-12-10 16:15:10.118431",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -1493,6 +1537,14 @@
    {
     "document_type": "Timesheet Submission",
     "label": "Timesheet Submission",
+    "parent": "ICL Staff",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Asset Movement",
+    "label": "Asset Movement",
     "parent": "ICL Staff",
     "parentfield": "quick_lists",
     "parenttype": "Workspace",
