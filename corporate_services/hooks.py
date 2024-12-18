@@ -150,14 +150,18 @@ on_update_map = {
     "Employee Grievance":"corporate_services.api.notification.grievance.grievance.alert",
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
     "Asset Damage Loss Theft Report Form": "corporate_services.api.notification.assets.loss_damage_loss_report.alert",
+    "Chart of Accounts Utilities": "corporate_services.api.import_coa.import_accounts_v2",
     "Opportunity": "corporate_services.api.notification.project.bidding.alert",
     "General Requisition Form": "corporate_services.api.notification.requisition.general_requisition.alert",
+    "Appraisal": "corporate_services.api.notification.appraisal.appraisal.alert",
+    "Asset Movement": "corporate_services.api.notification.assets.asset_handover.alert",
   
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
     # ]
 }
+
 timesheet_notifications ={
     "Timesheet Submission":"corporate_services.api.notification.timesheet.alert",
 }
@@ -305,8 +309,6 @@ fixtures = [
     "Designation",
     # "Department",
     "Client Script",
-    
-    # "Dashboard",
     "Number Card",
     "Letter Head",
     "Workspace",
@@ -315,8 +317,6 @@ fixtures = [
     "Print Format",
     "Email Template",
     # "Dashboard Chart",
-    
     # "Notification",
-    # "Dashboard Chart",
     # "Dashboard"
 ]

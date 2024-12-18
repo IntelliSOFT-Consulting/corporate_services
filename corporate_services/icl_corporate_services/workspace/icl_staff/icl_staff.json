@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\ude80 Travel Process\",\"col\":4}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zW8yHYXlAD\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udec5 Leave Process\",\"col\":4}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":4}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udd10Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc67 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"qBittLPmrC\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m7sIDTXslA\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Timesheet Process</span>\",\"col\":12}},{\"id\":\"z-Wl_JwACU\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet Process\",\"col\":4}},{\"id\":\"CUchwvt6eT\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}}]",
- "creation": "2024-10-15 10:48:51.859195",
+ "content": "[{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\ude80 Travel Process\",\"col\":4}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zW8yHYXlAD\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udec5 Leave Process\",\"col\":4}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":4}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udd10Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"2_-7zFiDv_\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc67 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"qBittLPmrC\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"z-Wl_JwACU\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udd10Timesheet Process\",\"col\":4}},{\"id\":\"CUchwvt6eT\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}}]",
+ "creation": "2024-12-11 14:07:36.673438",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -45,35 +45,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Timesheet Process",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Timesheet Submission",
-   "link_count": 0,
-   "link_to": "Timesheet Submission",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Timesheet",
-   "link_count": 0,
-   "link_to": "Timesheet",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "\ud83d\ude80 Travel Process",
    "link_count": 2,
    "link_type": "DocType",
@@ -104,7 +75,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "\ud83d\udd10Asset Process",
-   "link_count": 5,
+   "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -122,9 +93,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Asset replacement request",
+   "label": "Asset Custodianship Requisition",
    "link_count": 0,
-   "link_to": "Asset replacement request",
+   "link_to": "Asset Custodianship Requisition",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -158,9 +129,48 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset replacement request",
+   "link_count": 0,
+   "link_to": "Asset replacement request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "\ud83d\udd10Timesheet Process",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Timesheet Submission",
+   "link_count": 0,
+   "link_to": "Timesheet Submission",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Timesheet",
+   "link_count": 0,
+   "link_to": "Timesheet",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-12-05 10:27:46.159173",
+ "modified": "2024-12-13 10:42:59.275089",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Staff",
@@ -182,6 +192,11 @@
   {
    "document_type": "Timesheet Submission",
    "label": "Timesheet Submission",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Asset Movement",
+   "label": "Asset Movement",
    "quick_list_filter": "[]"
   },
   {

@@ -98,7 +98,7 @@ def timesheet_generation_export(docname):
         for row_num in activity_rows:
             for col_num in range(1, len(header) + 1):
                 cell = ws.cell(row=row_num, column=col_num)
-                cell.fill = yellow_fill
+                # cell.fill = yellow_fill
                 cell.border = thin_border
 
         for row in ws.iter_rows(min_row=1, max_row=max_row, min_col=1, max_col=len(header)):

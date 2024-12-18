@@ -7,6 +7,7 @@
  "field_order": [
   "naming_series",
   "employee",
+  "employee_name",
   "month_year",
   "download_template",
   "timesheet",
@@ -22,7 +23,6 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Employee",
    "options": "Employee",
    "reqd": 1
@@ -86,6 +86,8 @@
   {
    "fieldname": "month_year",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Month-Year",
    "reqd": 1
   },
@@ -98,11 +100,20 @@
    "options": "Open\nApproved\nRejected\nCancelled",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee Name",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-28 08:44:37.094718",
+ "modified": "2024-12-11 12:02:53.434872",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission",

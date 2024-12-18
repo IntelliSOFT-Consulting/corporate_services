@@ -2,6 +2,17 @@
  {
   "docstatus": 0,
   "doctype": "Client Script",
+  "dt": "Employee Grievance",
+  "enabled": 1,
+  "modified": "2024-09-27 11:25:25.348756",
+  "module": "ICL Corporate Services",
+  "name": "Employee Grievances Filter",
+  "script": "",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
   "dt": "Asset Requisition",
   "enabled": 1,
   "modified": "2024-08-07 08:53:11.294025",
@@ -114,10 +125,10 @@
   "doctype": "Client Script",
   "dt": "Leave Application",
   "enabled": 1,
-  "modified": "2024-07-22 12:48:02.431673",
-  "module": null,
+  "modified": "2024-12-13 16:08:54.345695",
+  "module": "ICL Corporate Services",
   "name": "Annual leave 7 days notice period",
-  "script": "frappe.ui.form.on('Leave Application', {\n    from_date: function(frm) {\n        // Check if the leave type is Annual Leave\n        if (frm.doc.leave_type === 'Annual Leave') {\n            const noticePeriod = frm.doc.annual_leave_notice_period || 7;\n            const minDate = frappe.datetime.add_days(frappe.datetime.get_today(), noticePeriod);\n            if (frm.doc.from_date < minDate) {\n                frappe.msgprint(\"You must apply for Annual Leave at least \" + noticePeriod + \" days in advance.\");\n                frm.set_value('from_date', '')\n                frappe.validated = false;\n            }\n        }\n    }\n});",
+  "script": "frappe.ui.form.on('Leave Application', {\n    from_date: function(frm) {\n        // Check if the leave type is Annual Leave\n        if (frm.doc.leave_type === 'Annual Leave') {\n            // Check if the user is not an HR Manager\n            if (!frappe.user_roles.includes('HR Manager')) {\n                const noticePeriod = frm.doc.annual_leave_notice_period || 7;\n                const minDate = frappe.datetime.add_days(frappe.datetime.get_today(), noticePeriod);\n                if (frm.doc.from_date < minDate) {\n                    frappe.msgprint(\"You must apply for Annual Leave at least \" + noticePeriod + \" days in advance.\");\n                    frm.set_value('from_date', '');\n                    frappe.validated = false;\n                }\n            }\n        }\n    }\n});\n",
   "view": "Form"
  },
  {
@@ -283,6 +294,17 @@
   "module": "ICL Corporate Services",
   "name": "General Requisition Form",
   "script": "frappe.ui.form.on('General Requisition Form', {\n    refresh: function(frm) {\n        calculate_total(frm);\n    },\n    table_pegz_add: function(frm) {\n        calculate_total(frm);\n    },\n    table_pegz_remove: function(frm) {\n        calculate_total(frm);\n    }\n});\n\n// Trigger recalculation when the amount_kes field is updated in the child table\nfrappe.ui.form.on('General requisition description form', {\n    amount_kes: function(frm, cdt, cdn) {\n        calculate_total(frm);\n    }\n});\n\n// Function to calculate the total for amount_kes in the child table\nfunction calculate_total(frm) {\n    let total = 0;\n    if (frm.doc.table_pegz) {\n        frm.doc.table_pegz.forEach(row => {\n            total += parseFloat(row.amount_kes) || 0; // Safeguard against null/undefined values\n        });\n    }\n    frm.set_value('total', total);\n}\n",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Asset Damage Loss Theft Report Form",
+  "enabled": 1,
+  "modified": "2024-12-11 09:46:18.681063",
+  "module": "ICL Corporate Services",
+  "name": "Asset Damage Theft Report Form",
+  "script": "frappe.ui.form.on('Asset Damage Loss Theft Report Form', {\n    onload: function(frm) {\n        // Configure date picker to disable future dates for incident_date and reported_on\n        frm.set_df_property('incident_date', 'datepicker', {\n            maxDate: frappe.datetime.nowdate()\n        });\n\n        frm.set_df_property('reported_on', 'datepicker', {\n            maxDate: frappe.datetime.nowdate()\n        });\n    },\n\n    // Real-time validation for incident_date\n    incident_date: function(frm) {\n        // Check if incident_date is in the future\n        if (frm.doc.incident_date && frappe.datetime.get_diff(frm.doc.incident_date, frappe.datetime.nowdate()) > 0) {\n            frappe.throw(__('Incident Date cannot be a future date.'));\n        }\n    },\n\n    // Real-time validation for reported_on\n    reported_on: function(frm) {\n        // Check if reported_on is before incident_date\n        if (frm.doc.reported_on && frm.doc.incident_date && frappe.datetime.get_diff(frm.doc.reported_on, frm.doc.incident_date) < 0) {\n            frappe.throw(__('Reported On date cannot be before Incident Date.'));\n        }\n\n        // Check if reported_on is in the future\n        if (frm.doc.reported_on && frappe.datetime.get_diff(frm.doc.reported_on, frappe.datetime.nowdate()) > 0) {\n            frappe.throw(__('Reported On date cannot be a future date.'));\n        }\n    }\n});\n",
   "view": "Form"
  }
 ]

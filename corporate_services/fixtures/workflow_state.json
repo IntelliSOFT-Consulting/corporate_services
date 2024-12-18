@@ -120,9 +120,9 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2024-06-03 15:39:43.592797",
+  "modified": "2024-12-16 11:52:03.744944",
   "name": "Approved by HR",
-  "style": "",
+  "style": "Success",
   "workflow_state_name": "Approved by HR"
  },
  {

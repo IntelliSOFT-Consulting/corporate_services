@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-27 14:56:32.790202",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "chart_of_accounts_template_section",
+  "coa_template_file",
+  "import_on_save",
+  "purge_existing_accounts"
+ ],
+ "fields": [
+  {
+   "fieldname": "chart_of_accounts_template_section",
+   "fieldtype": "Section Break",
+   "label": "Chart of Accounts Template"
+  },
+  {
+   "fieldname": "coa_template_file",
+   "fieldtype": "Attach",
+   "label": "COA Template File"
+  },
+  {
+   "default": "0",
+   "fieldname": "import_on_save",
+   "fieldtype": "Check",
+   "label": "Import on Save"
+  },
+  {
+   "default": "0",
+   "fieldname": "purge_existing_accounts",
+   "fieldtype": "Check",
+   "label": "Purge Existing Accounts"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-11-27 14:57:33.564126",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Chart of Accounts Utilities",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
