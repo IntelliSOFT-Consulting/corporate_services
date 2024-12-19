@@ -10,6 +10,174 @@
   "javascript": null,
   "json": null,
   "letter_head": null,
+  "modified": "2024-07-30 17:20:07.570971",
+  "module": "Accounts",
+  "name": "Cheques and Deposits Incorrectly cleared",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cheques and Deposits Incorrectly cleared",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cheques and Deposits Incorrectly cleared",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cheques and Deposits Incorrectly cleared",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2024-09-09 12:31:25.295976",
+  "module": "Accounts",
+  "name": "Invalid Ledger Entries",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "GL Entry",
+  "reference_report": null,
+  "report_name": "Invalid Ledger Entries",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": []
+ },
+ {
+  "add_total_row": 0,
+  "columns": [
+   {
+    "fieldname": "project_name",
+    "fieldtype": "Data",
+    "label": "Project Name",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 150
+   },
+   {
+    "fieldname": "estimated_costing",
+    "fieldtype": "Currency",
+    "label": "Budgeted Cost",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 120
+   },
+   {
+    "fieldname": "actual_expenses",
+    "fieldtype": "Currency",
+    "label": "Actual Expenses",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 120
+   },
+   {
+    "fieldname": "burn_rate",
+    "fieldtype": "Int",
+    "label": "Burn Rate (%)",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 100
+   },
+   {
+    "fieldname": "remaining_budget",
+    "fieldtype": "Currency",
+    "label": "Remaining Budget",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 120
+   },
+   {
+    "fieldname": "runway",
+    "fieldtype": "Int",
+    "label": "Estimated Runway (Days)",
+    "options": null,
+    "parent": "Project Burn Rate Report",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 150
+   }
+  ],
+  "disabled": 1,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "IntelliSOFT Consulting Limited",
+  "modified": "2024-10-26 22:13:49.261335",
+  "module": "ICL Corporate Services",
+  "name": "Project Burn Rate Report",
+  "prepared_report": 0,
+  "query": "SELECT\n    project,\n    SUM(total_costing_amount + total_expense_claim + total_purchase_cost + total_consumed_material_cost) AS actual_expenses\nFROM\n    `tabProject`\nGROUP BY\n    project\n",
+  "ref_doctype": "Project",
+  "reference_report": null,
+  "report_name": "Project Burn Rate Report",
+  "report_script": "",
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Project Burn Rate Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Projects User"
+   },
+   {
+    "parent": "Project Burn Rate Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Projects Manager"
+   },
+   {
+    "parent": "Project Burn Rate Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee"
+   },
+   {
+    "parent": "Project Burn Rate Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
   "modified": "2024-07-01 10:43:13.637638",
   "module": "HR",
   "name": "Appraisal Overview",
