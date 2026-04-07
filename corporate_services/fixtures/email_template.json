@@ -2,7 +2,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.147577",
+  "modified": "2026-04-01 08:55:22.182307",
   "name": "Rejection After Interview",
   "response": null,
   "response_html": "\n<div class=\"py-4\">\n  <div class=\"row justify-content-center\">\n    <div class=\"col-12 col-md-8\">\n\n      <p>Dear {{ candidate_name }},</p>\n\n      <p>\n        Thank you for taking the time to interview for the role of\n        <strong>{{ role_title }}</strong> at <strong>{{ company_name }}</strong>.\n      </p>\n\n      <p>\n        After careful consideration, we will not be progressing with your application\n        at this time. This decision was difficult given the high quality of candidates.\n      </p>\n\n      <p>\n        We appreciate your interest in {{ company_name }} and encourage you to apply\n        for future opportunities.\n      </p>\n\n      <p class=\"mb-0\">Kind regards,</p>\n      <p class=\"mb-0\"><strong>{{ signature_name }}</strong></p>\n      <p class=\"mb-0\">Human Resources</p>\n      <p>{{ company_name }}</p>\n\n    </div>\n  </div>\n</div>",
@@ -12,7 +12,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.158847",
+  "modified": "2026-04-01 08:55:22.190549",
   "name": "Employee Welcome Email",
   "response": null,
   "response_html": "<p>Dear {{ doc.employee_name }},</p>\n\n<p>We are excited to welcome you to {{ doc.company }}.</p>\n\n<p>{{ custom_message }}</p>\n\n<p>We look forward towards working with you.</p>\n\n<p>Kind regards,<br>\nHR Team</p>",
@@ -22,7 +22,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.166140",
+  "modified": "2026-04-01 08:55:22.195471",
   "name": "Company-Wide Onboarding Invite",
   "response": null,
   "response_html": "<p>Dear Team,</p>\n\n<p>We are excited to announce that <strong>{{ employee.employee_name }}</strong> is joining \n<strong>{{ company_name }}</strong> today as <strong>{{ employee.designation or 'our new team member' }}</strong> \nin the <strong>{{ employee.department or '' }}</strong> department.</p>\n\n<p><strong>About {{ employee.employee_name.split()[0] }}:</strong><br>\n{{ employee.employee_name }} brings valuable experience and skills to our team. \nPlease join us in welcoming {{ employee.employee_name }} warmly and helping {{ employee.employee_name }} settle in.</p>\n\n<p>You can reach {{ employee.employee_name.split()[0] }} at: \n<a href=\"mailto:{{ employee.company_email }}\">{{ employee.company_email or 'TBD' }}</a></p>\n\n<p>Let's make {{ employee.employee_name.split()[0] }}'s first day memorable!</p>\n\n<p>Best regards,<br>\nHR Team<br>\n{{ company_name }}</p>",
@@ -32,7 +32,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.173686",
+  "modified": "2026-04-01 08:55:22.200412",
   "name": "Request for Quotation Template",
   "response": "<div class=\"ql-editor read-mode\"><p>Dear {{ doc.supplier_name }},</p><p><br></p><p>We are pleased to invite you to submit a quotation for the following items:</p><p><br></p><p><br></p><p>Please submit your quotation by {{ doc.due_date }}.</p><p><br></p><p>Thank you!</p><p><br></p><p>Best regards,</p><p>{{ doc.company }}</p><p><br></p></div>",
   "response_html": "<section>\n    <div>\n        <h4>Dear {{ supplier_name }}</h4>\n        <p><b>IntelliSOFT Consulting Limited</b> hereby solicits a quotation for the following item(s):\n            <br>\n            This Request for Quotation is open to all legally-constituted companies & individuals that can provide the requested services.</p>\n    </div>\n    <div>\n        <h2>GENERAL TERMS AND CONDITIONS</h2>\n        <p><a href=\"https://www.intellisoftkenya.com/\" target=\"_bank\">IntelliSOFT Consulting Limited</a> is a wholly owned Kenyan company with +15 years of experience. We have and continue to deliberately focus on designing, developing, implementing, supporting and maintaining digital health solutions, particularly for Low to Medium Income Countries.</br> We work with our clients to support the realization and optimization of their business performance and productivity through development, implementation and supporting meaningful use of information, communications and technology-agnostic, web-optimized software, particularly for low-resourced environments. Our primary focus is health systems’ strengthening specifically in the area of Health Research Support Information Systems and Health Management Information Systems.</p>\n    </div>\n    <div>\n        <div>\n            <h4>Questions</h4>\n            <p>Questions or requests for further clarifications should be submitted in writing to the contact person below:</p>\n        </div>\n        <table>\n            <tr>\n                <th>RFQ NO:</th>\n                <td>{{ name }}</td>\n            </tr>\n            <tr>\n                <th>Email Address:</th>\n                <td>accounts@intellisoftkenya.com</td>\n            </tr>\n        </table>\n    </div>\n    <div>\n        <p>The deadline for submission is {{ schedule_date }} EAT.</br> Questions will be answered in writing and shared via email with all parties as soon as possible after this deadline.</p>\n        <ol>\n            <li>\n                <b>Content for Submission </b>\n                <p>Quotations should be submitted in a single file where possible, depending on file size. \n                  The vendor must fill in and submit the Vendor RFQ submission form (See <a href=\"\">Appendix Section A</a>) that comprises following sections:\n                  Vendor Information Form\n                  Submission of Quotation Form\n                 </p>\n                \n            </li>\n            <li>\n                 <b> Instructions for submission</b>\n                <p>The Vendor RFQ submission Form & Submission of Quotation Form (See <a href=\"\">Appendix Section A</a>) should be uploaded as instructed in <a href=\"\">this submission Form</a>. Based on the guidelines set forth in Section III above, quotations have to be sent by completing <a href=\"\">this submission Form</a> no later than Friday, 23rd, August 2024 by 2:00 PM EAT.</p>\n            </li>\n            <li>\n                  <b> Overview of Evaluation Process </b>\n                 <p>Quotations will be evaluated based on compliance with the technical specifications and the total cost of the goods (price quote). </p>\n            </li>\n            <li>\n                <b>AWard</b>\n                <p>IntelliSOFT shall award a Purchase Order to the lowest-priced bidder whose quotation has been determined to be substantially compliant with the documents requested.\n                    If your offer is selected we may ask you to submit additional documents to be sent to our QA \n                    Team for approval like: product links/sites of your work.</p>\n            </li>\n            <li>\n                <b> Right to Vary Requirements</b>\n                <p>IntelliSOFT reserves the right at the time of award of Contract to increase or decrease the quantity/number of items specified in this RFQ without any change in unit prices or other terms and conditions. </p>\n            </li>\n            <li>\n                <b>Payment Terms</b>\n                <p>IntelliSOFT’s default payment terms are payment upon delivery of goods and receipt of a tax invoice describing the goods delivered.</p>\n            </li>\n            <li>\n                <b>Fraud and Corruption</b>\n                <p>IntelliSOFT is committed to preventing, identifying, and addressing all acts of fraud against IntelliSOFT, as well as against third parties involved in IntelliSOFT’s activities.</p>\n            </li>\n            <li>\n                <b>Zero Tolerance</b>\n                <p>IntelliSOFT has adopted a zero-tolerance policy on gifts and hospitality. Suppliers are therefore requested not to send gifts or offer hospitality to IntelliSOFT personnel.</p>\n            </li>\n            <li>\n                <b>Warranty</b>\n                <p>Warranty shall be quoted based on the standard warranties provided by the manufacturer unless specified differently in this General Instruction. A Warranty Certificate shall be provided by the Supplier.</p>\n            </li>\n        </ol>\n        \n\n{% if name is defined %}\n    <a href=\"suppliers-portal-quote?name={{ name }}\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <button style=\"padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px;\">\n            Submit Quotation\n        </button>\n    </a>\n{% endif %}\n\n<div style=\"margin-top: 20px; padding: 15px; border: 1px solid #ddd; background-color: #f8f9fa;\">\n    <p>If the button above doesn't work, you can submit your quotation by:</p>\n    <ol>\n        <li>RFQ: <strong>{{ name if name is defined else doc.name if doc and doc.name }}</strong></li>\n        <li>Email your quotation to: <strong>accounts@intellisoftkenya.com</strong></li>\n    </ol>\n</div>\n\n    </div>\n</section>",
@@ -42,7 +42,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.185265",
+  "modified": "2026-04-01 08:55:22.207962",
   "name": "Quotation Request Template",
   "response": "<div class=\"ql-editor read-mode\"><p>Dear {{ doc.supplier_name }},</p><p><br></p><p>We are pleased to invite you to submit a quotation for the following items:</p><p><br></p><p><br></p><p>Please submit your quotation by {{ doc.due_date }}.</p><p><br></p><p>Thank you!</p><p><br></p><p>Best regards,</p><p>{{ doc.company }}</p><p><br></p></div>",
   "response_html": "<section>\n    <div>\n        <h4>Dear Sir/Madam</h4>\n        <p><b>IntelliSOFT Consulting Limited</b> hereby solicits a quotation for the following item(s):\n            This Request for Quotation is open to all legally-constituted companies & individuals that can provide the requested services.</p>\n    </div>\n    <div>\n        <h2>GENERAL TERMS AND CONDITIONS</h2>\n        <p><a href=\"https://www.intellisoftkenya.com/\" target=\"_bank\">IntelliSOFT Consulting Limited</a> is a wholly owned Kenyan company with +15 years of experience. We have and continue to deliberately focus on designing, developing, implementing, supporting and maintaining digital health solutions, particularly for Low to Medium Income Countries.</br> We work with our clients to support the realization and optimization of their business performance and productivity through development, implementation and supporting meaningful use of information, communications and technology-agnostic, web-optimized software, particularly for low-resourced environments. Our primary focus is health systems’ strengthening specifically in the area of Health Research Support Information Systems and Health Management Information Systems.</p>\n    </div>\n    <div>\n        <div>\n            <h4>Questions</h4>\n            <p>Questions or requests for further clarifications should be submitted in writing to the contact person below:</p>\n        </div>\n        <table>\n            <tr>\n                <th>Email Subject:</th>\n                <td>DEV_RFQ_May 2024 ....</td>\n            </tr>\n            <tr>\n                <th>Email Address:</th>\n                <td><a href=\"mail:accounts@intellisoftkenya.com\" target=\"_blank\">IntelliSOFT Accounts</a></td>\n            </tr>\n        </table>\n    </div>\n    <div>\n        <p>The deadline for submission is Friday, 24th May 2024 2:00 PM EAT.</br> Questions will be answered in writing and shared via email with all parties as soon as possible after this deadline.</p>\n        <ol>\n            <li>\n                <b>Content for Submission </b>\n                <p>Quotations should be submitted in a single file where possible, depending on file size. \n                  The vendor must fill in and submit the Vendor RFQ submission form (See <a href=\"\">Appendix Section A</a>) that comprises following sections:\n                  Vendor Information Form\n                  Submission of Quotation Form\n                 </p>\n                \n            </li>\n            <li>\n                 <b> Instructions for submission</b>\n                <p>The Vendor RFQ submission Form & Submission of Quotation Form (See <a href=\"\">Appendix Section A</a>) should be uploaded as instructed in <a href=\"\">this submission Form</a>. Based on the guidelines set forth in Section III above, quotations have to be sent by completing <a href=\"\">this submission Form</a> no later than Friday, 23rd, August 2024 by 2:00 PM EAT.</p>\n            </li>\n            <li>\n                  <b> Overview of Evaluation Process </b>\n                 <p>Quotations will be evaluated based on compliance with the technical specifications and the total cost of the goods (price quote). </p>\n            </li>\n            <li>\n                <b>AWard</b>\n                <p>IntelliSOFT shall award a Purchase Order to the lowest-priced bidder whose quotation has been determined to be substantially compliant with the documents requested.\n                    If your offer is selected we may ask you to submit additional documents to be sent to our QA \n                    Team for approval like: product links/sites of your work.</p>\n            </li>\n            <li>\n                <b> Right to Vary Requirements</b>\n                <p>IntelliSOFT reserves the right at the time of award of Contract to increase or decrease the quantity/number of items specified in this RFQ without any change in unit prices or other terms and conditions. </p>\n            </li>\n            <li>\n                <b>Payment Terms</b>\n                <p>IntelliSOFT’s default payment terms are payment upon delivery of goods and receipt of a tax invoice describing the goods delivered.</p>\n            </li>\n            <li>\n                <b>Fraud and Corruption</b>\n                <p>IntelliSOFT is committed to preventing, identifying, and addressing all acts of fraud against IntelliSOFT, as well as against third parties involved in IntelliSOFT’s activities.</p>\n            </li>\n            <li>\n                <b>Zero Tolerance</b>\n                <p>IntelliSOFT has adopted a zero-tolerance policy on gifts and hospitality. Suppliers are therefore requested not to send gifts or offer hospitality to IntelliSOFT personnel.</p>\n            </li>\n            <li>\n                <b>Warranty</b>\n                <p>Warranty shall be quoted based on the standard warranties provided by the manufacturer unless specified differently in this General Instruction. A Warranty Certificate shall be provided by the Supplier.</p>\n            </li>\n        </ol>\n        <h4>Submit Quotation {{ portal_link }}</h4>\n    </div>\n</section>\n\n\n\n",
@@ -52,7 +52,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.197954",
+  "modified": "2026-04-01 08:55:22.215371",
   "name": "Dispatch Notification",
   "response": "<h1>Dispatch Notification</h1>\n<h3>Details:</h3>\n<table class=\"table table-bordered small\" style=\"max-width: 500px;\">\n    <tbody>\n        <tr>\n            <td>Customer's Name</td>\n            <td>{{ customer }}</td>\n        </tr>\n        <tr>\n            <td>Contact's Name</td>\n            <td>{{ first_name }} {{ last_name }}</td>\n        </tr>\n        <tr>\n            <td>Address Name</td>\n            <td>{{ address }}</td>\n        </tr>\n        <tr>\n            <td>Address Details</td>\n            <td>{{ customer_address }}</td>\n        </tr>\n        <tr>\n            <td>Order Number</td>\n            <td>{{ delivery_note }}</td>\n        </tr>\n        <tr>\n            <td>Order Total</td>\n            <td>{{ grand_total }}</td>\n        </tr>\n        <tr>\n            <td>Departure Time</td>\n            <td>{{ departure_time }}</td>\n        </tr>\n        <tr>\n            <td>Estimated Arrival</td>\n            <td>{{ estimated_arrival }}</td>\n        </tr>\n        <tr>\n            <td>Driver's Name</td>\n            <td>{{ driver_name }}</td>\n        </tr>\n        <tr>\n            <td>Driver's Number</td>\n            <td>{{ cell_number }}</td>\n        </tr>\n        <tr>\n            <td>Vehicle Number</td>\n            <td>{{ vehicle }}</td>\n        </tr>\n    </tbody>\n</table>\n",
   "response_html": null,
@@ -62,7 +62,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.211833",
+  "modified": "2026-04-01 08:55:22.224392",
   "name": "Leave Approval Notification",
   "response": "<h1>Leave Application Notification</h1>\n<h3>Details:</h3>\n\n\t<table class=\"table table-bordered small\" style=\"max-width: 500px;\">\n\t\t<tbody><tr>\n\t\t\t<td>Employee</td>\n\t\t\t<td>{{employee_name}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Leave Type</td>\n\t\t\t<td>{{leave_type}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>From Date</td>\n\t\t\t<td>{{from_date}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>To Date</td>\n\t\t\t<td>{{to_date}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Status</td>\n\t\t\t<td>{{status}}</td>\n\t\t</tr>\n\t</tbody></table>\n\n\t{% set doc_link = frappe.utils.get_url_to_form('Leave Application', name) %}\n\n\t<br><br>\n\t<a class=\"btn btn-primary\" href=\"{{ doc_link }}\" target=\"_blank\">{{ _('Open Now') }}</a>",
   "response_html": null,
@@ -72,7 +72,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.225649",
+  "modified": "2026-04-01 08:55:22.232231",
   "name": "Leave Status Notification",
   "response": "<h1>Leave Application Notification</h1>\n<h3>Details:</h3>\n\n\t<table class=\"table table-bordered small\" style=\"max-width: 500px;\">\n\t\t<tbody><tr>\n\t\t\t<td>Employee</td>\n\t\t\t<td>{{employee_name}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Leave Type</td>\n\t\t\t<td>{{leave_type}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>From Date</td>\n\t\t\t<td>{{from_date}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>To Date</td>\n\t\t\t<td>{{to_date}}</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Status</td>\n\t\t\t<td>{{status}}</td>\n\t\t</tr>\n\t</tbody></table>\n\n\t{% set doc_link = frappe.utils.get_url_to_form('Leave Application', name) %}\n\n\t<br><br>\n\t<a class=\"btn btn-primary\" href=\"{{ doc_link }}\" target=\"_blank\">{{ _('Open Now') }}</a>",
   "response_html": null,
@@ -82,7 +82,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.238225",
+  "modified": "2026-04-01 08:55:22.239869",
   "name": "Interview Reminder",
   "response": "<h1>Interview Reminder</h1>\n\n<p>\n\tInterview: {{name}} is scheduled on {{scheduled_on}} from {{from_time}} to {{to_time}}\n</p>\n",
   "response_html": null,
@@ -92,7 +92,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.247343",
+  "modified": "2026-04-01 08:55:22.245588",
   "name": "Interview Feedback Reminder",
   "response": "<h1>Interview Feedback Reminder</h1>\n\n<p>\n\tInterview Feedback for Interview {{ name }} is not submitted yet. Please submit your feedback. Thank you, good day!\n</p>\n",
   "response_html": null,
@@ -102,7 +102,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.256201",
+  "modified": "2026-04-01 08:55:22.251639",
   "name": "Exit Questionnaire Notification",
   "response": "<h2>Exit Questionnaire</h2>\n<br>\n\n<p>\n\tDear {{ employee_name }},\n\t<br><br>\n\n\tThank you for the contribution you have made during your time at {{ company }}. We value your opinion and welcome the feedback on your experience working with us.\n\tRequest you to take out a few minutes to fill up this Exit Questionnaire.\n\n\t{% set web_form = frappe.db.get_value('HR Settings', 'HR Settings', 'exit_questionnaire_web_form') %}\n\t{% set web_form_link = frappe.utils.get_url(uri=frappe.db.get_value('Web Form', web_form, 'route')) %}\n\n\t<br><br>\n\t<a class=\"btn btn-primary\" href=\"{{ web_form_link }}\" target=\"_blank\">{{ _('Submit Now') }}</a>\n</p>\n",
   "response_html": null,
@@ -112,7 +112,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.268823",
+  "modified": "2026-04-01 08:55:22.258313",
   "name": "Farewell Email Template",
   "response": "<div class=\"ql-editor read-mode\"><p><br></p></div>",
   "response_html": "  <div style=\"font-family: 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #1a1a1a;\n                max-width: 600px; margin: 0 auto; line-height: 1.8;\">\n \n      <p>Dear Team,</p>\n \n      <p>\n        This is to inform you that <strong>{{employee_name}}</strong> ({{job_title}}) will be\n        leaving <strong>{{company_name}}</strong>, with their last working day being\n        <strong>{{last_day_date}}</strong>.\n      </p>\n \n      <p>\n        We appreciate <strong>{{employee_name}}</strong>'s contribution and commitment during\n        their time with us and wish them success in their next chapter.\n      </p>\n \n      <p>\n        Please join us in wishing <strong>{{employee_name}}</strong> all the very best.\n      </p>\n \n      <br/>\n      <p style=\"margin-bottom: 2px;\">Kind regards,</p>\n      <p style=\"margin: 0;\"><strong>{{signature_name}}</strong></p>\n      <p style=\"margin: 0; color: #555;\">Human Resources</p>\n    </div>",
@@ -122,7 +122,7 @@
  {
   "docstatus": 0,
   "doctype": "Email Template",
-  "modified": "2026-03-26 08:33:42.279975",
+  "modified": "2026-04-01 08:55:22.264412",
   "name": "Quarterly Annual Leave accrual notifications",
   "response": "<div class=\"ql-editor read-mode\"><p><br></p></div>",
   "response_html": "<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #333;\">\n    \n    <p>Hi {{ doc.employee_name }},</p>\n\n    <p>\n        This is your quarterly annual leave balance update.\n    </p>\n\n    <p>\n        As at <strong>{{ frappe.utils.formatdate(frappe.utils.nowdate()) }}</strong>, \n        your Annual Leave balance is \n        <strong>{{ doc.leave_balance }}</strong> days.\n    </p>\n\n    <p>\n        Please plan to take your leave to rest and recharge, and to help prevent burnout.\n    </p>\n\n    <p>\n        If you would like support planning your leave dates, kindly speak with your supervisor \n        or reach out to HR.\n    </p>\n\n    <br>\n\n    <p>\n        Kind regards,<br>\n        <strong>HR Department</strong>\n    </p>\n\n</div>",

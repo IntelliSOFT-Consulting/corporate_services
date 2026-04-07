@@ -32,6 +32,9 @@
   },
   {
    "role": "HR User"
+  },
+  {
+   "role": "Finance"
   }
  ],
  "timeout": 0

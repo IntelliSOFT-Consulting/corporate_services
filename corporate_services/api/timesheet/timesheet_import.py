@@ -338,8 +338,8 @@ def timesheet_import(docname):
             save_timesheets(project_timesheets)
             save_timesheets(activity_timesheets)
             
-            return "success"
-    
+            return {"status": "success", "total_hours": total_hours}
+
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "timesheet_import")
         return "error"

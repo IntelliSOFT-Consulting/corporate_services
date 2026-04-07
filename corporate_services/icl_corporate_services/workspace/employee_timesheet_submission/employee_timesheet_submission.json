@@ -1,7 +1,16 @@
 {
- "charts": [],
- "content": "[{\"id\":\"ypVJyizVlt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Timesheet Submission Welcome\",\"col\":12}}]",
- "creation": "2026-03-26 08:12:19.616272",
+ "charts": [
+  {
+   "chart_name": "Timesheet Submission Report: Total Hours vs Employee Name",
+   "label": "Total Hours vs Employee "
+  },
+  {
+   "chart_name": "Timesheet Submission report",
+   "label": "Timesheet Submission report"
+  }
+ ],
+ "content": "[{\"id\":\"ypVJyizVlt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Timesheet Submission Welcome\",\"col\":12}},{\"id\":\"Zal_6uLCTt\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Total Hours vs Employee \",\"col\":12}},{\"id\":\"DUjMxsFlHq\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission report\",\"col\":6}}]",
+ "creation": "2026-04-01 08:55:01.227956",
  "custom_blocks": [
   {
    "custom_block_name": "Timesheet Submission Welcome",
@@ -18,7 +27,7 @@
  "is_hidden": 0,
  "label": "Employee Timesheet Submission",
  "links": [],
- "modified": "2026-03-26 08:17:24.070466",
+ "modified": "2026-04-01 10:56:46.808548",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Employee Timesheet Submission",

@@ -8,14 +8,14 @@ from corporate_services.api.notification.notification_contacts import (
 )
 
 def send_email(recipients, subject, message, pdf_content, doc_name):
+    attachments = []
+    if pdf_content:
+        attachments = [{'fname': '{}.pdf'.format(doc_name), 'fcontent': pdf_content}]
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
         message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
+        attachments=attachments,
         header=("Timesheet Submission", "text/html")
     )
 
@@ -109,9 +109,13 @@ def alert(doc, method):
         supervisor_name = supervisor_contact.name if supervisor_contact else None
 
 
-        pdf_content = frappe.get_print(
-            doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-        )
+        try:
+            pdf_content = frappe.get_print(
+                doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
+            )
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "Timesheet PDF generation failed")
+            pdf_content = None
 
         if doc.workflow_state == "Submitted to Supervisor":
             if employee.reports_to:

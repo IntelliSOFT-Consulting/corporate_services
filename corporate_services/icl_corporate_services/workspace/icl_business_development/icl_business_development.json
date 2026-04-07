@@ -90,23 +90,7 @@
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [
-  {
-   "document_type": "Lead",
-   "label": "Lead",
-   "quick_list_filter": "[]"
-  },
-  {
-   "document_type": "Opportunity",
-   "label": "Bidding",
-   "quick_list_filter": "[]"
-  },
-  {
-   "document_type": "Customer",
-   "label": "Customer",
-   "quick_list_filter": "[]"
-  }
- ],
+ "quick_lists": [],
  "roles": [
   {
    "role": "Business Development"
@@ -117,17 +101,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Bidding Dashboard",
-   "link_to": "Bidding",
-   "type": "Dashboard"
+   "label": "Master Boat Analysis",
+   "link_to": "master_boat_analysis",
+   "type": "Page"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Lead",
-   "link_to": "Lead",
-   "stats_filter": "[]",
-   "type": "DocType"
+   "label": "Leads",
+   "link_to": "leads",
+   "type": "Page"
   }
  ],
  "title": "ICL Business Development"

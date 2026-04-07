@@ -142,56 +142,6 @@
   "is_standard": "Yes",
   "javascript": null,
   "json": null,
-  "letter_head": "IntelliSOFT Consulting Limited",
-  "modified": "2026-02-05 06:35:31.204143",
-  "module": "ICL Corporate Services",
-  "name": "Timesheet Submission Report",
-  "prepared_report": 0,
-  "query": null,
-  "ref_doctype": "Timesheet Submission",
-  "reference_report": null,
-  "report_name": "Timesheet Submission Report",
-  "report_script": null,
-  "report_type": "Script Report",
-  "roles": [
-   {
-    "parent": "Timesheet Submission Report",
-    "parentfield": "roles",
-    "parenttype": "Report",
-    "role": "System Manager"
-   },
-   {
-    "parent": "Timesheet Submission Report",
-    "parentfield": "roles",
-    "parenttype": "Report",
-    "role": "Employee"
-   },
-   {
-    "parent": "Timesheet Submission Report",
-    "parentfield": "roles",
-    "parenttype": "Report",
-    "role": "HR Manager"
-   },
-   {
-    "parent": "Timesheet Submission Report",
-    "parentfield": "roles",
-    "parenttype": "Report",
-    "role": "HR User"
-   }
-  ],
-  "timeout": 0
- },
- {
-  "add_total_row": 0,
-  "add_translate_data": 0,
-  "columns": [],
-  "disabled": 0,
-  "docstatus": 0,
-  "doctype": "Report",
-  "filters": [],
-  "is_standard": "Yes",
-  "javascript": null,
-  "json": null,
   "letter_head": "Kinara Loan Repayment Schedule Letter Head",
   "modified": "2024-03-11 18:55:34.504099",
   "module": "Loan Management",
@@ -10482,6 +10432,56 @@
     "parentfield": "roles",
     "parenttype": "Report",
     "role": "HR Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": "IntelliSOFT Consulting Limited",
+  "modified": "2026-02-05 06:35:31.204143",
+  "module": "ICL Corporate Services",
+  "name": "Timesheet Submission Report",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Timesheet Submission",
+  "reference_report": null,
+  "report_name": "Timesheet Submission Report",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Timesheet Submission Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Timesheet Submission Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee"
+   },
+   {
+    "parent": "Timesheet Submission Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "Timesheet Submission Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR User"
    }
   ],
   "timeout": 0

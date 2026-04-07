@@ -7,16 +7,24 @@
   {
    "chart": "Timesheet Submission",
    "width": "Half"
+  },
+  {
+   "chart": "Timesheet Submission report",
+   "width": "Half"
+  },
+  {
+   "chart": "Timesheet Submission Report: Total Hours vs Employee Name",
+   "width": "Half"
   }
  ],
  "creation": "2026-02-05 07:02:40.181876",
  "dashboard_name": "Timesheet Dashboard",
  "docstatus": 0,
  "doctype": "Dashboard",
- "idx": 0,
+ "idx": 15,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2026-02-05 07:04:21.102730",
+ "modified": "2026-04-01 10:55:18.240357",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Dashboard",
