@@ -15,7 +15,7 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
         header=("Leave Application", "text/html")
     )
 
-def generate_message(doc, employee_name, email_type):
+def generate_message(doc, employee_name, email_type, sender_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
         "supervisor": """
@@ -23,7 +23,7 @@ def generate_message(doc, employee_name, email_type):
             I have submitted my {} for your review and approval. You can view it <a href="{}">here</a>.<br><br>
             Kind regards,<br>
             {}
-        """.format(employee_name, doc.doctype, doctype_url, employee_name),
+        """.format(employee_name, doc.doctype, doctype_url, sender_name or employee_name),
         "employee_approve_supervisor": """
             Dear {},<br><br>
             Your {} has been reviewed and approved by you supervisor. You can view the details <a href="{}">here</a>.<br><br>
@@ -74,7 +74,12 @@ def alert(doc, method):
             if employee.reports_to:
                 supervisor_contact = get_supervisor_contact(employee)
 
-                message = generate_message(doc, supervisor_contact.name, "supervisor")
+                message = generate_message(
+                    doc,
+                    supervisor_contact.name,
+                    "supervisor",
+                    sender_name=employee.employee_name
+                )
                 send_email(
                     recipients=[supervisor_contact.email],
                     subject=frappe._('Leave Application from {}'.format(employee.employee_name)),

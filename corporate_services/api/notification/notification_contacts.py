@@ -45,3 +45,19 @@ def get_supervisor_contact(employee):
         user_id=supervisor.user_id,
         name=supervisor.employee_name,
     )
+
+
+def get_user_contact(user_id):
+    if not user_id:
+        return None
+
+    user = frappe.get_doc("User", user_id)
+    return frappe._dict(
+        user_id=user.name,
+        email=user.email,
+        name=user.full_name or user.name,
+    )
+
+
+def get_project_manager_contact(employee):
+    return get_user_contact(getattr(employee, "expense_approver", None))

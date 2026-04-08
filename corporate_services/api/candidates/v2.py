@@ -101,6 +101,8 @@ def create_job_candidate():
         phone = form_data.get('phone', '').strip()
         role = form_data.get('role', '').strip()
         role_description = form_data.get('role_description', '').strip()
+        preferred_amount_raw = form_data.get('preferred_amount', '').strip()
+        preferred_amount = None
         
         # Validate names
         if not names:
@@ -116,6 +118,12 @@ def create_job_candidate():
         cv_file = files.get('cv')
         if not cv_file:
             validation_errors['cv'] = 'Resume/CV file is required'
+
+        if preferred_amount_raw:
+            try:
+                preferred_amount = float(preferred_amount_raw)
+            except ValueError:
+                validation_errors['preferred_amount'] = 'Preferred amount must be a valid number'
         
         # Get optional cover letter file
         cover_letter_file = files.get('cover_letter')
@@ -146,6 +154,20 @@ def create_job_candidate():
 
 
         job_opening_name = get_job_opening(role)
+        request_preferred_amount = 0
+        preferred_amount_mandatory = 0
+        if job_opening_name:
+            request_preferred_amount, preferred_amount_mandatory = frappe.db.get_value(
+                'Job Opening',
+                job_opening_name,
+                ['custom_request_preferred_amount', 'custom_preferred_amount_mandatory'],
+            ) or (0, 0)
+
+        if request_preferred_amount and preferred_amount_mandatory and preferred_amount is None:
+            validation_errors['preferred_amount'] = 'Preferred amount is required for this role'
+
+        if validation_errors:
+            return {'success': False, 'errors': validation_errors}
 
  
         initial_workflow_state = get_initial_workflow_state(DOCTYPE_JOB_CANDIDATE)
@@ -159,6 +181,7 @@ def create_job_candidate():
             'job_title': job_opening_name,
             'custom_role': role if role else None,
             'custom_role_description': role_description if role_description else None,
+            'custom_preferred_amount': preferred_amount,
         }
 
         if initial_workflow_state:
@@ -229,6 +252,7 @@ def create_job_candidate():
                 'job_title': candidate_doc.job_title or None,
                 'custom_role': candidate_doc.custom_role or None,
                 'custom_role_description': candidate_doc.custom_role_description or None,
+                'custom_preferred_amount': candidate_doc.custom_preferred_amount,
                 'resume_attachment': candidate_doc.resume_attachment or None,
                 'custom_cover_letter_attachment': candidate_doc.custom_cover_letter_attachment or None,
                 '_job_opening_matched': bool(job_opening_name),

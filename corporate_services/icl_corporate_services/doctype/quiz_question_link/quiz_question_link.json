@@ -7,7 +7,8 @@
  "engine": "InnoDB",
  "field_order": [
   "question",
-  "question_text"
+  "question_text",
+  "question_type"
  ],
  "fields": [
   {
@@ -24,6 +25,14 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Question Text",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "question.question_type",
+   "fieldname": "question_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Question Type",
    "read_only": 1
   }
  ],

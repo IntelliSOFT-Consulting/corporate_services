@@ -36,6 +36,10 @@ page_js = {
     "timesheet-workflow": "public/js/timesheet_workflow.js",
     # Desk React page for managing surveys (loaded on /app/survey-manager)
     "survey-manager": "public/js/survey_admin.js",
+    # Desk React page for the opportunity module (loaded on /app/icl-opportunity-module)
+    "icl-opportunity-module": "public/js/opportunity_module.js",
+    # Desk React page for the project module (loaded on /app/icl-project-module)
+    "icl-project-module": "public/js/project_module.js",
 }
 
 # Custom Pages
@@ -70,7 +74,9 @@ web_include_js = [
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
 
-doctype_js = {}
+doctype_js = {
+    "Job Opening": "public/js/job_opening.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -206,7 +212,7 @@ on_update_map = {
     "Supplier Quote Submission":"corporate_services.api.supplier.finance_alert.alert",
     "Staff Requisition":"corporate_services.api.notification.staff_requisition.staff_requisition.alert",
     "Consultant Time Off Application":"corporate_services.api.notification.consultant_time_off.time_off_application.alert",
-    # "Job Applicant": "corporate_services.api.job_applicant.v1.application_received",
+    # "Job Applicant": "corporate_services.api.job_applicant.v2.application_received",
     "Monthly Reflection":"corporate_services.api.notification.monthly_reflection.monthly_reflection.alert",
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
     # "Supplier Quote Submission": [
@@ -217,7 +223,7 @@ on_update_map = {
 
 job_applicant_on_update_map = {
     "Job Applicant": [
-        "corporate_services.api.job_applicant.v1.application_received",
+        "corporate_services.api.job_applicant.v2.application_received",
         "corporate_services.api.notification.job_applicant.rejection_after_interview.alert"
     ]
 }
