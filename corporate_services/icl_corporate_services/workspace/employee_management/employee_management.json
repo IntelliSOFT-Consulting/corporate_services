@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"UINlqBwn4M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Management</span>\",\"col\":12}},{\"id\":\"kEnd6sRLkF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Schedule\",\"col\":3}},{\"id\":\"nxlTpvlAA9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Hire Feedback Survey 30 Day\",\"col\":3}},{\"id\":\"Jrvf2Xs832\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Internship Commencement\",\"col\":3}},{\"id\":\"iR8IJOEKet\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"piDkNhiPu5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"BPDW4ISUZK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Reports\",\"col\":3}},{\"id\":\"2lwoCr9uoe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"bdpvE4KWaE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Uxr4MyIgEn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Employees\",\"col\":4}},{\"id\":\"fpu4zuXvMc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-ADHG5Kmyo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CCwFaXnWwc\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Onboarding Schedule\",\"col\":4}}]",
- "creation": "2026-03-26 08:33:20.475179",
+ "content": "[{\"id\":\"UINlqBwn4M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Management</span>\",\"col\":12}},{\"id\":\"kEnd6sRLkF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Schedule\",\"col\":3}},{\"id\":\"nxlTpvlAA9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Hire Feedback Survey 30 Day\",\"col\":3}},{\"id\":\"Jrvf2Xs832\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Internship Commencement\",\"col\":3}},{\"id\":\"iR8IJOEKet\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"piDkNhiPu5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"BPDW4ISUZK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Reports\",\"col\":3}},{\"id\":\"fhd_IOnJ-k\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Turnover\",\"col\":3}},{\"id\":\"2lwoCr9uoe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"bdpvE4KWaE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Uxr4MyIgEn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Employees\",\"col\":4}},{\"id\":\"fpu4zuXvMc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-ADHG5Kmyo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CCwFaXnWwc\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Onboarding Schedule\",\"col\":4}}]",
+ "creation": "2026-04-10 10:32:50.083937",
  "custom_blocks": [
   {
    "custom_block_name": "HR",
@@ -18,7 +18,7 @@
  "is_hidden": 0,
  "label": "Employee Management",
  "links": [],
- "modified": "2026-03-26 09:02:58.283598",
+ "modified": "2026-04-10 13:06:28.471601",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Employee Management",
@@ -48,6 +48,13 @@
    "link_to": "New Hire Feedback Survey 30-Day",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Turnover",
+   "link_to": "employee-turnover",
+   "type": "Page"
   },
   {
    "color": "Grey",

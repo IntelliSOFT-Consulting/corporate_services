@@ -3,11 +3,22 @@
 
 import frappe
 from frappe.model.document import Document
+from corporate_services.api.timesheet.timesheet_generation_export import (
+	DEFAULT_TEMPLATE,
+	get_employee_timesheet_template,
+)
 
 
 class TimesheetSubmission(Document):
 	def validate(self):
+		self.set_timesheet_template()
 		self.check_duplicate_submission()
+
+	def set_timesheet_template(self):
+		if self.employee:
+			self.timesheet_template = get_employee_timesheet_template(self.employee)
+		else:
+			self.timesheet_template = DEFAULT_TEMPLATE
 
 	def check_duplicate_submission(self):
 		existing = frappe.db.get_value(

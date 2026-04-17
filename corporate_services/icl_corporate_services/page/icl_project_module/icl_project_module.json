@@ -1,0 +1,20 @@
+{
+ "content": null,
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "module": "ICL Corporate Services",
+ "name": "icl-project-module",
+ "page_name": "icl-project-module",
+ "roles": [
+  {"role": "BD coordinator"},
+  {"role": "System Manager"},
+  {"role": "Projects Manager"},
+  {"role": "Project User"}
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "ICL Project Module"
+}

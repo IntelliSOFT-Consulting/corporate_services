@@ -3,10 +3,20 @@ import csv
 import io
 import os
 import tempfile
-from frappe.utils.file_manager import get_file
 from datetime import datetime, timedelta
+
 from frappe import _
+from frappe.utils.file_manager import get_file
 import openpyxl
+
+from corporate_services.api.timesheet.timesheet_generation_export import (
+    SHORT_TERM_CONSULTANT_TEMPLATE,
+    get_employee_timesheet_template,
+)
+
+
+CONSULTANT_TEMPLATE_HEADERS = ["date", "task", "deliverables", "hours worked"]
+
 
 def get_activity_field_mapping():
     """
@@ -115,7 +125,10 @@ def create_timesheet_detail_entry(timesheet, from_time, to_time, activity_type, 
             timesheet_detail["project"] = project_id
             timesheet_detail["custom_tasks"] = task
         else:
-            field_name = activity_field_mapping.get(activity_type, None)
+            field_name = None
+            if activity_field_mapping and activity_type:
+                field_name = activity_field_mapping.get(activity_type, None)
+
             if field_name:
                 timesheet_detail[field_name] = hours
 
@@ -139,6 +152,141 @@ def save_timesheets(timesheets):
         except Exception as e:
             frappe.log_error(f"Error saving timesheet: {str(e)}", "timesheet_import")
 
+
+def load_uploaded_timesheet(_file, file_content):
+    file_extension = _file.file_name.split('.')[-1].lower()
+
+    if file_extension == 'csv':
+        csvfile = io.StringIO(
+            file_content.decode('utf-8') if isinstance(file_content, bytes) else file_content
+        )
+        reader = csv.reader(csvfile)
+        return list(reader), None
+
+    if file_extension in ['xls', 'xlsx']:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_extension}") as temp_file:
+            temp_file.write(file_content)
+            temp_file_path = temp_file.name
+
+        try:
+            workbook = openpyxl.load_workbook(temp_file_path, data_only=True)
+            sheet = workbook.active
+            data = [[cell.value for cell in row] for row in sheet.iter_rows()]
+            return data, workbook
+        finally:
+            os.unlink(temp_file_path)
+
+    frappe.throw(_("Unsupported file format. Please upload a CSV or Excel file."))
+
+
+def is_consultant_template_sheet(data):
+    if len(data) < 7:
+        return False
+
+    header_row = data[6][:4]
+    normalized_header = [str(value).strip().lower() if value is not None else "" for value in header_row]
+    return normalized_header == CONSULTANT_TEMPLATE_HEADERS
+
+
+def parse_consultant_date(value):
+    if isinstance(value, datetime):
+        return value.date()
+
+    if hasattr(value, "year") and hasattr(value, "month") and hasattr(value, "day"):
+        return value
+
+    if isinstance(value, str) and value.strip():
+        for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%d/%m/%Y", "%d-%m-%Y"):
+            try:
+                return datetime.strptime(value.strip(), fmt).date()
+            except ValueError:
+                continue
+
+    raise ValueError("Invalid consultant timesheet date")
+
+
+def import_short_term_consultant_timesheet(doc, data, minimum_hours):
+    consultant_timesheet = create_timesheet(doc, month_name=doc.month_year)
+    consultant_timesheet.custom_timesheet_type = "Short Term Consultant"
+
+    total_hours = 0
+    from_time_tracker = {}
+
+    for row in data[7:]:
+        if not row:
+            continue
+
+        row = list(row) + [None] * (4 - len(row))
+        date_value, task, deliverables, hours_value = row[:4]
+
+        if not any(value not in (None, "") for value in (date_value, task, deliverables, hours_value)):
+            continue
+
+        if isinstance(task, str) and task.strip().lower() == "total hours worked":
+            continue
+
+        if hours_value in (None, ""):
+            continue
+
+        try:
+            hours = float(hours_value)
+        except (TypeError, ValueError):
+            continue
+
+        if hours <= 0:
+            continue
+
+        try:
+            work_date = parse_consultant_date(date_value)
+        except ValueError:
+            continue
+
+        start_of_day = datetime.combine(work_date, datetime.min.time()).replace(hour=8)
+
+        if work_date in from_time_tracker:
+            from_time = from_time_tracker[work_date] + timedelta(minutes=1)
+        else:
+            from_time = start_of_day
+
+        to_time = from_time + timedelta(hours=hours)
+
+        if is_time_overlap(doc.employee, from_time, to_time):
+            frappe.log_error(
+                f"Time entry overlaps with existing timesheet entries: {from_time} - {to_time}",
+                "timesheet_import",
+            )
+            continue
+
+        task_parts = []
+        if task and str(task).strip():
+            task_parts.append(f"Task: {str(task).strip()}")
+        if deliverables and str(deliverables).strip():
+            task_parts.append(f"Deliverables: {str(deliverables).strip()}")
+
+        create_timesheet_detail_entry(
+            consultant_timesheet,
+            from_time,
+            to_time,
+            None,
+            "\n".join(task_parts) if task_parts else None,
+            work_date.day,
+            hours,
+        )
+
+        from_time_tracker[work_date] = to_time
+        total_hours += hours
+
+    if total_hours < minimum_hours:
+        frappe.throw(_("Total hours are less than {} minimum hours.".format(minimum_hours)))
+
+    if consultant_timesheet.time_logs:
+        consultant_timesheet.total_working_hours = total_hours
+        consultant_timesheet.insert()
+        consultant_timesheet.save()
+        frappe.db.commit()
+
+    return {"status": "success", "total_hours": total_hours}
+
 @frappe.whitelist()
 def timesheet_import(docname):
     """Imports timesheet data from a file."""
@@ -157,29 +305,22 @@ def timesheet_import(docname):
         if not file_content:
             frappe.log_error(f"No content retrieved from file: {file_url}", "timesheet_import")
             return "error"
-        
-        file_extension = _file.file_name.split('.')[-1].lower()
-        data = None
-        if file_extension == 'csv':
-            csvfile = io.StringIO(file_content.decode('utf-8') if isinstance(file_content, bytes) else file_content)
-            reader = csv.reader(csvfile)
-            data = list(reader)
-        elif file_extension in ['xls', 'xlsx']:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_extension}") as temp_file:
-                temp_file.write(file_content)
-                temp_file_path = temp_file.name
 
-            try:
-                workbook = openpyxl.load_workbook(temp_file_path, data_only=True)
-                sheet = workbook.active
-                data = [[cell.value for cell in row] for row in sheet.iter_rows()]
-            finally:
-                os.unlink(temp_file_path) 
-        else:
-            frappe.throw(_("Unsupported file format. Please upload a CSV or Excel file."))
+        data, _workbook = load_uploaded_timesheet(_file, file_content)
         
         if not data:
             frappe.throw(_("No data found in the uploaded file."))
+
+        minimum_hours = frappe.db.get_value('Employee', employee, 'custom_hrs_per_month') or 0
+        template_name = get_employee_timesheet_template(employee)
+
+        if is_consultant_template_sheet(data):
+            if template_name != SHORT_TERM_CONSULTANT_TEMPLATE:
+                frappe.throw(
+                    _("This timesheet format is only allowed for employees whose contract type uses the Short Term Consultant template.")
+                )
+
+            return import_short_term_consultant_timesheet(doc, data, minimum_hours)
 
         header = data[1]
         
@@ -199,8 +340,6 @@ def timesheet_import(docname):
         project_timesheets = {}
         activity_timesheets = {}
         non_empty_activities = set()
-
-        minimum_hours = frappe.db.get_value('Employee', employee, 'custom_hrs_per_month')
         
         # Filter out any row that has 'TOTAL' or 'TOTAL HRS' in the first column
         filtered_data = [row for row in data[2:] if row and row[0] not in ['TOTAL', 'TOTAL HRS']]

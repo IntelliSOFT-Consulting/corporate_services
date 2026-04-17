@@ -8,6 +8,7 @@
   "naming_series",
   "employee",
   "employee_name",
+  "timesheet_template",
   "column_break_ghwq",
   "month_year",
   "download_template",
@@ -112,6 +113,13 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "timesheet_template",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Timesheet Template",
    "read_only": 1
   },
   {

@@ -9,8 +9,8 @@
    "label": "Department Wise Openings"
   }
  ],
- "content": "[{\"id\":\"hxK3meutcD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"LMnFL-FVNb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Opening\",\"col\":3}},{\"id\":\"BOczA5gAXn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Applicant\",\"col\":3}},{\"id\":\"h6LkcOPQpV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Offer\",\"col\":3}},{\"id\":\"2k-AtsqHMd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Interview\",\"col\":3}},{\"id\":\"toRzLNcvic\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RUgqCvBcmB\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"TrRgFLeATn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Recruitment Dashboard\",\"col\":3}},{\"id\":\"OEotFV4Q4N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Opening Dashboard\",\"col\":3}},{\"id\":\"nyDb738yeU\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AeSm6vxHnG\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"ZEoAw35RfK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5vtWWuFVl5\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Department Wise Openings\",\"col\":6}},{\"id\":\"bDrAEdppEc\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Job Applications By Opening\",\"col\":6}},{\"id\":\"VqqHZk5Ymw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"oSv_YHVrts\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"CEIbb5JydQ\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Opening\",\"col\":4}},{\"id\":\"RNDrQHWL4f\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Applicant\",\"col\":4}},{\"id\":\"B0A1wqOP8R\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Interviews (This Week)\",\"col\":4}},{\"id\":\"i-eSYrg4pp\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Offer\",\"col\":4}},{\"id\":\"BSfCSxeOZN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"ouzRaGAJJl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters &amp; Reports</b></span>\",\"col\":12}},{\"id\":\"0akZyj1E4k\",\"type\":\"card\",\"data\":{\"card_name\":\"Jobs\",\"col\":4}},{\"id\":\"3Q-ITUYR-W\",\"type\":\"card\",\"data\":{\"card_name\":\"Interviews\",\"col\":4}},{\"id\":\"06gIuB5svR\",\"type\":\"card\",\"data\":{\"card_name\":\"Appointment\",\"col\":4}},{\"id\":\"Q4msp7F8vF\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
- "creation": "2026-03-26 08:12:17.848653",
+ "content": "[{\"id\":\"hxK3meutcD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"LMnFL-FVNb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Opening\",\"col\":3}},{\"id\":\"BOczA5gAXn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Applicant\",\"col\":3}},{\"id\":\"h6LkcOPQpV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Offer\",\"col\":3}},{\"id\":\"2k-AtsqHMd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Interview\",\"col\":3}},{\"id\":\"toRzLNcvic\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RUgqCvBcmB\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"OEotFV4Q4N\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Opening Dashboard\",\"col\":3}},{\"id\":\"nyDb738yeU\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AeSm6vxHnG\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"ZEoAw35RfK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5vtWWuFVl5\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Department Wise Openings\",\"col\":6}},{\"id\":\"bDrAEdppEc\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Job Applications By Opening\",\"col\":6}},{\"id\":\"VqqHZk5Ymw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"oSv_YHVrts\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"CEIbb5JydQ\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Opening\",\"col\":4}},{\"id\":\"RNDrQHWL4f\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Applicant\",\"col\":4}},{\"id\":\"B0A1wqOP8R\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Interviews (This Week)\",\"col\":4}},{\"id\":\"i-eSYrg4pp\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Job Offer\",\"col\":4}},{\"id\":\"BSfCSxeOZN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"ouzRaGAJJl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters &amp; Reports</b></span>\",\"col\":12}},{\"id\":\"0akZyj1E4k\",\"type\":\"card\",\"data\":{\"card_name\":\"Jobs\",\"col\":4}},{\"id\":\"3Q-ITUYR-W\",\"type\":\"card\",\"data\":{\"card_name\":\"Interviews\",\"col\":4}},{\"id\":\"06gIuB5svR\",\"type\":\"card\",\"data\":{\"card_name\":\"Appointment\",\"col\":4}},{\"id\":\"Q4msp7F8vF\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "creation": "2026-04-09 10:05:59.068029",
  "custom_blocks": [
   {
    "custom_block_name": "HR",
@@ -197,7 +197,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-26 08:17:23.761029",
+ "modified": "2026-04-09 15:22:51.200029",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HR Recruitment",
@@ -249,13 +249,6 @@
    "link_to": "Interview",
    "stats_filter": "[]",
    "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Recruitment Dashboard",
-   "link_to": "Recruitment",
-   "type": "Dashboard"
   },
   {
    "color": "Grey",

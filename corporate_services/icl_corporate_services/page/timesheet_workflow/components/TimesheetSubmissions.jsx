@@ -251,7 +251,7 @@ function TimesheetSubmissions({
         </select>
       </div>
 
-      {/* Notify button — supervisor / hr_finance only when month selected */}
+      {/* Notify button - supervisor / hr_finance only when month selected */}
       {showNonSubmittersSection && monthFilter && (
         <button
           className="btn btn-sm btn-warning"
@@ -391,7 +391,7 @@ function TimesheetSubmissions({
                     </td>
                   )}
                   <td>{fmtMonth(ts.month_year)}</td>
-                  <td>{ts.total_working_hours ?? "—"}</td>
+                  <td>{ts.total_working_hours ?? "-"}</td>
                   <td>
                     <span className={`badge ${STATUS_BADGE[ts.status] || "bg-secondary"}`}>
                       {ts.status}
@@ -400,11 +400,11 @@ function TimesheetSubmissions({
                   {showWorkflowState && (
                     <td>
                       <span style={WF_STYLE[ts.workflow_state] ? { ...Object.fromEntries(WF_STYLE[ts.workflow_state].split(";").filter(Boolean).map(s => s.split(":"))) } : {}}>
-                        {ts.workflow_state || "—"}
+                        {ts.workflow_state || "-"}
                       </span>
                     </td>
                   )}
-                  <td style={{ fontSize: 12 }}>{ts.creation ? new Date(ts.creation).toLocaleDateString() : "—"}</td>
+                  <td style={{ fontSize: 12 }}>{ts.creation ? new Date(ts.creation).toLocaleDateString() : "-"}</td>
                   <td>
                     <button
                       className="btn btn-sm btn-outline-primary"
@@ -454,7 +454,7 @@ function NonSubmittersSection({ nonSubmitters, monthFilter, onNotify }) {
     <div className="mt-4">
       <div className="d-flex align-items-center justify-content-between mb-2">
         <h6 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", margin: 0 }}>
-          Not Submitted — {fmtMonth(monthFilter)}
+          Not Submitted - {fmtMonth(monthFilter)}
           <span className="badge bg-danger ms-2" style={{ fontSize: 10, fontWeight: 700 }}>{nonSubmitters.length}</span>
         </h6>
         <button className="btn btn-sm btn-warning" onClick={onNotify}>
@@ -485,8 +485,8 @@ function NonSubmittersSection({ nonSubmitters, monthFilter, onNotify }) {
                   <div style={{ fontWeight: 500 }}>{emp.employee_name}</div>
                   <div style={{ fontSize: 11, color: "#adb5bd" }}>{emp.name}</div>
                 </td>
-                <td style={{ fontSize: 13 }}>{emp.department || "—"}</td>
-                <td style={{ fontSize: 13 }}>{emp.designation || "—"}</td>
+                <td style={{ fontSize: 13 }}>{emp.department || "-"}</td>
+                <td style={{ fontSize: 13 }}>{emp.designation || "-"}</td>
               </tr>
             ))}
           </tbody>

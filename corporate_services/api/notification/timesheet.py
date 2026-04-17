@@ -4,7 +4,11 @@ from corporate_services.api.helpers.print_formats import get_default_print_forma
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
+    get_project_manager_contact,
     get_supervisor_contact,
+)
+from corporate_services.api.timesheet.timesheet_generation_export import (
+    SHORT_TERM_CONSULTANT_TEMPLATE,
 )
 
 def send_email(recipients, subject, message, pdf_content, doc_name):
@@ -19,15 +23,27 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
         header=("Timesheet Submission", "text/html")
     )
 
-def generate_message(doc, employee_name, email_type, supervisor_name=None):
+def generate_message(doc, employee_name, email_type, supervisor_name=None, project_manager_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
+        "project_manager": """
+            Dear {},<br><br>
+            I have submitted my {} for your review and approval. You can view it <a href="{}">here</a>.<br><br>
+            Kind regards,<br>
+            {}
+        """.format(project_manager_name, doc.doctype, doctype_url, employee_name),
         "supervisor": """
             Dear {},<br><br>
             I have submitted my {} for your review and approval. You can view it <a href="{}">here</a>.<br><br>
             Kind regards,<br>
             {}
         """.format(supervisor_name, doc.doctype, doctype_url, employee_name),
+        "submitted_to_supervisor_from_pm": """
+            Dear {},<br><br>
+            {}'s {} has been reviewed by the Project Manager and is now awaiting your approval. You can view it <a href="{}">here</a>.<br><br>
+            Kind regards,<br>
+            {}
+        """.format(supervisor_name, employee_name, doc.doctype, doctype_url, project_manager_name),
         
         "approved_by_supervisor": """
             Dear {},<br><br>
@@ -35,6 +51,12 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
             Kind regards,<br>
             {}
         """.format(employee_name, doc.doctype, doctype_url, supervisor_name),
+        "employee_approved_consultant": """
+            Dear {},<br><br>
+            Your {} has been reviewed and approved. You can view the details <a href="{}">here</a>.<br><br>
+            Kind regards,<br>
+            Supervisor
+        """.format(employee_name, doc.doctype, doctype_url),
 
         "employee_rejected_supervisor": """
             Dear {},<br><br>
@@ -96,13 +118,17 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
 
 def alert(doc, method):
     if doc.workflow_state in [
-        "Submitted to Supervisor", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance"
+        "Submitted to Project Manager", "Submitted to Supervisor", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance", "Approved"
     ]:
         employee_id = doc.employee
         
         employee = frappe.get_doc("Employee", employee_id)
         employee_email = employee.company_email or employee.personal_email
+        template_name = getattr(doc, "timesheet_template", None)
 
+        project_manager_contact = get_project_manager_contact(employee)
+        project_manager_email = project_manager_contact.email if project_manager_contact else None
+        project_manager_name = project_manager_contact.name if project_manager_contact else None
 
         supervisor_contact = get_supervisor_contact(employee)
         supervisor_email = supervisor_contact.email if supervisor_contact else None
@@ -117,10 +143,35 @@ def alert(doc, method):
             frappe.log_error(frappe.get_traceback(), "Timesheet PDF generation failed")
             pdf_content = None
 
-        if doc.workflow_state == "Submitted to Supervisor":
+        if doc.workflow_state == "Submitted to Project Manager":
+            if project_manager_email:
+                message_to_project_manager = generate_message(
+                    doc,
+                    employee.employee_name,
+                    "project_manager",
+                    project_manager_name=project_manager_name,
+                )
+                send_email(
+                    recipients=[project_manager_email],
+                    subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
+                    message=message_to_project_manager,
+                    pdf_content=pdf_content,
+                    doc_name=doc.name
+                )
+
+        elif doc.workflow_state == "Submitted to Supervisor":
             if employee.reports_to:
-                
-                message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name )
+                message_type = "supervisor"
+                if template_name == SHORT_TERM_CONSULTANT_TEMPLATE:
+                    message_type = "submitted_to_supervisor_from_pm"
+
+                message_to_supervisor = generate_message(
+                    doc,
+                    employee.employee_name,
+                    message_type,
+                    supervisor_name,
+                    project_manager_name,
+                )
                 send_email(
                     recipients=[supervisor_email],
                     subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
@@ -130,6 +181,9 @@ def alert(doc, method):
                 )
              
         elif doc.workflow_state == "Approved by Supervisor":
+            if template_name == SHORT_TERM_CONSULTANT_TEMPLATE:
+                return
+
             message_to_employee = generate_message(doc, employee.employee_name, "approved_by_supervisor", supervisor_name)
             send_email(
                 recipients=[employee_email],
@@ -221,6 +275,18 @@ def alert(doc, method):
                 recipients= hr_manager_emails,
                 subject=frappe._('Timesheet Submission Rejected by Finance'),
                 message=message_to_hr,
+                pdf_content=pdf_content,
+                doc_name=doc.name
+            )
+        elif doc.workflow_state == "Approved":
+            if template_name != SHORT_TERM_CONSULTANT_TEMPLATE:
+                return
+
+            message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_consultant")
+            send_email(
+                recipients=[employee_email],
+                subject=frappe._('Your Timesheet Submission has been Approved'),
+                message=message_to_employee,
                 pdf_content=pdf_content,
                 doc_name=doc.name
             )
