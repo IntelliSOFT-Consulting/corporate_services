@@ -251,7 +251,6 @@ function TimesheetSubmissions({
         </select>
       </div>
 
-      {/* Notify button - supervisor / hr_finance only when month selected */}
       {showNonSubmittersSection && monthFilter && (
         <button
           className="btn btn-sm btn-warning"
@@ -314,15 +313,8 @@ function TimesheetSubmissions({
   // ── Main view ─────────────────────────────────────────────────────────────
   return (
     <div className="container py-4">
-      {onBack && (
-        <button className="btn btn-secondary mb-3" onClick={onBack}>
-          ← Back
-        </button>
-      )}
       <h1 className="mb-4 text-center" style={{ fontSize: 22 }}>{title}</h1>
-
       {controlsBar}
-
       {/* Summary cards */}
       <div className="row g-3 mb-4">
         {[

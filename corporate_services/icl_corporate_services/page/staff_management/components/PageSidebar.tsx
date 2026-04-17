@@ -1,6 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { DeptBreakdown } from "./types";
+import { useEmployeeProfile } from "./hooks/useEmployeeProfile";
 
 interface ListProps {
   departments: DeptBreakdown[];
@@ -20,23 +21,38 @@ function NavLink({
   label,
   icon,
   onClick,
+  count,
 }: {
   label: string;
   icon: React.ReactNode;
   onClick: () => void;
+  count?: number;
 }) {
   return (
     <div className="sm-sidebar-item" onClick={onClick}>
-      <span className="d-flex align-items-center" style={{ gap: 8 }}>
+      <span className="d-flex align-items-center" style={{ gap: 8, flex: 1 }}>
         <span className="text-muted">{icon}</span>
         <span className="sm-sidebar-item-name">{label}</span>
       </span>
+      {count !== undefined && count > 0 && (
+        <span className="sm-sidebar-item-count">{count}</span>
+      )}
     </div>
   );
 }
 
 function DetailSidebar({ employee, onBack }: DetailProps) {
   const frappe = (globalThis as any).frappe;
+  const { data } = useEmployeeProfile(employee);
+
+  const counts = {
+    leaveAllocations: data?.leave_allocations?.length ?? 0,
+    leaveApplications: data?.leave_applications?.length ?? 0,
+    travelRequests: data?.travel_requests?.length ?? 0,
+    travelReconciliations: data?.travel_reconciliations?.length ?? 0,
+    timesheetSubmissions: data?.timesheet_submissions?.length ?? 0,
+    assetRequisitions: data?.asset_requisitions?.length ?? 0,
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -66,6 +82,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
 
         <NavLink
           label="Leave Allocations"
+          count={counts.leaveAllocations}
           onClick={() => frappe?.set_route("List", "Leave Allocation", { employee })}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -75,6 +92,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
         />
         <NavLink
           label="Leave Applications"
+          count={counts.leaveApplications}
           onClick={() => frappe?.set_route("List", "Leave Application", { employee })}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -91,6 +109,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
 
         <NavLink
           label="Travel Requests"
+          count={counts.travelRequests}
           onClick={() => frappe?.set_route("List", "Travel Request", { employee })}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -100,6 +119,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
         />
         <NavLink
           label="Travel Reconciliations"
+          count={counts.travelReconciliations}
           onClick={() => frappe?.set_route("List", "Travel Request Reconciliation", { employee })}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -116,6 +136,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
 
         <NavLink
           label="Timesheet Submissions"
+          count={counts.timesheetSubmissions}
           onClick={() => frappe?.set_route("timesheet_workflow", "employee", employee)}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -132,6 +153,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
 
         <NavLink
           label="Asset Requisitions"
+          count={counts.assetRequisitions}
           onClick={() => frappe?.set_route("List", "Asset Requisition", { requested_by: employee })}
           icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
