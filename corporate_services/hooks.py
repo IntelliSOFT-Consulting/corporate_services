@@ -40,6 +40,8 @@ page_js = {
     "icl-opportunity-module": "public/js/opportunity_module.js",
     # Desk React page for the project module (loaded on /app/icl-project-module)
     "icl-project-module": "public/js/project_module.js",
+    "employee-turnover": "public/js/employee_turnover.js",
+    "staff-management": "public/js/staff_management.js",
 }
 
 # Custom Pages
@@ -76,6 +78,7 @@ web_include_js = [
 
 doctype_js = {
     "Job Opening": "public/js/job_opening.js",
+    "Opportunity": "public/js/opportunity.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -252,14 +255,14 @@ event_maps = {
     #     "Project": "corporate_services.api.project.payment_entry.fetch_payments"
     # },
     "after_insert": {
-        "Opportunity": "corporate_services.api.project.opportunity_handlers.create_folder_for_opportunity",
+        "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
     },
     "before_save": {
-        "Opportunity": "corporate_services.api.project.opportunity_handlers.save_bid_document_to_opportunity_folder"
+        "Opportunity": "corporate_services.api.opportunity_handlers.save_bid_document_to_opportunity_folder"
     },
    "before_delete": {
         "Timesheet Submission": "corporate_services.api.timesheet.overrides.timesheet_submission.prevent_default_delete",
@@ -293,6 +296,7 @@ scheduler_events = {
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_overdue_reminders_if_due",
+        "corporate_services.api.notification.opportunity.v1.send_almost_due_opportunity_reminders",
         # "corporate_services.api.notification.onboarding.onboarding_notifications.send_policy_comprehension_quiz"
 	],
 	# "hourly": [

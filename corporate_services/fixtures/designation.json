@@ -618,5 +618,15 @@
   "modified": "2024-04-23 11:01:58.886841",
   "name": "Administrative Assistant",
   "skills": []
+ },
+ {
+  "appraisal_template": null,
+  "description": null,
+  "designation_name": "Technical Project Management Lead",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2026-04-08 13:10:31.948368",
+  "name": "Technical Project Management Lead",
+  "skills": []
  }
 ]

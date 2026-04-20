@@ -108,7 +108,7 @@
    "name": "Timesheet-custom_timesheet_type",
    "no_copy": 0,
    "non_negative": 0,
-   "options": "Project Based\nOther Activities",
+   "options": "Project Based\nOther Activities\nShort Term Consultant",
    "owner": "Administrator",
    "permlevel": 0,
    "precision": "",

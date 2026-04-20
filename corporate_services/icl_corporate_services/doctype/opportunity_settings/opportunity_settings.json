@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "notification_settings_section",
+  "notify_on_almost_due_opportunities",
+  "column_break_ndop",
+  "almost_due_notification_days_before"
+ ],
+ "fields": [
+  {
+   "fieldname": "notification_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Notification Settings"
+  },
+  {
+   "default": "0",
+   "description": "Enable reminders before opportunity due dates.",
+   "fieldname": "notify_on_almost_due_opportunities",
+   "fieldtype": "Check",
+   "label": "Notify On Almost Due Opportunities"
+  },
+  {
+   "fieldname": "column_break_ndop",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.notify_on_almost_due_opportunities == 1",
+   "description": "How many days before due date to send reminders.",
+   "fieldname": "almost_due_notification_days_before",
+   "fieldtype": "Int",
+   "label": "Days Before Due",
+   "mandatory_depends_on": "eval:doc.notify_on_almost_due_opportunities == 1",
+   "non_negative": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "module": "ICL Corporate Services",
+ "name": "Opportunity Settings",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

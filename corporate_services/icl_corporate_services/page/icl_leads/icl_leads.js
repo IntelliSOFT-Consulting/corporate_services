@@ -2,7 +2,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
   var page = frappe.ui.make_app_page({
     parent: wrapper,
     title: "ICL Leads",
-    single_column: true,
+    single_column: false,
   });
 
   // ── Add refresh button to page toolbar ──────────────────────────────────
@@ -127,57 +127,107 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
 
       </div><!-- /.row#icl-stat-cards -->
 
-      <!-- ── Leads Table ─────────────────────────────────────────────────── -->
-      <div class="card shadow-sm border-0">
-        <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
-          <h6 class="mb-0 font-weight-bold">All Leads</h6>
-          <div class="d-flex align-items-center gap-2">
-            <input
-              id="icl-lead-search"
-              type="text"
-              class="form-control form-control-sm"
-              placeholder="Search leads…"
-              style="width:200px;"
-            />
+      <div class="row g-3">
+        <!-- ── Main Content: Charts + Table ────────────────────────────── -->
+        <div class="col-12">
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom">
+                  <h6 class="mb-0 font-weight-bold">Top Clients by Leads</h6>
+                </div>
+                <div class="card-body" id="icl-client-leads-chart"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom">
+                  <h6 class="mb-0 font-weight-bold">Top Clients by Linked Opportunities</h6>
+                </div>
+                <div class="card-body" id="icl-client-opps-chart"></div>
+              </div>
+            </div>
           </div>
+
+          <!-- ── Leads Table ───────────────────────────────────────────── -->
+          <div class="card shadow-sm border-0">
+            <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
+              <h6 class="mb-0 font-weight-bold">All Leads</h6>
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  id="icl-lead-search"
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="Search leads…"
+                  style="width:220px;"
+                />
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0" id="icl-leads-table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="text-muted small font-weight-semibold">#</th>
+                      <th class="text-muted small font-weight-semibold">Lead Name</th>
+                      <th class="text-muted small font-weight-semibold">Company</th>
+                      <th class="text-muted small font-weight-semibold">Status</th>
+                      <th class="text-muted small font-weight-semibold">Source</th>
+                      <th class="text-muted small font-weight-semibold">Mobile</th>
+                      <th class="text-muted small font-weight-semibold">Email</th>
+                      <th class="text-muted small font-weight-semibold">Linked Opportunities</th>
+                      <th class="text-muted small font-weight-semibold">Owner</th>
+                      <th class="text-muted small font-weight-semibold">Created</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="icl-leads-tbody">
+                    <tr>
+                      <td colspan="11" class="text-center py-5 text-muted">
+                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        Loading leads…
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Pagination footer -->
+            <div class="card-footer bg-white border-top d-flex justify-content-between align-items-center" id="icl-pagination-bar" style="display:none!important;">
+              <span class="text-muted small" id="icl-page-info"></span>
+              <div class="btn-group btn-group-sm" id="icl-page-buttons"></div>
+            </div>
+          </div><!-- /.card -->
         </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover mb-0" id="icl-leads-table">
-              <thead class="thead-light">
-                <tr>
-                  <th class="text-muted small font-weight-semibold">#</th>
-                  <th class="text-muted small font-weight-semibold">Lead Name</th>
-                  <th class="text-muted small font-weight-semibold">Company</th>
-                  <th class="text-muted small font-weight-semibold">Status</th>
-                  <th class="text-muted small font-weight-semibold">Source</th>
-                  <th class="text-muted small font-weight-semibold">Mobile</th>
-                  <th class="text-muted small font-weight-semibold">Email</th>
-                  <th class="text-muted small font-weight-semibold">Linked Opportunities</th>
-                  <th class="text-muted small font-weight-semibold">Owner</th>
-                  <th class="text-muted small font-weight-semibold">Created</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="icl-leads-tbody">
-                <tr>
-                  <td colspan="11" class="text-center py-5 text-muted">
-                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                    Loading leads…
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <!-- Pagination footer -->
-        <div class="card-footer bg-white border-top d-flex justify-content-between align-items-center" id="icl-pagination-bar" style="display:none!important;">
-          <span class="text-muted small" id="icl-page-info"></span>
-          <div class="btn-group btn-group-sm" id="icl-page-buttons"></div>
-        </div>
-      </div><!-- /.card -->
+      </div>
 
     </div><!-- /.container-fluid -->
+  `);
+
+  // ── Use default Frappe aside (same placement style as Opportunity module)
+  $(page.sidebar).empty().append(`
+    <div class="card shadow-sm border-0 icl-sticky-card">
+      <div class="card-header bg-white border-bottom">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="mb-0 font-weight-bold">Leads Sidebar</h6>
+          <button class="btn btn-xs btn-default" id="icl-sidebar-clear" style="display:none;">Clear</button>
+        </div>
+        <input
+          id="icl-sidebar-search"
+          type="text"
+          class="form-control form-control-sm"
+          placeholder="Find lead…"
+        />
+      </div>
+      <div class="card-body p-0">
+        <div id="icl-sidebar-list" class="icl-sidebar-list">
+          <div class="text-center py-4 text-muted">
+            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+            Loading leads…
+          </div>
+        </div>
+      </div>
+    </div>
   `);
 
   // ── Inline styles (skeleton loader + badge tweaks) ───────────────────────
@@ -218,12 +268,72 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       .icl-badge.opp-badge.converted  { background:#e8f5e9; color:#2e7d32; }
       .icl-badge.opp-badge.closed     { background:#fce4ec; color:#c62828; }
       .icl-badge.opp-badge.lost       { background:#f3e5f5; color:#6a1b9a; }
+      .icl-sticky-card { position: sticky; top: 16px; }
+      .icl-sidebar-list { max-height: 72vh; overflow-y: auto; }
+      .icl-sidebar-item {
+        border-bottom: 1px solid #f1f3f4;
+        padding: 10px 12px;
+        cursor: pointer;
+      }
+      .icl-sidebar-item:hover { background: #f8f9fa; }
+      .icl-sidebar-item.active { background: #e8f0fe; border-left: 3px solid #1a73e8; }
+      .icl-sidebar-title { font-weight: 600; font-size: 13px; line-height: 1.2; color: #202124; }
+      .icl-sidebar-sub { font-size: 12px; color: #5f6368; margin-top: 2px; }
+      .icl-mini-pill {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 7px;
+        font-size: 10px;
+        font-weight: 600;
+        background: #eef2ff;
+        color: #334155;
+      }
+      .icl-chart-empty {
+        color: #6b7280;
+        font-size: 12px;
+        padding: 10px 0;
+      }
+      .icl-bar-row { margin-bottom: 10px; }
+      .icl-bar-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        margin-bottom: 4px;
+        gap: 10px;
+      }
+      .icl-bar-label {
+        color: #1f2937;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .icl-bar-val { color: #6b7280; font-weight: 600; }
+      .icl-bar-track {
+        height: 8px;
+        border-radius: 999px;
+        background: #eef2f7;
+        overflow: hidden;
+      }
+      .icl-bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+      }
+      @media (max-width: 991px) {
+        .icl-sticky-card { position: static; }
+        .icl-sidebar-list { max-height: 340px; }
+      }
     `;
     document.head.appendChild(style);
   }
 
   // ── Data layer ───────────────────────────────────────────────────────────
   let allLeads = [];
+  let leadOppMapCache = {};
+  let selectedLead = null;
+  let tableSearchQuery = "";
   let currentPage = 1;
   const PAGE_SIZE = 20;
 
@@ -276,6 +386,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
         if (!leadOppMap[party_name]) leadOppMap[party_name] = [];
         leadOppMap[party_name].push({ opp: name, status: status || "", amount: opportunity_amount || 0 });
       });
+      leadOppMapCache = leadOppMap;
 
       // ── 3. Compute stats ───────────────────────────────────────────────
       const totalLeads = allLeads.length;
@@ -306,25 +417,32 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       $("#stat-leads-active-opps").text(fmt(leadsWithActiveOpps));
       $("#stat-active-linked-opps").text(fmt(activeLinkedOpps));
 
-      // ── 5. Render table ────────────────────────────────────────────────
-      renderTable(allLeads, leadOppMap);
+      // ── 5. Render sidebar, charts and table ───────────────────────────
+      renderSidebar(allLeads, leadOppMap);
+      applyTableFilter();
 
-      // ── 6. Live search ─────────────────────────────────────────────────
+      // ── 6. Live search/events ──────────────────────────────────────────
       $("#icl-lead-search")
         .off("input")
         .on("input", function () {
-          const q = $(this).val().toLowerCase().trim();
-          const filtered = q
-            ? allLeads.filter(
-                (l) =>
-                  (l.lead_name || "").toLowerCase().includes(q) ||
-                  (l.company_name || "").toLowerCase().includes(q) ||
-                  (l.email_id || "").toLowerCase().includes(q) ||
-                  (l.status || "").toLowerCase().includes(q)
-              )
-            : allLeads;
+          tableSearchQuery = ($(this).val() || "").toLowerCase().trim();
           currentPage = 1;
-          renderTable(filtered, leadOppMap);
+          applyTableFilter();
+        });
+
+      $("#icl-sidebar-search")
+        .off("input")
+        .on("input", function () {
+          renderSidebar(allLeads, leadOppMap);
+        });
+
+      $("#icl-sidebar-clear")
+        .off("click")
+        .on("click", function () {
+          selectedLead = null;
+          $("#icl-sidebar-clear").hide();
+          applyTableFilter();
+          renderSidebar(allLeads, leadOppMap);
         });
     } catch (err) {
       frappe.msgprint({
@@ -333,6 +451,114 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
         indicator: "red",
       });
     }
+  }
+
+  function applyTableFilter() {
+    let filtered = tableSearchQuery
+      ? allLeads.filter(
+          (l) =>
+            (l.lead_name || "").toLowerCase().includes(tableSearchQuery) ||
+            (l.company_name || "").toLowerCase().includes(tableSearchQuery) ||
+            (l.email_id || "").toLowerCase().includes(tableSearchQuery) ||
+            (l.status || "").toLowerCase().includes(tableSearchQuery)
+        )
+      : allLeads;
+
+    if (selectedLead) {
+      filtered = filtered.filter((l) => l.name === selectedLead);
+    }
+
+    renderTable(filtered, leadOppMapCache);
+    renderClientCharts(filtered, leadOppMapCache);
+  }
+
+  function renderSidebar(leads, leadOppMap) {
+    const list = $("#icl-sidebar-list");
+    list.empty();
+
+    const q = ($("#icl-sidebar-search").val() || "").toLowerCase().trim();
+    const filtered = q
+      ? leads.filter(
+          (l) =>
+            (l.lead_name || "").toLowerCase().includes(q) ||
+            (l.company_name || "").toLowerCase().includes(q) ||
+            (l.status || "").toLowerCase().includes(q)
+        )
+      : leads;
+
+    if (!filtered.length) {
+      list.html(`<div class="text-center py-4 text-muted">No leads found.</div>`);
+      return;
+    }
+
+    filtered.slice(0, 200).forEach((lead) => {
+      const status = frappe.utils.escape_html(lead.status || "No Status");
+      const oppCount = (leadOppMap[lead.name] || []).length;
+      const active = selectedLead === lead.name ? " active" : "";
+
+      list.append(`
+        <div class="icl-sidebar-item${active}" data-name="${frappe.utils.escape_html(lead.name)}">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="icl-sidebar-title">${frappe.utils.escape_html(lead.lead_name || lead.name)}</div>
+            <span class="icl-mini-pill">${oppCount}</span>
+          </div>
+          <div class="icl-sidebar-sub">${frappe.utils.escape_html(lead.company_name || "No company")}</div>
+          <div class="mt-1"><span class="icl-badge default">${status}</span></div>
+        </div>
+      `);
+    });
+
+    list.find(".icl-sidebar-item").on("click", function () {
+      selectedLead = $(this).data("name");
+      $("#icl-sidebar-clear").show();
+      currentPage = 1;
+      applyTableFilter();
+      renderSidebar(allLeads, leadOppMapCache);
+    });
+  }
+
+  function renderClientCharts(leads, leadOppMap) {
+    const clientLeadCount = {};
+    const clientOppCount = {};
+
+    leads.forEach((lead) => {
+      const client = (lead.company_name || "Unspecified Client").trim() || "Unspecified Client";
+      clientLeadCount[client] = (clientLeadCount[client] || 0) + 1;
+      clientOppCount[client] = (clientOppCount[client] || 0) + (leadOppMap[lead.name] || []).length;
+    });
+
+    renderBarChart("#icl-client-leads-chart", clientLeadCount);
+    renderBarChart("#icl-client-opps-chart", clientOppCount);
+  }
+
+  function renderBarChart(selector, dataObj) {
+    const target = $(selector);
+    target.empty();
+
+    const items = Object.entries(dataObj)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+
+    if (!items.length) {
+      target.html(`<div class="icl-chart-empty">No data to display for current filter.</div>`);
+      return;
+    }
+
+    const maxVal = Math.max(...items.map((x) => x[1]), 1);
+    items.forEach(([label, value]) => {
+      const width = Math.round((value / maxVal) * 100);
+      target.append(`
+        <div class="icl-bar-row">
+          <div class="icl-bar-meta">
+            <span class="icl-bar-label" title="${frappe.utils.escape_html(label)}">${frappe.utils.escape_html(label)}</span>
+            <span class="icl-bar-val">${Number(value).toLocaleString()}</span>
+          </div>
+          <div class="icl-bar-track">
+            <div class="icl-bar-fill" style="width:${width}%"></div>
+          </div>
+        </div>
+      `);
+    });
   }
 
   function renderTable(leads, leadOppMap) {
@@ -387,7 +613,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
           <td>${frappe.utils.escape_html(lead.lead_owner || "-")}</td>
           <td class="text-muted">${created}</td>
           <td>
-            <a href="/crm/leads/${frappe.utils.escape_html(lead.name)}"
+            <a href="/leads/${frappe.utils.escape_html(lead.name)}"
                class="btn btn-xs btn-default" title="Open Lead">
               <i class="fa fa-external-link"></i>
             </a>
@@ -399,7 +625,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     tbody.find("tr[data-name]").on("click", function (e) {
       if ($(e.target).closest("a").length) return;
       const name = $(this).data("name");
-      frappe.set_route("crm/leads/" + name);
+      frappe.set_route("leads/" + name);
     });
 
     // Pagination controls

@@ -8,7 +8,8 @@
  "engine": "InnoDB",
  "field_order": [
   "contract_type",
-  "accumulate_monthly_leave"
+  "accumulate_monthly_leave",
+  "timesheet_template"
  ],
  "fields": [
   {
@@ -20,16 +21,25 @@
    "unique": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "default": "0",
    "fieldname": "accumulate_monthly_leave",
    "fieldtype": "Check",
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Accumulate monthly leave"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "timesheet_template",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Timesheet Template",
+   "options": "\nDefault\nShort Term Consultant"
   }
  ],
  "links": [],
- "modified": "2025-07-02 11:49:52.580099",
+ "modified": "2026-04-07 12:18:07.830043",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Contract Type",
