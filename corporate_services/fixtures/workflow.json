@@ -2007,10 +2007,10 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "send_email": 0,
-    "state": "Submitted to Project Manager",
+    "state": "Draft",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": "3"
+    "workflow_builder_id": "1"
    },
    {
     "allow_edit": "All",
@@ -2023,10 +2023,10 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "send_email": 0,
-    "state": "Draft",
+    "state": "Submitted to Project Manager",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": "1"
+    "workflow_builder_id": "3"
    },
    {
     "allow_edit": "All",

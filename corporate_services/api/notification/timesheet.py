@@ -1,5 +1,5 @@
 import frappe
-from frappe.utils import get_url_to_form
+from frappe.utils import escape_html, get_url_to_form
 from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
@@ -10,6 +10,58 @@ from corporate_services.api.notification.notification_contacts import (
 from corporate_services.api.timesheet.timesheet_generation_export import (
     SHORT_TERM_CONSULTANT_TEMPLATE,
 )
+
+
+def get_project_owner_contacts_for_employee(employee):
+    """Return project owner contacts for projects linked to the employee user."""
+    user_id = getattr(employee, "user_id", None)
+    if not user_id:
+        return []
+
+    linked_project_ids = frappe.get_all(
+        "Project User",
+        filters={"user": user_id, "parenttype": "Project"},
+        pluck="parent",
+    )
+    if not linked_project_ids:
+        return []
+
+    projects = frappe.get_all(
+        "Project",
+        filters={"name": ["in", linked_project_ids]},
+        fields=["name", "project_name", "owner"],
+    )
+    if not projects:
+        return []
+
+    owner_to_projects = {}
+    for project in projects:
+        owner = project.get("owner")
+        if not owner:
+            continue
+        owner_to_projects.setdefault(owner, []).append(
+            project.get("project_name") or project.get("name")
+        )
+
+    owner_contacts = []
+    for owner, project_names in owner_to_projects.items():
+        user_info = frappe.db.get_value(
+            "User", owner, ["email", "full_name"], as_dict=True
+        ) or {}
+        email = user_info.get("email") or (owner if "@" in owner else None)
+        if not email:
+            continue
+        owner_contacts.append(
+            frappe._dict(
+                user_id=owner,
+                email=email,
+                name=user_info.get("full_name") or owner,
+                projects=project_names,
+            )
+        )
+
+    return owner_contacts
+
 
 def send_email(recipients, subject, message, pdf_content, doc_name):
     attachments = []
@@ -25,6 +77,8 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
 
 def generate_message(doc, employee_name, email_type, supervisor_name=None, project_manager_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
+    supervisor_name = supervisor_name or "Supervisor"
+    project_manager_name = project_manager_name or "Project Manager"
     messages = {
         "project_manager": """
             Dear {},<br><br>
@@ -144,7 +198,34 @@ def alert(doc, method):
             pdf_content = None
 
         if doc.workflow_state == "Submitted to Project Manager":
-            if project_manager_email:
+            owner_contacts = get_project_owner_contacts_for_employee(employee)
+            if owner_contacts:
+                for owner_contact in owner_contacts:
+                    message_to_owner = generate_message(
+                        doc,
+                        employee.employee_name,
+                        "project_manager",
+                        project_manager_name=owner_contact.name,
+                    )
+                    project_list_html = "".join(
+                        f"<li>{escape_html(project_name)}</li>"
+                        for project_name in owner_contact.projects
+                    )
+                    message_to_owner += (
+                        "<br><br>"
+                        "Linked project(s) for your review:"
+                        f"<ul>{project_list_html}</ul>"
+                    )
+                    send_email(
+                        recipients=[owner_contact.email],
+                        subject=frappe._(
+                            "Timesheet Submission from {}".format(employee.employee_name)
+                        ),
+                        message=message_to_owner,
+                        pdf_content=pdf_content,
+                        doc_name=doc.name,
+                    )
+            elif project_manager_email:
                 message_to_project_manager = generate_message(
                     doc,
                     employee.employee_name,

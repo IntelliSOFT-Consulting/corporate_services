@@ -10,6 +10,10 @@ from corporate_services.api.timesheet.timesheet_generation_export import (
 
 
 class TimesheetSubmission(Document):
+	def before_insert(self):
+		# Keep first save in Draft; workflow actions should move state explicitly.
+		self.workflow_state = "Draft"
+
 	def validate(self):
 		self.set_timesheet_template()
 		self.check_duplicate_submission()

@@ -79,6 +79,7 @@ web_include_js = [
 doctype_js = {
     "Job Opening": "public/js/job_opening.js",
     "Opportunity": "public/js/opportunity.js",
+    "Employee": "public/js/employee_leave_balance.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -242,14 +243,15 @@ before_workflow_action_map = {
 event_maps = {
     "on_update": {
         **on_update_map,
-        **before_workflow_action_map,
         **timesheet_notifications,
         "Timesheet Submission": [
             on_update_map["Timesheet Submission"],
-            before_workflow_action_map["Timesheet Submission"],
             timesheet_notifications["Timesheet Submission"]
         ],
         **job_applicant_on_update_map
+    },
+    "before_workflow_action": {
+        **before_workflow_action_map,
     },
     # "onload": {
     #     "Project": "corporate_services.api.project.payment_entry.fetch_payments"

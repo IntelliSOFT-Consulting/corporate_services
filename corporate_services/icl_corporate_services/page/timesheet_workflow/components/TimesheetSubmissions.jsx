@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+
+const PAGE_SIZE = 10;
 
 const PAGE = "corporate_services.icl_corporate_services.page.timesheet_workflow.timesheet_workflow";
 const NOTIFY_API = "corporate_services.api.timesheet.notify_non_submitters.notify_non_submitters";
@@ -59,6 +61,7 @@ function TimesheetSubmissions({
   const [nonSubmitters, setNonSubmitters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [monthFilter, setMonthFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const role = roleContext?.role || "employee";
@@ -83,6 +86,7 @@ function TimesheetSubmissions({
       args,
       callback: (r) => {
         setSubmissions(r.message || []);
+        setCurrentPage(1);
         setLoading(false);
       },
     });
@@ -218,7 +222,14 @@ function TimesheetSubmissions({
     ? "My Timesheet Submissions"
     : role === "supervisor"
     ? "My Team's Timesheet Submissions"
-    : "All Timesheet Submissions";
+    : null; // "All Timesheet Submissions" is removed
+
+  // ── Pagination ────────────────────────────────────────────────────────────
+  const totalPages = Math.ceil(submissions.length / PAGE_SIZE);
+  const paginatedSubmissions = submissions.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   // ── Loading ───────────────────────────────────────────────────────────────
   if (loading) {
@@ -231,10 +242,28 @@ function TimesheetSubmissions({
     );
   }
 
-  // ── Controls bar (month filter + notify) ─────────────────────────────────
+  // ── Controls bar (notify left, month filter right) ───────────────────────
   const controlsBar = (
-    <div className="d-flex align-items-center gap-3 flex-wrap mb-4">
-      {/* Month filter */}
+    <div className="d-flex align-items-center justify-content-between flex-wrap mb-4" style={{ gap: 8 }}>
+      {/* Left: notify button (only shown when relevant) */}
+      <div>
+        {showNonSubmittersSection && monthFilter && (
+          <button
+            className="btn btn-sm btn-warning"
+            onClick={handleNotify}
+            title="Send reminder to employees who haven't submitted"
+          >
+            Notify Non-Submitters
+            {nonSubmitters.length > 0 && (
+              <span className="badge bg-danger ms-2" style={{ fontSize: 10 }}>
+                {nonSubmitters.length}
+              </span>
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* Right: Month filter */}
       <div className="d-flex align-items-center gap-2">
         <label style={{ fontSize: 13, fontWeight: 500, color: "#495057", marginBottom: 0, whiteSpace: "nowrap" }}>
           Month:
@@ -250,21 +279,6 @@ function TimesheetSubmissions({
           ))}
         </select>
       </div>
-
-      {showNonSubmittersSection && monthFilter && (
-        <button
-          className="btn btn-sm btn-warning"
-          onClick={handleNotify}
-          title="Send reminder to employees who haven't submitted"
-        >
-          Notify Non-Submitters
-          {nonSubmitters.length > 0 && (
-            <span className="badge bg-danger ms-2" style={{ fontSize: 10 }}>
-              {nonSubmitters.length}
-            </span>
-          )}
-        </button>
-      )}
     </div>
   );
 
@@ -277,7 +291,7 @@ function TimesheetSubmissions({
             ← Back
           </button>
         )}
-        <h1 className="mb-4 text-center" style={{ fontSize: 22 }}>{title}</h1>
+        {title && <h1 className="mb-4 text-center" style={{ fontSize: 22 }}>{title}</h1>}
         {controlsBar}
         <div className="card">
           <div className="card-body text-center py-5">
@@ -313,7 +327,7 @@ function TimesheetSubmissions({
   // ── Main view ─────────────────────────────────────────────────────────────
   return (
     <div className="container py-4">
-      <h1 className="mb-4 text-center" style={{ fontSize: 22 }}>{title}</h1>
+      {title && <h1 className="mb-4 text-center" style={{ fontSize: 22 }}>{title}</h1>}
       {controlsBar}
       {/* Summary cards */}
       <div className="row g-3 mb-4">
@@ -363,11 +377,12 @@ function TimesheetSubmissions({
             </tr>
           </thead>
           <tbody>
-            {submissions.map((ts, index) => {
+            {paginatedSubmissions.map((ts, index) => {
               const empName = ts.employee_name || ts.employee;
+              const globalIndex = (currentPage - 1) * PAGE_SIZE + index + 1;
               return (
                 <tr key={ts.name}>
-                  <td className="text-muted" style={{ fontSize: 12 }}>{index + 1}</td>
+                  <td className="text-muted" style={{ fontSize: 12 }}>{globalIndex}</td>
                   {role !== "employee" && (
                     <td>
                       {!employee ? (
@@ -411,6 +426,45 @@ function TimesheetSubmissions({
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="d-flex align-items-center justify-content-between flex-wrap mt-2 mb-3" style={{ gap: 8 }}>
+          <div style={{ fontSize: 12, color: "#6c757d" }}>
+            Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, submissions.length)} of {submissions.length}
+          </div>
+          <ul className="pagination pagination-sm mb-0">
+            <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>«</button>
+            </li>
+            <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>‹</button>
+            </li>
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
+              .reduce((acc, p, i, arr) => {
+                if (i > 0 && p - arr[i - 1] > 1) acc.push("...");
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((p, i) =>
+                p === "..." ? (
+                  <li key={`ellipsis-${i}`} className="page-item disabled"><span className="page-link">…</span></li>
+                ) : (
+                  <li key={p} className={`page-item${currentPage === p ? " active" : ""}`}>
+                    <button className="page-link" onClick={() => setCurrentPage(p)}>{p}</button>
+                  </li>
+                )
+              )}
+            <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages}>›</button>
+            </li>
+            <li className={`page-item${currentPage === totalPages ? " disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>»</button>
+            </li>
+          </ul>
+        </div>
+      )}
 
       {/* Non-submitters section */}
       {showNonSubmittersSection && monthFilter && (
