@@ -18,6 +18,9 @@ class QuizQuestion(Document):
             if len(options) < 2:
                 frappe.throw("Please provide at least two answer options.")
             self.correct_answer = self._normalize_correct_answers(options)
+            self.disqualifying_answers = self._normalize_answer_set(self.disqualifying_answers, options, "Disqualifying Answers")
+        else:
+            self.disqualifying_answers = ""
 
     def _split_values(self, value):
         if not (value or "").strip():
@@ -27,6 +30,9 @@ class QuizQuestion(Document):
         return [item.strip() for item in normalized.splitlines() if item.strip()]
 
     def _normalize_correct_answers(self, options):
+        return self._normalize_answer_set(self.correct_answer, options, "Correct answers")
+
+    def _normalize_answer_set(self, raw_value, options, label):
         option_map = {}
         for index, option in enumerate(options):
             option_code = chr(ord("A") + index)
@@ -37,7 +43,7 @@ class QuizQuestion(Document):
         normalized_answers = []
         invalid_answers = []
 
-        for answer in self._split_values(self.correct_answer):
+        for answer in self._split_values(raw_value):
             normalized_answer = option_map.get(answer.strip().lower())
             if normalized_answer:
                 normalized_answers.append(normalized_answer)
@@ -46,7 +52,7 @@ class QuizQuestion(Document):
 
         if invalid_answers:
             frappe.throw(
-                "Correct answers must match the provided answer options. Invalid value(s): "
+                f"{label} must match the provided answer options. Invalid value(s): "
                 + ", ".join(invalid_answers)
             )
 

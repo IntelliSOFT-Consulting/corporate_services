@@ -27,6 +27,8 @@ export type OpportunityDetail = OpportunityRow & {
   workflow_state?: string;
   custom_bid_status?: string;
   custom_bid?: string;
+  custom_budget_template?: string;
+  custom_budget_template_source?: string;
   linked_project?: string;
   opportunity_folder?: { name: string; file_name: string } | null;
   party_name?: string;

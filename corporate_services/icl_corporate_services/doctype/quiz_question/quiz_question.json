@@ -12,13 +12,10 @@
   "question_type",
   "answer_options",
   "answer_section",
-  "option_a",
-  "option_b",
-  "option_c",
-  "option_d",
-  "column_break_tyox",
   "correct_answer_selector",
+  "column_break_tyox",
   "correct_answer",
+  "disqualifying_answers",
   "section_break_rere",
   "explanation"
  ],
@@ -49,34 +46,6 @@
    "mandatory_depends_on": "eval:[\"Single Select\", \"Multi Select\"].includes(doc.question_type)"
   },
   {
-   "fieldname": "option_a",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "in_list_view": 1,
-   "label": "Option A"
-  },
-  {
-   "fieldname": "option_b",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "in_list_view": 1,
-   "label": "Option B"
-  },
-  {
-   "fieldname": "option_c",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "in_list_view": 1,
-   "label": "Option C"
-  },
-  {
-   "fieldname": "option_d",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "in_list_view": 1,
-   "label": "Option D"
-  },
-  {
    "depends_on": "eval:[\"Single Select\", \"Multi Select\"].includes(doc.question_type)",
    "fieldname": "correct_answer_selector",
    "fieldtype": "HTML",
@@ -90,6 +59,13 @@
    "hidden": 1,
    "label": "Correct Answer / Accepted Answers",
    "mandatory_depends_on": "eval:[\"Single Select\", \"Multi Select\"].includes(doc.question_type)"
+  },
+  {
+   "depends_on": "eval:[\"Single Select\", \"Multi Select\"].includes(doc.question_type)",
+   "description": "Optional. Enter option letters or texts that should auto-disqualify, one per line (for example: A).",
+   "fieldname": "disqualifying_answers",
+   "fieldtype": "Small Text",
+   "label": "Disqualifying Answers"
   },
   {
    "fieldname": "explanation",
@@ -126,7 +102,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-17 12:50:20.687308",
+ "modified": "2026-04-21 11:45:25.109895",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Quiz Question",

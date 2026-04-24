@@ -23,13 +23,13 @@ function StatusBadge({ status }: { status?: string }) {
   );
 }
 
-function Field({ label, value }: { label: string; value?: string | number | null }) {
+function Field({ label, value }: { label: string; value?: React.ReactNode }) {
   const isEmpty = value == null || value === "";
   return (
     <div>
       <div className="om-field-label">{label}</div>
       <div className={`om-field-value${isEmpty ? " empty" : ""}`}>
-        {isEmpty ? "-" : String(value)}
+        {isEmpty ? "-" : value}
       </div>
     </div>
   );
@@ -59,12 +59,17 @@ interface Props {
 }
 
 export function OpportunityDetail({ opportunityId, onBack }: Props) {
+  const frappe = (globalThis as any).frappe;
   const { doc, loading, error, reload } = useOpportunityDetail(opportunityId);
   const [awarding, setAwarding] = useState(false);
   const [awardedProject, setAwardedProject] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"overview" | "finance">("overview");
 
   const isAwarded = doc?.custom_bid_status === "Awarded";
   const linkedProject = awardedProject || doc?.linked_project || null;
+  const userRoles: string[] = frappe?.boot?.user?.roles || [];
+  const canViewFinanceTab =
+    Boolean(frappe?.user?.has_role?.("Finance")) || userRoles.includes("Finance");
 
   async function handleAward() {
     if (!confirm(`Award opportunity "${opportunityId}" and create a project?`)) return;
@@ -92,6 +97,49 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
     } finally {
       setAwarding(false);
     }
+  }
+
+  async function handleLinkBudgetTemplate() {
+    if (!doc) return;
+
+    frappe.prompt(
+      [
+        {
+          fieldname: "budget_template",
+          label: "Budget Template",
+          fieldtype: "Link",
+          options: "Opportunity Budget Template",
+          reqd: 1,
+          default: doc.custom_budget_template || "",
+        },
+      ],
+      async (values: { budget_template: string }) => {
+        try {
+          await frappe.call({
+            method: "frappe.client.set_value",
+            args: {
+              doctype: "Opportunity",
+              name: doc.name,
+              fieldname: "custom_budget_template",
+              value: values.budget_template,
+            },
+          });
+          reload();
+          frappe.show_alert(
+            { message: "Budget template linked successfully.", indicator: "green" },
+            5
+          );
+        } catch (e: any) {
+          frappe.msgprint({
+            title: "Update Failed",
+            message: e?.message || "Could not link budget template.",
+            indicator: "red",
+          });
+        }
+      },
+      "Link Budget Template",
+      "Save"
+    );
   }
 
   return (
@@ -172,6 +220,29 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
 
             <WorkflowStatus currentState={doc.workflow_state} />
 
+            <div className="frappe-card" style={{ padding: "8px 12px", marginBottom: 16 }}>
+              <div className="btn-group" role="tablist">
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "overview" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("overview")}
+                >
+                  Overview
+                </button>
+                {canViewFinanceTab && (
+                  <button
+                    type="button"
+                    className={`btn btn-sm ${activeTab === "finance" ? "btn-primary" : "btn-default"}`}
+                    onClick={() => setActiveTab("finance")}
+                  >
+                    Finance
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {activeTab === "overview" && (
+              <>
             <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
               <h6 className="om-section-title">Overview</h6>
               <div className="om-field-grid">
@@ -183,16 +254,6 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
                 <Field label="Source" value={doc.source} />
                 <Field label="Territory" value={doc.territory} />
                 <Field label="Campaign" value={doc.campaign} />
-              </div>
-            </div>
-
-            <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
-              <h6 className="om-section-title">Financial</h6>
-              <div className="om-field-grid">
-                <Field label="Opportunity Amount" value={formatCurrency(doc.opportunity_amount, doc.currency)} />
-                <Field label="Currency" value={doc.currency} />
-                <Field label="Probability (%)" value={doc.probability != null ? `${doc.probability}%` : null} />
-                <Field label="Expected Closing" value={formatDate(doc.expected_closing)} />
               </div>
             </div>
 
@@ -208,6 +269,50 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
                   <Field label="Country" value={doc.country} />
                 </div>
               </div>
+            )}
+              </>
+            )}
+
+            {canViewFinanceTab && activeTab === "finance" && (
+              <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+              <h6 className="om-section-title">Finance</h6>
+              <div className="om-field-grid">
+                <Field label="Opportunity Amount" value={formatCurrency(doc.opportunity_amount, doc.currency)} />
+                <Field label="Currency" value={doc.currency} />
+                <Field label="Budget Template Source" value={doc.custom_budget_template_source} />
+                <Field
+                  label="Budget Template"
+                  value={
+                    doc.custom_budget_template ? (
+                      <a
+                        className="text-underline text-info"
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          (globalThis as any).frappe?.set_route(
+                            "Form",
+                            "Opportunity Budget Template",
+                            doc.custom_budget_template
+                          );
+                        }}
+                      >
+                        {doc.custom_budget_template}
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-default"
+                        onClick={handleLinkBudgetTemplate}
+                      >
+                        Link Budget Template
+                      </button>
+                    )
+                  }
+                />
+                <Field label="Probability (%)" value={doc.probability != null ? `${doc.probability}%` : null} />
+                <Field label="Expected Closing" value={formatDate(doc.expected_closing)} />
+              </div>
+            </div>
             )}
 
           </div>

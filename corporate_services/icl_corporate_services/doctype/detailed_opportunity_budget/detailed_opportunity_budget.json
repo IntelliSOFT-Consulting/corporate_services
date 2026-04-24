@@ -6,13 +6,51 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "line_order",
+  "line_key",
+  "section",
+  "row_type",
   "budget_line",
+  "budget_line_label",
+  "formula_base",
   "unit",
+  "quantity",
   "rate",
+  "percentage",
   "cost",
   "budget_narrative"
  ],
  "fields": [
+  {
+   "fieldname": "line_order",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Line Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "line_key",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Line Key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Data",
+   "fetch_from": "budget_line.section",
+   "in_list_view": 0,
+   "label": "Section",
+   "read_only": 1
+  },
+  {
+   "fieldname": "row_type",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Row Type",
+   "options": "Header\nManual\nFormula\nTotal",
+   "read_only": 1
+  },
   {
    "fieldname": "budget_line",
    "fieldtype": "Link",
@@ -21,27 +59,59 @@
    "options": "Payment Entry Budget Line"
   },
   {
+   "fieldname": "budget_line_label",
+   "fieldtype": "Data",
+   "fetch_from": "budget_line.budget_line",
+   "in_list_view": 1,
+   "label": "Budget Line Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "formula_base",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Formula Base"
+  },
+  {
+   "columns": 1,
    "fieldname": "unit",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Unit"
   },
   {
-   "fieldname": "rate",
-   "fieldtype": "Percent",
+   "columns": 1,
+   "fieldname": "quantity",
+   "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Rate"
+   "label": "Quantity"
   },
   {
-   "fieldname": "cost",
-   "fieldtype": "Int",
+   "columns": 2,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Cost"
+   "label": "Rate",
+   "options": "currency"
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 0,
+   "label": "Percentage"
+  },
+  {
+   "columns": 2,
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost",
+   "options": "currency"
   },
   {
    "fieldname": "budget_narrative",
-   "fieldtype": "Data",
-   "in_list_view": 1,
+   "fieldtype": "Small Text",
+   "in_list_view": 0,
    "label": "Budget Narrative"
   }
  ],

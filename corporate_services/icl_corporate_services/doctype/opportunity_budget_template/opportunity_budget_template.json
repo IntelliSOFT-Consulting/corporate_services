@@ -1,12 +1,14 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2026-04-02 07:15:17.604828",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "summary_budget_tab",
   "section_break_zi6y",
+  "naming_series",
   "amended_from",
   "budget_name",
   "budget_againist",
@@ -33,6 +35,16 @@
    "fieldname": "section_break_zi6y",
    "fieldtype": "Section Break",
    "label": "Budget Details"
+  },
+  {
+   "default": "OBT-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Naming Series",
+   "options": "OBT-.YYYY.-",
+   "reqd": 1
   },
   {
    "fieldname": "amended_from",
@@ -109,8 +121,9 @@
   },
   {
    "fieldname": "total_other_direct_costs",
-   "fieldtype": "Data",
-   "label": "Total Other Direct Costs"
+   "fieldtype": "Currency",
+   "label": "Total Other Direct Costs",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_kjjy",
@@ -118,8 +131,9 @@
   },
   {
    "fieldname": "total_programs_expenses",
-   "fieldtype": "Data",
-   "label": "Total Programs Expenses"
+   "fieldtype": "Currency",
+   "label": "Total Programs Expenses",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_cwio",
@@ -127,8 +141,9 @@
   },
   {
    "fieldname": "indirect_costs_on_all_costs",
-   "fieldtype": "Data",
-   "label": "Indirect Costs on All Costs"
+   "fieldtype": "Currency",
+   "label": "Indirect Costs on All Costs",
+   "read_only": 1
   },
   {
    "fieldname": "grand_total_section",
@@ -137,8 +152,9 @@
   },
   {
    "fieldname": "grand_total",
-   "fieldtype": "Data",
-   "label": "Grand Total"
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "read_only": 1
   },
   {
    "fieldname": "detailed_opportunity_budget_section",

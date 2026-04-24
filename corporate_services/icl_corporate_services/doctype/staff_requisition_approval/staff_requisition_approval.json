@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "action_performed",
   "employee_name",
   "datetime"
  ],
@@ -16,6 +17,13 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Title"
+  },
+  {
+   "fieldname": "action_performed",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action Performed",
+   "options": "Submitted\nApproval\nRejection"
   },
   {
    "fieldname": "datetime",

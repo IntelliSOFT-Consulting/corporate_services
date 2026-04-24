@@ -16,13 +16,22 @@ class Quiz(Document):
     pass
 
 
-TEMPLATE_HEADERS = ["question", "question_type", "answer_options", "correct_answer", "explanation", "category"]
+TEMPLATE_HEADERS = [
+    "question",
+    "question_type",
+    "answer_options",
+    "correct_answer",
+    "disqualifying_answers",
+    "explanation",
+    "category",
+]
 TEMPLATE_ROWS = [
     [
         "What is the main purpose of the policy?",
         "Single Select",
         "Promote ethics|Replace contracts|Marketing guidance",
         "A",
+        "",
         "Pick the best answer",
         "Policy",
     ],
@@ -31,12 +40,14 @@ TEMPLATE_ROWS = [
         "Multi Select",
         "Option one|Option two|Option three|Option four",
         "A|C",
+        "",
         "Select all correct choices",
         "Policy",
     ],
     [
         "Describe the escalation process",
         "Open Ended",
+        "",
         "",
         "",
         "Free text response",
@@ -118,6 +129,7 @@ def _build_question_doc(row):
     question_type = _normalize_question_type(normalized_row.get("question_type"))
     answer_options = "\n".join(_split_pipe_values(normalized_row.get("answer_options")))
     correct_answers = "\n".join(_split_pipe_values(normalized_row.get("correct_answer")))
+    disqualifying_answers = "\n".join(_split_pipe_values(normalized_row.get("disqualifying_answers")))
     category = _ensure_category(normalized_row.get("category"))
 
     return {
@@ -125,6 +137,7 @@ def _build_question_doc(row):
         "question_type": question_type,
         "answer_options": answer_options,
         "correct_answer": correct_answers,
+        "disqualifying_answers": disqualifying_answers,
         "explanation": normalized_row.get("explanation"),
         "category": category,
     }
@@ -179,7 +192,15 @@ def _get_existing_question(question_text):
 
 
 def _question_has_changes(question_doc, question_data):
-    comparable_fields = ["question", "question_type", "answer_options", "correct_answer", "explanation", "category"]
+    comparable_fields = [
+        "question",
+        "question_type",
+        "answer_options",
+        "correct_answer",
+        "disqualifying_answers",
+        "explanation",
+        "category",
+    ]
     return any((getattr(question_doc, field, None) or "") != (question_data.get(field) or "") for field in comparable_fields)
 
 

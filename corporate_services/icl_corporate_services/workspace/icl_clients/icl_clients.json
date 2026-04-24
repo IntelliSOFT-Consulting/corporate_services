@@ -5,13 +5,9 @@
    "label": "Incoming Leads"
   }
  ],
- "content": "[{\"id\":\"WtW7b6OH1a\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Clients/Leads</span>\",\"col\":12}},{\"id\":\"x5X2-YUIPF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead/Client\",\"col\":3}},{\"id\":\"e-PNa-o6_3\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"QQeAwRxebe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Lead Intro\",\"col\":12}},{\"id\":\"FR7aU59gbF\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Incoming Leads\",\"col\":12}},{\"id\":\"kPQc6dtt5F\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":6}}]",
- "creation": "2026-03-26 08:12:20.013299",
+ "content": "[{\"id\":\"WtW7b6OH1a\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Clients/Leads</span>\",\"col\":12}},{\"id\":\"x5X2-YUIPF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead/Client\",\"col\":3}},{\"id\":\"e-PNa-o6_3\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"FR7aU59gbF\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Incoming Leads\",\"col\":12}},{\"id\":\"kPQc6dtt5F\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":6}}]",
+ "creation": "2026-04-21 11:43:53.493129",
  "custom_blocks": [
-  {
-   "custom_block_name": "Lead Intro",
-   "label": "Lead Intro"
-  },
   {
    "custom_block_name": "HR",
    "label": "HR"
@@ -27,7 +23,7 @@
  "is_hidden": 0,
  "label": "ICL Clients",
  "links": [],
- "modified": "2026-03-26 08:17:25.948839",
+ "modified": "2026-04-21 11:47:20.624168",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Clients",

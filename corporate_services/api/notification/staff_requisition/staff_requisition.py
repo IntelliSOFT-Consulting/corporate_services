@@ -1,4 +1,3 @@
-from pydoc import doc
 import frappe
 from frappe.utils import get_url_to_form, now_datetime, add_days, get_datetime
 from corporate_services.api.helpers.print_formats import get_default_print_format
@@ -54,9 +53,40 @@ def generate_message(doc, employee_name, email_type, recipient_email):
             {}, {} has been approved by the CEO. You can view the details <a href="{}">here</a>.<br><br>
             Kind regards,<br>
             CEO
-        """.format(recipient_name, employee_name, doc.doctype, doctype_url)
+        """.format(recipient_name, employee_name, doc.doctype, doctype_url),
+
+        "rejected_by_hr": """
+            Dear {},<br><br>
+            Your {} {} has been rejected by HR. You can view the details <a href="{}">here</a>.<br><br>
+            <b>Rejection Reason:</b><br>{}<br><br>
+            Kind regards,<br>
+            HR
+        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided"),
+
+        "rejected_by_finance": """
+            Dear {},<br><br>
+            Your {} {} has been rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
+            <b>Rejection Reason:</b><br>{}<br><br>
+            Kind regards,<br>
+            Finance
+        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided"),
+
+        "rejected_by_ceo": """
+            Dear {},<br><br>
+            Your {} {} has been rejected by the CEO. You can view the details <a href="{}">here</a>.<br><br>
+            <b>Rejection Reason:</b><br>{}<br><br>
+            Kind regards,<br>
+            CEO
+        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided")
     }
     return messages[email_type]
+
+
+def get_requestor_email(requestor_doc):
+    user_email = None
+    if requestor_doc.user_id:
+        user_email = frappe.get_value("User", requestor_doc.user_id, "email")
+    return requestor_doc.company_email or requestor_doc.personal_email or user_email
 
 def get_users_with_role(role):
     """Get email addresses of all users with a specific role"""
@@ -68,13 +98,14 @@ def get_users_with_role(role):
     users = frappe.get_all('Has Role', filters={'role': role}, fields=['parent'])
     return [frappe.get_value('User', user.parent, 'email') for user in users]
 
-def add_approval_if_not_exists(doc, title):
+def add_approval_if_not_exists(doc, title, action_performed=None):
     """Add approval entry if it doesn't already exist"""
     approval_exists = any(row.title == title for row in doc.staff_requisition_approval)
     
     if not approval_exists:
         doc.append('staff_requisition_approval', {
             'title': title,
+            'action_performed': action_performed,
             'employee_name': frappe.session.user,
             'datetime': now_datetime()
         })
@@ -85,11 +116,20 @@ def alert(doc, method):
     if doc.flags.in_alert:
         return
     
-    if doc.workflow_state not in ["Submitted to HR", "Submitted to Finance", "Submitted to CEO", "Approved by CEO"]:
+    if doc.workflow_state not in [
+        "Submitted to HR",
+        "Submitted to Finance",
+        "Submitted to CEO",
+        "Approved by CEO",
+        "Rejected By HR",
+        "Rejected by Finance",
+        "Rejected by CEO",
+    ]:
         return
     
     requestor = frappe.get_doc("Employee", doc.requestor)
     requestor_name = requestor.employee_name
+    requestor_email = get_requestor_email(requestor)
     
     
     pdf_content = frappe.get_print(
@@ -104,40 +144,70 @@ def alert(doc, method):
         "Submitted to HR": {
             "recipients": get_users_with_role('HR Manager'),
             "message_type": "submitted_to_hr",
-            "approval_title": "Requestor"
+            "approval_title": "Requestor",
+            "action_performed": "Submitted",
             
         },
         "Submitted to Finance": {
             "recipients": get_users_with_role('Finance'),
             "message_type": "submitted_to_finance",
-            "approval_title": "HR"
+            "approval_title": "HR",
+            "action_performed": "Approval",
         },
         "Submitted to CEO": {
             "recipients": get_users_with_role('CEO'),
             "message_type": "submitted_to_ceo",
-            "approval_title": "Finance"
+            "approval_title": "Finance",
+            "action_performed": "Approval",
         },
         "Approved by CEO": {
             "recipients": get_users_with_role('HR Manager'),
             "message_type": "approved_by_ceo",
-            "approval_title": "CEO"
-        }
+            "approval_title": "CEO",
+            "action_performed": "Approval",
+        },
+        "Rejected By HR": {
+            "recipients": [requestor_email] if requestor_email else [],
+            "message_type": "rejected_by_hr",
+            "approval_title": "HR",
+            "action_performed": "Rejection",
+            "subject": "Your Staff Requisition has been Rejected by HR",
+        },
+        "Rejected by Finance": {
+            "recipients": [requestor_email] if requestor_email else [],
+            "message_type": "rejected_by_finance",
+            "approval_title": "Finance",
+            "action_performed": "Rejection",
+            "subject": "Your Staff Requisition has been Rejected by Finance",
+        },
+        "Rejected by CEO": {
+            "recipients": [requestor_email] if requestor_email else [],
+            "message_type": "rejected_by_ceo",
+            "approval_title": "CEO",
+            "action_performed": "Rejection",
+            "subject": "Your Staff Requisition has been Rejected by CEO",
+        },
     }
     
     config = workflow_config[doc.workflow_state]
     
     if "approval_title" in config:
-        add_approval_if_not_exists(doc, config["approval_title"])
-    
-    for recipient_email in config["recipients"]:
-        message = generate_message(doc, requestor_name, config["message_type"], recipient_email)
-        send_email(
-            recipients=[recipient_email],
-            subject=frappe._('Staff Requisition from {}'.format(requestor_name)),
-            message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name
+        add_approval_if_not_exists(
+            doc,
+            config["approval_title"],
+            config.get("action_performed"),
         )
+    
+    if config.get("recipients") and config.get("message_type"):
+        for recipient_email in config["recipients"]:
+            message = generate_message(doc, requestor_name, config["message_type"], recipient_email)
+            send_email(
+                recipients=[recipient_email],
+                subject=frappe._(config.get("subject") or 'Staff Requisition from {}'.format(requestor_name)),
+                message=message,
+                pdf_content=pdf_content,
+                doc_name=doc.name
+            )
 
 
 def send_approval_overdue_reminders():

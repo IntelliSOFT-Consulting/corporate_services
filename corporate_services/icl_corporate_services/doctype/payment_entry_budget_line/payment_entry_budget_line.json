@@ -1,16 +1,44 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:budget_line",
+ "autoname": "naming_series:BL-.#####",
  "creation": "2024-10-30 10:13:49.645924",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "budget_line",
-  "description"
+  "description",
+  "is_active",
+  "usage_context",
+  "line_order",
+  "section",
+  "row_type",
+  "default_percentage",
+  "formula_base",
+  "summary_source_type",
+  "summary_source",
+  "section_break_v6na",
+  "company",
+  "currency",
+  "column_break_y5ry",
+  "project",
+  "opportunity",
+  "section_break_zxgl",
+  "budget_line_details",
+  "total_cost"
  ],
  "fields": [
+  {
+   "default": "BL-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BL-.#####",
+   "read_only": 1
+  },
   {
    "allow_in_quick_entry": 1,
    "fieldname": "budget_line",
@@ -19,8 +47,7 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Budget Line",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "allow_in_quick_entry": 1,
@@ -28,6 +55,117 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Description"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "default": "Payment Entry Template",
+   "fieldname": "usage_context",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Usage Context",
+   "options": "Payment Entry Template\nOpportunity Detail Line\nOpportunity Summary Line",
+   "reqd": 1
+  },
+  {
+   "fieldname": "line_order",
+   "fieldtype": "Int",
+   "label": "Line Order"
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Link",
+   "label": "Section"
+   ,
+   "options": "Budget Line Section"
+  },
+  {
+   "fieldname": "row_type",
+   "fieldtype": "Select",
+   "label": "Row Type",
+   "options": "Manual\nFormula\nTotal"
+  },
+  {
+   "fieldname": "default_percentage",
+   "fieldtype": "Percent",
+   "label": "Default Percentage"
+  },
+  {
+   "fieldname": "formula_base",
+   "fieldtype": "Data",
+   "label": "Formula Base"
+  },
+  {
+   "fieldname": "summary_source_type",
+   "fieldtype": "Select",
+   "label": "Summary Source Type",
+   "options": "\nSection\nLine"
+  },
+  {
+   "fieldname": "summary_source",
+   "fieldtype": "Data",
+   "label": "Summary Source"
+  },
+  {
+   "fieldname": "section_break_v6na",
+   "fieldtype": "Section Break",
+   "label": "Context"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_y5ry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "label": "Opportunity",
+   "options": "Opportunity"
+  },
+  {
+   "depends_on": "eval:doc.usage_context==\"Payment Entry Template\"",
+   "fieldname": "section_break_zxgl",
+   "fieldtype": "Section Break",
+   "label": "Budget Lines"
+  },
+  {
+   "depends_on": "eval:doc.usage_context==\"Payment Entry Template\"",
+   "fieldname": "budget_line_details",
+   "fieldtype": "Table",
+   "label": "Budget Line Details",
+   "options": "Budget Line Template"
+  },
+  {
+   "depends_on": "eval:doc.usage_context==\"Payment Entry Template\"",
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Cost",
+   "options": "currency",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -36,7 +174,6 @@
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Payment Entry Budget Line",
- "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -56,5 +193,6 @@
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "budget_line"
 }

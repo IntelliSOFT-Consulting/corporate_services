@@ -6,21 +6,36 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "line_order",
+  "line_key",
   "budget_line",
   "cost"
  ],
  "fields": [
   {
+   "fieldname": "line_order",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Line Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "line_key",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Line Key",
+   "read_only": 1
+  },
+  {
    "fieldname": "budget_line",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Budget Line",
-   "options": "Payment Entry Budget Line",
    "read_only": 1
   },
   {
    "fieldname": "cost",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Cost",
    "read_only": 1

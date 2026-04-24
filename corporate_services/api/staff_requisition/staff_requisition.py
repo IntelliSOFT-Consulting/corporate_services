@@ -23,6 +23,9 @@ def send_clarification_email(docname, message):
     doc_url       = get_url_to_form(doc.doctype, doc.name)
 
     doc.workflow_state     = "Needs Clarification"
+    doc.status             = "NEEDS CLARIFICATION"
+    doc.clarification_message = message
+    doc.clarification_response = ""
     doc.flags.ignore_permissions = True
     doc.save(ignore_permissions=True)
     frappe.db.commit()

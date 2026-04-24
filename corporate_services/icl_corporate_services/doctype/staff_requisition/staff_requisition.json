@@ -40,6 +40,8 @@
   "technical_skills",
   "years_of_experience",
   "section_break_jrui",
+  "clarification_message",
+  "clarification_response",
   "rejection_reason",
   "approval_log_section",
   "staff_requisition_approval",
@@ -221,6 +223,20 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.clarification_message",
+   "fieldname": "clarification_message",
+   "fieldtype": "Long Text",
+   "label": "Clarification Message",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.workflow_state==\"Needs Clarification\" || doc.clarification_response",
+   "fieldname": "clarification_response",
+   "fieldtype": "Long Text",
+   "label": "Clarification Response",
+   "mandatory_depends_on": "eval:doc.workflow_state==\"Needs Clarification\" || doc.clarification_response"
+  },
+  {
    "depends_on": "eval:doc.status == \"REJECTED\";\n",
    "fieldname": "rejection_reason",
    "fieldtype": "Long Text",
@@ -308,7 +324,7 @@
    "link_fieldname": "custom_staff_requisition"
   }
  ],
- "modified": "2026-03-22 13:25:52.732963",
+ "modified": "2026-04-21 08:39:03.787496",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Staff Requisition",
