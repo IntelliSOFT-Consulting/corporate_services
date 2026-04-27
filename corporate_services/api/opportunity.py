@@ -21,6 +21,22 @@ def get_opportunity(name):
         LIMIT 1
     """, name, as_dict=True)
     data["opportunity_folder"] = folders[0] if folders else None
+
+    reminder_activities = frappe.db.sql(
+        """
+        SELECT name, owner, creation, content
+        FROM `tabComment`
+        WHERE reference_doctype = 'Opportunity'
+          AND reference_name = %s
+          AND comment_type = 'Info'
+          AND content LIKE 'Opportunity Due Reminder sent%%'
+        ORDER BY creation DESC
+        LIMIT 50
+        """,
+        name,
+        as_dict=True,
+    )
+    data["reminder_activities"] = reminder_activities
     return data
 
 
@@ -207,6 +223,185 @@ def get_opportunity_stats():
         "by_workflow_state": by_workflow,
         "total": total,
     }
+
+
+@frappe.whitelist()
+def get_opportunity_checklist(opportunity_name: str):
+    """Return the Opportunity Task Checklist linked to this opportunity, or None."""
+    if not opportunity_name:
+        return None
+
+    checklist_name = frappe.db.get_value(
+        "Opportunity Task Checklist",
+        {"opportunity": opportunity_name},
+        "name",
+        order_by="creation asc",
+    )
+    if not checklist_name:
+        return None
+
+    checklist = frappe.get_doc("Opportunity Task Checklist", checklist_name)
+    data = checklist.as_dict()
+
+    data["items"] = [
+        {
+            "name": row.name,
+            "proposal_section": row.proposal_section,
+            "description": row.description,
+            "status": row.status,
+            "employee": row.employee,
+            "employee_name": row.employee_name,
+        }
+        for row in (checklist.items or [])
+    ]
+    return data
+
+
+@frappe.whitelist()
+def create_checklist(opportunity: str, title: str, status: str, description: str, items: str):
+    """Create a new Opportunity Task Checklist with all items in one call.
+
+    items is a JSON array of:
+      { proposal_section, description, status, employees: [{name, employee_name}] }
+    Each item with N employees becomes N rows (one per employee).
+    """
+    import json as _json
+
+    frappe.has_permission("Opportunity Task Checklist", "create", throw=True)
+
+    emp_rows = _json.loads(items) if items else []
+
+    doc = frappe.new_doc("Opportunity Task Checklist")
+    doc.opportunity = opportunity
+    doc.title = title
+    doc.status = status
+    doc.description = description
+
+    for item in emp_rows:
+        employees = item.get("employees") or []
+        if employees:
+            for emp in employees:
+                doc.append("items", {
+                    "proposal_section": item.get("proposal_section", ""),
+                    "description": item.get("description", ""),
+                    "status": item.get("status", "Pending"),
+                    "employee": emp.get("name"),
+                    "employee_name": emp.get("employee_name"),
+                })
+        else:
+            doc.append("items", {
+                "proposal_section": item.get("proposal_section", ""),
+                "description": item.get("description", ""),
+                "status": item.get("status", "Pending"),
+            })
+
+    doc.insert(ignore_permissions=False)
+    frappe.db.commit()
+    return doc.name
+
+
+@frappe.whitelist()
+def bulk_add_checklist_items(checklist_name: str, items: str):
+    """Append multiple items to an existing checklist in one call."""
+    import json as _json
+
+    if not frappe.has_permission("Opportunity Task Checklist", "write", checklist_name):
+        frappe.throw(_("Not permitted."))
+
+    items_list = _json.loads(items) if items else []
+    checklist = frappe.get_doc("Opportunity Task Checklist", checklist_name)
+    added = 0
+
+    for item in items_list:
+        employees = item.get("employees") or []
+        if employees:
+            for emp in employees:
+                checklist.append("items", {
+                    "proposal_section": item.get("proposal_section", ""),
+                    "description": item.get("description", ""),
+                    "status": item.get("status", "Pending"),
+                    "employee": emp.get("name"),
+                    "employee_name": emp.get("employee_name"),
+                })
+                added += 1
+        else:
+            checklist.append("items", {
+                "proposal_section": item.get("proposal_section", ""),
+                "description": item.get("description", ""),
+                "status": item.get("status", "Pending"),
+            })
+            added += 1
+
+    checklist.save(ignore_permissions=False)
+    frappe.db.commit()
+    return {"added": added}
+
+
+@frappe.whitelist()
+def search_employees(query: str):
+    """Search active employees by name for the @mention selector."""
+    if not query:
+        return []
+    return frappe.get_list(
+        "Employee",
+        filters=[
+            ["employee_name", "like", f"%{query}%"],
+            ["status", "=", "Active"],
+        ],
+        fields=["name", "employee_name"],
+        limit=10,
+        order_by="employee_name asc",
+    )
+
+
+@frappe.whitelist()
+def add_checklist_item(checklist_name: str, proposal_section: str, description: str,
+                       status: str, employees: str):
+    """Append one row per employee (or one row with no employee) to the checklist items."""
+    import json as _json
+
+    if not frappe.has_permission("Opportunity Task Checklist", "write", checklist_name):
+        frappe.throw(_("Not permitted."))
+
+    emp_list = _json.loads(employees) if employees else []
+    checklist = frappe.get_doc("Opportunity Task Checklist", checklist_name)
+
+    if emp_list:
+        for emp in emp_list:
+            checklist.append("items", {
+                "proposal_section": proposal_section,
+                "description": description,
+                "status": status,
+                "employee": emp.get("name"),
+                "employee_name": emp.get("employee_name"),
+            })
+    else:
+        checklist.append("items", {
+            "proposal_section": proposal_section,
+            "description": description,
+            "status": status,
+        })
+
+    checklist.save(ignore_permissions=False)
+    frappe.db.commit()
+    return {"saved": True}
+
+
+@frappe.whitelist()
+def update_checklist_item_status(checklist_name: str, row_name: str, status: str):
+    """Update the status of a single checklist item row."""
+    VALID = {"Pending", "In Progress", "Completed", "Cancelled"}
+    if status not in VALID:
+        frappe.throw(_("Invalid status value."))
+
+    frappe.db.set_value(
+        "Opportunity Task Checklist Item",
+        row_name,
+        "status",
+        status,
+    )
+    frappe.db.commit()
+    return {"updated": True}
 
 
 @frappe.whitelist()

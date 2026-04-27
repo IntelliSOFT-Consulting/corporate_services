@@ -12,7 +12,7 @@ const BAR_COLORS = [
   "#b2bec3",
 ];
 
-// ── Donut SVG (shared shape, same as StatusChart) ────────────────────────────
+// -- Donut SVG (shared shape, same as StatusChart) ----------------------------
 
 interface DonutProps {
   slices: { value: number; color: string }[];
@@ -63,7 +63,7 @@ function DonutChart({ slices, total, animated }: DonutProps) {
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
+// -- Main component ------------------------------------------------------------
 
 interface Props {
   onFromClick: (from: string) => void;

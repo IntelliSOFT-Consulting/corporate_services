@@ -66,7 +66,7 @@ export function QuestionReportCard({
       className="frappe-card"
       style={{ overflow: "hidden", marginBottom: 12, padding: 0 }}
     >
-      {/* ── Card header ─────────────────────────────────────────────────── */}
+      {/* -- Card header --------------------------------------------------- */}
       <div
         style={{
           background: "var(--subtle-accent)",
@@ -194,7 +194,7 @@ export function QuestionReportCard({
         </div>
       </div>
 
-      {/* ── Card body ───────────────────────────────────────────────────── */}
+      {/* -- Card body ----------------------------------------------------- */}
       {expanded && (
         <div style={{ padding: 14, background: "var(--card-bg)" }}>
           {hasAggregation && (
@@ -211,7 +211,7 @@ export function QuestionReportCard({
             </div>
           )}
 
-          {/* ── Follow-up responses ──────────────────────────────────────── */}
+          {/* -- Follow-up responses ---------------------------------------- */}
           {question.follow_up_text && question.follow_up_responses.length > 0 && (
             <div
               style={{

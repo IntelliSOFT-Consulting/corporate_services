@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const CSS = `
-/* ── ICL Project Module styles ───────────────────────────── */
+/* -- ICL Project Module styles ----------------------------- */
 
 .pm-app-wrap {
   padding: 0 4px;
@@ -238,7 +238,7 @@ const CSS = `
   opacity: 0.4;
 }
 
-/* ── Frappe native sidebar (portal target: #project-sidebar-root) ── */
+/* -- Frappe native sidebar (portal target: #project-sidebar-root) -- */
 .pm-page-sidebar {
   display: flex;
   flex-direction: column;
@@ -323,7 +323,7 @@ const CSS = `
   color: var(--text-muted, #adb5bd);
 }
 
-/* ── Detail view ── */
+/* -- Detail view -- */
 .pm-detail-header {
   display: flex;
   align-items: center;
@@ -435,7 +435,7 @@ const CSS = `
   padding: 4px 0 2px 0;
 }
 
-/* ── Progress bar ── */
+/* -- Progress bar -- */
 .pm-progress-bar-track {
   height: 6px;
   border-radius: 3px;

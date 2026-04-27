@@ -1,13 +1,16 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "creation": "2026-04-09 09:42:52.711307",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "notification_settings_section",
   "notify_on_almost_due_opportunities",
   "column_break_ndop",
-  "almost_due_notification_days_before"
+  "almost_due_notification_days_before",
+  "opportunity_approver_setting_section",
+  "opportuinty_approver_table"
  ],
  "fields": [
   {
@@ -34,14 +37,29 @@
    "label": "Days Before Due",
    "mandatory_depends_on": "eval:doc.notify_on_almost_due_opportunities == 1",
    "non_negative": 1
+  },
+  {
+   "fieldname": "opportunity_approver_setting_section",
+   "fieldtype": "Section Break",
+   "label": "Opportunity Approver Setting"
+  },
+  {
+   "description": "Select a list of employees with the permission to approve an opportunity",
+   "fieldname": "opportuinty_approver_table",
+   "fieldtype": "Table",
+   "label": "Opportunity Approver(s)",
+   "options": "Opportunity Approvers"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
+ "modified": "2026-04-23 10:28:26.226435",
+ "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Opportunity Settings",
+ "owner": "Administrator",
  "permissions": [
   {
    "create": 1,

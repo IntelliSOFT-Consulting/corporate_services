@@ -189,7 +189,7 @@ frappe.pages['job-applications'].on_page_load = function(wrapper) {
 		</div>
 	`);
 
-	// ─ Sidebar HTML
+	// - Sidebar HTML
 	$(page.sidebar).html(`
 		<div style="padding: 12px 8px;">
 			<div class="jod-sidebar-section-title">

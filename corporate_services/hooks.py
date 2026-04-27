@@ -177,9 +177,9 @@ after_migrate = [
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+    "Salary Slip": "corporate_services.overrides.salary_slip.CorporateServicesSalarySlip",
+}
 
 # Document Events
 # ---------------
@@ -210,7 +210,12 @@ on_update_map = {
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
     "Asset Damage Loss Theft Report Form": "corporate_services.api.notification.assets.loss_damage_loss_report.alert",
     "Chart of Accounts Utilities": "corporate_services.api.import_coa.import_accounts_v2",
-    "Opportunity": "corporate_services.api.notification.project.opportunity.alert",
+    "Opportunity": [
+        "corporate_services.api.notification.project.opportunity.alert",
+        "corporate_services.api.opportunity_handlers.notify_new_opportunity_owners",
+        "corporate_services.api.notification.opportunity_contributors.v1.notify_contributors",
+    ],
+    "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     "General Requisition Form": "corporate_services.api.notification.requisition.general_requisition.alert",
     "Appraisal": "corporate_services.api.notification.appraisal.appraisal.alert",
     "Asset Movement": "corporate_services.api.notification.assets.asset_handover.alert",
@@ -261,12 +266,16 @@ event_maps = {
     "after_insert": {
         "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
+        "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
     },
     "before_save": {
-        "Opportunity": "corporate_services.api.opportunity_handlers.save_bid_document_to_opportunity_folder"
+        "Opportunity": [
+            "corporate_services.api.opportunity_handlers.save_bid_document_to_opportunity_folder",
+            "corporate_services.api.opportunity_handlers.enforce_single_active_owner",
+        ]
     },
    "before_delete": {
         "Timesheet Submission": "corporate_services.api.timesheet.overrides.timesheet_submission.prevent_default_delete",
@@ -340,7 +349,8 @@ scheduler_events = {
 
 override_doctype_dashboards = {
     "Timesheet Submission": "corporate_services.api.timesheet.overrides.timesheet_submission.override_dashboard_data",
-    "Timesheet": "corporate_services.api.timesheet.overrides.timesheet_submission.override_dashboard_data"
+    "Timesheet": "corporate_services.api.timesheet.overrides.timesheet_submission.override_dashboard_data",
+    "Opportunity": "corporate_services.api.opportunity_checklist_handlers.get_opportunity_dashboard_data",
 }
 
 # exempt linked doctypes from being automatically cancelled

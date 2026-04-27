@@ -25,7 +25,7 @@ export function QuestionEditor({ question, qIdx, onUpdate, onRemove }: QuestionE
       className="frappe-card"
       style={{ padding: 12, marginBottom: 0 }}
     >
-      {/* ── Top row: badge + question text + remove ──────────────────── */}
+      {/* -- Top row: badge + question text + remove -------------------- */}
       <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
 
         {/* Q number badge */}
@@ -151,7 +151,7 @@ export function QuestionEditor({ question, qIdx, onUpdate, onRemove }: QuestionE
         </button>
       </div>
 
-      {/* ── Options textarea (SINGLE_SELECT / MULTI_SELECT) ──────────── */}
+      {/* -- Options textarea (SINGLE_SELECT / MULTI_SELECT) ------------ */}
       {hasOptions && (
         <div style={{ marginTop: 10 }}>
           <label
@@ -180,7 +180,7 @@ export function QuestionEditor({ question, qIdx, onUpdate, onRemove }: QuestionE
         </div>
       )}
 
-      {/* ── Follow-up text ────────────────────────────────────────────── */}
+      {/* -- Follow-up text ---------------------------------------------- */}
       <div style={{ marginTop: 8 }}>
         <input
           className="form-control"

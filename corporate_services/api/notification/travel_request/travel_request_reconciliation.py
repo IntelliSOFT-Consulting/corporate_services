@@ -8,6 +8,10 @@ from corporate_services.api.notification.notification_contacts import (
 )
 
 def send_email(recipients, subject, message, pdf_content, doc_name):
+    recipients = [email for email in (recipients or []) if email]
+    if not recipients:
+        return
+
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -97,14 +101,15 @@ def alert(doc, method):
                 pdf_content=pdf_content,
                 doc_name=doc.name
             )
-            
-            message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name )
-            send_email(
-                recipients=[supervisor_email],
-                subject=frappe._('Submission of Travel Request Reconciliation for {}'.format(employee.employee_name)),
-                message=message_to_supervisor,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+
+            if supervisor_email:
+                message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name)
+                send_email(
+                    recipients=[supervisor_email],
+                    subject=frappe._('Submission of Travel Request Reconciliation for {}'.format(employee.employee_name)),
+                    message=message_to_supervisor,
+                    pdf_content=pdf_content,
+                    doc_name=doc.name
                 )
        
         elif doc.workflow_state == "Approved by Finance":

@@ -78,7 +78,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
   return (
     <div className="pm-fade-in">
-      {/* ── Header ── */}
+      {/* -- Header -- */}
       <div className="pm-detail-header">
         <button type="button" className="pm-detail-back" onClick={onBack} title="Back to list">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -107,7 +107,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
         </div>
       </div>
 
-      {/* ── Loading ── */}
+      {/* -- Loading -- */}
       {loading && (
         <div className="text-center text-muted" style={{ padding: "48px 0" }}>
           <div className="spinner-border spinner-border-sm" role="status" />
@@ -115,14 +115,14 @@ export function ProjectDetail({ projectId, onBack }: Props) {
         </div>
       )}
 
-      {/* ── Error ── */}
+      {/* -- Error -- */}
       {error && (
         <div className="alert alert-danger" style={{ fontSize: 13 }}>
           {error}
         </div>
       )}
 
-      {/* ── Content ── */}
+      {/* -- Content -- */}
       {doc && !loading && (
         <div className="row">
           <div className="col-md-8">

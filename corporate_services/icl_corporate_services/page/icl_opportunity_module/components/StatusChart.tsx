@@ -21,7 +21,7 @@ function getColor(status: string, index: number) {
   return STATUS_COLORS[status] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length];
 }
 
-// ── Donut SVG ────────────────────────────────────────────────────────────────
+// -- Donut SVG ----------------------------------------------------------------
 
 interface DonutProps {
   slices: { value: number; color: string }[];
@@ -81,7 +81,7 @@ function DonutChart({ slices, total, animated }: DonutProps) {
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
+// -- Main component ------------------------------------------------------------
 
 interface Props {
   onStatusClick: (status: string) => void;

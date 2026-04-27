@@ -23,7 +23,7 @@ export function ResponseReport({
     setSelectedDept(dept);
     onLoad(dept || undefined);
   };
-  // ── Loading ────────────────────────────────────────────────────────────
+  // -- Loading ------------------------------------------------------------
   if (loading) {
     return (
       <div
@@ -43,7 +43,7 @@ export function ResponseReport({
     );
   }
 
-  // ── Empty / not yet loaded ─────────────────────────────────────────────
+  // -- Empty / not yet loaded ---------------------------------------------
   if (!analytics) {
     return (
       <div style={{ textAlign: "center", padding: "48px 24px" }}>
@@ -75,7 +75,7 @@ export function ResponseReport({
     );
   }
 
-  // ── Derived stats ──────────────────────────────────────────────────────
+  // -- Derived stats ------------------------------------------------------
   const avgRate =
     analytics.questions.length > 0
       ? Math.round(
@@ -119,7 +119,7 @@ export function ResponseReport({
 
   return (
     <Fade>
-      {/* ── Summary stat strip ──────────────────────────────────────────── */}
+      {/* -- Summary stat strip -------------------------------------------- */}
       <div
         className="frappe-card"
         style={{
@@ -178,7 +178,7 @@ export function ResponseReport({
         ))}
       </div>
 
-      {/* ── Section heading + department filter + refresh ───────────────── */}
+      {/* -- Section heading + department filter + refresh ----------------- */}
       <div
         style={{
           display: "flex",
@@ -229,7 +229,7 @@ export function ResponseReport({
         </div>
       </div>
 
-      {/* ── Per-question cards ───────────────────────────────────────────── */}
+      {/* -- Per-question cards --------------------------------------------- */}
       {analytics.questions.length === 0 ? (
         <div
           style={{

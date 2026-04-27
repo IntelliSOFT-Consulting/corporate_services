@@ -30,6 +30,7 @@ def delete_timesheet_submission_with_linked(timesheet_submission_name):
         linked_timesheets = frappe.get_all(
             "Timesheet Submission List", 
             filters={"parent": timesheet_submission_name},
+            parent_doctype="Timesheet Submission",
             fields=["timesheet"]
         )
         
@@ -191,6 +192,7 @@ def prevent_timesheet_delete_if_linked(doc, method):
     linked_submissions = frappe.get_all(
         "Timesheet Submission List",
         filters={"timesheet": doc.name},
+        parent_doctype="Timesheet Submission",
         fields=["parent"]
     )
     

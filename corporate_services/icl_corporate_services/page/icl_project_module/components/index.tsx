@@ -77,7 +77,7 @@ function ProjectModuleApp({ page: _page }: { page: any }) {
   );
 }
 
-// ── Mount helpers ────────────────────────────────────────────────────────────
+// -- Mount helpers ------------------------------------------------------------
 
 function mount(page: any) {
   const el = document.getElementById("project-module-root");

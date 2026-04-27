@@ -23,7 +23,7 @@ export function TextResponseList({ responses }: TextResponseListProps) {
 
   return (
     <div>
-      {/* ── Response list ──────────────────────────────────────────────── */}
+      {/* -- Response list ------------------------------------------------ */}
       <div
         style={{
           border: "1px solid var(--border-color)",
@@ -57,7 +57,7 @@ export function TextResponseList({ responses }: TextResponseListProps) {
         ))}
       </div>
 
-      {/* ── Pagination ─────────────────────────────────────────────────── */}
+      {/* -- Pagination --------------------------------------------------- */}
       {pages > 1 && (
         <div
           style={{
@@ -92,7 +92,7 @@ export function TextResponseList({ responses }: TextResponseListProps) {
         </div>
       )}
 
-      {/* ── Total count (single page) ───────────────────────────────────── */}
+      {/* -- Total count (single page) ------------------------------------- */}
       {pages <= 1 && total > 0 && (
         <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
           {total} response{total !== 1 ? "s" : ""}

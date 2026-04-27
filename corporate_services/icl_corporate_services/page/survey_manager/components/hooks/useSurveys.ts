@@ -17,12 +17,12 @@ interface UseSurveysOptions {
 export function useSurveys({ addToast }: UseSurveysOptions) {
   const frappe = (globalThis as any).frappe;
 
-  // ── List state ──────────────────────────────────────────────────────────
+  // -- List state ----------------------------------------------------------
   const [surveys, setSurveys] = useState<SurveyRow[]>([]);
   const [listLoading, setListLoading] = useState(true);
   const [listError, setListError] = useState<string | null>(null);
 
-  // ── Selected doc state ───────────────────────────────────────────────────
+  // -- Selected doc state ---------------------------------------------------
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [doc, setDoc] = useState<SurveyDoc | null>(null);
   const [docLoading, setDocLoading] = useState(false);
@@ -30,14 +30,14 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
   const [dirty, setDirty] = useState(false);
   const [isNew, setIsNew] = useState(false);
 
-  // ── Analytics state ──────────────────────────────────────────────────────
+  // -- Analytics state ------------------------------------------------------
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
 
-  // ── Link copy state ──────────────────────────────────────────────────────
+  // -- Link copy state ------------------------------------------------------
   const [linkCopied, setLinkCopied] = useState(false);
 
-  // ── Derived ──────────────────────────────────────────────────────────────
+  // -- Derived --------------------------------------------------------------
   const selectedRow = useMemo(
     () => surveys.find((s) => s.name === selectedName) ?? null,
     [surveys, selectedName]
@@ -47,7 +47,7 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
   const surveysRef = useRef(surveys);
   surveysRef.current = surveys;
 
-  // ── Data fetching ────────────────────────────────────────────────────────
+  // -- Data fetching --------------------------------------------------------
 
   const loadList = async () => {
     setListLoading(true);
@@ -103,7 +103,7 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedName]);
 
-  // ── Mutations ────────────────────────────────────────────────────────────
+  // -- Mutations ------------------------------------------------------------
 
   const updateDoc = (updater: (d: SurveyDoc) => SurveyDoc) => {
     setDoc((prev) => (prev ? updater(prev) : prev));
@@ -206,7 +206,7 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
     }
   };
 
-  // ── Section / Question helpers ───────────────────────────────────────────
+  // -- Section / Question helpers -------------------------------------------
 
   const addSection = () => {
     updateDoc((d) => {
@@ -273,7 +273,7 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
     }));
   };
 
-  // ── Public URL ───────────────────────────────────────────────────────────
+  // -- Public URL -----------------------------------------------------------
 
   const publicUrl = useMemo(() => {
     if (!selectedRow?.name) return "";
@@ -289,7 +289,7 @@ export function useSurveys({ addToast }: UseSurveysOptions) {
     });
   };
 
-  // ── Select survey ────────────────────────────────────────────────────────
+  // -- Select survey --------------------------------------------------------
 
   const selectSurvey = (name: string) => {
     if (name === selectedName) return;

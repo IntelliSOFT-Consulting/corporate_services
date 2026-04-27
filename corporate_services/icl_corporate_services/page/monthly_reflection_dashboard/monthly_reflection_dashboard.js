@@ -28,7 +28,7 @@ var MRDashboard = {
     allEmployees  : [],
     page          : null,
 
-    // ── init ─────────────────────────────────────────────────────────────
+    // -- init -------------------------------------------------------------
     init: function (page) {
         this.page = page;
         $(page.body).html(this.getHTML());
@@ -45,7 +45,7 @@ var MRDashboard = {
         });
     },
 
-    // ── HTML template ─────────────────────────────────────────────────────
+    // -- HTML template -----------------------------------------------------
     getHTML: function () {
         return `
         <div id="mr-dash" class="container-fluid py-3 px-4">
@@ -172,7 +172,7 @@ var MRDashboard = {
         </div>`;
     },
 
-    // ── Build year dropdown ───────────────────────────────────────────────
+    // -- Build year dropdown -----------------------------------------------
     buildYearDropdown: function () {
         var self        = this;
         var currentYear = new Date().getFullYear();
@@ -187,7 +187,7 @@ var MRDashboard = {
         self.loadReport();
     },
 
-    // ── Load Script Report ────────────────────────────────────────────────
+    // -- Load Script Report ------------------------------------------------
     loadReport: function () {
         var self = this;
         var year = document.getElementById("mr-year-filter").value;
@@ -258,7 +258,7 @@ var MRDashboard = {
         });
     },
 
-    // ── Handle period dropdown change ─────────────────────────────────────
+    // -- Handle period dropdown change -------------------------------------
     filterPeriod: function () {
         var self   = this;
         var period = document.getElementById("mr-period-filter").value;
@@ -295,7 +295,7 @@ var MRDashboard = {
         }
     },
 
-    // ── Render stacked bar chart ──────────────────────────────────────────
+    // -- Render stacked bar chart ------------------------------------------
     renderChart: function () {
         var self      = this;
         var labels    = self.reportRows.map(function (r) { return r.month; });
@@ -365,7 +365,7 @@ var MRDashboard = {
         );
     },
 
-    // ── Render submitted + missing employees table ───────────────────────
+    // -- Render submitted + missing employees table -----------------------
     renderStatusTable: function (period) {
         var self      = this;
         var container = document.getElementById("mr-missing-table");

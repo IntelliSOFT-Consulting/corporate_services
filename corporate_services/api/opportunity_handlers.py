@@ -1,6 +1,8 @@
 import os
 
 import frappe
+from frappe import _
+from frappe.utils import get_url_to_form, nowdate
 
 
 def create_folder_for_opportunity(doc, method):
@@ -117,3 +119,68 @@ def save_bid_document_to_opportunity_folder(doc, method):
             message=f"Error in bid document save: {str(e)}\\nFull traceback: {frappe.get_traceback()}",
             title="custom_project_bid_documents",
         )
+
+
+def enforce_single_active_owner(doc, method):
+    owners = getattr(doc, "custom_opportunity_owners", None)
+    if not owners:
+        return
+
+    active_rows = [row for row in owners if row.status == "Active"]
+    if len(active_rows) <= 1:
+        return
+
+    # Keep the last added Active row active; deactivate the rest
+    last_active = active_rows[-1]
+    for row in owners:
+        if row.status == "Active" and row.name != last_active.name:
+            row.status = "Inactive"
+
+
+def notify_new_opportunity_owners(doc, method):
+    """After save: send a welcome email to any owner rows that were just added as Active."""
+    owners = getattr(doc, "custom_opportunity_owners", None)
+    if not owners:
+        return
+
+    doc_before = doc.get_doc_before_save()
+    before_users = set()
+    if doc_before:
+        for row in (doc_before.get("custom_opportunity_owners") or []):
+            before_users.add(row.get("user"))
+
+    for row in owners:
+        if row.status == "Active" and row.user and row.user not in before_users:
+            _send_owner_assignment_email(doc, row)
+
+
+def _send_owner_assignment_email(opportunity, owner_row):
+    recipient = owner_row.email or frappe.db.get_value("User", owner_row.user, "email")
+    if not recipient:
+        return
+
+    opportunity_url = get_url_to_form("Opportunity", opportunity.name)
+    display_name = owner_row.full_name or owner_row.user
+
+    message = f"""
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2 style="color: #0066cc;">Opportunity Ownership Assignment</h2>
+        <p>Dear {frappe.utils.escape_html(display_name)},</p>
+        <p>
+            You have been assigned as the <strong>owner</strong> of opportunity
+            <strong>{frappe.utils.escape_html(opportunity.name)}</strong>.
+        </p>
+        <p>
+            You can view the opportunity details
+            <a href="{opportunity_url}" style="color: #0066cc; text-decoration: none;">here</a>.
+        </p>
+        <p style="margin-top: 20px;">Best regards,<br>Opportunity Module</p>
+    </div>
+    """
+
+    frappe.sendmail(
+        recipients=[recipient],
+        subject=_("You have been assigned as owner of Opportunity {0}").format(opportunity.name),
+        message=message,
+        header=("Opportunity Ownership", "text/html"),
+    )

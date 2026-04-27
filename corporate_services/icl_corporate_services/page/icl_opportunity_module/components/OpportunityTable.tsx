@@ -74,7 +74,7 @@ export function OpportunityTable({ onOpen, externalStatusFilter, externalFromFil
 
   return (
     <div className="om-fade-in">
-      {/* ── Toolbar ── */}
+      {/* -- Toolbar -- */}
       <div className="om-toolbar">
         <div className="om-search-wrap">
           <span className="om-search-icon">
@@ -129,7 +129,7 @@ export function OpportunityTable({ onOpen, externalStatusFilter, externalFromFil
         </div>
       )}
 
-      {/* ── Table ── */}
+      {/* -- Table -- */}
       <div className="om-table-wrap">
         <table className="table table-hover om-table">
           <thead>
@@ -201,7 +201,7 @@ export function OpportunityTable({ onOpen, externalStatusFilter, externalFromFil
         </table>
       </div>
 
-      {/* ── Pagination ── */}
+      {/* -- Pagination -- */}
       {totalPages > 1 && (
         <div className="om-pagination">
           <span>

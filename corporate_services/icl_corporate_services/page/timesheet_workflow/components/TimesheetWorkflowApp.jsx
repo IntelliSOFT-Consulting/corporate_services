@@ -13,7 +13,7 @@ function TimesheetWorkflowApp() {
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // ── Initial load: role context then employee list ───────────────────────
+  // -- Initial load: role context then employee list -----------------------
   useEffect(() => {
     frappe.call({
       method: `${PAGE}.get_role_context`,
@@ -32,14 +32,14 @@ function TimesheetWorkflowApp() {
     });
   }, []);
 
-  // ── Auto-navigate employees directly to their submissions ────────────────
+  // -- Auto-navigate employees directly to their submissions ----------------
   useEffect(() => {
     if (!loading && roleContext && roleContext.role === "employee") {
       setShowAllSubmissions(true);
     }
   }, [loading, roleContext]);
 
-  // ── Route change handler ─────────────────────────────────────────────────
+  // -- Route change handler -------------------------------------------------
   useEffect(() => {
     let isHandling = false;
 
@@ -58,11 +58,9 @@ function TimesheetWorkflowApp() {
           if (route[3] === "submission" && route[4]) {
             const submissionId = decodeURIComponent(route[4]);
             const emp = employees.find((e) => e.name === employeeId || e.employee_name === employeeId);
-            if (emp) {
-              setSelectedEmployee(emp);
-              setSelectedSubmission({ name: submissionId });
-              setShowAllSubmissions(false);
-            }
+            setSelectedEmployee(emp || { name: employeeId, employee_name: employeeId });
+            setSelectedSubmission({ name: submissionId });
+            setShowAllSubmissions(false);
           } else {
             const emp = employees.find((e) => e.name === employeeId || e.employee_name === employeeId);
             if (emp) {
@@ -80,13 +78,10 @@ function TimesheetWorkflowApp() {
           }
         }
       } else if (route[0] === "timesheet_workflow" && route.length === 1) {
-        if (roleContext && roleContext.role === "employee") {
-          setShowAllSubmissions(true); // employees stay on their submissions
-        } else {
-          setShowAllSubmissions(false);
-          setSelectedEmployee(null);
-          setSelectedSubmission(null);
-        }
+        // Default landing view for this page is all submissions.
+        setShowAllSubmissions(true);
+        setSelectedEmployee(null);
+        setSelectedSubmission(null);
       }
 
       setTimeout(() => { isHandling = false; }, 100);
@@ -97,7 +92,7 @@ function TimesheetWorkflowApp() {
     return () => { frappe.router.off("change", handleRouteChange); };
   }, [employees, loading, roleContext]);
 
-  // ── Filtered employees for the directory search ──────────────────────────
+  // -- Filtered employees for the directory search --------------------------
   const filteredEmployees = useMemo(() => {
     if (!searchQuery.trim()) return employees;
     const q = searchQuery.toLowerCase();
@@ -110,7 +105,7 @@ function TimesheetWorkflowApp() {
     );
   }, [employees, searchQuery]);
 
-  // ── Navigation helpers ───────────────────────────────────────────────────
+  // -- Navigation helpers ---------------------------------------------------
   const navigateToAllSubmissions = () => frappe.set_route("timesheet_workflow", "all-submissions");
   const navigateToEmployeeSubmissions = (employee) =>
     frappe.set_route("timesheet_workflow", "employee", employee.name);
@@ -124,7 +119,7 @@ function TimesheetWorkflowApp() {
     }
   };
 
-  // ── Loading ──────────────────────────────────────────────────────────────
+  // -- Loading --------------------------------------------------------------
   if (loading || !roleContext) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 300 }}>
@@ -138,8 +133,8 @@ function TimesheetWorkflowApp() {
   const isEmployee = roleContext.role === "employee";
   const isHrFinance = roleContext.role === "hr_finance";
 
-  // ── Submission detail view ───────────────────────────────────────────────
-  if (selectedSubmission && selectedEmployee) {
+  // -- Submission detail view -----------------------------------------------
+  if (selectedSubmission) {
     return (
       <SubmissionDetails
         submission={selectedSubmission}
@@ -149,7 +144,7 @@ function TimesheetWorkflowApp() {
     );
   }
 
-  // ── All-submissions view (also the default view for employees) ───────────
+  // -- All-submissions view (also the default view for employees) -----------
   if (showAllSubmissions) {
     return (
       <TimesheetSubmissions
@@ -171,7 +166,7 @@ function TimesheetWorkflowApp() {
     );
   }
 
-  // ── Employee-specific submissions view ───────────────────────────────────
+  // -- Employee-specific submissions view -----------------------------------
   if (selectedEmployee) {
     return (
       <TimesheetSubmissions
@@ -185,7 +180,7 @@ function TimesheetWorkflowApp() {
     );
   }
 
-  // ── Employee directory (home view - supervisor / HR / Finance only) ───────
+  // -- Employee directory (home view - supervisor / HR / Finance only) -------
   return (
     <div className="container py-4">
 

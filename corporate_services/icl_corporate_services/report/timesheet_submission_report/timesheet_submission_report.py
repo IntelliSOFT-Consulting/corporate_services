@@ -269,7 +269,7 @@ def build_conditions(filters, ctx):
     conditions = []
     params = []
 
-    # ── Role-based scope ────────────────────────────────────────────────────
+    # -- Role-based scope ----------------------------------------------------
     if ctx["role"] == "employee":
         if ctx.get("employee"):
             conditions.append("ts.employee = %s")
@@ -283,7 +283,7 @@ def build_conditions(filters, ctx):
         conditions.append(f"ts.employee IN ({placeholders})")
         params.extend(allowed)
 
-    # ── Explicit filter fields ───────────────────────────────────────────────
+    # -- Explicit filter fields -----------------------------------------------
     if filters.get("employee"):
         conditions.append("ts.employee = %s")
         params.append(filters["employee"])

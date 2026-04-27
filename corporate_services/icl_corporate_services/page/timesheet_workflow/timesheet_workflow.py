@@ -1,6 +1,8 @@
 import frappe
 from frappe import _
 from frappe.utils import today, get_first_day, get_last_day
+from frappe.desk.form.load import get_comments
+from frappe.model.workflow import apply_workflow, get_transitions
 
 
 # ---------------------------------------------------------------------------
@@ -228,17 +230,7 @@ def get_timesheet_submission_details(submission_name):
     Get detailed breakdown of a specific timesheet submission.
     Access-controlled: employees can only see their own.
     """
-    ctx = _get_role_context()
-    submission = frappe.get_doc("Timesheet Submission", submission_name)
-
-    # Access control
-    if ctx["role"] == "employee":
-        if not ctx.get("employee") or ctx["employee"]["name"] != submission.employee:
-            frappe.throw(_("Not permitted"), frappe.PermissionError)
-    elif ctx["role"] == "supervisor":
-        allowed = {ctx["employee"]["name"]} | {r["name"] for r in ctx["reportees"]}
-        if submission.employee not in allowed:
-            frappe.throw(_("Not permitted"), frappe.PermissionError)
+    submission = _get_submission_with_access(submission_name)
 
     if not getattr(submission, "timesheet_per_project", None):
         return {
@@ -262,39 +254,88 @@ def get_timesheet_submission_details(submission_name):
     projects = {}
     tasks = {}
     timesheet_names = {row.get("timesheet") for row in submission.timesheet_per_project if row.get("timesheet")}
+    project_ids = set()
+    task_ids = set()
 
     for timesheet_name in timesheet_names:
         try:
             timesheet_doc = frappe.get_doc("Timesheet", timesheet_name)
             if hasattr(timesheet_doc, "time_logs") and timesheet_doc.time_logs:
                 for time_log in timesheet_doc.time_logs:
+                    if time_log.get("project"):
+                        project_ids.add(time_log.get("project"))
+                    if time_log.get("custom_tasks"):
+                        task_ids.add(time_log.get("custom_tasks"))
+        except Exception as exc:
+            frappe.log_error(f"Error fetching timesheet {timesheet_name}: {exc}")
+
+    project_meta = {
+        row.name: row
+        for row in frappe.get_all(
+            "Project",
+            filters={"name": ["in", list(project_ids)]} if project_ids else {"name": ["=", "__none__"]},
+            fields=["name", "project_name"],
+        )
+    }
+    task_meta = {
+        row.name: row
+        for row in frappe.get_all(
+            "Task",
+            filters={"name": ["in", list(task_ids)]} if task_ids else {"name": ["=", "__none__"]},
+            fields=["name", "subject"],
+        )
+    }
+
+    for timesheet_name in timesheet_names:
+        try:
+            timesheet_doc = frappe.get_doc("Timesheet", timesheet_name)
+            if hasattr(timesheet_doc, "time_logs") and timesheet_doc.time_logs:
+                for time_log in timesheet_doc.time_logs:
+                    project = time_log.get("project") or "No Project"
+                    project_name = project_meta.get(project, {}).get("project_name") or project
+                    task = time_log.get("custom_tasks") or "No Task"
+                    task_name = task_meta.get(task, {}).get("subject") or task
                     ts_entry = {
                         "parent": timesheet_name,
                         "date": time_log.get("custom_date"),
                         "hours": time_log.get("hours") or 0,
                         "activity_type": time_log.get("activity_type"),
-                        "project": time_log.get("project"),
-                        "task": time_log.get("custom_tasks"),
+                        "project": project,
+                        "project_name": project_name,
+                        "project_label": f"{project} - {project_name}" if project_name and project_name != project else project,
+                        "task": task,
+                        "task_name": task_name,
                     }
                     timesheets.append(ts_entry)
 
-                    project = time_log.get("project") or "No Project"
-                    projects.setdefault(project, {"project": project, "hours": 0, "tasks": set(), "entries": 0})
+                    projects.setdefault(
+                        project,
+                        {"project": project, "project_name": project_name, "hours": 0, "tasks": set(), "entries": 0},
+                    )
                     projects[project]["hours"] += time_log.get("hours") or 0
-                    if time_log.get("custom_tasks"):
-                        projects[project]["tasks"].add(time_log.get("custom_tasks"))
+                    if task:
+                        projects[project]["tasks"].add(task)
                     projects[project]["entries"] += 1
 
-                    task = time_log.get("custom_tasks") or "No Task"
                     task_key = f"{task}|{project}"
-                    tasks.setdefault(task_key, {"task": task, "project": project, "hours": 0, "entries": 0})
+                    tasks.setdefault(
+                        task_key,
+                        {
+                            "task": task,
+                            "task_name": task_name,
+                            "project": project,
+                            "project_name": project_name,
+                            "hours": 0,
+                            "entries": 0,
+                        },
+                    )
                     tasks[task_key]["hours"] += time_log.get("hours") or 0
                     tasks[task_key]["entries"] += 1
         except Exception as exc:
             frappe.log_error(f"Error fetching timesheet {timesheet_name}: {exc}")
 
     project_list = sorted(
-        [{"project": k, "hours": v["hours"], "task_count": len(v["tasks"]), "entries": v["entries"]}
+        [{"project": k, "project_name": v["project_name"], "hours": v["hours"], "task_count": len(v["tasks"]), "entries": v["entries"]}
          for k, v in projects.items()],
         key=lambda x: x["hours"],
         reverse=True,
@@ -316,6 +357,48 @@ def get_timesheet_submission_details(submission_name):
         "timesheets": timesheets,
         "total_entries": len(timesheets),
     }
+
+
+@frappe.whitelist()
+def get_timesheet_submission_comments(submission_name):
+    submission = _get_submission_with_access(submission_name)
+    return get_comments("Timesheet Submission", submission.name, "Comment")
+
+
+@frappe.whitelist()
+def add_timesheet_submission_comment(submission_name, comment):
+    submission = _get_submission_with_access(submission_name)
+    comment_text = (comment or "").strip()
+    if not comment_text:
+        frappe.throw(_("Comment is required"))
+
+    submission.add_comment("Comment", comment_text)
+    return get_comments("Timesheet Submission", submission.name, "Comment")
+
+
+@frappe.whitelist()
+def get_timesheet_submission_workflow_actions(submission_name):
+    submission = _get_submission_with_access(submission_name)
+    try:
+        transitions = get_transitions(submission)
+    except Exception:
+        return []
+
+    return [
+        {
+            "action": t.get("action"),
+            "next_state": t.get("next_state"),
+            "allowed": t.get("allowed"),
+        }
+        for t in transitions
+    ]
+
+
+@frappe.whitelist()
+def apply_timesheet_submission_workflow_action(submission_name, action):
+    submission = _get_submission_with_access(submission_name)
+    updated = apply_workflow(submission.as_dict(), action)
+    return updated.as_dict() if hasattr(updated, "as_dict") else updated
 
 
 # ---------------------------------------------------------------------------
@@ -387,3 +470,20 @@ def get_current_employee():
         return employee
     full_name = frappe.db.get_value("User", user, "full_name")
     return {"name": user, "employee_name": full_name or user}
+
+def _assert_timesheet_submission_access(submission, ctx=None):
+    ctx = ctx or _get_role_context()
+
+    if ctx["role"] == "employee":
+        if not ctx.get("employee") or ctx["employee"]["name"] != submission.employee:
+            frappe.throw(_("Not permitted"), frappe.PermissionError)
+    elif ctx["role"] == "supervisor":
+        allowed = {ctx["employee"]["name"]} | {r["name"] for r in ctx["reportees"]}
+        if submission.employee not in allowed:
+            frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+
+def _get_submission_with_access(submission_name):
+    submission = frappe.get_doc("Timesheet Submission", submission_name)
+    _assert_timesheet_submission_access(submission)
+    return submission

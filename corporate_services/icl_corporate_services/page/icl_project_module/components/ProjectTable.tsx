@@ -75,7 +75,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
 
   return (
     <div className="pm-fade-in">
-      {/* ── Toolbar ── */}
+      {/* -- Toolbar -- */}
       <div className="pm-toolbar">
         <div className="pm-search-wrap">
           <span className="pm-search-icon">
@@ -153,7 +153,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
         />
       </div>
 
-      {/* ── Table ── */}
+      {/* -- Table -- */}
       <div className="pm-table-wrap">
         <table className="table table-hover pm-table">
           <thead>
@@ -246,7 +246,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
         </table>
       </div>
 
-      {/* ── Pagination ── */}
+      {/* -- Pagination -- */}
       {totalPages > 1 && (
         <div className="pm-pagination">
           <span>

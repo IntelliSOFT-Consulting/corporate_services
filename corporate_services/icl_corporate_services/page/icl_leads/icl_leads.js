@@ -5,14 +5,14 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     single_column: false,
   });
 
-  // ── Add refresh button to page toolbar ──────────────────────────────────
+  // -- Add refresh button to page toolbar ----------------------------------
   page.add_button(__("Refresh"), () => loadDashboard(), { icon: "refresh" });
 
-  // ── Inject skeleton HTML ─────────────────────────────────────────────────
+  // -- Inject skeleton HTML -------------------------------------------------
   $(page.main).html(`
     <div class="container-fluid p-4" id="icl-leads-dashboard">
 
-      <!-- ── Summary Cards ─────────────────────────────────────────────── -->
+      <!-- -- Summary Cards ----------------------------------------------- -->
       <div class="row mb-4" id="icl-stat-cards">
 
         <div class="col-xl col-md-4 col-sm-6 mb-3">
@@ -128,7 +128,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       </div><!-- /.row#icl-stat-cards -->
 
       <div class="row g-3">
-        <!-- ── Main Content: Charts + Table ────────────────────────────── -->
+        <!-- -- Main Content: Charts + Table ------------------------------ -->
         <div class="col-12">
           <div class="row g-3 mb-3">
             <div class="col-md-6">
@@ -149,7 +149,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
             </div>
           </div>
 
-          <!-- ── Leads Table ───────────────────────────────────────────── -->
+          <!-- -- Leads Table --------------------------------------------- -->
           <div class="card shadow-sm border-0">
             <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
               <h6 class="mb-0 font-weight-bold">All Leads</h6>
@@ -204,7 +204,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     </div><!-- /.container-fluid -->
   `);
 
-  // ── Use default Frappe aside (same placement style as Opportunity module)
+  // -- Use default Frappe aside (same placement style as Opportunity module)
   $(page.sidebar).empty().append(`
     <div class="card shadow-sm border-0 icl-sticky-card">
       <div class="card-header bg-white border-bottom">
@@ -230,7 +230,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     </div>
   `);
 
-  // ── Inline styles (skeleton loader + badge tweaks) ───────────────────────
+  // -- Inline styles (skeleton loader + badge tweaks) -----------------------
   if (!document.getElementById("icl-leads-style")) {
     const style = document.createElement("style");
     style.id = "icl-leads-style";
@@ -329,7 +329,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     document.head.appendChild(style);
   }
 
-  // ── Data layer ───────────────────────────────────────────────────────────
+  // -- Data layer -----------------------------------------------------------
   let allLeads = [];
   let leadOppMapCache = {};
   let selectedLead = null;
@@ -344,7 +344,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
 
   async function loadDashboard() {
     try {
-      // ── 1. Fetch all CRM Leads ─────────────────────────────────────────
+      // -- 1. Fetch all CRM Leads -----------------------------------------
       const leadRes = await frappe.call({
         method: "frappe.client.get_list",
         args: {
@@ -360,7 +360,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       });
       allLeads = leadRes.message || [];
 
-      // ── 2. Fetch linked opportunities ──────────────────────────────────
+      // -- 2. Fetch linked opportunities ----------------------------------
       //    Opportunity uses `party_name` (Lead name) when `opportunity_from`
       //    is "Lead". We filter on that to get only lead-linked opportunities.
       let oppLinks = [];
@@ -388,7 +388,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       });
       leadOppMapCache = leadOppMap;
 
-      // ── 3. Compute stats ───────────────────────────────────────────────
+      // -- 3. Compute stats -----------------------------------------------
       const totalLeads = allLeads.length;
 
       // All unique opportunities linked to any lead
@@ -409,7 +409,7 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
         ACTIVE_OPP_STATUSES.includes(o.status)
       ).length;
 
-      // ── 4. Render stat cards ───────────────────────────────────────────
+      // -- 4. Render stat cards -------------------------------------------
       const fmt = (n) => Number(n).toLocaleString();
       $("#stat-total-leads").text(fmt(totalLeads));
       $("#stat-total-opportunities").text(fmt(totalOpportunities));
@@ -417,11 +417,11 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
       $("#stat-leads-active-opps").text(fmt(leadsWithActiveOpps));
       $("#stat-active-linked-opps").text(fmt(activeLinkedOpps));
 
-      // ── 5. Render sidebar, charts and table ───────────────────────────
+      // -- 5. Render sidebar, charts and table ---------------------------
       renderSidebar(allLeads, leadOppMap);
       applyTableFilter();
 
-      // ── 6. Live search/events ──────────────────────────────────────────
+      // -- 6. Live search/events ------------------------------------------
       $("#icl-lead-search")
         .off("input")
         .on("input", function () {
@@ -680,6 +680,6 @@ frappe.pages["icl-leads"].on_page_load = function (wrapper) {
     });
   }
 
-  // ── Kick off ─────────────────────────────────────────────────────────────
+  // -- Kick off -------------------------------------------------------------
   loadDashboard();
 };

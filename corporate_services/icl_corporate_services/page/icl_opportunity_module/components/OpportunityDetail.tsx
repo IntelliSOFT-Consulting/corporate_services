@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useOpportunityDetail } from "./hooks/useOpportunityDetail";
 import { WorkflowStatus } from "./WorkflowStatus";
 import { FileBrowser } from "./FileBrowser";
+import { ChecklistTab } from "./ChecklistTab";
+import { CreateChecklistForm } from "./CreateChecklistForm";
 
 const STATUS_INDICATOR: Record<string, string> = {
   Open: "blue",
@@ -52,6 +54,21 @@ function formatDate(date?: string) {
   });
 }
 
+function formatDateTime(date?: string) {
+  if (!date) return null;
+  return new Date(date).toLocaleString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function normalizeStatus(value?: string) {
+  return (value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
 interface Props {
   opportunityId: string;
   onBack: () => void;
@@ -62,14 +79,17 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
   const frappe = (globalThis as any).frappe;
   const { doc, loading, error, reload } = useOpportunityDetail(opportunityId);
   const [awarding, setAwarding] = useState(false);
+  const [sendingReminder, setSendingReminder] = useState(false);
   const [awardedProject, setAwardedProject] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "finance">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "finance" | "checklist">("overview");
+  const [subView, setSubView] = useState<"create-checklist" | null>(null);
 
   const isAwarded = doc?.custom_bid_status === "Awarded";
   const linkedProject = awardedProject || doc?.linked_project || null;
   const userRoles: string[] = frappe?.boot?.user?.roles || [];
   const canViewFinanceTab =
     Boolean(frappe?.user?.has_role?.("Finance")) || userRoles.includes("Finance");
+  const canSendDueReminder = normalizeStatus(doc?.custom_bid_status) === "inprogress";
 
   async function handleAward() {
     if (!confirm(`Award opportunity "${opportunityId}" and create a project?`)) return;
@@ -142,9 +162,47 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
     );
   }
 
+  async function handleSendReminder() {
+    if (!doc) return;
+    setSendingReminder(true);
+    try {
+      await (globalThis as any).frappe.call({
+        method: "corporate_services.api.notification.opportunity.v1.send_manual_due_reminder",
+        args: { opportunity_name: doc.name },
+      });
+      reload();
+      (globalThis as any).frappe?.show_alert(
+        { message: "Due reminder sent to the Opportunity Owner.", indicator: "green" },
+        5
+      );
+    } catch (e: any) {
+      (globalThis as any).frappe?.msgprint({
+        title: "Reminder Failed",
+        message: e?.message || "Unable to send due reminder.",
+        indicator: "red",
+      });
+    } finally {
+      setSendingReminder(false);
+    }
+  }
+
+  if (subView === "create-checklist") {
+    return (
+      <CreateChecklistForm
+        opportunityId={opportunityId}
+        onBack={() => setSubView(null)}
+        onCreated={() => {
+          setSubView(null);
+          setActiveTab("checklist");
+          reload();
+        }}
+      />
+    );
+  }
+
   return (
     <div className="om-fade-in">
-      {/* ── Header ── */}
+      {/* -- Header -- */}
       <div className="om-detail-header">
         <button type="button" className="om-detail-back" onClick={onBack} title="Back to list">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -198,7 +256,7 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
         </div>
       </div>
 
-      {/* ── Loading ── */}
+      {/* -- Loading -- */}
       {loading && (
         <div className="text-center text-muted" style={{ padding: "48px 0" }}>
           <div className="spinner-border spinner-border-sm" role="status" />
@@ -206,14 +264,14 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
         </div>
       )}
 
-      {/* ── Error ── */}
+      {/* -- Error -- */}
       {error && (
         <div className="alert alert-danger" style={{ fontSize: 13 }}>
           {error}
         </div>
       )}
 
-      {/* ── Content ── */}
+      {/* -- Content -- */}
       {doc && !loading && (
         <div className="row">
           <div className="col-md-8">
@@ -238,6 +296,13 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
                     Finance
                   </button>
                 )}
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "checklist" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("checklist")}
+                >
+                  Task Checklist
+                </button>
               </div>
             </div>
 
@@ -271,6 +336,13 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
               </div>
             )}
               </>
+            )}
+
+            {activeTab === "checklist" && (
+              <ChecklistTab
+                opportunityId={opportunityId}
+                onCreateChecklist={() => setSubView("create-checklist")}
+              />
             )}
 
             {canViewFinanceTab && activeTab === "finance" && (
@@ -327,6 +399,55 @@ export function OpportunityDetail({ opportunityId, onBack }: Props) {
                 <Field label="Created By" value={doc.owner} />
                 <Field label="Last Modified" value={formatDate(doc.modified)} />
               </div>
+            </div>
+            <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+              <h6 className="om-section-title">Closing Date</h6>
+              <div className="om-field-grid" style={{ gridTemplateColumns: "1fr" }}>
+                <Field label="Expected Closing(Due Date)" value={formatDate(doc.expected_closing)} />
+                <button
+                  type="button"
+                  className="btn btn-sm btn-default"
+                  onClick={handleSendReminder}
+                  disabled={sendingReminder || !canSendDueReminder}
+                >
+                  {sendingReminder ? "Sending…" : "Send Due Reminder to Owner"}
+                </button>
+                {!canSendDueReminder && (
+                  <small className="text-muted">
+                    Reminders can only be sent when bid status is In-progress.
+                  </small>
+                )}
+              </div>
+            </div>
+
+            <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+              <h6 className="om-section-title">Reminder Activity Log</h6>
+              {doc.reminder_activities && doc.reminder_activities.length > 0 ? (
+                <div style={{ display: "grid", gap: 10 }}>
+                  {doc.reminder_activities.map((activity) => (
+                    <div
+                      key={activity.name}
+                      style={{
+                        border: "1px solid var(--border-color)",
+                        borderRadius: 8,
+                        padding: "8px 10px",
+                      }}
+                    >
+                      <div style={{ fontSize: 13 }}>
+                        {activity.content || "Opportunity Due Reminder sent."}
+                      </div>
+                      <div className="text-muted" style={{ fontSize: 12, marginTop: 4 }}>
+                        {formatDateTime(activity.creation) || "-"}
+                        {activity.owner ? ` • ${activity.owner}` : ""}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-muted" style={{ fontSize: 13 }}>
+                  No reminder activity yet.
+                </div>
+              )}
             </div>
 
             {(doc.industry || doc.market_segment || doc.no_of_employees || doc.annual_revenue) && (

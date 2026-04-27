@@ -69,7 +69,7 @@ export function SurveyDetailPanel({
 
   const hasSubmissions = (selectedRow?.total_submissions ?? 0) > 0;
 
-  // ── Empty state ──────────────────────────────────────────────────────────
+  // -- Empty state ----------------------------------------------------------
   if (!doc && !docLoading) {
     return (
       <div
@@ -94,7 +94,7 @@ export function SurveyDetailPanel({
     );
   }
 
-  // ── Loading spinner ──────────────────────────────────────────────────────
+  // -- Loading spinner ------------------------------------------------------
   if (docLoading && !doc) {
     return (
       <div
@@ -116,7 +116,7 @@ export function SurveyDetailPanel({
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
 
-      {/* ── Page header ───────────────────────────────────────────────────── */}
+      {/* -- Page header ----------------------------------------------------- */}
       <div
         style={{
           background: "var(--card-bg)",
@@ -226,7 +226,7 @@ export function SurveyDetailPanel({
           </div>
         </div>
 
-        {/* ── Tabs ──────────────────────────────────────────────────────── */}
+        {/* -- Tabs -------------------------------------------------------- */}
         <div className="form-tabs-list" style={{ display: "flex", gap: 0, marginBottom: -1 }}>
           <button
             type="button"
@@ -275,7 +275,7 @@ export function SurveyDetailPanel({
         </div>
       </div>
 
-      {/* ── Tab content ───────────────────────────────────────────────────── */}
+      {/* -- Tab content ----------------------------------------------------- */}
       <div
         style={{
           flex: 1,

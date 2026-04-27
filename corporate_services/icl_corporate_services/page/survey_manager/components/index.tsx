@@ -17,7 +17,7 @@ declare global {
 }
 
 function SurveyManagerApp({ page: _page }: { page: any }) {
-  // ── Toast state (lifted to root so useSurveys can push toasts) ──────────
+  // -- Toast state (lifted to root so useSurveys can push toasts) ----------
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const addToast = (message: string, type: ToastMessage["type"]) => {
@@ -29,7 +29,7 @@ function SurveyManagerApp({ page: _page }: { page: any }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  // ── Central surveys hook ─────────────────────────────────────────────────
+  // -- Central surveys hook -------------------------------------------------
   const {
     surveys,
     listLoading,
@@ -113,7 +113,7 @@ function SurveyManagerApp({ page: _page }: { page: any }) {
   );
 }
 
-// ── Mount helpers ───────────────────────────────────────────────────────────
+// -- Mount helpers -----------------------------------------------------------
 
 function mount(page: any) {
   const el = document.getElementById("survey-manager-root");

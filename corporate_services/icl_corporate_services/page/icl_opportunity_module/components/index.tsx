@@ -110,7 +110,7 @@ function OpportunityModuleApp({ page: _page }: { page: any }) {
   );
 }
 
-// ── Mount helpers ────────────────────────────────────────────────────────────
+// -- Mount helpers ------------------------------------------------------------
 
 function mount(page: any) {
   const el = document.getElementById("opportunity-module-root");

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const CSS = `
-/* ── ICL Opportunity Module styles ───────────────────────────── */
+/* -- ICL Opportunity Module styles ----------------------------- */
 
 .om-app-wrap {
   padding: 0 4px;
@@ -169,7 +169,7 @@ const CSS = `
   opacity: 0.4;
 }
 
-/* ── Frappe native sidebar (portal target: #opportunity-sidebar-root) ── */
+/* -- Frappe native sidebar (portal target: #opportunity-sidebar-root) -- */
 .om-page-sidebar {
   display: flex;
   flex-direction: column;
@@ -254,7 +254,7 @@ const CSS = `
   color: var(--text-muted, #adb5bd);
 }
 
-/* ── Workflow state bar chart ── */
+/* -- Workflow state bar chart -- */
 .om-wf-bar-list {
   display: flex;
   flex-direction: column;
@@ -313,7 +313,7 @@ const CSS = `
   transition: width 0.5s ease;
 }
 
-/* ── Workflow stepper ── */
+/* -- Workflow stepper -- */
 .om-workflow-card {
   padding: 16px 20px;
   margin-bottom: 16px;
@@ -379,7 +379,7 @@ const CSS = `
   transition: color 0.25s ease;
 }
 
-/* ── Charts row ── */
+/* -- Charts row -- */
 .om-charts-row {
   display: flex;
   gap: 16px;
@@ -393,7 +393,7 @@ const CSS = `
   margin-bottom: 0;
 }
 
-/* ── Status chart ── */
+/* -- Status chart -- */
 .om-chart-card {
   padding: 16px 20px;
   margin-bottom: 16px;
@@ -510,7 +510,7 @@ const CSS = `
   transition: width 0.5s ease;
 }
 
-/* ── Detail view ── */
+/* -- Detail view -- */
 .om-detail-header {
   display: flex;
   align-items: center;
@@ -592,7 +592,7 @@ const CSS = `
   color: var(--text-muted, #adb5bd);
 }
 
-/* ── File Browser ── */
+/* -- File Browser -- */
 .fb-root {
   font-size: 13px;
 }

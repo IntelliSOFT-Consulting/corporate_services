@@ -66,11 +66,23 @@ def generate_message(doc, approver_employee_name, employee_name, email_type):
     return messages[email_type]
 
 
+def _get_active_owner_user(doc):
+    """Return the User ID of the currently Active owner from the child table,
+    falling back to the legacy opportunity_owner field."""
+    if getattr(doc, "custom_opportunity_owners", None):
+        for row in reversed(doc.custom_opportunity_owners):
+            if row.status == "Active" and row.user:
+                return row.user
+    return doc.get("opportunity_owner")
+
+
 def alert(doc, method):
     if doc.workflow_state in [
         "Submitted to CEO", "Approved by CEO", "Rejected by CEO"
     ]:
-        employee_id = doc.opportunity_owner
+        employee_id = _get_active_owner_user(doc)
+        if not employee_id:
+            return
         user = frappe.get_doc("User", employee_id)
 
         linked_employee = frappe.get_all(

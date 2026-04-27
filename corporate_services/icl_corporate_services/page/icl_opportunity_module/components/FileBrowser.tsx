@@ -150,7 +150,7 @@ export function FileBrowser({ rootFolder, opportunityName }: Props) {
     setBreadcrumb((prev) => prev.slice(0, index + 1));
   }
 
-  // ── New folder ──────────────────────────────────────────────────────────────
+  // -- New folder --------------------------------------------------------------
 
   async function handleCreateFolder() {
     if (!newFolderName.trim()) return;
@@ -179,7 +179,7 @@ export function FileBrowser({ rootFolder, opportunityName }: Props) {
     if (e.key === "Escape") { setCreating(false); setNewFolderName(""); }
   }
 
-  // ── Upload ──────────────────────────────────────────────────────────────────
+  // -- Upload ------------------------------------------------------------------
 
   async function handleFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -219,7 +219,7 @@ export function FileBrowser({ rootFolder, opportunityName }: Props) {
     setUploading((prev) => prev.filter((u) => u.id !== id));
   }
 
-  // ── Drag & drop ─────────────────────────────────────────────────────────────
+  // -- Drag & drop -------------------------------------------------------------
 
   const [dragOver, setDragOver] = useState(false);
 
@@ -266,7 +266,7 @@ export function FileBrowser({ rootFolder, opportunityName }: Props) {
     loadContents(currentFolder.name);
   }
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // -- Render ------------------------------------------------------------------
 
   const folders = items.filter((i) => i.is_folder);
   const files = items.filter((i) => !i.is_folder);

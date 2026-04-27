@@ -31,7 +31,7 @@ export function SectionEditor({
       className="frappe-card"
       style={{ overflow: "hidden", padding: 0 }}
     >
-      {/* ── Section header ─────────────────────────────────────────────── */}
+      {/* -- Section header ----------------------------------------------- */}
       <div
         style={{
           display: "flex",
@@ -139,7 +139,7 @@ export function SectionEditor({
         </div>
       </div>
 
-      {/* ── Questions body ─────────────────────────────────────────────── */}
+      {/* -- Questions body ----------------------------------------------- */}
       {open && (
         <div style={{ padding: 12, background: "var(--card-bg)" }}>
           {section.questions.length === 0 ? (

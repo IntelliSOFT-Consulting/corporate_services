@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const CSS = `
-/* ── Survey Manager custom styles ───────────────────────────── */
+/* -- Survey Manager custom styles ----------------------------- */
 
 /* Survey card hover lift */
 .sm-card {

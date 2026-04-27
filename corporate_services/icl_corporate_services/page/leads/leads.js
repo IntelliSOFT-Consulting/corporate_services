@@ -47,7 +47,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 		}
 	</style>`).appendTo('head');
 
-	// ── Page HTML ────────────────────────────────────────────────
+	// -- Page HTML ------------------------------------------------
 	$(page.body).html(`
 		<div class="container-fluid py-4">
 
@@ -118,7 +118,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 
 	let all_data = [];
 
-	// ── Status badge map ─────────────────────────────────────────
+	// -- Status badge map -----------------------------------------
 	const badge_map = {
 		'Open':            'text-bg-primary',
 		'Replied':         'text-bg-info',
@@ -128,7 +128,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 		'Junk':            'text-bg-danger'
 	};
 
-	// ── Render Table ─────────────────────────────────────────────
+	// -- Render Table ---------------------------------------------
 	function render_table(data) {
 		$('#leads-count').text(data.length);
 
@@ -225,7 +225,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 		});
 	}
 
-	// ── Update Stats ─────────────────────────────────────────────
+	// -- Update Stats ---------------------------------------------
 	function update_stats(data) {
 		$('#stat-total').text(data.length);
 		$('#stat-open').text(data.filter(d => d.status === 'Open').length);
@@ -233,7 +233,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 		$('#stat-opportunity').text(data.filter(d => d.status === 'Opportunity').length);
 	}
 
-	// ── Live Search ──────────────────────────────────────────────
+	// -- Live Search ----------------------------------------------
 	$(page.body).on('input', '#leads-search', function() {
 		let q = $(this).val().toLowerCase();
 		let filtered = all_data.filter(d =>
@@ -248,7 +248,7 @@ frappe.pages['leads'].on_page_load = function(wrapper) {
 		render_table(filtered);
 	});
 
-	// ── Fetch Data ───────────────────────────────────────────────
+	// -- Fetch Data -----------------------------------------------
 	function load_leads() {
 		$('#leads-table-container').html(`
 			<div class="text-center text-muted py-5">
