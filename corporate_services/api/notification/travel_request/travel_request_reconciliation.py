@@ -4,7 +4,6 @@ from corporate_services.api.helpers.print_formats import get_default_print_forma
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
-    get_supervisor_contact,
 )
 
 def send_email(recipients, subject, message, pdf_content, doc_name):
@@ -26,18 +25,13 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
 def generate_message(doc, employee_name, email_type, supervisor_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
-        "supervisor_update": """
-            Dear {},<br><br>
-            {}, has submitted the Travel Request Reconciliation, for the recent travel. <br><br> Thank you.
-        """.format(supervisor_name, employee_name),
-
         "submitted_to_finance": """
             Dear Finance,<br><br>
-            {}</b> Travel Request Reconciliation submitted by <b>{}</b> has been submitted to Finance for further review and approval. You can view the details by clicking <a href="{}">here</a>.<br><br>
+            Travel Request Reconciliation has been submitted by <b>{}</b> to Finance for further review and approval. You can view the details by clicking <a href="{}">here</a>.<br><br>
             Thank you for your prompt attention.<br><br>
             Best regards,<br>
             ERPNext Travel Module.
-        """.format(employee_name, employee_name, doc.doctype, doctype_url),
+        """.format(employee_name, doctype_url),
 
         "finance_approved": """
             Dear {},<br><br>
@@ -59,11 +53,6 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
             Kind regards,<br>
             Finance Department
         """.format(employee_name, doc.doctype, doctype_url),
-
-        "supervisor": """
-            Dear {},<br><br>
-            {}, has submitted the Travel Request Reconciliation, for the recent travel. <br><br> Thank you.
-        """.format(supervisor_name, employee_name)
     }
     return messages[email_type]
 
@@ -80,10 +69,6 @@ def alert(doc, method):
         
         employee_email = employee.company_email or employee.personal_email
 
-        supervisor_contact = get_supervisor_contact(employee)
-        supervisor_email = supervisor_contact.email if supervisor_contact else None
-        supervisor_name = supervisor_contact.name if supervisor_contact else None
-        
         finance_team_emails = get_finance_team_emails()
         hr_manager_emails = get_hr_manager_emails()
 
@@ -102,16 +87,6 @@ def alert(doc, method):
                 doc_name=doc.name
             )
 
-            if supervisor_email:
-                message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name)
-                send_email(
-                    recipients=[supervisor_email],
-                    subject=frappe._('Submission of Travel Request Reconciliation for {}'.format(employee.employee_name)),
-                    message=message_to_supervisor,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
-                )
-       
         elif doc.workflow_state == "Approved by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "finance_approved")
             send_email(

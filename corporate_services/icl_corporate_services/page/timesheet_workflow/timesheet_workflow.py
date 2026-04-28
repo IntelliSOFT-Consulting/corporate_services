@@ -51,6 +51,23 @@ def get_role_context():
 
 
 # ---------------------------------------------------------------------------
+# Review access check
+# ---------------------------------------------------------------------------
+
+@frappe.whitelist()
+def can_review_submission(submission_name):
+    """Return True if the current user may review the given submission."""
+    ctx = _get_role_context()
+    if ctx["role"] == "hr_finance":
+        return True
+    if ctx["role"] == "supervisor":
+        emp_id = frappe.db.get_value("Timesheet Submission", submission_name, "employee")
+        allowed = {ctx["employee"]["name"]} | {r["name"] for r in ctx["reportees"]}
+        return emp_id in allowed
+    return False
+
+
+# ---------------------------------------------------------------------------
 # Employee directory
 # ---------------------------------------------------------------------------
 
@@ -73,7 +90,14 @@ def get_all_employees():
         )
 
     if ctx["role"] == "supervisor":
-        return sorted(ctx["reportees"], key=lambda e: e.get("employee_name") or "")
+        self_record = frappe.db.get_value(
+            "Employee",
+            ctx["employee"]["name"],
+            ["name", "employee_name", "department", "designation"],
+            as_dict=True,
+        )
+        all_employees = ([self_record] if self_record else []) + list(ctx["reportees"])
+        return sorted(all_employees, key=lambda e: e.get("employee_name") or "")
 
     return []  # Employees don't see a directory
 

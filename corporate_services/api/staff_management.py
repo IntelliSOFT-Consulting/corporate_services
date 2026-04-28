@@ -252,7 +252,6 @@ def get_employee_profile(employee):
         as_dict=True,
     )
 
-    # Leave applications (last 12 months — all statuses for visibility)
     leave_applications = frappe.db.sql(
         """
         SELECT name, leave_type, from_date, to_date,

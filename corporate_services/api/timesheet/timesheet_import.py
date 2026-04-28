@@ -3,7 +3,7 @@ import csv
 import io
 import os
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date as date_cls
 
 from frappe import _
 from frappe.utils.file_manager import get_file
@@ -16,6 +16,13 @@ from corporate_services.api.timesheet.timesheet_generation_export import (
 
 
 CONSULTANT_TEMPLATE_HEADERS = ["date", "task", "deliverables", "hours worked"]
+
+def get_default_activity_type():
+    """Pick a valid activity type for consultant time logs."""
+    activity_types = frappe.get_all("Activity Type", filters={"disabled": 0}, pluck="name")
+    if "Projects" in activity_types:
+        return "Projects"
+    return activity_types[0] if activity_types else None
 
 
 def get_activity_field_mapping():
@@ -208,9 +215,11 @@ def parse_consultant_date(value):
 def import_short_term_consultant_timesheet(doc, data, minimum_hours):
     consultant_timesheet = create_timesheet(doc, month_name=doc.month_year)
     consultant_timesheet.custom_timesheet_type = "Short Term Consultant"
+    default_activity_type = get_default_activity_type()
 
     total_hours = 0
     from_time_tracker = {}
+    import_warnings = []
 
     for row in data[7:]:
         if not row:
@@ -241,6 +250,12 @@ def import_short_term_consultant_timesheet(doc, data, minimum_hours):
         except ValueError:
             continue
 
+        if work_date.weekday() >= 5:
+            import_warnings.append(
+                f"Hours logged on weekend {work_date.strftime('%A, %d %b %Y')} ({hours}h) - skipped"
+            )
+            continue
+
         start_of_day = datetime.combine(work_date, datetime.min.time()).replace(hour=8)
 
         if work_date in from_time_tracker:
@@ -267,7 +282,7 @@ def import_short_term_consultant_timesheet(doc, data, minimum_hours):
             consultant_timesheet,
             from_time,
             to_time,
-            None,
+            default_activity_type,
             "\n".join(task_parts) if task_parts else None,
             work_date.day,
             hours,
@@ -275,6 +290,9 @@ def import_short_term_consultant_timesheet(doc, data, minimum_hours):
 
         from_time_tracker[work_date] = to_time
         total_hours += hours
+
+    if import_warnings:
+        return {"status": "warning", "warnings": list(dict.fromkeys(import_warnings))}
 
     if total_hours < minimum_hours:
         frappe.throw(_("Total hours are less than {} minimum hours.".format(minimum_hours)))
@@ -340,10 +358,11 @@ def timesheet_import(docname):
         project_timesheets = {}
         activity_timesheets = {}
         non_empty_activities = set()
-        
+        import_warnings = []
+
         # Filter out any row that has 'TOTAL' or 'TOTAL HRS' in the first column
         filtered_data = [row for row in data[2:] if row and row[0] not in ['TOTAL', 'TOTAL HRS']]
-        
+
         # First pass to identify non-empty activities/projects
         for row in filtered_data:
             if not row or len(row) < 2:
@@ -397,6 +416,20 @@ def timesheet_import(docname):
                 continue
 
             task = row[1]
+            task_str = str(task).strip() if task else ""
+
+            if not task_str or task_str.lower() == "no task":
+                for idx in range(2, len(header)):
+                    if total_hours_col_index is not None and idx == total_hours_col_index:
+                        continue
+                    if idx < len(row) and row[idx]:
+                        try:
+                            if float(row[idx]) > 0:
+                                import_warnings.append(f"Row with no task has hours logged - skipped (activity: {current_activity or current_project})")
+                                break
+                        except (ValueError, TypeError):
+                            pass
+                continue
 
             if current_project:
                 project_name = existing_projects[current_project]
@@ -440,6 +473,13 @@ def timesheet_import(docname):
                         month_name = datetime(year, month, 1).strftime('%B')
                         month = datetime.strptime(month_name, "%B").month
 
+                        work_date = date_cls(year, month, day)
+                        if work_date.weekday() >= 5:
+                            import_warnings.append(
+                                f"Hours logged on weekend {work_date.strftime('%A, %d %b %Y')} ({hours}h) - skipped"
+                            )
+                            continue
+
                         start_of_day = f"{year}-{month:02d}-{day:02d} 08:00:00"
                         from_time = datetime.strptime(start_of_day, '%Y-%m-%d %H:%M:%S')
 
@@ -468,6 +508,9 @@ def timesheet_import(docname):
                     except ValueError as e:
                         continue
 
+        if import_warnings:
+            return {"status": "warning", "warnings": list(dict.fromkeys(import_warnings))}
+
         total_hours = calculate_total_hours(project_timesheets, activity_timesheets)
 
         if total_hours < minimum_hours:
@@ -476,7 +519,7 @@ def timesheet_import(docname):
         if total_hours >= minimum_hours:
             save_timesheets(project_timesheets)
             save_timesheets(activity_timesheets)
-            
+
             return {"status": "success", "total_hours": total_hours}
 
     except Exception as e:

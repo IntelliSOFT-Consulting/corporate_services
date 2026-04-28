@@ -21,7 +21,15 @@
   "total_working_hours",
   "status",
   "project_loes_section",
-  "table_exsq"
+  "table_exsq",
+  "finance_tab",
+  "finance_section",
+  "employee_salary",
+  "column_break_finance",
+  "salary_per_hour",
+  "total_billable_hours",
+  "finance_breakdown_section",
+  "finance_breakdown_note"
  ],
  "fields": [
   {
@@ -72,14 +80,14 @@
    "read_only": 1
   },
   {
-   "fieldname": "total_working_hours",
-   "fieldtype": "Float",
-   "label": "Total Working Hours",
-   "read_only": 1
+    "fieldname": "total_working_hours",
+    "fieldtype": "Float",
+    "label": "Total Working Hours",
+    "read_only": 1
   },
   {
-   "fieldname": "column_break_fbtd",
-   "fieldtype": "Column Break"
+    "fieldname": "column_break_fbtd",
+    "fieldtype": "Column Break"
   },
   {
    "default": "0",
@@ -137,11 +145,55 @@
    "fieldtype": "Table",
    "options": "Project LOEs",
    "read_only": 1
+  },
+  {
+   "fieldname": "finance_tab",
+   "fieldtype": "Tab Break",
+   "label": "Finance"
+  },
+  {
+   "fieldname": "finance_section",
+   "fieldtype": "Section Break",
+   "label": "Salary Information"
+  },
+  {
+   "fetch_from": "employee.ctc",
+   "fieldname": "employee_salary",
+   "fieldtype": "Currency",
+   "label": "Employee Salary (CTC)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_finance",
+   "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "salary_per_hour",
+    "fieldtype": "Currency",
+    "label": "Salary Per Hour",
+    "read_only": 1
+  },
+  {
+    "fieldname": "total_billable_hours",
+    "fieldtype": "Float",
+    "label": "Total Billable Hours",
+    "read_only": 1
+  },
+  {
+    "fieldname": "finance_breakdown_section",
+    "fieldtype": "Section Break",
+   "label": "Pay Breakdown"
+  },
+  {
+   "fieldname": "finance_breakdown_note",
+   "fieldtype": "HTML",
+   "label": "Finance Breakdown",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2026-04-02 04:01:59.451511",
+ "modified": "2026-04-27 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission",

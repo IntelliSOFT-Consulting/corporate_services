@@ -300,7 +300,7 @@ export function ChecklistTab({ opportunityId, onCreateChecklist }: Props) {
           {importedRows.length > 0 && (
             <>
               <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8 }}>
-                Preview — {importedRows.length} row{importedRows.length !== 1 ? "s" : ""} ready to import:
+                Preview - {importedRows.length} row{importedRows.length !== 1 ? "s" : ""} ready to import:
               </div>
               <div style={{ overflowX: "auto", marginBottom: 12 }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
@@ -386,7 +386,7 @@ export function ChecklistTab({ opportunityId, onCreateChecklist }: Props) {
             </div>
             <div>
               <label style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4, display: "block" }}>
-                Assign To — type <kbd style={{ fontSize: 11, padding: "1px 4px", borderRadius: 3, background: "var(--control-bg)", border: "1px solid var(--border-color)" }}>@</kbd> to search employees
+                Assign To - type <kbd style={{ fontSize: 11, padding: "1px 4px", borderRadius: 3, background: "var(--control-bg)", border: "1px solid var(--border-color)" }}>@</kbd> to search employees
               </label>
               <MentionInput
                 value={addForm.employees}

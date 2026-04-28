@@ -6,6 +6,7 @@ from io import BytesIO
 from frappe.utils.file_manager import save_file
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.worksheet.table import Table, TableColumn, TableStyleInfo, TableFormula
 
 
 DEFAULT_TEMPLATE = "Default"
@@ -51,8 +52,8 @@ def get_projects_for_user(user_id):
         )
         if projects_user:
             projects_list.append([project["project_name"]])
-            projects_list.append([])
-            projects_list.append([])
+            for _ in range(8):
+                projects_list.append([])
 
     return projects_list
 
@@ -114,7 +115,7 @@ def build_default_template_workbook(user_id, start_date, end_date):
     activity_rows_start = len(projects_list) + 3
     activity_rows = []
     for i, activity in enumerate(activity_types):
-        row_num = activity_rows_start + i * 2
+        row_num = activity_rows_start + i * 6
         ws.cell(row=row_num, column=1, value=activity["name"])
         activity_rows.append(row_num)
 
@@ -173,6 +174,31 @@ def build_default_template_workbook(user_id, start_date, end_date):
     ws.cell(row=total_row, column=total_hours_col, value=total_hours_total_formula)
     ws.cell(row=total_row, column=total_hours_col).fill = blue_fill
     ws.cell(row=total_row, column=total_hours_col).border = thin_border
+
+    last_col_letter = ws.cell(row=2, column=len(header)).column_letter
+    tab = Table(
+        displayName="TimesheetData",
+        ref=f"A2:{last_col_letter}{max_row}",
+        totalsRowCount=0,
+        headerRowCount=1,
+    )
+    tab.tableStyleInfo = TableStyleInfo(
+        name="TableStyleLight1",
+        showFirstColumn=False,
+        showLastColumn=False,
+        showRowStripes=False,
+        showColumnStripes=False,
+    )
+    first_day_name = str(header[2])
+    last_day_name = str(header[-2])
+    for idx, col_name in enumerate(header, start=1):
+        tc = TableColumn(id=idx, name=str(col_name) if col_name is not None else f"Col{idx}")
+        if col_name == "Total Hours":
+            formula = TableFormula()
+            formula.text = f"SUM(TimesheetData[@[{first_day_name}]:[{last_day_name}]])"
+            tc.calculatedColumnFormula = formula
+        tab.tableColumns.append(tc)
+    ws.add_table(tab)
 
     return wb
 

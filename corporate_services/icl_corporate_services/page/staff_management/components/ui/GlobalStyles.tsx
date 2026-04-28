@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-// Minimal CSS — only for things not covered by Frappe/Bootstrap classes
+// Minimal CSS - only for things not covered by Frappe/Bootstrap classes
 const CSS = `
 .sm-fade-in {
   animation: smFadeIn 0.2s ease both;

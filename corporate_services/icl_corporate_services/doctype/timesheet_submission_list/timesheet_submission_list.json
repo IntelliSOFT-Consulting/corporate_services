@@ -5,7 +5,7 @@
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
- "field_order": [
+  "field_order": [
   "column_break_faid",
   "timesheet",
   "timesheet_type",
@@ -13,9 +13,7 @@
   "project_name",
   "month",
   "total_hours",
-  "status",
-  "pay",
-  "percent"
+  "status"
  ],
  "fields": [
   {
@@ -59,20 +57,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "pay",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Pay",
-   "read_only": 1
-  },
-  {
-   "fieldname": "percent",
-   "fieldtype": "Percent",
-   "in_list_view": 1,
-   "label": "Percent",
-   "read_only": 1
-  },
-  {
    "fieldname": "timesheet_type",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -90,7 +74,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-05-18 09:13:41.069148",
+ "modified": "2026-04-28 12:56:29.389530",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission List",
