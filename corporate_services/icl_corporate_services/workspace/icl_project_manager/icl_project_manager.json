@@ -6,7 +6,7 @@
   }
  ],
  "content": "[{\"id\":\"DEmRsPfh94\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"8V_O1gzVdg\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"CwNr5cIINA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":6}},{\"id\":\"jqLKsKxm3P\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}},{\"id\":\"lZyZGqKs9B\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet\",\"col\":6}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"iB6NqAITHC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}},{\"id\":\"-iG2OWMDW1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"PM-Quick Actions\",\"col\":12}}]",
- "creation": "2026-03-26 08:12:17.943758",
+ "creation": "2026-04-28 14:00:51.639209",
  "custom_blocks": [
   {
    "custom_block_name": "PM-Quick Actions",
@@ -76,7 +76,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-26 08:17:25.767021",
+ "modified": "2026-04-28 14:16:38.246611",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Project Manager",
@@ -104,9 +104,6 @@
  "roles": [
   {
    "role": "Projects Manager"
-  },
-  {
-   "role": "Projects User"
   }
  ],
  "sequence_id": 18.0,

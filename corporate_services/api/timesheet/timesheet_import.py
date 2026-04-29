@@ -464,7 +464,7 @@ def timesheet_import(docname):
                         month = int(date_str.split('-')[0])
                         year = int(date_str.split('-')[1])
 
-                        if day >= 28:
+                        if day > 28:
                             month -= 1
                             if month == 0:
                                 month = 12
