@@ -5,15 +5,20 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "details_tab",
   "naming_series",
   "employee",
   "employee_name",
-  "timesheet_template",
-  "column_break_ghwq",
-  "month_year",
-  "download_template",
-  "timesheet",
   "amended_from",
+  "column_break_zitm",
+  "month_year",
+  "upload_type",
+  "section_break_apdv",
+  "download_template",
+  "column_break_mzsy",
+  "timesheet",
+  "column_break_ghwq",
+  "timesheet_template",
   "timesheet_imported",
   "timesheet_details",
   "column_break_fbtd",
@@ -33,17 +38,9 @@
  ],
  "fields": [
   {
-   "fieldname": "employee",
-   "fieldtype": "Link",
-   "label": "Employee",
-   "options": "Employee",
-   "reqd": 1
-  },
-  {
-   "description": "Remember to import timesheet",
-   "fieldname": "timesheet",
-   "fieldtype": "Attach",
-   "label": "Timesheet"
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
   },
   {
    "fieldname": "naming_series",
@@ -52,66 +49,10 @@
    "options": "TS-"
   },
   {
-   "fieldname": "amended_from",
+   "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Timesheet Submission",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
-   "fieldname": "download_template",
-   "fieldtype": "Button",
-   "label": "Download Template"
-  },
-  {
-   "fieldname": "timesheet_per_project",
-   "fieldtype": "Table",
-   "label": "Timesheet Per project",
-   "options": "Timesheet Submission List",
-   "read_only": 1
-  },
-  {
-   "fieldname": "timesheet_details",
-   "fieldtype": "Section Break",
-   "label": "Timesheet Details",
-   "read_only": 1
-  },
-  {
-    "fieldname": "total_working_hours",
-    "fieldtype": "Float",
-    "label": "Total Working Hours",
-    "read_only": 1
-  },
-  {
-    "fieldname": "column_break_fbtd",
-    "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "timesheet_imported",
-   "fieldtype": "Check",
-   "hidden": 1,
-   "label": "Timesheet Imported"
-  },
-  {
-   "fieldname": "month_year",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Month-Year",
-   "reqd": 1
-  },
-  {
-   "allow_on_submit": 1,
-   "default": "Open",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "Open\nApproved\nRejected\nCancelled",
-   "read_only": 1,
+   "label": "Employee",
+   "options": "Employee",
    "reqd": 1
   },
   {
@@ -133,6 +74,93 @@
   {
    "fieldname": "column_break_ghwq",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Timesheet Submission",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "month_year",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Month-Year",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "timesheet_imported",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Timesheet Imported"
+  },
+  {
+   "fieldname": "upload_type",
+   "fieldtype": "Select",
+   "label": "Upload Type",
+   "options": "\nSystem Upload\nTemplate Import",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_apdv",
+   "fieldtype": "Section Break",
+   "label": "Action"
+  },
+  {
+   "depends_on": "eval:doc.upload_type=='Template Import'",
+   "fieldname": "download_template",
+   "fieldtype": "Button",
+   "label": "Download Template"
+  },
+  {
+   "depends_on": "eval:doc.upload_type=='Template Import'",
+   "description": "Remember to import timesheet",
+   "fieldname": "timesheet",
+   "fieldtype": "Attach",
+   "label": "Timesheet"
+  },
+  {
+   "fieldname": "column_break_mzsy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "timesheet_details",
+   "fieldtype": "Section Break",
+   "label": "Timesheet Details",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fbtd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "timesheet_per_project",
+   "fieldtype": "Table",
+   "label": "Timesheet Per project",
+   "options": "Timesheet Submission List",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_working_hours",
+   "fieldtype": "Float",
+   "label": "Total Working Hours",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nApproved\nRejected\nCancelled",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "project_loes_section",
@@ -160,28 +188,27 @@
    "fetch_from": "employee.ctc",
    "fieldname": "employee_salary",
    "fieldtype": "Currency",
-   "label": "Employee Salary (CTC)",
-   "read_only": 1
+   "label": "Employee Salary (CTC)"
   },
   {
    "fieldname": "column_break_finance",
    "fieldtype": "Column Break"
   },
   {
-    "fieldname": "salary_per_hour",
-    "fieldtype": "Currency",
-    "label": "Salary Per Hour",
-    "read_only": 1
+   "fieldname": "salary_per_hour",
+   "fieldtype": "Currency",
+   "label": "Salary Per Hour",
+   "read_only": 1
   },
   {
-    "fieldname": "total_billable_hours",
-    "fieldtype": "Float",
-    "label": "Total Billable Hours",
-    "read_only": 1
+   "fieldname": "total_billable_hours",
+   "fieldtype": "Float",
+   "label": "Total Billable Hours",
+   "read_only": 1
   },
   {
-    "fieldname": "finance_breakdown_section",
-    "fieldtype": "Section Break",
+   "fieldname": "finance_breakdown_section",
+   "fieldtype": "Section Break",
    "label": "Pay Breakdown"
   },
   {
@@ -189,11 +216,15 @@
    "fieldtype": "HTML",
    "label": "Finance Breakdown",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zitm",
+   "fieldtype": "Column Break"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2026-04-27 22:00:00.000000",
+ "modified": "2026-05-01 12:32:34.978974",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission",
@@ -201,6 +232,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -210,9 +242,11 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -226,6 +260,7 @@
    "write": 1
   },
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -235,6 +270,21 @@
    "report": 1,
    "role": "HR Manager",
    "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Finance",
+   "share": 1,
+   "submit": 1,
    "write": 1
   },
   {

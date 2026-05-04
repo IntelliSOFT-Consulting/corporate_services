@@ -13,6 +13,8 @@
   "full_name",
   "column_break_lvjb",
   "relieving_date",
+  "offboarding_completion_date",
+  "allow_reminder_notification",
   "supervisor",
   "notification_week_section",
   "formal_communication",
@@ -343,6 +345,21 @@
    "fieldname": "farewell_email",
    "fieldtype": "Check",
    "label": "Farewell Email"
+  },
+  {
+   "description": "Offboarding Completion by date.",
+   "fetch_from": "employee.relieving_date",
+   "fieldname": "offboarding_completion_date",
+   "fieldtype": "Date",
+   "label": "Offboarding Due date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "description": "The notification will be sent one week before the due date.",
+   "fieldname": "allow_reminder_notification",
+   "fieldtype": "Check",
+   "label": "Allow Reminder Notification"
   }
  ],
  "grid_page_length": 50,
@@ -356,7 +373,7 @@
    "link_fieldname": "offboarding_schedule"
   }
  ],
- "modified": "2026-03-13 11:51:56.561465",
+ "modified": "2026-04-29 13:31:55.298820",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "OffBoarding Schedule",

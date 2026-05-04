@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Activity Type",
+   "fieldname": "custom_is_private",
+   "fieldtype": "Check",
+   "label": "Is Private",
+   "default": "0",
+   "insert_after": "disabled",
+   "read_only": 0,
+   "reqd": 0
+  }
+ ],
+ "custom_perms": [],
+ "doctype": "Activity Type",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

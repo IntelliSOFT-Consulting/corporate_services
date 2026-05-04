@@ -83,7 +83,9 @@ doctype_js = {
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
 }
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+    "Timesheet Submission": "public/js/timesheet_submission_list.js",
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -235,7 +237,8 @@ on_update_map = {
 job_applicant_on_update_map = {
     "Job Applicant": [
         "corporate_services.api.job_applicant.v2.application_received",
-        "corporate_services.api.notification.job_applicant.rejection_after_interview.alert"
+        "corporate_services.api.notification.job_applicant.rejection_after_interview.alert",
+        "corporate_services.api.job_applicant.recruitment_flow.handle_job_offer_stage_updates",
     ]
 }
 
@@ -283,7 +286,8 @@ event_maps = {
     },
     "validate": {
         "Timesheet Submission": "corporate_services.api.timesheet.overrides.timesheet_submission.override_link_validation",
-        "Timesheet": "corporate_services.api.timesheet.overrides.timesheet_submission.override_link_validation"
+        "Timesheet": "corporate_services.api.timesheet.overrides.timesheet_submission.override_link_validation",
+        "Job Applicant": "corporate_services.api.job_applicant.recruitment_flow.validate_job_offer_stage",
     },
 }
 

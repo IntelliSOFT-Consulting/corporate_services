@@ -63,6 +63,63 @@ def get_project_owner_contacts_for_employee(employee):
     return owner_contacts
 
 
+def get_project_manager_contacts_for_submission(doc):
+    """Return unique Project Manager contacts tied to projects in this submission."""
+    project_ids = []
+    for row in doc.get("timesheet_per_project") or []:
+        project_id = getattr(row, "project", None)
+        if project_id:
+            project_ids.append(project_id)
+
+    project_ids = list(dict.fromkeys(project_ids))
+    if not project_ids:
+        return []
+
+    project_manager_rows = frappe.get_all(
+        "Project Manager",
+        filters={
+            "parenttype": "Project",
+            "parentfield": "custom_project_managers",
+            "parent": ["in", project_ids],
+        },
+        fields=["parent", "employee", "employee_name"],
+    )
+    if not project_manager_rows:
+        return []
+
+    project_name_map = {
+        p["name"]: p.get("project_name") or p["name"]
+        for p in frappe.get_all("Project", filters={"name": ["in", project_ids]}, fields=["name", "project_name"])
+    }
+
+    contacts_by_email = {}
+    for row in project_manager_rows:
+        employee_id = row.get("employee")
+        if not employee_id:
+            continue
+        employee_doc = frappe.db.get_value(
+            "Employee",
+            employee_id,
+            ["employee_name", "company_email", "personal_email"],
+            as_dict=True,
+        ) or {}
+        email = employee_doc.get("company_email") or employee_doc.get("personal_email")
+        if not email:
+            continue
+
+        project_name = project_name_map.get(row.get("parent"), row.get("parent"))
+        if email not in contacts_by_email:
+            contacts_by_email[email] = frappe._dict(
+                email=email,
+                name=employee_doc.get("employee_name") or row.get("employee_name") or employee_id,
+                projects=[],
+            )
+        if project_name and project_name not in contacts_by_email[email].projects:
+            contacts_by_email[email].projects.append(project_name)
+
+    return list(contacts_by_email.values())
+
+
 def send_email(recipients, subject, message, pdf_content, doc_name):
     attachments = []
     if pdf_content:
@@ -198,34 +255,33 @@ def alert(doc, method):
             pdf_content = None
 
         if doc.workflow_state == "Submitted to Project Manager":
-            owner_contacts = get_project_owner_contacts_for_employee(employee)
-            if owner_contacts:
-                for owner_contact in owner_contacts:
-                    message_to_owner = generate_message(
+            submission_pm_contacts = get_project_manager_contacts_for_submission(doc)
+            if submission_pm_contacts:
+                for pm_contact in submission_pm_contacts:
+                    message_to_pm = generate_message(
                         doc,
                         employee.employee_name,
                         "project_manager",
-                        project_manager_name=owner_contact.name,
+                        project_manager_name=pm_contact.name,
                     )
                     project_list_html = "".join(
                         f"<li>{escape_html(project_name)}</li>"
-                        for project_name in owner_contact.projects
+                        for project_name in pm_contact.projects
                     )
-                    message_to_owner += (
+                    message_to_pm += (
                         "<br><br>"
-                        "Linked project(s) for your review:"
+                        "Project(s) in this submission:"
                         f"<ul>{project_list_html}</ul>"
                     )
                     send_email(
-                        recipients=[owner_contact.email],
-                        subject=frappe._(
-                            "Timesheet Submission from {}".format(employee.employee_name)
-                        ),
-                        message=message_to_owner,
+                        recipients=[pm_contact.email],
+                        subject=frappe._("Timesheet Submission from {}".format(employee.employee_name)),
+                        message=message_to_pm,
                         pdf_content=pdf_content,
                         doc_name=doc.name,
                     )
             elif project_manager_email:
+                # Backward-compatible fallback where project-level PMs are not configured.
                 message_to_project_manager = generate_message(
                     doc,
                     employee.employee_name,

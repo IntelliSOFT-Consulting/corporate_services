@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 10,
- "modified": "2026-04-28 07:13:03.967335",
+ "modified": "2026-04-30 15:15:35.288922",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "timesheet_workflow",
@@ -16,6 +16,9 @@
   },
   {
    "role": "HR Manager"
+  },
+  {
+   "role": "Supervisor"
   }
  ],
  "script": null,

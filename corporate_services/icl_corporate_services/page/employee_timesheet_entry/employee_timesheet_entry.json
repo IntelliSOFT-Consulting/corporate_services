@@ -1,0 +1,22 @@
+{
+    "content": null,
+    "doctype": "Page",
+    "module": "ICL Corporate Services",
+    "name": "employee_timesheet_entry",
+    "page_name": "employee_timesheet_entry",
+    "roles": [
+        {
+            "role": "Employee"
+        },
+        {
+            "role": "HR Manager"
+        },
+        {
+            "role": "System Manager"
+        }
+    ],
+    "script": null,
+    "standard": "Yes",
+    "system_page": 1,
+    "title": "Timesheet Entry"
+}

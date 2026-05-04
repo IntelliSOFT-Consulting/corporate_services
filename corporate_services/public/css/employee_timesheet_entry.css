@@ -1,0 +1,200 @@
+.ts-entry-wrap {
+    padding: 16px;
+    min-height: 100%;
+}
+
+.ts-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.ts-already-imported-warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.ts-add-project-panel {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 12px;
+    background: white;
+    max-width: 400px;
+}
+
+.ts-project-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.ts-project-item:hover {
+    background: #f0f4ff;
+}
+
+.ts-table-wrap {
+    overflow-x: auto;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.ts-table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 12px;
+}
+
+.ts-table td,
+.ts-table th {
+    padding: 3px 4px;
+    vertical-align: middle;
+}
+
+.ts-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
+
+.ts-row-datenum th {
+    top: 29px !important;
+}
+
+.ts-col-sticky {
+    position: sticky;
+    z-index: 2;
+    background: white !important;
+}
+
+.ts-table thead .ts-col-sticky {
+    z-index: 4;
+}
+
+.ts-col-date {
+    min-width: 52px;
+    width: 52px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.ts-col-total {
+    min-width: 65px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #dee2e6;
+}
+
+.ts-weekend {
+    background: #B8D4EA !important;
+}
+
+.ts-section-header td {
+    background: #87CEEB !important;
+    font-weight: 700;
+    border: 1px solid #9ab8cc;
+}
+
+.ts-row-dayname th,
+.ts-row-datenum th {
+    background: #87CEEB !important;
+    border: 1px solid #9ab8cc;
+    text-align: center;
+    padding: 4px 2px;
+}
+
+.ts-row-total td {
+    background: #87CEEB !important;
+    font-weight: 700;
+}
+
+.ts-hours-input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    background: transparent;
+    padding: 2px;
+    font-size: 12px;
+}
+
+.ts-hours-input:focus {
+    outline: 1px solid #5e64ff;
+    border-radius: 2px;
+}
+
+.ts-task-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 2px 4px;
+    font-size: 12px;
+}
+
+.ts-task-input:focus {
+    outline: 1px solid #5e64ff;
+    border-radius: 2px;
+}
+
+.ts-task-cell {
+    display: flex;
+    align-items: center;
+}
+
+.ts-remove-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 14px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.ts-addtask-btn {
+    background: none;
+    border: none;
+    color: #5e64ff;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 2px 4px;
+}
+
+.ts-section-name {
+    padding: 6px 8px;
+}
+
+.ts-section-type-badge {
+    font-size: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 1px 5px;
+    border-radius: 8px;
+    margin-left: 6px;
+}
+
+.ts-activity-delete-btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.ts-section-header-activity:hover .ts-activity-delete-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.ts-loading {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+.ts-row-addtask td {
+    border-bottom: 2px solid #dee2e6;
+}

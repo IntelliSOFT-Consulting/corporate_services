@@ -315,15 +315,21 @@ def get_timesheet_submission_details(submission_name):
             timesheet_doc = frappe.get_doc("Timesheet", timesheet_name)
             if hasattr(timesheet_doc, "time_logs") and timesheet_doc.time_logs:
                 for time_log in timesheet_doc.time_logs:
-                    project = time_log.get("project") or "No Project"
-                    project_name = project_meta.get(project, {}).get("project_name") or project
+                    activity_type = time_log.get("activity_type")
+                    project = time_log.get("project")
+                    if project:
+                        project_name = project_meta.get(project, {}).get("project_name") or project
+                    else:
+                        # For activity-based rows, show activity instead of "No Project".
+                        project = activity_type or "No Project"
+                        project_name = activity_type or "No Project"
                     task = time_log.get("custom_tasks") or "No Task"
                     task_name = task_meta.get(task, {}).get("subject") or task
                     ts_entry = {
                         "parent": timesheet_name,
-                        "date": time_log.get("custom_date"),
+                        "date": (time_log.get("from_time").date().isoformat() if time_log.get("from_time") else time_log.get("custom_date")),
                         "hours": time_log.get("hours") or 0,
-                        "activity_type": time_log.get("activity_type"),
+                        "activity_type": activity_type,
                         "project": project,
                         "project_name": project_name,
                         "project_label": f"{project} - {project_name}" if project_name and project_name != project else project,

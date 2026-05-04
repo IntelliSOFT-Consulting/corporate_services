@@ -11,6 +11,7 @@ frappe.ui.form.on("Timesheet Submission", {
 			frappe.user.has_role("System Manager") || frappe.user.has_role("Finance");
 
 		toggle_finance_tab(frm);
+		add_insert_tasks_action(frm);
 
 		if (can_view_finance) {
 			compute_finance(frm);
@@ -29,6 +30,24 @@ function toggle_finance_tab(frm) {
 		frm.set_df_property("finance_breakdown_section", "hidden", 1);
 		frm.set_df_property("finance_breakdown_note", "hidden", 1);
 	}
+}
+
+function add_insert_tasks_action(frm) {
+	frm.set_df_property("insert_timesheet_tasks", "hidden", 1);
+	frm.remove_custom_button(__("Insert Tasks"));
+
+	const can_show =
+		!frm.is_new() &&
+		frm.doc.upload_type === "System Upload" &&
+		frm.doc.employee &&
+		frm.doc.month_year;
+
+	if (!can_show) return;
+
+	frm.add_custom_button(__("Insert Tasks"), function () {
+		window.location.href = `/app/employee_timesheet_entry?submission=${encodeURIComponent(frm.doc.name)}`;
+	});
+	frm.change_custom_button_type(__("Insert Tasks"), null, "success");
 }
 
 function compute_finance(frm) {

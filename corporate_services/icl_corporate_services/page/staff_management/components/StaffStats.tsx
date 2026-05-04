@@ -73,6 +73,13 @@ export function StaffStats({ onStatsLoaded }: Props) {
         loading={loading}
       />
       <StatCard
+        label="Consultants on Time Off"
+        value={stats?.consultants_on_leave_today}
+        sub="Consultants on leave today"
+        color={stats?.consultants_on_leave_today ? "var(--orange-500, #dd6b20)" : undefined}
+        loading={loading}
+      />
+      <StatCard
         label="Departments"
         value={stats?.dept_count}
         sub="Active departments"

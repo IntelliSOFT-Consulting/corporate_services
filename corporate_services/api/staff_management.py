@@ -61,10 +61,30 @@ def get_staff_stats():
         "Department", {"is_group": 0}
     )
 
+    consultant_contract_types = _get_consultant_contract_types()
+    consultants_on_leave_today = 0
+    if consultant_contract_types:
+        consultant_on_leave = frappe.db.sql(
+            """
+            SELECT COUNT(DISTINCT la.employee) AS cnt
+            FROM `tabLeave Application` la
+            JOIN `tabEmployee` e ON e.name = la.employee
+            WHERE la.status = 'Approved'
+              AND la.docstatus = 1
+              AND la.from_date <= %(today)s
+              AND la.to_date >= %(today)s
+              AND e.employment_type IN %(contract_types)s
+            """,
+            {"today": today_date, "contract_types": tuple(consultant_contract_types)},
+            as_dict=True,
+        )
+        consultants_on_leave_today = (consultant_on_leave[0].cnt if consultant_on_leave else 0) or 0
+
     return {
         "total_active": total_active,
         "new_this_month": new_this_month,
         "on_leave_today": on_leave_today,
+        "consultants_on_leave_today": consultants_on_leave_today,
         "dept_count": dept_count,
         "department_breakdown": dept_counts,
         "employment_type_breakdown": type_counts,
@@ -305,3 +325,62 @@ def get_employee_profile(employee):
         "asset_requisitions": asset_requisitions,
         "timesheet_submissions": timesheet_submissions,
     }
+
+
+def _get_consultant_contract_types():
+    return frappe.get_all(
+        "HR Config Consultant Contract",
+        filters={"parent": "HR Config"},
+        pluck="contract_type",
+    )
+
+
+@frappe.whitelist()
+def get_consultant_time_off_report(from_date=None, to_date=None, department=None):
+    today_date = today()
+    from_date = from_date or str(add_months(getdate(), -12))
+    to_date = to_date or today_date
+
+    consultant_contract_types = _get_consultant_contract_types()
+    if not consultant_contract_types:
+        return []
+
+    conditions = """
+        la.status = 'Approved'
+        AND la.docstatus = 1
+        AND la.from_date <= %(to_date)s
+        AND la.to_date >= %(from_date)s
+        AND e.employment_type IN %(contract_types)s
+    """
+    args = {
+        "from_date": from_date,
+        "to_date": to_date,
+        "contract_types": tuple(consultant_contract_types),
+    }
+
+    if department:
+        conditions += " AND e.department = %(department)s"
+        args["department"] = department
+
+    rows = frappe.db.sql(
+        f"""
+        SELECT
+            la.employee,
+            la.employee_name,
+            e.department,
+            e.designation,
+            e.employment_type,
+            la.leave_type,
+            la.from_date,
+            la.to_date,
+            la.total_leave_days,
+            la.name as leave_application
+        FROM `tabLeave Application` la
+        JOIN `tabEmployee` e ON e.name = la.employee
+        WHERE {conditions}
+        ORDER BY la.from_date DESC, la.employee_name ASC
+        """,
+        args,
+        as_dict=True,
+    )
+    return rows

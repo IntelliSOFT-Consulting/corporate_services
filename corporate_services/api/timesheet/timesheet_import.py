@@ -1,21 +1,24 @@
 import frappe
-import csv
-import io
 import os
 import tempfile
+import zipfile
 from datetime import datetime, timedelta, date as date_cls
 
 from frappe import _
 from frappe.utils.file_manager import get_file
 import openpyxl
+from openpyxl.utils.exceptions import InvalidFileException
 
 from corporate_services.api.timesheet.timesheet_generation_export import (
     SHORT_TERM_CONSULTANT_TEMPLATE,
     get_employee_timesheet_template,
 )
+from corporate_services.api.timesheet.finance_settings_utils import get_finance_end_day
 
 
-CONSULTANT_TEMPLATE_HEADERS = ["date", "task", "deliverables", "hours worked"]
+CONSULTANT_TEMPLATE_HEADERS = ["date", "project name", "task", "deliverables", "hours worked"]
+LEGACY_CONSULTANT_TEMPLATE_HEADERS = ["date", "task", "deliverables", "hours worked"]
+INVALID_EXCEL_FILE_MESSAGE = "Invalid Excel file format. Please upload the correct timesheet template."
 
 def get_default_activity_type():
     """Pick a valid activity type for consultant time logs."""
@@ -77,13 +80,27 @@ def create_timesheet(doc, project=None, activity_type=None, month_name=None, tot
     timesheet.custom_month = month_name
     timesheet.total_working_hours = total_hours
     timesheet.custom_timesheet_submission = doc.name
-    
+
+    # Keep parent activity field populated for instances where Timesheet
+    # validation expects it at document level.
+    resolved_activity_type = activity_type
+    if project and not resolved_activity_type:
+        resolved_activity_type = "Projects"
+
     if project:
         timesheet.parent_project = project
         timesheet.custom_timesheet_type = "Project Based"
-    if activity_type:
-        timesheet.custom_activity_type = activity_type
-        timesheet.custom_timesheet_type = "Other Activities"
+        if hasattr(timesheet, "custom_project_name"):
+            timesheet.custom_project_name = frappe.db.get_value("Project", project, "project_name") or project
+    if resolved_activity_type:
+        if hasattr(timesheet, "custom_activity_type"):
+            timesheet.custom_activity_type = resolved_activity_type
+        if hasattr(timesheet, "activity_type"):
+            timesheet.activity_type = resolved_activity_type
+        if hasattr(timesheet, "custom_activity_name"):
+            timesheet.custom_activity_name = resolved_activity_type
+        if not project:
+            timesheet.custom_timesheet_type = "Other Activities"
     
     return timesheet
 
@@ -137,7 +154,14 @@ def create_timesheet_detail_entry(timesheet, from_time, to_time, activity_type, 
                 field_name = activity_field_mapping.get(activity_type, None)
 
             if field_name:
-                timesheet_detail[field_name] = hours
+                # Mapping points to Timesheet (parent) custom fields, not child rows.
+                # Accumulate activity hours on the parent so mandatory/activity validations pass.
+                current_val = timesheet.get(field_name) or 0
+                try:
+                    current_val = float(current_val)
+                except (TypeError, ValueError):
+                    current_val = 0
+                timesheet.set(field_name, current_val + float(hours or 0))
 
             timesheet_detail["custom_tasks"] = task
         
@@ -161,38 +185,35 @@ def save_timesheets(timesheets):
 
 
 def load_uploaded_timesheet(_file, file_content):
-    file_extension = _file.file_name.split('.')[-1].lower()
+    file_name = (_file.file_name or "").strip()
+    file_extension = file_name.split(".")[-1].lower() if "." in file_name else ""
 
-    if file_extension == 'csv':
-        csvfile = io.StringIO(
-            file_content.decode('utf-8') if isinstance(file_content, bytes) else file_content
-        )
-        reader = csv.reader(csvfile)
-        return list(reader), None
+    # Timesheet template imports must be valid Excel workbooks.
+    if file_extension not in ["xlsx", "xlsm"]:
+        frappe.throw(_(INVALID_EXCEL_FILE_MESSAGE))
 
-    if file_extension in ['xls', 'xlsx']:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_extension}") as temp_file:
-            temp_file.write(file_content)
-            temp_file_path = temp_file.name
+    with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_extension}") as temp_file:
+        temp_file.write(file_content)
+        temp_file_path = temp_file.name
 
-        try:
-            workbook = openpyxl.load_workbook(temp_file_path, data_only=True)
-            sheet = workbook.active
-            data = [[cell.value for cell in row] for row in sheet.iter_rows()]
-            return data, workbook
-        finally:
-            os.unlink(temp_file_path)
-
-    frappe.throw(_("Unsupported file format. Please upload a CSV or Excel file."))
+    try:
+        workbook = openpyxl.load_workbook(temp_file_path, data_only=True)
+        sheet = workbook.active
+        data = [[cell.value for cell in row] for row in sheet.iter_rows()]
+        return data, workbook
+    except (InvalidFileException, zipfile.BadZipFile, OSError, ValueError):
+        frappe.throw(_(INVALID_EXCEL_FILE_MESSAGE))
+    finally:
+        os.unlink(temp_file_path)
 
 
 def is_consultant_template_sheet(data):
     if len(data) < 7:
         return False
 
-    header_row = data[6][:4]
+    header_row = data[6][:5]
     normalized_header = [str(value).strip().lower() if value is not None else "" for value in header_row]
-    return normalized_header == CONSULTANT_TEMPLATE_HEADERS
+    return normalized_header == CONSULTANT_TEMPLATE_HEADERS or normalized_header[:4] == LEGACY_CONSULTANT_TEMPLATE_HEADERS
 
 
 def parse_consultant_date(value):
@@ -213,22 +234,36 @@ def parse_consultant_date(value):
 
 
 def import_short_term_consultant_timesheet(doc, data, minimum_hours):
-    consultant_timesheet = create_timesheet(doc, month_name=doc.month_year)
-    consultant_timesheet.custom_timesheet_type = "Short Term Consultant"
     default_activity_type = get_default_activity_type()
+    existing_projects = {
+        p["project_name"].strip().lower(): p["name"]
+        for p in frappe.get_all("Project", fields=["project_name", "name"])
+        if p.get("project_name")
+    }
+    consultant_timesheets = {}
 
     total_hours = 0
     from_time_tracker = {}
     import_warnings = []
+    normalized_header = [
+        str(value).strip().lower() if value is not None else ""
+        for value in (data[6] if len(data) > 6 else [])
+    ]
+    has_project_column = normalized_header[:5] == CONSULTANT_TEMPLATE_HEADERS
 
     for row in data[7:]:
         if not row:
             continue
 
-        row = list(row) + [None] * (4 - len(row))
-        date_value, task, deliverables, hours_value = row[:4]
+        if has_project_column:
+            row = list(row) + [None] * (5 - len(row))
+            date_value, project_name, task, deliverables, hours_value = row[:5]
+        else:
+            row = list(row) + [None] * (4 - len(row))
+            date_value, task, deliverables, hours_value = row[:4]
+            project_name = None
 
-        if not any(value not in (None, "") for value in (date_value, task, deliverables, hours_value)):
+        if not any(value not in (None, "") for value in (date_value, project_name, task, deliverables, hours_value)):
             continue
 
         if isinstance(task, str) and task.strip().lower() == "total hours worked":
@@ -272,20 +307,38 @@ def import_short_term_consultant_timesheet(doc, data, minimum_hours):
             )
             continue
 
+        project_id = None
+        project_name_text = str(project_name).strip() if project_name not in (None, "") else ""
+        if project_name_text:
+            project_id = existing_projects.get(project_name_text.lower())
+
+        timesheet_key = project_id or "__no_project__"
+        if timesheet_key not in consultant_timesheets:
+            consultant_timesheets[timesheet_key] = create_timesheet(
+                doc,
+                project=project_id,
+                month_name=doc.month_year,
+            )
+            consultant_timesheets[timesheet_key].custom_timesheet_type = "Short Term Consultant"
+        target_timesheet = consultant_timesheets[timesheet_key]
+
         task_parts = []
+        if project_name_text and not project_id:
+            task_parts.append(f"Project Name: {project_name_text}")
         if task and str(task).strip():
             task_parts.append(f"Task: {str(task).strip()}")
         if deliverables and str(deliverables).strip():
             task_parts.append(f"Deliverables: {str(deliverables).strip()}")
 
         create_timesheet_detail_entry(
-            consultant_timesheet,
+            target_timesheet,
             from_time,
             to_time,
             default_activity_type,
             "\n".join(task_parts) if task_parts else None,
             work_date.day,
             hours,
+            project=project_id,
         )
 
         from_time_tracker[work_date] = to_time
@@ -297,11 +350,12 @@ def import_short_term_consultant_timesheet(doc, data, minimum_hours):
     if total_hours < minimum_hours:
         frappe.throw(_("Total hours are less than {} minimum hours.".format(minimum_hours)))
 
-    if consultant_timesheet.time_logs:
-        consultant_timesheet.total_working_hours = total_hours
-        consultant_timesheet.insert()
-        consultant_timesheet.save()
-        frappe.db.commit()
+    for consultant_timesheet in consultant_timesheets.values():
+        if consultant_timesheet.time_logs:
+            consultant_timesheet.total_working_hours = sum(tl.hours for tl in consultant_timesheet.time_logs)
+            consultant_timesheet.insert()
+            consultant_timesheet.save()
+            frappe.db.commit()
 
     return {"status": "success", "total_hours": total_hours}
 
@@ -464,7 +518,7 @@ def timesheet_import(docname):
                         month = int(date_str.split('-')[0])
                         year = int(date_str.split('-')[1])
 
-                        if day > 28:
+                        if day > get_finance_end_day():
                             month -= 1
                             if month == 0:
                                 month = 12
