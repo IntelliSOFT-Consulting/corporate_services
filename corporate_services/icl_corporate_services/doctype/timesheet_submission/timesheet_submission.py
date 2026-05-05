@@ -3,10 +3,6 @@
 
 import frappe
 from frappe.model.document import Document
-from corporate_services.api.timesheet.timesheet_generation_export import (
-	DEFAULT_TEMPLATE,
-	get_employee_timesheet_template,
-)
 
 
 class TimesheetSubmission(Document):
@@ -24,15 +20,7 @@ class TimesheetSubmission(Document):
 		self.delete_linked_timesheets()
 
 	def validate(self):
-		self.set_timesheet_template()
 		self.check_duplicate_submission()
-		self.handle_import_clear()
-
-	def set_timesheet_template(self):
-		if self.employee:
-			self.timesheet_template = get_employee_timesheet_template(self.employee)
-		else:
-			self.timesheet_template = DEFAULT_TEMPLATE
 
 	def check_duplicate_submission(self):
 		existing = frappe.db.get_value(
@@ -53,45 +41,6 @@ class TimesheetSubmission(Document):
 				title="Duplicate Timesheet Submission",
 			)
 
-	def handle_import_clear(self):
-		"""
-		If the imported timesheet attachment is cleared, remove all linked
-		timesheets for this submission and reset derived totals/tables.
-		"""
-		if self.is_new():
-			return
-
-		previous = self.get_doc_before_save()
-		if not previous:
-			return
-
-		was_set = bool(previous.get("timesheet"))
-		is_cleared = not bool(self.get("timesheet"))
-		if not (was_set and is_cleared):
-			return
-
-		linked = frappe.get_all(
-			"Timesheet",
-			filters={
-				"custom_timesheet_submission": self.name,
-				"docstatus": ["!=", 2],
-			},
-			fields=["name", "docstatus"],
-		)
-
-		for row in linked:
-			ts = frappe.get_doc("Timesheet", row["name"])
-			if ts.docstatus == 1:
-				ts.cancel()
-			frappe.delete_doc("Timesheet", ts.name, force=True, ignore_permissions=True)
-
-		# Reset child table + computed totals/finance fields.
-		self.set("timesheet_per_project", [])
-		self.total_working_hours = 0
-		self.total_billable_hours = 0
-		self.salary_per_hour = 0
-		self.timesheet_imported = 0
-
 	def cleanup_timesheet_rows_before_validation(self):
 		"""
 		Avoid link-validation errors from stale/missing Timesheet links in child rows.
@@ -99,11 +48,6 @@ class TimesheetSubmission(Document):
 		"""
 		rows = list(self.get("timesheet_per_project") or [])
 		if not rows:
-			return
-
-		previous = None if self.is_new() else self.get_doc_before_save()
-		if previous and previous.get("timesheet") and not self.get("timesheet"):
-			self.set("timesheet_per_project", [])
 			return
 
 		valid_rows = []

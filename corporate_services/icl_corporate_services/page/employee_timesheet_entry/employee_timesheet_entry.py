@@ -422,8 +422,6 @@ def save_web_timesheet(submission_name, sections):
                     if hours <= 0:
                         continue
                     date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    if date_obj.weekday() >= 5:
-                        continue
                     if date_str not in day_time_cursor:
                         day_time_cursor[date_str] = _get_employee_day_start_time(doc.employee, doc, date_str)
                     from_time = day_time_cursor[date_str]
@@ -474,8 +472,6 @@ def save_web_timesheet(submission_name, sections):
                     if hours <= 0:
                         continue
                     date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    if date_obj.weekday() >= 5:
-                        continue
                     if date_str not in day_time_cursor:
                         day_time_cursor[date_str] = _get_employee_day_start_time(doc.employee, doc, date_str)
                     from_time = day_time_cursor[date_str]
@@ -552,7 +548,6 @@ def save_web_timesheet(submission_name, sections):
         _append_submission_row(doc, ts, project_name_override=activity_label)
 
     doc.total_working_hours = total_hours
-    doc.timesheet_imported = 1
     doc.save(ignore_permissions=True)
     frappe.db.commit()
 

@@ -381,6 +381,10 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
         return styleToClass[style] || "gray";
     }, [ctx]);
     const formattedMonthLabel = useMemo(() => formatMonthYearLabel(ctx?.month_year), [ctx]);
+    const visibleSubmissions = useMemo(() => {
+        const submissions = Array.isArray(ctx?.submissions) ? ctx.submissions : [];
+        return submissions.slice(0, 5);
+    }, [ctx]);
 
     if (loading) return <div className="ts-loading">Loading timesheet...</div>;
     if (error) return <div className="alert alert-danger" style={{ margin: 20 }}>{error}</div>;
@@ -392,14 +396,14 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const sidebarContent = (
         <div className="frappe-card" style={{ padding: 10, height: "fit-content" }}>
             <div style={{ fontWeight: 600, marginBottom: 8 }}>Available Months</div>
-            {(ctx.submissions || []).map((s) => (
+            {visibleSubmissions.map((s) => (
                 <button
                     key={s.name}
                     className={`btn btn-xs ${s.name === activeSubmission ? "btn-primary" : "btn-default"}`}
                     style={{ width: "100%", marginBottom: 6, textAlign: "left" }}
                     onClick={() => loadContext(s.name)}
                 >
-                    {s.month_year}
+                    {formatMonthYearLabel(s.month_year)}
                 </button>
             ))}
         </div>
@@ -585,9 +589,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                             </td>
                                             {ctx.dates.map((d) => (
                                                 <td key={d.date} className={"ts-col-date" + (d.is_weekend ? " ts-weekend" : "")}>
-                                                    {!d.is_weekend && (
-                                                        <input className="ts-hours-input" type="number" min="0" step="0.5" value={task.hours[d.date] || ""} onChange={(e) => updateHours(secIdx, task.id, d.date, e.target.value)} />
-                                                    )}
+                                                    <input className="ts-hours-input" type="number" min="0" step="0.5" value={task.hours[d.date] || ""} onChange={(e) => updateHours(secIdx, task.id, d.date, e.target.value)} />
                                                 </td>
                                             ))}
                                             <td className="ts-col-total">{rowTotal(task) > 0 ? rowTotal(task).toFixed(1) : ""}</td>

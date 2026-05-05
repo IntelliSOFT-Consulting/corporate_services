@@ -189,12 +189,6 @@ def get_columns(ctx):
             "fieldtype": "Date",
             "width": 120,
         },
-        {
-            "fieldname": "timesheet_imported",
-            "label": _("Imported"),
-            "fieldtype": "Check",
-            "width": 80,
-        },
     ]
 
     # HR / Finance see workflow state and submitter
@@ -234,7 +228,6 @@ def get_data(filters, ctx):
             ts.total_working_hours,
             ts.status,
             ts.workflow_state,
-            ts.timesheet_imported,
             ts.creation AS submission_date,
             ts.owner,
             (
@@ -350,7 +343,6 @@ def get_not_submitted_rows(filters, ctx, submitted_rows):
                 "status": "Not Submitted",
                 "workflow_state": "",
                 "submission_date": None,
-                "timesheet_imported": 0,
                 "owner": "",
             })
     return result

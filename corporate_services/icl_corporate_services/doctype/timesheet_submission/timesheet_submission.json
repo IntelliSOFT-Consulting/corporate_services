@@ -12,14 +12,8 @@
   "amended_from",
   "column_break_zitm",
   "month_year",
-  "upload_type",
   "section_break_apdv",
-  "download_template",
-  "column_break_mzsy",
-  "timesheet",
   "column_break_ghwq",
-  "timesheet_template",
-  "timesheet_imported",
   "timesheet_details",
   "column_break_fbtd",
   "timesheet_per_project",
@@ -65,13 +59,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "timesheet_template",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Timesheet Template",
-   "read_only": 1
-  },
-  {
    "fieldname": "column_break_ghwq",
    "fieldtype": "Column Break"
   },
@@ -94,40 +81,9 @@
    "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "timesheet_imported",
-   "fieldtype": "Check",
-   "hidden": 1,
-   "label": "Timesheet Imported"
-  },
-  {
-   "fieldname": "upload_type",
-   "fieldtype": "Select",
-   "label": "Upload Type",
-   "options": "\nSystem Upload\nTemplate Import",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_apdv",
    "fieldtype": "Section Break",
    "label": "Action"
-  },
-  {
-   "depends_on": "eval:doc.upload_type=='Template Import'",
-   "fieldname": "download_template",
-   "fieldtype": "Button",
-   "label": "Download Template"
-  },
-  {
-   "depends_on": "eval:doc.upload_type=='Template Import'",
-   "description": "Remember to import timesheet",
-   "fieldname": "timesheet",
-   "fieldtype": "Attach",
-   "label": "Timesheet"
-  },
-  {
-   "fieldname": "column_break_mzsy",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "timesheet_details",

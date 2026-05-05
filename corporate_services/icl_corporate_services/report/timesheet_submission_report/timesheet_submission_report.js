@@ -75,12 +75,6 @@ frappe.query_reports["Timesheet Submission Report"] = {
 			],
 			"width": 160
 		},
-		{
-			"fieldname": "timesheet_imported",
-			"label": __("Imported Only"),
-			"fieldtype": "Check",
-			"width": 100
-		}
 	],
 
 	"formatter": function (value, row, column, data, default_formatter) {

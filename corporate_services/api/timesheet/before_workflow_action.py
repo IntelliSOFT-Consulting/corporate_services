@@ -1,14 +1,19 @@
 import frappe
 from frappe import _
-from frappe.utils import cint
 
 def before_workflow_action_timesheet_submission(doc, method):
     if method != "before_workflow_action":
         return
 
     if doc.workflow_state in ["Submitted to Supervisor", "Submitted to Project Manager"]:
-        has_uploaded_timesheet = bool(doc.timesheet)
-        has_imported_flag = cint(doc.timesheet_imported) == 1
+        total_hours = float(doc.total_working_hours or 0)
+        if total_hours <= 0:
+            frappe.throw(
+                _(
+                    "Total Working Hours must be greater than 0 before submitting to the supervisor for {0}."
+                ).format(doc.name)
+            )
+
         has_generated_timesheets = bool(
             frappe.db.exists(
                 "Timesheet",
@@ -16,10 +21,10 @@ def before_workflow_action_timesheet_submission(doc, method):
             )
         )
 
-        if not (has_uploaded_timesheet or has_imported_flag or has_generated_timesheets):
+        if not has_generated_timesheets:
             frappe.throw(
                 _(
-                    "You must upload and import a timesheet before submitting to the supervisor for {0}."
+                    "You must insert timesheet entries in the system before submitting to the supervisor for {0}."
                 ).format(doc.name)
             )
 

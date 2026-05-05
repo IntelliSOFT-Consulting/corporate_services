@@ -33,12 +33,10 @@ function toggle_finance_tab(frm) {
 }
 
 function add_insert_tasks_action(frm) {
-	frm.set_df_property("insert_timesheet_tasks", "hidden", 1);
 	frm.remove_custom_button(__("Insert Tasks"));
 
 	const can_show =
 		!frm.is_new() &&
-		frm.doc.upload_type === "System Upload" &&
 		frm.doc.employee &&
 		frm.doc.month_year;
 
