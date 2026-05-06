@@ -23,6 +23,7 @@
   "section_break_iixw",
   "total_advance",
   "local_total_advance",
+  "actual_allocated_amount",
   "total_spent",
   "total_balance",
   "column_break_zkad",
@@ -173,6 +174,12 @@
    "fieldtype": "Currency",
    "label": "Local Total Advance",
    "read_only": 1
+  },
+  {
+   "description": "Used for reconciliation calculations when different from requested amount.",
+   "fieldname": "actual_allocated_amount",
+   "fieldtype": "Currency",
+   "label": "Actual Allocated Amount"
   },
   {
    "fieldname": "amended_from",

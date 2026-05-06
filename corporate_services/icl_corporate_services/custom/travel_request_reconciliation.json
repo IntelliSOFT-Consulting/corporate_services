@@ -90,7 +90,7 @@
    "property": "field_order",
    "property_type": "Data",
    "row_name": null,
-   "value": "[\"workflow_state\", \"travel_request\", \"travelers_name\", \"actual_departure_time\", \"actual_arrival_time\", \"date_advance_taken\", \"date_of_reconciliation\", \"column_break_pfyo\", \"project_budget_codes\", \"activity_description\", \"trip_dates_from\", \"trip_datesto\", \"section_break_rmbi\", \"currency\", \"activity_participants_reconciliation\", \"section_break_iixw\", \"total_advance\", \"local_total_advance\", \"total_spent\", \"total_balance\", \"column_break_zkad\", \"total_local_amount\", \"section_break_oxho\", \"trip_report\", \"amended_from\"]"
+   "value": "[\"workflow_state\", \"travel_request\", \"travelers_name\", \"actual_departure_time\", \"actual_arrival_time\", \"date_advance_taken\", \"date_of_reconciliation\", \"column_break_pfyo\", \"project_budget_codes\", \"activity_description\", \"trip_dates_from\", \"trip_datesto\", \"section_break_rmbi\", \"currency\", \"activity_participants_reconciliation\", \"section_break_iixw\", \"total_advance\", \"local_total_advance\", \"actual_allocated_amount\", \"total_spent\", \"total_balance\", \"column_break_zkad\", \"total_local_amount\", \"section_break_oxho\", \"trip_report\", \"amended_from\"]"
   },
   {
    "_assign": null,

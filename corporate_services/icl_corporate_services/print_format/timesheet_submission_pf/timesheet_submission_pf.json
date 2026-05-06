@@ -1,7 +1,7 @@
 {
  "absolute_value": 0,
  "align_labels_right": 0,
- "creation": "2026-05-05 17:45:31.423738",
+ "creation": "2026-05-06 09:38:17.430168",
  "css": ".separator {\n    border: 4px;\n    height: 8px;\n    background: linear-gradient(to right, #008080 50%, #4d4d4d 50%);\n}\n.table1{\n        border-top: 2px solid #000;\n        margin: 20px 0;\n        max-width:100%;\n        border-collapse:collapse;\n        }         \n.header{\n   \n    height:25%;\n    width: 25%;\n}\n.date{\n   text-align:center;\n}\n.footer-image {\n    position: fixed;\n    bottom: 0;\n    right: 0;\n    height:8%;\n    text-align: right;\n    padding-top:20px;\n    \n}",
  "custom_format": 1,
  "default_print_language": "en",
@@ -17,7 +17,7 @@
  "margin_left": 15.0,
  "margin_right": 15.0,
  "margin_top": 15.0,
- "modified": "2026-05-05 17:46:05.240378",
+ "modified": "2026-05-06 09:38:49.338452",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission PF",

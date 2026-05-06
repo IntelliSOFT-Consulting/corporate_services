@@ -1,0 +1,26 @@
+{
+ "content": null,
+ "creation": "2026-05-06 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-05-06 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "travel-reconciliation-dashboard",
+ "owner": "Administrator",
+ "page_name": "travel-reconciliation-dashboard",
+ "roles": [
+  {
+   "role": "Finance"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 1,
+ "title": "Travel Reconciliation Dashboard"
+}
