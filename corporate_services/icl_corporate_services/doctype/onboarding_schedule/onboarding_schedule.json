@@ -11,6 +11,7 @@
   "column_break_ujln",
   "employee_name",
   "employee_email",
+  "job_applicant",
   "section_break_esbq",
   "description",
   "onboarding_schedule_tab",
@@ -85,6 +86,13 @@
    "in_standard_filter": 1,
    "label": "Employee Email",
    "read_only": 1
+  },
+  {
+   "fetch_from": "employee.job_applicant",
+   "fieldname": "job_applicant",
+   "fieldtype": "Link",
+   "label": "Job Applicant",
+   "options": "Job Applicant"
   },
   {
    "fieldname": "section_break_esbq",

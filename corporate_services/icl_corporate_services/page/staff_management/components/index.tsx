@@ -8,6 +8,7 @@ import { StaffStats } from "./StaffStats";
 import { OnLeaveCard } from "./OnLeaveCard";
 import { EmployeeTable } from "./EmployeeTable";
 import { EmployeeDetail } from "./EmployeeDetail";
+import { ConsultantTimeOffTab } from "./ConsultantTimeOffTab";
 import { StaffStats as StaffStatsType } from "./types";
 
 declare global {
@@ -18,7 +19,10 @@ declare global {
   }
 }
 
+type Tab = "overview" | "consultant-time-off";
+
 function StaffManagementApp({ page: _page }: { page: any }) {
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [routeSegment, setRouteSegment] = useState<string | null>(() => {
     const route = (globalThis as any).frappe?.get_route?.() ?? [];
     return route[1] || null;
@@ -91,19 +95,65 @@ function StaffManagementApp({ page: _page }: { page: any }) {
                     : "All active employees"}
                 </p>
               </div>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={() => (globalThis as any).frappe?.new_doc("Employee")}
-              >
-                + New Employee
-              </button>
-              <button>Employee Turnover</button>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  style={{ marginRight: "8px" }}
+                  onClick={() =>
+                    (globalThis as any).frappe?.new_doc("Employee")
+                  }
+                >
+                  + New Employee
+                </button>
+
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={() =>
+                    (globalThis as any).frappe?.new_doc("Employee Turnover")
+                  }
+                >
+                  Employee Turnover
+                </button>
+              </div>
             </div>
 
-            <StaffStats onStatsLoaded={(s) => s && setSidebarStats(s)} />
-            <OnLeaveCard onOpen={openEmployee} />
-            <EmployeeTable deptFilter={deptFilter} onOpen={openEmployee} />
+            <ul className="nav nav-tabs mb-3">
+              <li className="nav-item">
+                <a
+                  className={`nav-link${activeTab === "overview" ? " active" : ""}`}
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab("overview");
+                  }}
+                >
+                  Overview
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link${activeTab === "consultant-time-off" ? " active" : ""}`}
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab("consultant-time-off");
+                  }}
+                >
+                  Consultant Time Off
+                </a>
+              </li>
+            </ul>
+
+            {activeTab === "overview" && (
+              <>
+                <StaffStats onStatsLoaded={(s) => s && setSidebarStats(s)} />
+                <OnLeaveCard onOpen={openEmployee} />
+                <EmployeeTable deptFilter={deptFilter} onOpen={openEmployee} />
+              </>
+            )}
+
+            {activeTab === "consultant-time-off" && <ConsultantTimeOffTab />}
           </>
         )}
       </div>

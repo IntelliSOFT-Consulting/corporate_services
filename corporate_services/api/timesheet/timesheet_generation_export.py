@@ -8,6 +8,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.worksheet.table import Table, TableColumn, TableStyleInfo, TableFormula
 
+from corporate_services.api.timesheet.finance_settings_utils import get_finance_start_day, get_finance_end_day
+
 
 DEFAULT_TEMPLATE = "Default"
 SHORT_TERM_CONSULTANT_TEMPLATE = "Short Term Consultant"
@@ -33,8 +35,9 @@ def get_timesheet_period(month, year):
         previous_month = month - 1
 
     last_day = calendar.monthrange(previous_year, previous_month)[1]
-    start_date = datetime(previous_year, previous_month, min(29, last_day)).date()
-    end_date = datetime(year, month, 28).date()
+    start_date = datetime(previous_year, previous_month, min(get_finance_start_day(), last_day)).date()
+    last_day_current = calendar.monthrange(year, month)[1]
+    end_date = datetime(year, month, min(get_finance_end_day(), last_day_current)).date()
 
     return start_date, end_date
 
@@ -221,13 +224,14 @@ def build_short_term_consultant_workbook(employee_name, month_name, year, start_
     total_font = Font(name="Arial", bold=True)
 
     ws.column_dimensions["A"].width = 22.14
-    ws.column_dimensions["B"].width = 53.43
-    ws.column_dimensions["C"].width = 68.29
-    ws.column_dimensions["D"].width = 11.71
+    ws.column_dimensions["B"].width = 30.00
+    ws.column_dimensions["C"].width = 53.43
+    ws.column_dimensions["D"].width = 68.29
+    ws.column_dimensions["E"].width = 11.71
 
-    ws.merge_cells("A1:D1")
-    ws.merge_cells("A2:D2")
-    ws.merge_cells("A3:D3")
+    ws.merge_cells("A1:E1")
+    ws.merge_cells("A2:E2")
+    ws.merge_cells("A3:E3")
 
     ws["A1"] = "INTELLISOFT CONSULTING LTD"
     ws["A2"] = "Timesheet"
@@ -254,7 +258,7 @@ def build_short_term_consultant_workbook(employee_name, month_name, year, start_
     for cell_ref in ("A4", "A5"):
         ws[cell_ref].font = bold_font
 
-    headers = ["Date", "Task", "Deliverables", "Hours Worked"]
+    headers = ["Date", "Project Name", "Task", "Deliverables", "Hours Worked"]
     for index, header in enumerate(headers, start=1):
         cell = ws.cell(row=7, column=index, value=header)
         cell.fill = dark_blue_fill
@@ -279,27 +283,31 @@ def build_short_term_consultant_workbook(employee_name, month_name, year, start_
         date_cell.alignment = Alignment(horizontal="center", vertical="top")
         date_cell.border = thin_border
 
-        task_cell = ws.cell(row=row_num, column=2)
+        project_name_cell = ws.cell(row=row_num, column=2)
+        project_name_cell.alignment = Alignment(horizontal="left")
+        project_name_cell.border = thin_border
+
+        task_cell = ws.cell(row=row_num, column=3)
         task_cell.alignment = Alignment(horizontal="left")
         task_cell.border = thin_border
 
-        deliverables_cell = ws.cell(row=row_num, column=3)
+        deliverables_cell = ws.cell(row=row_num, column=4)
         deliverables_cell.alignment = Alignment(horizontal="left")
         deliverables_cell.border = thin_border
 
-        hours_cell = ws.cell(row=row_num, column=4)
+        hours_cell = ws.cell(row=row_num, column=5)
         hours_cell.alignment = Alignment(horizontal="right")
         hours_cell.border = thin_border
 
     total_row = data_end_row + 1
-    total_label_cell = ws.cell(row=total_row, column=2, value="Total Hours worked")
+    total_label_cell = ws.cell(row=total_row, column=4, value="Total Hours worked")
     total_label_cell.font = total_font
     total_label_cell.alignment = Alignment(horizontal="right", vertical="top")
 
     total_hours_cell = ws.cell(
         row=total_row,
-        column=4,
-        value=f"=SUM(D{data_start_row}:D{data_end_row})",
+        column=5,
+        value=f"=SUM(E{data_start_row}:E{data_end_row})",
     )
     total_hours_cell.alignment = Alignment(horizontal="right", vertical="top")
 

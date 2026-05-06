@@ -12,9 +12,23 @@ export interface StaffStats {
   total_active: number;
   new_this_month: number;
   on_leave_today: number;
+  consultants_on_leave_today: number;
   dept_count: number;
   department_breakdown: DeptBreakdown[];
   employment_type_breakdown: TypeBreakdown[];
+}
+
+export interface ConsultantTimeOffRow {
+  employee: string;
+  employee_name: string;
+  department?: string;
+  designation?: string;
+  employment_type?: string;
+  leave_type: string;
+  from_date: string;
+  to_date: string;
+  total_leave_days: number;
+  leave_application: string;
 }
 
 export interface EmployeeRow {

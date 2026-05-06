@@ -5,10 +5,20 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "finance_team_details_tab",
   "finance_settings_section",
   "finance_email",
   "finance_team_members_section",
-  "table_finance_team_members"
+  "table_finance_team_members",
+  "timesheet_tab",
+  "timesheet_submission_section",
+  "start_date",
+  "column_break_ttmp",
+  "end_date",
+  "timesheet_reminder_section_section",
+  "timesheet_reminder",
+  "days_before_start_date",
+  "column_break_fobi"
  ],
  "fields": [
   {
@@ -34,13 +44,69 @@
    "fieldtype": "Table",
    "label": "Finance Team Members",
    "options": "Finance Department"
+  },
+  {
+   "fieldname": "timesheet_tab",
+   "fieldtype": "Tab Break",
+   "label": "Timesheet"
+  },
+  {
+   "description": "These two dates are required for timesheet generation",
+   "fieldname": "timesheet_submission_section",
+   "fieldtype": "Section Break",
+   "label": "Timesheet submission"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ttmp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "finance_team_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Finance Team Details"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Int",
+   "label": "To Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "timesheet_reminder_section_section",
+   "fieldtype": "Section Break",
+   "label": "Timesheet reminder section"
+  },
+  {
+   "default": "0",
+   "fieldname": "timesheet_reminder",
+   "fieldtype": "Check",
+   "label": "Timesheet Reminder"
+  },
+  {
+   "description": "Number of days before start date",
+   "depends_on": "eval:doc.timesheet_reminder==1",
+   "fieldname": "days_before_start_date",
+   "fieldtype": "Int",
+   "label": "Days Before Start date",
+   "mandatory_depends_on": "eval:doc.timesheet_reminder==1"
+  },
+  {
+   "fieldname": "column_break_fobi",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-03-25 09:27:36.562754",
+ "modified": "2026-05-01 18:36:02.955169",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Finance Settings",

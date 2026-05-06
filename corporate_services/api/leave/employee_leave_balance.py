@@ -96,6 +96,7 @@ def raise_leave_balance_issue(employee: str, issue: str):
     employee_email = employee_doc.company_email or employee_doc.personal_email or ""
     employee_url = get_url_to_form("Employee", employee_doc.name)
 
+    issue_html = escape_html(issue).replace("\n", "<br>")
     message = f"""
         Dear HR Team,<br><br>
         A leave balance issue has been raised for employee <b>{escape_html(employee_doc.employee_name or employee_doc.name)}</b>
@@ -104,7 +105,7 @@ def raise_leave_balance_issue(employee: str, issue: str):
         <b>Employee Email:</b> {escape_html(employee_email)}<br>
         <b>Employee Record:</b> <a href="{employee_url}">{escape_html(employee_doc.name)}</a><br><br>
         <b>Issue Details:</b><br>
-        {escape_html(issue).replace("\\n", "<br>")}<br><br>
+        {issue_html}<br><br>
         Kind regards,<br>
         {escape_html(reporter)}
     """

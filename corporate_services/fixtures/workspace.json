@@ -12,7 +12,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-04-28 14:01:19.918435",
+  "modified": "2026-04-30 11:41:17.674106",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -479,7 +479,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:20.037273",
+  "modified": "2026-04-30 11:41:17.772246",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -793,7 +793,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:16:38.246611",
+  "modified": "2026-04-30 11:41:17.980047",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -994,7 +994,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:20.373382",
+  "modified": "2026-04-30 11:41:18.076217",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1221,7 +1221,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-04-28 14:01:20.440787",
+  "modified": "2026-04-30 11:41:18.147100",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -1619,7 +1619,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:20.598154",
+  "modified": "2026-04-30 11:41:18.284634",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2254,7 +2254,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-04-28 14:01:20.802618",
+  "modified": "2026-04-30 11:41:18.447845",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -2873,7 +2873,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:20.887768",
+  "modified": "2026-04-30 11:41:18.540745",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -3246,7 +3246,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.036003",
+  "modified": "2026-04-30 11:41:18.667735",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -3922,7 +3922,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.130531",
+  "modified": "2026-04-30 11:41:18.762568",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4280,7 +4280,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.248141",
+  "modified": "2026-04-30 11:41:18.884835",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4687,7 +4687,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.337532",
+  "modified": "2026-04-30 11:41:18.979525",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5770,7 +5770,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.511327",
+  "modified": "2026-04-30 11:41:19.153814",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6238,7 +6238,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.683578",
+  "modified": "2026-04-30 11:41:19.464651",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -6972,7 +6972,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.778062",
+  "modified": "2026-04-30 11:41:19.614148",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7156,7 +7156,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.890780",
+  "modified": "2026-04-30 11:41:19.705339",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7359,7 +7359,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-28 14:01:21.954781",
+  "modified": "2026-04-30 11:41:19.765940",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [],
@@ -7493,74 +7493,6 @@
  {
   "charts": [
    {
-    "chart_name": "Timesheet Submission Report: Total Hours vs Employee Name",
-    "label": "Total Hours vs Employee ",
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "charts",
-    "parenttype": "Workspace"
-   },
-   {
-    "chart_name": "Timesheet Submission report",
-    "label": "Timesheet Submission report",
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "charts",
-    "parenttype": "Workspace"
-   }
-  ],
-  "content": "[{\"id\":\"ypVJyizVlt\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Timesheet Submission Welcome\",\"col\":12}},{\"id\":\"Zal_6uLCTt\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Total Hours vs Employee \",\"col\":12}},{\"id\":\"DUjMxsFlHq\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission report\",\"col\":6}}]",
-  "custom_blocks": [
-   {
-    "custom_block_name": "Timesheet Submission Welcome",
-    "label": "Timesheet Submission Welcome",
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "custom_blocks",
-    "parenttype": "Workspace"
-   }
-  ],
-  "docstatus": 0,
-  "doctype": "Workspace",
-  "for_user": "",
-  "hide_custom": 0,
-  "icon": "table_2",
-  "indicator_color": "yellow",
-  "is_hidden": 0,
-  "label": "Employee Timesheet Submission",
-  "links": [],
-  "modified": "2026-04-28 14:01:22.024616",
-  "module": "ICL Corporate Services",
-  "name": "Employee Timesheet Submission",
-  "number_cards": [],
-  "parent_page": "ICL HR Admin",
-  "public": 1,
-  "quick_lists": [],
-  "restrict_to_domain": null,
-  "roles": [
-   {
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "roles",
-    "parenttype": "Workspace",
-    "role": "HR Manager"
-   },
-   {
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "roles",
-    "parenttype": "Workspace",
-    "role": "Projects Manager"
-   },
-   {
-    "parent": "Employee Timesheet Submission",
-    "parentfield": "roles",
-    "parenttype": "Workspace",
-    "role": "Finance"
-   }
-  ],
-  "sequence_id": 6.0,
-  "shortcuts": [],
-  "title": "Employee Timesheet Submission"
- },
- {
-  "charts": [
-   {
     "chart_name": "Monthly Reflection Submission",
     "label": "Monthly Reflection Submission",
     "parent": "Employee Monthly Reflection",
@@ -7587,7 +7519,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-04-28 14:01:22.073891",
+  "modified": "2026-04-30 11:41:19.845135",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7691,7 +7623,7 @@
   "is_hidden": 0,
   "label": "ICL Opportunity",
   "links": [],
-  "modified": "2026-04-28 14:01:22.124123",
+  "modified": "2026-04-30 11:41:19.918473",
   "module": "ICL Corporate Services",
   "name": "ICL Opportunity",
   "number_cards": [],
@@ -7809,7 +7741,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-04-28 14:01:22.164781",
+  "modified": "2026-04-30 11:41:19.992530",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7870,7 +7802,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-04-28 14:01:22.206467",
+  "modified": "2026-04-30 11:41:20.055260",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [

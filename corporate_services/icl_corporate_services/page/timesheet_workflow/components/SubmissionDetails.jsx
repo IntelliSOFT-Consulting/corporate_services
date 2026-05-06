@@ -27,6 +27,45 @@ function formatDate(value) {
   return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
 }
 
+function renderTaskDetails(taskValue) {
+  const raw = (taskValue || "").toString().trim();
+  if (!raw) return "-";
+
+  const lines = raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (!lines.length) return "-";
+
+  return (
+    <div>
+      {lines.map((line, index) => {
+        const taskMatch = line.match(/^Task:\s*(.*)$/i);
+        const deliverablesMatch = line.match(/^Deliverables:\s*(.*)$/i);
+
+        if (taskMatch) {
+          return (
+            <div key={`task-line-${index}`}>
+              <strong>Task:</strong> {taskMatch[1] || "-"}
+            </div>
+          );
+        }
+
+        if (deliverablesMatch) {
+          return (
+            <div key={`task-line-${index}`}>
+              <strong>Deliverables:</strong> {deliverablesMatch[1] || "-"}
+            </div>
+          );
+        }
+
+        return <div key={`task-line-${index}`}>{line}</div>;
+      })}
+    </div>
+  );
+}
+
 function useSubmissionCharts({ projects, tasks }) {
   useEffect(() => {
     if (typeof window.Chart === "undefined") return undefined;
@@ -555,8 +594,7 @@ function SubmissionDetails({ submission, employee, onBack }) {
                   <tr>
                     <th style={{ width: 48 }}>#</th>
                     <th>Task</th>
-                    <th>Project</th>
-                    <th>Project Name</th>
+                    <th>Project/Activity Name</th>
                     <th>Total Hours</th>
                     <th>Entries</th>
                   </tr>
@@ -573,7 +611,6 @@ function SubmissionDetails({ submission, employee, onBack }) {
                       <tr key={`${task.task}-${task.project}-${index}`}>
                         <td className="text-muted">{index + 1}</td>
                         <td>{task.task || "-"}</td>
-                        <td>{task.project || "-"}</td>
                         <td>{task.project_name || "-"}</td>
                         <td>{Number(task.hours || 0).toFixed(2)}</td>
                         <td>{task.entries || 0}</td>
@@ -598,8 +635,7 @@ function SubmissionDetails({ submission, employee, onBack }) {
                 <tr>
                   <th style={{ width: 48 }}>#</th>
                   <th>Date</th>
-                  <th>Project</th>
-                  <th>Project Name</th>
+                  <th>Project/Activity Name</th>
                   <th>Task</th>
                   <th>Activity</th>
                   <th>Hours</th>
@@ -619,9 +655,8 @@ function SubmissionDetails({ submission, employee, onBack }) {
                         {(entryPage - 1) * ENTRY_PAGE_SIZE + index + 1}
                       </td>
                       <td>{formatDate(ts.date)}</td>
-                      <td>{ts.project || "-"}</td>
                       <td>{ts.project_name || "-"}</td>
-                      <td>{ts.task_name || ts.task || "-"}</td>
+                      <td>{renderTaskDetails(ts.task_name || ts.task)}</td>
                       <td>{ts.activity_type || "-"}</td>
                       <td>{Number(ts.hours || 0).toFixed(2)}</td>
                     </tr>

@@ -5,7 +5,7 @@
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
-  "field_order": [
+ "field_order": [
   "column_break_faid",
   "timesheet",
   "timesheet_type",
@@ -25,6 +25,7 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "month",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -38,6 +39,7 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "total_hours",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -53,7 +55,7 @@
    "fieldname": "project_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Project Name",
+   "label": "Project/Activity Name",
    "read_only": 1
   },
   {
@@ -74,7 +76,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-28 12:56:29.389530",
+ "modified": "2026-05-01 11:14:53.451938",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Timesheet Submission List",
