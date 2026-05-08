@@ -12,7 +12,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-04-30 11:41:17.674106",
+  "modified": "2026-05-06 09:38:49.962705",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -479,7 +479,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:17.772246",
+  "modified": "2026-05-06 09:38:50.121899",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -793,7 +793,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:17.980047",
+  "modified": "2026-05-06 09:38:50.390001",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -994,7 +994,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.076217",
+  "modified": "2026-05-06 09:38:50.510023",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1221,7 +1221,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-04-30 11:41:18.147100",
+  "modified": "2026-05-06 09:38:50.574403",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -1619,7 +1619,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.284634",
+  "modified": "2026-05-06 09:38:50.717439",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2254,7 +2254,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-04-30 11:41:18.447845",
+  "modified": "2026-05-06 09:38:50.921258",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -2277,7 +2277,7 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"cIdMd76p_S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Finance Settings\",\"col\":3}},{\"id\":\"Xy1u5RhLgN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Workflow\",\"col\":3}},{\"id\":\"TsWcgZPqcM\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"NxQnPbBEVw\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Staff Requisition\",\"col\":12}},{\"id\":\"nJun6mx6h4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Q6nv3ukJ_0\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":4}},{\"id\":\"lTrGiXbvHA\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"Bu53a4s5pU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _mstvisible=\\\"5\\\"><b _msttexthash=\\\"141518\\\" _msthash=\\\"780\\\" _mstvisible=\\\"6\\\">Shortcuts</b></span>\",\"col\":12}},{\"id\":\"ig1g1wBMZt\",\"type\":\"card\",\"data\":{\"card_name\":\"Projects\",\"col\":4}},{\"id\":\"yW_hT1yVnY\",\"type\":\"card\",\"data\":{\"card_name\":\"Project Based Accounting\",\"col\":4}},{\"id\":\"bPMUldGueN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EHci6cezpl\",\"type\":\"card\",\"data\":{\"card_name\":\"Travel Process\",\"col\":4}},{\"id\":\"oaxbpvdAtq\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"WCz7lGIPtN\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"_pEUUDkGXg\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"IrwJKaLJKa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _mstvisible=\\\"5\\\"><b _msttexthash=\\\"829244\\\" _msthash=\\\"800\\\" _mstvisible=\\\"6\\\">Project Based Accounting Reports</b></span>\",\"col\":12}},{\"id\":\"9SrrfgL-Sq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Billing Summary\",\"col\":3}},{\"id\":\"ZJrx7je_xB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Timesheet Summary\",\"col\":3}},{\"id\":\"IuFdREtK44\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Wise Stock Tracking\",\"col\":3}},{\"id\":\"dH_JaIwzYB\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"XUXkSYMGnQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _msttexthash=\\\"1324466\\\" _msthash=\\\"807\\\" _mstvisible=\\\"5\\\">Procurement and Asset lifecycle management<b _mstvisible=\\\"6\\\"></b></span>\",\"col\":12}},{\"id\":\"ObVzm9ASLO\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"XF7XTKT_UM\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"ZjBpu46upp\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}},{\"id\":\"6XShyKhGpY\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Custodianship Requisition\",\"col\":4}},{\"id\":\"lyFgUWw1mP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"yw9nuXC-v6\",\"type\":\"card\",\"data\":{\"card_name\":\"Suppliers Processes\",\"col\":4}},{\"id\":\"g0as4eNtfs\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Request for Quotation\",\"col\":4}},{\"id\":\"wbGGlfxAvv\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Supplier Quote Submission\",\"col\":4}},{\"id\":\"bVHfdgb1nB\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"6bi1v3YsaT\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _msttexthash=\\\"1003483\\\" _msthash=\\\"831\\\" _mstvisible=\\\"5\\\">Purchase order management processes<b _mstvisible=\\\"6\\\"></b></span>\",\"col\":12}},{\"id\":\"kanDQplit-\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order Processes\",\"col\":4}}]",
+  "content": "[{\"id\":\"cIdMd76p_S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Finance Settings\",\"col\":3}},{\"id\":\"Xy1u5RhLgN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Workflow\",\"col\":3}},{\"id\":\"TsWcgZPqcM\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"tHCWnWEsdA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Reconciliation Dashboard\",\"col\":3}},{\"id\":\"va8dL1iZUL\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"NxQnPbBEVw\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Staff Requisition\",\"col\":12}},{\"id\":\"nJun6mx6h4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Q6nv3ukJ_0\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":4}},{\"id\":\"lTrGiXbvHA\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"Bu53a4s5pU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _mstvisible=\\\"5\\\"><b _msttexthash=\\\"141518\\\" _msthash=\\\"780\\\" _mstvisible=\\\"6\\\">Shortcuts</b></span>\",\"col\":12}},{\"id\":\"ig1g1wBMZt\",\"type\":\"card\",\"data\":{\"card_name\":\"Projects\",\"col\":4}},{\"id\":\"yW_hT1yVnY\",\"type\":\"card\",\"data\":{\"card_name\":\"Project Based Accounting\",\"col\":4}},{\"id\":\"bPMUldGueN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"EHci6cezpl\",\"type\":\"card\",\"data\":{\"card_name\":\"Travel Process\",\"col\":4}},{\"id\":\"oaxbpvdAtq\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":4}},{\"id\":\"WCz7lGIPtN\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":4}},{\"id\":\"_pEUUDkGXg\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"IrwJKaLJKa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _mstvisible=\\\"5\\\"><b _msttexthash=\\\"829244\\\" _msthash=\\\"800\\\" _mstvisible=\\\"6\\\">Project Based Accounting Reports</b></span>\",\"col\":12}},{\"id\":\"9SrrfgL-Sq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Billing Summary\",\"col\":3}},{\"id\":\"ZJrx7je_xB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Timesheet Summary\",\"col\":3}},{\"id\":\"IuFdREtK44\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Wise Stock Tracking\",\"col\":3}},{\"id\":\"dH_JaIwzYB\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"XUXkSYMGnQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _msttexthash=\\\"1324466\\\" _msthash=\\\"807\\\" _mstvisible=\\\"5\\\">Procurement and Asset lifecycle management<b _mstvisible=\\\"6\\\"></b></span>\",\"col\":12}},{\"id\":\"ObVzm9ASLO\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"XF7XTKT_UM\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"ZjBpu46upp\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}},{\"id\":\"6XShyKhGpY\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Custodianship Requisition\",\"col\":4}},{\"id\":\"lyFgUWw1mP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"yw9nuXC-v6\",\"type\":\"card\",\"data\":{\"card_name\":\"Suppliers Processes\",\"col\":4}},{\"id\":\"g0as4eNtfs\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Request for Quotation\",\"col\":4}},{\"id\":\"wbGGlfxAvv\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Supplier Quote Submission\",\"col\":4}},{\"id\":\"bVHfdgb1nB\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"6bi1v3YsaT\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" _msttexthash=\\\"1003483\\\" _msthash=\\\"831\\\" _mstvisible=\\\"5\\\">Purchase order management processes<b _mstvisible=\\\"6\\\"></b></span>\",\"col\":12}},{\"id\":\"kanDQplit-\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Order Processes\",\"col\":4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -2873,7 +2873,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.540745",
+  "modified": "2026-05-06 10:45:00.412922",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -2971,6 +2971,23 @@
     "restrict_to_domain": null,
     "stats_filter": null,
     "type": "Report",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Travel Reconciliation Dashboard",
+    "link_to": "travel-reconciliation-dashboard",
+    "parent": "ICL Finance",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
     "url": null
    },
    {
@@ -3246,7 +3263,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.667735",
+  "modified": "2026-05-06 09:38:51.222380",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -3922,7 +3939,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.762568",
+  "modified": "2026-05-06 09:38:51.370542",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4280,7 +4297,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.884835",
+  "modified": "2026-05-06 09:38:51.534828",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4687,7 +4704,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:18.979525",
+  "modified": "2026-05-06 09:38:51.681291",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5770,7 +5787,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:19.153814",
+  "modified": "2026-05-06 09:38:51.857157",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6238,7 +6255,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:19.464651",
+  "modified": "2026-05-06 09:38:52.070587",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -6972,7 +6989,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:19.614148",
+  "modified": "2026-05-06 09:38:52.233373",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7156,7 +7173,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:19.705339",
+  "modified": "2026-05-06 09:38:52.351234",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7359,7 +7376,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-04-30 11:41:19.765940",
+  "modified": "2026-05-06 09:38:52.451431",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [],
@@ -7519,7 +7536,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-04-30 11:41:19.845135",
+  "modified": "2026-05-06 09:38:52.521139",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7623,7 +7640,7 @@
   "is_hidden": 0,
   "label": "ICL Opportunity",
   "links": [],
-  "modified": "2026-04-30 11:41:19.918473",
+  "modified": "2026-05-06 09:38:52.586170",
   "module": "ICL Corporate Services",
   "name": "ICL Opportunity",
   "number_cards": [],
@@ -7741,7 +7758,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-04-30 11:41:19.992530",
+  "modified": "2026-05-06 09:38:52.644123",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7802,7 +7819,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-04-30 11:41:20.055260",
+  "modified": "2026-05-06 09:38:52.705356",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [

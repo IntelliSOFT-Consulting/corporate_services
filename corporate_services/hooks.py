@@ -80,11 +80,13 @@ doctype_js = {
     "Job Opening": "public/js/job_opening.js",
     "Opportunity": "public/js/opportunity.js",
     "Employee": "public/js/employee_leave_balance.js",
+    "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
 }
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
+    "Travel Request": "public/js/travel_request_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -201,7 +203,10 @@ def generate_doc_events(event_maps):
 on_update_map = {
     "Employee Grievance": "corporate_services.api.notification.notifications.employee_grievance",
     "Travel Request": "corporate_services.api.notification.travel_request.travel_request.alert",
-    "Travel Request Reconciliation": "corporate_services.api.notification.travel_request.travel_request_reconciliation.alert",
+    "Travel Request Reconciliation": [
+        "corporate_services.api.notification.travel_request.travel_request_reconciliation.alert",
+        "corporate_services.icl_corporate_services.doctype.travel_request_reconciliation.travel_request_reconciliation.sync_travel_request_reconciliation_status",
+    ],
     "Leave Application": "corporate_services.api.notification.leave_application.alert",
     "Work Continuity Plan": "corporate_services.api.notification.work_continuity_plan.alert",
     "Asset Custodianship Requisition": "corporate_services.api.notification.asset_custotianship_requisition.alert",
@@ -444,4 +449,6 @@ fixtures = [
     "Custom HTML Block",
     "KPI Template Instructions",
     "Custom DocPerm",
+    # "Wiki Space",
+    # "Wiki Page",
 ]
