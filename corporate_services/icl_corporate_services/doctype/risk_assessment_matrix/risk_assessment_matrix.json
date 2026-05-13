@@ -3,6 +3,7 @@
  "allow_rename": 1,
  "creation": "2026-05-11 08:53:34.917685",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "section_break_rztz"
@@ -13,28 +14,16 @@
    "fieldtype": "Section Break"
   }
  ],
- "grid_page_length": 50,
+ "grid_page_length": 100,
  "index_web_pages_for_search": 1,
+ "istable": 1,
  "links": [],
- "modified": "2026-05-11 08:53:34.917685",
+ "modified": "2026-05-13 12:05:56.943387",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Risk Assessment Matrix",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+ "permissions": [],
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",

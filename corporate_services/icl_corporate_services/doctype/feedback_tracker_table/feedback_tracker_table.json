@@ -18,51 +18,69 @@
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Date"
   },
   {
+   "columns": 1,
    "fieldname": "name_of_featurearea",
    "fieldtype": "Small Text",
+   "in_list_view": 1,
    "label": "Name of Feature/Area"
   },
   {
+   "columns": 2,
    "fieldname": "feedback",
    "fieldtype": "Small Text",
+   "in_list_view": 1,
    "label": "Feedback"
   },
   {
+   "columns": 1,
    "fieldname": "link_screenshot",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Link & Screenshot"
   },
   {
+   "columns": 1,
    "fieldname": "scope",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Scope"
   },
   {
+   "columns": 1,
    "fieldname": "loedays",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "LOE(days)",
    "non_negative": 1
   },
   {
+   "columns": 1,
    "fieldname": "priority",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Priority",
    "options": "\nHigh\nMedium\nLow"
   },
   {
+   "columns": 1,
    "fieldname": "implementation_status",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Implementation status",
    "options": "Implementation status"
   },
   {
+   "columns": 1,
    "fieldname": "tests_in_production_env",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Tests in Production Env ",
    "options": "Test Status"
   }
@@ -71,7 +89,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-05-11 08:53:03.078933",
+ "modified": "2026-05-13 12:03:13.450564",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Feedback Tracker Table",

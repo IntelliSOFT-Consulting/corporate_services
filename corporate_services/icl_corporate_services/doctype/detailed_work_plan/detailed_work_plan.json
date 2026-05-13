@@ -12,7 +12,9 @@
   "column_break_ghko",
   "project_timeline",
   "project_start_date",
-  "project_end_date"
+  "project_end_date",
+  "section_break_cory",
+  "table_bcjf"
  ],
  "fields": [
   {
@@ -56,12 +58,21 @@
    "fieldname": "project_end_date",
    "fieldtype": "Data",
    "label": "Project End date"
+  },
+  {
+   "fieldname": "section_break_cory",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_bcjf",
+   "fieldtype": "Table",
+   "options": "Detailed Work Plan Table"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-13 10:31:39.523107",
+ "modified": "2026-05-13 10:50:01.350179",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Detailed Work Plan",

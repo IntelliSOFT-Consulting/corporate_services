@@ -5,19 +5,27 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "project_name"
+  "project",
+  "table_wpos"
  ],
  "fields": [
   {
-   "fieldname": "project_name",
-   "fieldtype": "Data",
-   "label": "Project Name"
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "table_wpos",
+   "fieldtype": "Table",
+   "label": "Feedback Tracker",
+   "options": "Feedback Tracker Table"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-11 08:45:36.660951",
+ "modified": "2026-05-13 12:03:39.247599",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Feedback Tracker",

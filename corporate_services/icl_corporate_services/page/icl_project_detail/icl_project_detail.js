@@ -50,31 +50,46 @@ class IclProjectDetailPage {
 	render(project) {
 		this.page.set_title(`Project Detail: ${project.name || ""}`);
 		$("#icl-project-detail-root").html(`
-			<div class="card border mb-3">
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-center mb-2">
+			<div class="card border">
+				<div class="card-body pb-0">
+					<div class="d-flex justify-content-between align-items-center">
 						<h5 class="mb-0">${frappe.utils.escape_html(project.project_name || project.name || "")}</h5>
 						<a href="#" id="open-project-form">${frappe.utils.escape_html(project.name || "")}</a>
 					</div>
-					<div class="row g-3">
-						${this.field("Status", project.status)}
-						${this.field("Priority", project.priority)}
-						${this.field("Progress", `${project.percent_complete || 0}%`)}
-						${this.field("Department", project.department)}
-						${this.field("Project Type", project.project_type)}
-						${this.field("Company", project.company)}
-						${this.field("Customer", project.customer)}
-						${this.field("Expected Start", project.expected_start_date)}
-						${this.field("Expected End", project.expected_end_date)}
-						${this.field("Created", project.creation)}
-						${this.field("Last Modified", project.modified)}
-					</div>
+					<ul class="nav nav-tabs mt-3" role="tablist">
+						<li class="nav-item">
+							<button class="nav-link active" data-project-tab="details" type="button" role="tab">Project Details</button>
+						</li>
+						<li class="nav-item">
+							<button class="nav-link" data-project-tab="folder" type="button" role="tab">Project Folder</button>
+						</li>
+					</ul>
 				</div>
-			</div>
-			<div class="card border">
-				<div class="card-body">
-					<h6 class="mb-2">Notes</h6>
-					<div>${project.notes ? frappe.utils.escape_html(project.notes) : '<span class="text-muted">No notes available.</span>'}</div>
+				<div class="tab-content">
+					<div class="tab-pane show active p-3" id="icl-project-details-pane" role="tabpanel">
+						<div class="row g-3 mb-3">
+							${this.field("Status", project.status)}
+							${this.field("Priority", project.priority)}
+							${this.field("Progress", `${project.percent_complete || 0}%`)}
+							${this.field("Department", project.department)}
+							${this.field("Project Type", project.project_type)}
+							${this.field("Company", project.company)}
+							${this.field("Customer", project.customer)}
+							${this.field("Expected Start", project.expected_start_date)}
+							${this.field("Expected End", project.expected_end_date)}
+							${this.field("Created", project.creation)}
+							${this.field("Last Modified", project.modified)}
+						</div>
+						<div class="card border mb-3">
+							<div class="card-body">
+								<h6 class="mb-2">Notes</h6>
+								<div>${project.notes ? frappe.utils.escape_html(project.notes) : '<span class="text-muted">No notes available.</span>'}</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane p-3 d-none" id="icl-project-folder-pane" role="tabpanel">
+						<div id="icl-project-folder-content" class="text-muted">Loading project folders...</div>
+					</div>
 				</div>
 			</div>
 		`);
@@ -84,8 +99,27 @@ class IclProjectDetailPage {
 			e.preventDefault();
 			frappe.set_route("Form", "Project", project.name);
 		});
+		$("#icl-project-detail-root").off("click", "[data-project-tab]");
+		$("#icl-project-detail-root").on("click", "[data-project-tab]", function () {
+			const tab = this.getAttribute("data-project-tab");
+			$("#icl-project-detail-root [data-project-tab]").removeClass("active");
+			$(this).addClass("active");
+			if (tab === "folder") {
+				$("#icl-project-details-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-folder-pane").removeClass("d-none").addClass("show active");
+			} else {
+				$("#icl-project-folder-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-details-pane").removeClass("d-none").addClass("show active");
+			}
+		});
+		$("#icl-project-detail-root").off("click", "[data-folder-name]");
+		$("#icl-project-detail-root").on("click", "[data-folder-name]", function (e) {
+			e.preventDefault();
+			frappe.set_route("Form", "File", this.getAttribute("data-folder-name"));
+		});
 
 		this.renderTemplateSidebar(project.name);
+		this.renderProjectFolderTab(project.name);
 	}
 
 	field(label, value) {
@@ -185,6 +219,77 @@ class IclProjectDetailPage {
 					'<div class="alert alert-warning m-2">Could not load project templates.</div>',
 				);
 			},
+			});
+		}
+
+	renderProjectFolderTab(projectName) {
+		frappe.call({
+			method:
+				"corporate_services.icl_corporate_services.page.icl_project_detail.icl_project_detail.get_project_folder_tree",
+			args: { project_name: projectName },
+			callback: (r) => {
+				const data = r.message || {};
+				if (!data.root) {
+					$("#icl-project-folder-content").html(
+						'<div class="alert alert-warning mb-0">No project folder found for this project.</div>',
+					);
+					return;
+				}
+				const totalFolders = this.countFolders(data.children || []);
+				$("#icl-project-folder-content").html(`
+					<div class="card border mb-3">
+						<div class="card-body p-3">
+							<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<div>
+									<div class="text-muted" style="font-size:12px;">Root Folder</div>
+									<a class="fw-semibold" href="#" data-folder-name="${frappe.utils.escape_html(data.root.name)}">${frappe.utils.escape_html(data.root.file_name)}</a>
+								</div>
+								<div class="text-muted" style="font-size:12px;">
+									Subfolders: <strong>${frappe.utils.escape_html(String(totalFolders))}</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card border">
+						<div class="card-body p-3">
+							<h6 class="mb-3">Folder Structure</h6>
+							${this.renderFolderTree(data.children || [])}
+						</div>
+					</div>
+				`);
+			},
+			error: () => {
+				$("#icl-project-folder-content").html(
+					'<div class="alert alert-warning mb-0">Could not load project folders.</div>',
+				);
+			},
 		});
 	}
-}
+
+	renderFolderTree(nodes) {
+		if (!nodes.length) {
+			return '<div class="text-muted">No subfolders found.</div>';
+		}
+		return `
+			<ul style="padding-left: 16px; margin-bottom: 0; list-style: none;">
+				${nodes
+					.map(
+						(node) => `
+					<li style="margin-bottom: 8px;">
+						<div class="d-flex align-items-center gap-2 p-2 border rounded" style="background:#fafbfc;">
+							<span style="font-size:14px;">📁</span>
+							<a href="#" data-folder-name="${frappe.utils.escape_html(node.name)}" class="fw-semibold">${frappe.utils.escape_html(node.file_name)}</a>
+						</div>
+						${this.renderFolderTree(node.children || [])}
+					</li>
+				`,
+					)
+					.join("")}
+			</ul>
+		`;
+	}
+
+	countFolders(nodes) {
+		return nodes.reduce((acc, node) => acc + 1 + this.countFolders(node.children || []), 0);
+	}
+	}

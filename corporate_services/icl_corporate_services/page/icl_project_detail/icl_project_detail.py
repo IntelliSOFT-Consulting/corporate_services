@@ -94,3 +94,45 @@ def get_project_template_targets(project_name):
         )
 
     return out
+
+
+@frappe.whitelist()
+def get_project_folder_tree(project_name):
+    if not project_name:
+        frappe.throw("Project is required.")
+
+    root_file_name = f"Project - {project_name}"
+    root_name = frappe.db.get_value(
+        "File",
+        {"is_folder": 1, "file_name": root_file_name, "folder": "Home"},
+        "name",
+    )
+    if not root_name:
+        return {"root": None, "children": []}
+
+    def _children(parent_name):
+        rows = frappe.get_all(
+            "File",
+            filters={"is_folder": 1, "folder": parent_name},
+            fields=["name", "file_name", "folder", "creation", "modified"],
+            order_by="file_name asc",
+        )
+        out = []
+        for row in rows:
+            out.append(
+                {
+                    "name": row["name"],
+                    "file_name": row["file_name"],
+                    "folder": row["folder"],
+                    "creation": row["creation"],
+                    "modified": row["modified"],
+                    "children": _children(row["name"]),
+                }
+            )
+        return out
+
+    root_doc = frappe.get_doc("File", root_name)
+    return {
+        "root": {"name": root_doc.name, "file_name": root_doc.file_name},
+        "children": _children(root_doc.name),
+    }
