@@ -176,6 +176,13 @@ after_migrate = [
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
+permission_query_conditions = {
+    "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.get_permission_query_conditions",
+}
+
+has_permission = {
+    "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.has_permission",
+}
 
 # DocType Class
 # ---------------
@@ -233,6 +240,7 @@ on_update_map = {
     # "Job Applicant": "corporate_services.api.job_applicant.v2.application_received",
     "Monthly Reflection":"corporate_services.api.notification.monthly_reflection.monthly_reflection.alert",
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
+    "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -319,6 +327,7 @@ scheduler_events = {
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_overdue_reminders_if_due",
+        "corporate_services.api.notification.weekly_progress_report.send_weekly_progress_report_reminders_if_due",
         "corporate_services.api.notification.opportunity.v1.send_almost_due_opportunity_reminders",
         # "corporate_services.api.notification.onboarding.onboarding_notifications.send_policy_comprehension_quiz"
 	],
