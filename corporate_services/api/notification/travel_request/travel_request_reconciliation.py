@@ -1,12 +1,11 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
 )
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(recipients, subject, message):
     recipients = [email for email in (recipients or []) if email]
     if not recipients:
         return
@@ -15,10 +14,6 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
         recipients=recipients,
         subject=subject,
         message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
         header=("Travel Request Reconciliation", "text/html")
     )
 
@@ -72,10 +67,6 @@ def alert(doc, method):
         finance_team_emails = get_finance_team_emails()
         hr_manager_emails = get_hr_manager_emails()
 
-        pdf_content = frappe.get_print(
-            doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-        )
-
         if doc.workflow_state == "Submitted to Finance":
             
             message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance")
@@ -83,8 +74,6 @@ def alert(doc, method):
                 recipients=finance_team_emails,
                 subject=frappe._('Travel Request Reconciliation from {}'.format(employee.employee_name)),
                 message=message_to_finance,
-                pdf_content=pdf_content,
-                doc_name=doc.name
             )
 
         elif doc.workflow_state == "Approved by Finance":
@@ -93,8 +82,6 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request Reconciliation has been Approved by Finance'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
             )
           
         elif doc.workflow_state == "Rejected by Finance":
@@ -103,8 +90,6 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request Reconciliation has been Rejected by Finance'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
             )
 
             message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
@@ -112,8 +97,6 @@ def alert(doc, method):
                 recipients= hr_manager_emails,
                 subject=frappe._('Travel Request Reconciliation Rejected by Finance'),
                 message=message_to_hr,
-                pdf_content=pdf_content,
-                doc_name=doc.name
             )
 
 doc_events = {
