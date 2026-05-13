@@ -12,7 +12,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-05-06 09:38:49.962705",
+  "modified": "2026-05-11 08:21:50.564883",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -479,7 +479,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:50.121899",
+  "modified": "2026-05-11 08:21:50.723192",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -676,18 +676,18 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"DEmRsPfh94\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"8V_O1gzVdg\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"CwNr5cIINA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":6}},{\"id\":\"jqLKsKxm3P\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}},{\"id\":\"lZyZGqKs9B\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet\",\"col\":6}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"iB6NqAITHC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}},{\"id\":\"-iG2OWMDW1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"PM-Quick Actions\",\"col\":12}}]",
+  "content": "[{\"id\":\"DEmRsPfh94\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_RuuoWinHL\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"jsqG4zm3q_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"9NUNz7HcnE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"8V_O1gzVdg\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"CwNr5cIINA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":6}},{\"id\":\"jqLKsKxm3P\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}},{\"id\":\"lZyZGqKs9B\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet\",\"col\":6}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"iB6NqAITHC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}}]",
   "custom_blocks": [
    {
-    "custom_block_name": "PM-Quick Actions",
-    "label": "PM-Quick Actions",
+    "custom_block_name": "Project manager Welcome",
+    "label": "Project manager Welcome",
     "parent": "ICL Project Manager",
     "parentfield": "custom_blocks",
     "parenttype": "Workspace"
    },
    {
-    "custom_block_name": "Project manager Welcome",
-    "label": "Project manager Welcome",
+    "custom_block_name": "HR",
+    "label": "HR",
     "parent": "ICL Project Manager",
     "parentfield": "custom_blocks",
     "parenttype": "Workspace"
@@ -793,7 +793,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:50.390001",
+  "modified": "2026-05-11 08:25:58.598993",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -851,6 +851,23 @@
     "restrict_to_domain": null,
     "stats_filter": "[]",
     "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Icl Project Management",
+    "link_to": "icl-project-management",
+    "parent": "ICL Project Manager",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
     "url": null
    }
   ],
@@ -994,7 +1011,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:50.510023",
+  "modified": "2026-05-11 08:21:51.141990",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1221,7 +1238,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-05-06 09:38:50.574403",
+  "modified": "2026-05-11 08:21:51.270059",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -1619,7 +1636,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:50.717439",
+  "modified": "2026-05-11 08:21:51.463163",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2254,7 +2271,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-05-06 09:38:50.921258",
+  "modified": "2026-05-11 08:21:51.723402",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -2873,7 +2890,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 10:45:00.412922",
+  "modified": "2026-05-11 08:21:51.856910",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -3263,7 +3280,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:51.222380",
+  "modified": "2026-05-11 08:21:52.085732",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -3939,7 +3956,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:51.370542",
+  "modified": "2026-05-11 08:21:52.249885",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4297,7 +4314,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:51.534828",
+  "modified": "2026-05-11 08:21:52.439104",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4704,7 +4721,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:51.681291",
+  "modified": "2026-05-11 08:21:52.604937",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5787,7 +5804,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:51.857157",
+  "modified": "2026-05-11 08:21:52.871310",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6255,7 +6272,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:52.070587",
+  "modified": "2026-05-11 08:21:53.173068",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -6989,7 +7006,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:52.233373",
+  "modified": "2026-05-11 08:21:53.340035",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7173,7 +7190,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:52.351234",
+  "modified": "2026-05-11 08:21:53.487306",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7376,7 +7393,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-06 09:38:52.451431",
+  "modified": "2026-05-11 08:21:53.584320",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [],
@@ -7536,7 +7553,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-05-06 09:38:52.521139",
+  "modified": "2026-05-11 08:21:53.696093",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7640,7 +7657,7 @@
   "is_hidden": 0,
   "label": "ICL Opportunity",
   "links": [],
-  "modified": "2026-05-06 09:38:52.586170",
+  "modified": "2026-05-11 08:21:53.778198",
   "module": "ICL Corporate Services",
   "name": "ICL Opportunity",
   "number_cards": [],
@@ -7758,7 +7775,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-05-06 09:38:52.644123",
+  "modified": "2026-05-11 08:21:53.849160",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7819,7 +7836,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-05-06 09:38:52.705356",
+  "modified": "2026-05-11 08:21:53.916830",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
