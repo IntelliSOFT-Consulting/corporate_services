@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-11 08:59:12.049634",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "prepare_section",
+  "site_preparedness_checklist",
+  "infosavvy_questionnaire",
+  "his_landscape_assessment",
+  "project_charter",
+  "plan_section",
+  "business_needs_statement",
+  "business_needs_assessment",
+  "project_management_plan",
+  "risk_management_plan",
+  "design_section",
+  "requirements_development",
+  "preliminary_design_review_checklist",
+  "functional_requirements",
+  "non_functional_requirements",
+  "develop_section",
+  "test_case",
+  "test_case_template",
+  "implement_section",
+  "implementation_plan",
+  "operations_and_maintenance_manual",
+  "maintenance_section",
+  "annual_operational_analysis",
+  "disposition_plan"
+ ],
+ "fields": [
+  {
+   "fieldname": "prepare_section",
+   "fieldtype": "Section Break",
+   "label": "Prepare"
+  },
+  {
+   "default": "0",
+   "fieldname": "site_preparedness_checklist",
+   "fieldtype": "Check",
+   "label": "Site Preparedness Checklist"
+  },
+  {
+   "default": "0",
+   "fieldname": "infosavvy_questionnaire",
+   "fieldtype": "Check",
+   "label": "InfoSavvy Questionnaire"
+  },
+  {
+   "default": "0",
+   "fieldname": "his_landscape_assessment",
+   "fieldtype": "Check",
+   "label": "HIS Landscape Assessment"
+  },
+  {
+   "default": "0",
+   "fieldname": "project_charter",
+   "fieldtype": "Check",
+   "label": "Project Charter"
+  },
+  {
+   "fieldname": "plan_section",
+   "fieldtype": "Section Break",
+   "label": "Plan"
+  },
+  {
+   "default": "0",
+   "fieldname": "business_needs_statement",
+   "fieldtype": "Check",
+   "label": "Business Needs Statement"
+  },
+  {
+   "default": "0",
+   "fieldname": "business_needs_assessment",
+   "fieldtype": "Check",
+   "label": "Business Needs Assessment"
+  },
+  {
+   "default": "0",
+   "fieldname": "project_management_plan",
+   "fieldtype": "Check",
+   "label": "Project Management Plan"
+  },
+  {
+   "default": "0",
+   "fieldname": "risk_management_plan",
+   "fieldtype": "Check",
+   "label": "Risk Management Plan"
+  },
+  {
+   "fieldname": "design_section",
+   "fieldtype": "Section Break",
+   "label": "Design"
+  },
+  {
+   "default": "0",
+   "fieldname": "requirements_development",
+   "fieldtype": "Check",
+   "label": "Requirements Development"
+  },
+  {
+   "default": "0",
+   "fieldname": "preliminary_design_review_checklist",
+   "fieldtype": "Check",
+   "label": "Preliminary Design Review Checklist"
+  },
+  {
+   "default": "0",
+   "fieldname": "functional_requirements",
+   "fieldtype": "Check",
+   "label": "Functional Requirements"
+  },
+  {
+   "default": "0",
+   "fieldname": "non_functional_requirements",
+   "fieldtype": "Check",
+   "label": "Non-Functional Requirements"
+  },
+  {
+   "fieldname": "develop_section",
+   "fieldtype": "Section Break",
+   "label": "Development"
+  },
+  {
+   "default": "0",
+   "fieldname": "test_case",
+   "fieldtype": "Check",
+   "label": "Test Case"
+  },
+  {
+   "default": "0",
+   "fieldname": "test_case_template",
+   "fieldtype": "Check",
+   "label": "Test Case Template"
+  },
+  {
+   "fieldname": "implement_section",
+   "fieldtype": "Section Break",
+   "label": "Implementation"
+  },
+  {
+   "default": "0",
+   "fieldname": "implementation_plan",
+   "fieldtype": "Check",
+   "label": "Implementation Plan"
+  },
+  {
+   "default": "0",
+   "fieldname": "operations_and_maintenance_manual",
+   "fieldtype": "Check",
+   "label": "Operations and Maintenance Manual"
+  },
+  {
+   "fieldname": "maintenance_section",
+   "fieldtype": "Section Break",
+   "label": "Maintenance"
+  },
+  {
+   "default": "0",
+   "fieldname": "annual_operational_analysis",
+   "fieldtype": "Check",
+   "label": "Annual Operational Analysis"
+  },
+  {
+   "default": "0",
+   "fieldname": "disposition_plan",
+   "fieldtype": "Check",
+   "label": "Disposition Plan"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-11 19:08:22.579663",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "HIS PM Project LifeCycle",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

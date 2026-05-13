@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-11 08:46:07.315769",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "name_of_featurearea",
+  "feedback",
+  "link_screenshot",
+  "scope",
+  "loedays",
+  "priority",
+  "implementation_status",
+  "tests_in_production_env"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "name_of_featurearea",
+   "fieldtype": "Small Text",
+   "label": "Name of Feature/Area"
+  },
+  {
+   "fieldname": "feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback"
+  },
+  {
+   "fieldname": "link_screenshot",
+   "fieldtype": "Data",
+   "label": "Link & Screenshot"
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Data",
+   "label": "Scope"
+  },
+  {
+   "fieldname": "loedays",
+   "fieldtype": "Int",
+   "label": "LOE(days)",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nHigh\nMedium\nLow"
+  },
+  {
+   "fieldname": "implementation_status",
+   "fieldtype": "Link",
+   "label": "Implementation status",
+   "options": "Implementation status"
+  },
+  {
+   "fieldname": "tests_in_production_env",
+   "fieldtype": "Link",
+   "label": "Tests in Production Env ",
+   "options": "Test Status"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-11 08:53:03.078933",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Feedback Tracker Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

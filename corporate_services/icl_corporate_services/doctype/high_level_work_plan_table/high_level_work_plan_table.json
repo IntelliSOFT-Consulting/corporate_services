@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-12 08:22:36.646246",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "line_item",
+  "column_break_qjlp",
+  "key_deliverable",
+  "column_break_ljxo",
+  "start_date",
+  "column_break_zftc",
+  "end_date",
+  "column_break_nfvi",
+  "expected_outcome",
+  "column_break_ksog",
+  "status",
+  "section_break_uhww",
+  "resources",
+  "comments"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "line_item",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Line Item"
+  },
+  {
+   "columns": 1,
+   "fieldname": "key_deliverable",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Key Deliverable",
+   "options": "Project Key Deliverable"
+  },
+  {
+   "columns": 1,
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "expected_outcome",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expected Outcome"
+  },
+  {
+   "columns": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status"
+  },
+  {
+   "columns": 2,
+   "fieldname": "resources",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Resources"
+  },
+  {
+   "columns": 2,
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Comments"
+  },
+  {
+   "fieldname": "column_break_qjlp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ljxo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zftc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nfvi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ksog",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_uhww",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-13 10:07:19.765780",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "High Level Work Plan Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

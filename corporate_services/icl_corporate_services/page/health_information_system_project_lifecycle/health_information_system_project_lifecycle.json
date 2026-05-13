@@ -1,0 +1,28 @@
+{
+ "content": null,
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "module": "ICL Corporate Services",
+ "name": "health-information-system-project-lifecycle",
+ "page_name": "health-information-system-project-lifecycle",
+ "roles": [
+  {
+   "role": "Projects Manager"
+  },
+  {
+   "role": "PM Lead"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Project User"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Health Information System Project Lifecycle"
+}

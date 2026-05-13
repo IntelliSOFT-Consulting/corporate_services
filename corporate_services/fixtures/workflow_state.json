@@ -246,19 +246,19 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2026-05-11 08:21:46.500454",
-  "name": "Submitted to Supervisor",
+  "modified": "2026-05-11 08:21:46.509024",
+  "name": "Submitted to HR",
   "style": "",
-  "workflow_state_name": "Submitted to Supervisor"
+  "workflow_state_name": "Submitted to HR"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2026-05-11 08:21:46.509024",
-  "name": "Submitted to HR",
+  "modified": "2026-05-11 08:21:46.500454",
+  "name": "Submitted to Supervisor",
   "style": "",
-  "workflow_state_name": "Submitted to HR"
+  "workflow_state_name": "Submitted to Supervisor"
  },
  {
   "docstatus": 0,
