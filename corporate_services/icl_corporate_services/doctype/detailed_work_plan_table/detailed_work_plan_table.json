@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-13 10:45:44.064913",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "activities",
+  "expected_outcomes_deliverables",
+  "resources",
+  "column_break_ddur",
+  "start_date",
+  "end_date",
+  "duration_loe",
+  "status"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "item",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item"
+  },
+  {
+   "columns": 2,
+   "fieldname": "activities",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Activities"
+  },
+  {
+   "columns": 1,
+   "fieldname": "expected_outcomes_deliverables",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expected Outcomes & Deliverables"
+  },
+  {
+   "columns": 2,
+   "fieldname": "resources",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Resources"
+  },
+  {
+   "columns": 1,
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date"
+  },
+  {
+   "columns": 1,
+   "fieldname": "duration_loe",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Duration LOE"
+  },
+  {
+   "columns": 1,
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Status"
+  },
+  {
+   "fieldname": "column_break_ddur",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-13 10:50:43.067254",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Detailed Work Plan Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

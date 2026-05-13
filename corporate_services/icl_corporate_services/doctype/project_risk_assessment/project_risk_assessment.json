@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-13 12:05:35.751850",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "project",
+  "client",
+  "developer",
+  "intellisoft_project_director",
+  "column_break_qkuf",
+  "project_timeline",
+  "project_start_date",
+  "project_end_date",
+  "risk_assessment_list_tab",
+  "table_okgd"
+ ],
+ "fields": [
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Client",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "developer",
+   "fieldtype": "Data",
+   "label": "Developer"
+  },
+  {
+   "fieldname": "intellisoft_project_director",
+   "fieldtype": "Data",
+   "label": "IntelliSOFT Project Director"
+  },
+  {
+   "fieldname": "project_timeline",
+   "fieldtype": "Data",
+   "label": "Project Timeline"
+  },
+  {
+   "fieldname": "project_start_date",
+   "fieldtype": "Date",
+   "label": "Project Start Date"
+  },
+  {
+   "fieldname": "project_end_date",
+   "fieldtype": "Date",
+   "label": "Project End Date"
+  },
+  {
+   "fieldname": "column_break_qkuf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "risk_assessment_list_tab",
+   "fieldtype": "Tab Break",
+   "label": "Risk Assessment List"
+  },
+  {
+   "fieldname": "table_okgd",
+   "fieldtype": "Table",
+   "options": "Risk Assessment List"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-13 12:10:42.869959",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Risk Assessment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

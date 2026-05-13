@@ -6,17 +6,28 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "hr_settings_details_tab",
   "hr_settings_section",
   "hr_email",
+  "hr_team_members_section",
+  "table_xqbd",
+  "reflection_settings_tab",
   "monthly_reflection_notification_section",
   "enable_monthly_reflection_reminder",
+  "column_break_cguv",
   "monthly_reflection_reminder_day",
   "monthly_reflection_last_sent_period",
   "monthly_reflection_overdue_notification_section",
   "enable_monthly_reflection_overdue_reminder",
+  "column_break_bljq",
   "monthly_reflection_overdue_weekday",
-  "hr_team_members_section",
-  "table_xqbd",
+  "weekly_progress_report_settings_section",
+  "enable_weekly_progress_reminder",
+  "weekly_progress_contract_type",
+  "column_break_ttlp",
+  "weekly_progress_reminder_weekday",
+  "weekly_progress_reminder_time",
+  "weekly_progress_last_reminder_sent_on",
   "contract_settings_tab",
   "column_break_extr",
   "consultant_contract",
@@ -26,7 +37,7 @@
   {
    "fieldname": "hr_settings_section",
    "fieldtype": "Section Break",
-   "label": "HR Settings"
+   "label": "Main HR Email"
   },
   {
    "fieldname": "hr_email",
@@ -79,6 +90,43 @@
    "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
   },
   {
+   "fieldname": "weekly_progress_report_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Weekly Progress Report Settings"
+  },
+  {
+   "default": "0",
+   "description": "Send weekly progress reminders to active interns missing this week's report.",
+   "fieldname": "enable_weekly_progress_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Weekly Progress Reminder"
+  },
+  {
+   "description": "Only active employees with this contract type will be included. Leave blank to include all active intern contracts.",
+   "fieldname": "weekly_progress_contract_type",
+   "fieldtype": "Link",
+   "label": "Weekly Progress Contract Type",
+   "options": "Contract Type"
+  },
+  {
+   "default": "Friday",
+   "fieldname": "weekly_progress_reminder_weekday",
+   "fieldtype": "Select",
+   "label": "Reminder Weekday",
+   "options": "\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+  },
+  {
+   "fieldname": "weekly_progress_reminder_time",
+   "fieldtype": "Time",
+   "label": "Reminder Time"
+  },
+  {
+   "fieldname": "weekly_progress_last_reminder_sent_on",
+   "fieldtype": "Date",
+   "label": "Last Weekly Reminder Sent On",
+   "read_only": 1
+  },
+  {
    "fieldname": "hr_team_members_section",
    "fieldtype": "Section Break",
    "label": "HR Team Members"
@@ -110,13 +158,35 @@
    "description": "These Contracts determines the timesheet templates a user will be allocated.",
    "fieldname": "column_break_extr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cguv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_bljq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ttlp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hr_settings_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "HR Settings Details"
+  },
+  {
+   "fieldname": "reflection_settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Reflection Settings"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-02 11:16:14.239266",
+ "modified": "2026-05-13 14:32:28.771563",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HR Config",
