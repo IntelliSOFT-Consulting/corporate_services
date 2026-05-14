@@ -45,6 +45,7 @@ class WeeklyProgressReport(Document):
                     "question": q.question_text,
                     "help_text": q.help_text,
                     "is_required": q.is_required,
+                    "response_fieldtype": q.response_fieldtype or "Text Editor",
                     "response": response,
                 }
             )
@@ -118,6 +119,7 @@ def get_active_template_questions(template_name=None):
                 "question_text": q.question_text,
                 "help_text": q.help_text,
                 "is_required": q.is_required,
+                "response_fieldtype": q.response_fieldtype or "Text Editor",
             }
             for q in questions
         ],

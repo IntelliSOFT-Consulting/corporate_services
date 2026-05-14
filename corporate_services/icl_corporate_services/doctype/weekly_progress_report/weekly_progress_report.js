@@ -119,6 +119,7 @@ function populate_questions_from_template(frm) {
 				row.question = numberedQuestion;
 				row.help_text = q.help_text;
 				row.is_required = q.is_required;
+				row.response_fieldtype = q.response_fieldtype || "Text Editor";
 				row.response = existing[numberedQuestion] || existing[q.question_text] || "";
 			});
 			frm.refresh_field("answers");
@@ -148,6 +149,7 @@ function render_questionnaire_ui(frm) {
 			const requiredStar = row.is_required
 				? '<span class="text-danger ms-1" style="font-weight:700;" title="Required">*</span>'
 				: "";
+			const inputId = `weekly-response-${idx}`;
 			return `
 				<div class="card border mb-3">
 					<div class="card-body">
@@ -160,12 +162,7 @@ function render_questionnaire_ui(frm) {
 								? `<div class="text-muted mb-2" style="font-size:12px;">${frappe.utils.escape_html(row.help_text)}</div>`
 								: ""
 						}
-						<textarea
-							class="form-control weekly-question-response"
-							data-row-idx="${idx}"
-							rows="5"
-							placeholder="Type your response here..."
-						>${frappe.utils.escape_html(row.response || "")}</textarea>
+						<div class="weekly-question-response-control" id="${inputId}" data-row-idx="${idx}"></div>
 					</div>
 				</div>
 			`;
@@ -173,25 +170,36 @@ function render_questionnaire_ui(frm) {
 		.join("");
 
 	field.$wrapper.html(`<div class="weekly-questionnaire-ui">${cards}</div>`);
-	field.$wrapper.off("input", ".weekly-question-response");
-	field.$wrapper.on("input", ".weekly-question-response", function () {
+
+	field.$wrapper.find(".weekly-question-response-control").each(function () {
 		const idx = Number(this.getAttribute("data-row-idx"));
-		const value = this.value;
 		const row = (frm.doc.answers || [])[idx];
 		if (!row) return;
-		frappe.model.set_value(row.doctype, row.name, "response", value);
+		const fieldtype = row.response_fieldtype || "Text Editor";
+		const control = frappe.ui.form.make_control({
+			parent: $(this),
+			df: {
+				fieldtype,
+				label: "",
+				options: fieldtype === "Text Editor" ? "Minimal" : null,
+				placeholder: "Type your response here...",
+			},
+			render_input: true,
+			only_input: true,
+		});
+		control.set_value(row.response || "");
+		const saveValue = () => {
+			const value = control.get_value ? control.get_value() : "";
+			frappe.model.set_value(row.doctype, row.name, "response", value || "");
+		};
+		control.$input && control.$input.on("input change", saveValue);
+		control.$wrapper && control.$wrapper.on("input change", saveValue);
 	});
 }
 
 function sync_questionnaire_ui_to_rows(frm) {
-	const field = frm.get_field("response_ui");
-	if (!field || !field.$wrapper) return;
-
-	field.$wrapper.find(".weekly-question-response").each(function () {
-		const idx = Number(this.getAttribute("data-row-idx"));
-		const row = (frm.doc.answers || [])[idx];
-		if (!row) return;
-		row.response = this.value || "";
+	(frm.doc.answers || []).forEach((row) => {
+		row.response = row.response || "";
 	});
 	frm.refresh_field("answers");
 }

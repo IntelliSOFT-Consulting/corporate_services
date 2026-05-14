@@ -103,9 +103,6 @@ function renderPage(resources) {
 							}
 						</div>
 						<div class="prt-actions">
-							<button class="btn btn-sm btn-primary" data-action="new" data-doctype="${frappe.utils.escape_html(
-								item.doctype,
-							)}">New</button>
 							<button class="btn btn-sm btn-default" data-action="list" data-doctype="${frappe.utils.escape_html(
 								item.doctype,
 							)}">View List</button>
