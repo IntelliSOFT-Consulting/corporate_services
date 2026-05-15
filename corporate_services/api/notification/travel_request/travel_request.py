@@ -5,6 +5,7 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.workflow.auto_skip import skip_supervisor_for_ceo
 
 
 def send_email(recipients, subject, message):
@@ -49,6 +50,12 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
             
         """.format(employee_name, doc.doctype, doctype_url ),
 
+        "submitted_to_finance_ceo": """
+            Dear Finance,<br><br>
+            {}, {} has been submitted directly to Finance. You can view the details <a href="{}">here</a>.<br><br>
+            
+        """.format(employee_name, doc.doctype, doctype_url),
+
         "finance_approved": """
             Dear {},<br><br>
             Your {} has been reviewed and, it has been Approved by Finance. You can view the details <a href="{}">here</a>.<br><br>
@@ -73,12 +80,26 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
     return messages[email_type]
 
 def alert(doc, method):
+    skip_supervisor_for_ceo(
+        doc=doc,
+        from_state="Submitted to Supervisor",
+        to_state=None,
+        employee_field="employee",
+    )
+
     if doc.workflow_state in [
         "Submitted to Supervisor","Approved by Supervisor", "Rejected By Supervisor",  "Approved by HR", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance"
     ]:
         employee_id = doc.employee
         employee = frappe.get_doc("Employee", employee_id)
         employee_email = employee.company_email or employee.personal_email
+        is_ceo = bool(
+            employee.user_id
+            and frappe.db.exists(
+                "Has Role",
+                {"parenttype": "User", "parent": employee.user_id, "role": "CEO"},
+            )
+        )
 
 
         supervisor_contact = get_supervisor_contact(employee)
@@ -116,14 +137,18 @@ def alert(doc, method):
           
         elif doc.workflow_state == "Submitted to Finance":
             
-            message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance")
+            message_to_finance = generate_message(
+                doc,
+                employee.employee_name,
+                "submitted_to_finance_ceo" if is_ceo else "submitted_to_finance",
+            )
             send_email(
                 recipients=finance_team_emails,
                 subject=frappe._('Travel Request from {}'.format(employee.employee_name)),
                 message=message_to_finance,
             )
 
-            if supervisor_email:
+            if supervisor_email and not is_ceo:
                 message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name)
                 send_email(
                     recipients=[supervisor_email],

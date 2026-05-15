@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-11 08:39:26.791731",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "project_info_section",
+  "project_name",
+  "project_lead",
+  "column_break_ipct",
+  "project_start_date",
+  "project_end_date",
+  "project_duration",
+  "section_break_yjde",
+  "high_level_workplan_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "project_name",
+   "fieldtype": "Link",
+   "label": "Project Name",
+   "options": "Project"
+  },
+  {
+   "fieldname": "project_lead",
+   "fieldtype": "Link",
+   "label": "Project Lead",
+   "options": "Lead"
+  },
+  {
+   "fieldname": "column_break_ipct",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "project_start_date",
+   "fieldtype": "Date",
+   "label": "Project Start Date"
+  },
+  {
+   "fieldname": "project_end_date",
+   "fieldtype": "Date",
+   "label": "Project End Date"
+  },
+  {
+   "fieldname": "project_duration",
+   "fieldtype": "Data",
+   "label": "Project Duration"
+  },
+  {
+   "fieldname": "section_break_yjde",
+   "fieldtype": "Section Break",
+   "label": "High Level Work Plan"
+  },
+  {
+   "fieldname": "high_level_workplan_table",
+   "fieldtype": "Table",
+   "label": "High Level Workplan Table",
+   "options": "High Level Work Plan Table"
+  },
+  {
+   "fieldname": "project_info_section",
+   "fieldtype": "Section Break",
+   "label": "Project Info"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-13 10:08:20.942484",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "High Level Work Plan",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

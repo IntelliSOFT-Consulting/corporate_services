@@ -16,22 +16,10 @@
   "supervisor",
   "review_period",
   "review_date",
-  "key_achievements_section",
-  "major_accomplishments",
-  "challenges_and_solutions_section",
-  "challenges",
-  "areas_for_improvement_section",
-  "improvement_areas",
-  "professional_development_section",
-  "professional_development",
-  "goals_for_the_next_review_period_section",
-  "next_goals",
-  "organizational_support_needed_section",
-  "organizational_support_needed",
-  "feedback_for_supervisormanagement_section",
-  "feedback",
-  "additional_comments_section",
-  "additional_comment"
+  "question_template",
+  "dynamic_questions_section",
+  "response_ui",
+  "answers"
  ],
  "fields": [
   {
@@ -96,90 +84,7 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Review Period",
-   "options": "",
    "reqd": 1
-  },
-  {
-   "fieldname": "key_achievements_section",
-   "fieldtype": "Section Break",
-   "label": "Key Achievements"
-  },
-  {
-   "fieldname": "major_accomplishments",
-   "fieldtype": "Text Editor",
-   "label": "Describe the major accomplishments you\u2019ve achieved during this appraisal period:"
-  },
-  {
-   "fieldname": "challenges_and_solutions_section",
-   "fieldtype": "Section Break",
-   "label": "Challenges and Solutions"
-  },
-  {
-   "description": "Explain how you addressed them or if no solutions have been identified, simply highlight the challenges",
-   "fieldname": "challenges",
-   "fieldtype": "Text Editor",
-   "label": "Identify any significant challenges you encountered."
-  },
-  {
-   "fieldname": "areas_for_improvement_section",
-   "fieldtype": "Section Break",
-   "label": "Areas for Improvement"
-  },
-  {
-   "fieldname": "improvement_areas",
-   "fieldtype": "Text Editor",
-   "label": "Highlight areas where you think improvement is needed and outline steps you intend to take:"
-  },
-  {
-   "fieldname": "professional_development_section",
-   "fieldtype": "Section Break",
-   "label": "Professional Development"
-  },
-  {
-   "fieldname": "professional_development",
-   "fieldtype": "Text Editor",
-   "label": "List any training, certifications, or educational goals completed or planned:"
-  },
-  {
-   "description": "To be completed only for the last month of every quarter i.e March, June, September, December.",
-   "fieldname": "goals_for_the_next_review_period_section",
-   "fieldtype": "Section Break",
-   "label": "Goals for the Next Review Period"
-  },
-  {
-   "fieldname": "next_goals",
-   "fieldtype": "Text Editor",
-   "label": "Specify your short and long-term goals. Align them with team and organizational objectives:"
-  },
-  {
-   "fieldname": "organizational_support_needed_section",
-   "fieldtype": "Section Break",
-   "label": "Organizational Support Needed"
-  },
-  {
-   "fieldname": "organizational_support_needed",
-   "fieldtype": "Text Editor",
-   "label": "What tools, resources, or support do you need from your supervisor or the organization?"
-  },
-  {
-   "fieldname": "feedback_for_supervisormanagement_section",
-   "fieldtype": "Section Break",
-   "label": "Feedback for Supervisor/Management"
-  },
-  {
-   "fieldname": "feedback",
-   "fieldtype": "Small Text",
-   "label": "Provide constructive feedback on what the organization or supervisor could do to support you better:"
-  },
-  {
-   "fieldname": "additional_comments_section",
-   "fieldtype": "Section Break",
-   "label": "Additional Comments"
-  },
-  {
-   "fieldname": "additional_comment",
-   "fieldtype": "Small Text",
-   "label": "Include any other feedback, reflections, or information not already covered:"
   },
   {
    "default": "MR-.YYYY.-.MM.-",
@@ -202,12 +107,37 @@
    "in_standard_filter": 1,
    "label": "Review Date",
    "reqd": 1
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Monthly Reflection Template",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dynamic_questions_section",
+   "fieldtype": "Section Break",
+   "label": "Monthly Reflection Questions and Responses"
+  },
+  {
+   "fieldname": "response_ui",
+   "fieldtype": "HTML",
+   "label": "Response Form"
+  },
+  {
+   "fieldname": "answers",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Responses",
+   "options": "Monthly Reflection Answer"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-10 09:12:47.220557",
+ "modified": "2026-05-14 08:13:14.401155",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Monthly Reflection",

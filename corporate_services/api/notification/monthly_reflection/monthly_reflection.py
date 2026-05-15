@@ -354,6 +354,36 @@ def send_manual_monthly_reflection_overdue_reminder(employee, review_period):
 
 
 @frappe.whitelist()
+def send_manual_monthly_reflection_dual_reminder(employee, review_period):
+    if frappe.db.exists(
+        "Monthly Reflection",
+        {"employee": employee, "review_period": review_period},
+    ):
+        return {"status": "skipped", "message": "Monthly Reflection already submitted."}
+
+    employee_doc = frappe.get_doc("Employee", employee)
+    log = _get_or_create_reminder_log(employee_doc.name, review_period)
+
+    _send_overdue_email(employee_doc, review_period)
+    _send_overdue_system_notifications(employee_doc, review_period)
+
+    now = now_datetime()
+    if not log.first_email_sent_on:
+        log.first_email_sent_on = now
+    log.last_notification_type = "System"
+    log.last_notification_sent_on = now
+    log.total_reminders_sent = (log.total_reminders_sent or 0) + 1
+    log.save(ignore_permissions=True)
+    frappe.db.commit()
+
+    return {
+        "status": "success",
+        "reminder_type": "Email + System",
+        "message": "Reminder sent via email and system notification.",
+    }
+
+
+@frappe.whitelist()
 def get_monthly_reflection_period_status(review_period):
     employees = frappe.get_all(
         "Employee",

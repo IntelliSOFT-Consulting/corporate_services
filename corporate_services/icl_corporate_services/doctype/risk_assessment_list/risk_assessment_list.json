@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-13 12:08:49.875937",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "risk",
+  "areas_affected",
+  "severity",
+  "likelihood",
+  "risk_impact",
+  "recommended_actions"
+ ],
+ "fields": [
+  {
+   "fieldname": "risk",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RISK"
+  },
+  {
+   "fieldname": "areas_affected",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "AREAS AFFECTED"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SEVERITY"
+  },
+  {
+   "fieldname": "likelihood",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "LIKELIHOOD"
+  },
+  {
+   "fieldname": "risk_impact",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RISK IMPACT"
+  },
+  {
+   "fieldname": "recommended_actions",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RECOMMENDED ACTION(S)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-13 12:10:09.159092",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Risk Assessment List",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
