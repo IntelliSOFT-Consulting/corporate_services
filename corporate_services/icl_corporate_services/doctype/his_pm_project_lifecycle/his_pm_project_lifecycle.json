@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "project",
   "prepare_section",
   "site_preparedness_checklist",
   "infosavvy_questionnaire",
@@ -31,6 +32,13 @@
   "disposition_plan"
  ],
  "fields": [
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Project",
+   "options": "Project"
+  },
   {
    "fieldname": "prepare_section",
    "fieldtype": "Section Break",

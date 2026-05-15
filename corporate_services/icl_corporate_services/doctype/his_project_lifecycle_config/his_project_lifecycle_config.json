@@ -1,67 +1,52 @@
 {
  "actions": [],
  "allow_import": 1,
- "allow_rename": 1,
- "autoname": "field:requirement",
- "creation": "2026-05-13 14:30:00.000000",
+ "allow_rename": 0,
+ "creation": "2026-05-14 13:40:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "requirement",
-  "target_doctype",
-  "description",
-  "display_order",
-  "template_file",
-  "is_active"
+  "intro_title",
+  "intro_description",
+  "stages_section",
+  "stages"
  ],
  "fields": [
   {
-   "fieldname": "requirement",
+   "default": "Project Start-to-End Guide",
+   "fieldname": "intro_title",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Requirement",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "fieldname": "target_doctype",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Target DocType",
-   "options": "DocType",
+   "label": "Intro Title",
    "reqd": 1
   },
   {
-   "fieldname": "description",
+   "default": "Use this lifecycle page as a checklist for all required processes and deliverables when creating and running a Health Information System project.",
+   "fieldname": "intro_description",
    "fieldtype": "Small Text",
-   "label": "Description"
+   "label": "Intro Description",
+   "reqd": 1
   },
   {
-   "fieldname": "display_order",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Display Order"
+   "fieldname": "stages_section",
+   "fieldtype": "Section Break",
+   "label": "Stages"
   },
   {
-   "fieldname": "template_file",
-   "fieldtype": "Attach",
-   "label": "Template File"
-  },
-  {
-   "default": "1",
-   "fieldname": "is_active",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "label": "Is Active"
+   "fieldname": "stages",
+   "fieldtype": "Table",
+   "label": "Stages",
+   "options": "HIS Project Lifecycle Stage",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
+ "issingle": 1,
  "links": [],
- "modified": "2026-05-13 14:30:00.000000",
+ "modified": "2026-05-14 13:40:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
- "name": "HIS Project Requirement Template",
+ "name": "HIS Project Lifecycle Config",
  "owner": "Administrator",
  "permissions": [
   {

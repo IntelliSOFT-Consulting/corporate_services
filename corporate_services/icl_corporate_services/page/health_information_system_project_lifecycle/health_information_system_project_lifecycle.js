@@ -12,53 +12,34 @@ frappe.pages["health-information-system-project-lifecycle"].on_page_load = funct
 	page.add_menu_item("View Lifecycle Records", () =>
 		frappe.set_route("List", "HIS PM Project LifeCycle"),
 	);
+	page.add_menu_item("Manage Lifecycle Config", () =>
+		frappe.set_route("Form", "HIS Project Lifecycle Config", "HIS Project Lifecycle Config"),
+	);
 
-	$(page.body).html(renderLifecyclePage());
+	$(page.body).html('<div id="his-pm-lifecycle-root" class="p-3 text-muted">Loading...</div>');
+	loadLifecyclePage();
 };
 
-function renderLifecyclePage() {
-	const stages = [
-		{
-			name: "Prepare",
-			steps: ["Prepare"],
-			requirements: [
-				"Site Preparedness Checklist",
-				"InfoSavvy Questionnaire",
-				"HIS Landscape Assessment",
-			],
-			deliverables: [],
+function loadLifecyclePage() {
+	frappe.call({
+		method:
+			"corporate_services.icl_corporate_services.page.health_information_system_project_lifecycle.health_information_system_project_lifecycle.get_lifecycle_config",
+		callback: (r) => {
+			const payload = r.message || {};
+			$("#his-pm-lifecycle-root").html(renderLifecyclePage(payload));
 		},
-		{
-			name: "Plan",
-			steps: ["Initiation", "Concept", "Planning"],
-			requirements: ["Business Needs Statement", "Project Charter"],
-			deliverables: ["Project Charter", "Business Needs Assessment", "Project Management Plan", "Risk Management Plan"],
+		error: () => {
+			$("#his-pm-lifecycle-root").html(
+				'<div class="alert alert-warning">Could not load lifecycle configuration.</div>',
+			);
 		},
-		{
-			name: "Design",
-			steps: ["Requirements Analysis", "Design"],
-			requirements: ["Requirements Development", "Preliminary Design Review Checklist"],
-			deliverables: ["Functional Requirements", "Non-Functional Requirements"],
-		},
-		{
-			name: "Development",
-			steps: ["Development", "Test"],
-			requirements: ["Test Case"],
-			deliverables: ["Test Case Template"],
-		},
-		{
-			name: "Implementation",
-			steps: ["Implementation"],
-			requirements: ["Operations and Maintenance Manual"],
-			deliverables: ["Implementation Plan", "Operations and Maintenance Manual"],
-		},
-		{
-			name: "Maintenance",
-			steps: ["Operations & Maintenance", "Disposition"],
-			requirements: ["Annual Operational Analysis", "Disposition Plan"],
-			deliverables: ["Annual Operational Analysis", "Disposition Plan"],
-		},
-	];
+	});
+}
+
+function renderLifecyclePage(payload) {
+	const stages = payload.stages || [];
+	const introTitle = payload.intro_title || "Project Start-to-End Guide";
+	const introDescription = payload.intro_description || "";
 
 	if (!document.getElementById("his-pm-lifecycle-style")) {
 		const style = document.createElement("style");
@@ -96,13 +77,23 @@ function renderLifecyclePage() {
 		document.head.appendChild(style);
 	}
 
+	if (!stages.length) {
+		return `
+			<div class="his-lifecycle-wrap">
+				<div class="his-lifecycle-intro">
+					<div><strong>${frappe.utils.escape_html(introTitle)}</strong></div>
+					<div class="text-muted">${frappe.utils.escape_html(introDescription)}</div>
+				</div>
+				<div class="alert alert-info mb-0">No lifecycle stages configured yet. Create records in HIS Project Lifecycle Config.</div>
+			</div>
+		`;
+	}
+
 	return `
 		<div class="his-lifecycle-wrap">
 			<div class="his-lifecycle-intro">
-				<div><strong>Project Start-to-End Guide</strong></div>
-				<div class="text-muted">
-					Use this lifecycle page as a checklist for all required processes and deliverables when creating and running a Health Information System project.
-				</div>
+				<div><strong>${frappe.utils.escape_html(introTitle)}</strong></div>
+				<div class="text-muted">${frappe.utils.escape_html(introDescription)}</div>
 			</div>
 			<div class="his-lifecycle-grid">
 				${stages
@@ -110,8 +101,8 @@ function renderLifecyclePage() {
 						(stage) => `
 					<div class="his-stage-card">
 						<div class="his-stage-head">
-							<h6 class="his-stage-title">${frappe.utils.escape_html(stage.name)}</h6>
-							<div>${stage.steps
+							<h6 class="his-stage-title">${frappe.utils.escape_html(stage.stage_name || "")}</h6>
+							<div>${(stage.steps || [])
 								.map(
 									(step) =>
 										`<span class="his-step-chip">${frappe.utils.escape_html(step)}</span>`,
@@ -121,13 +112,13 @@ function renderLifecyclePage() {
 						<div class="his-stage-body">
 							<div class="his-stage-group-title">Requirements</div>
 							<ul class="his-stage-list">
-								${stage.requirements
+								${(stage.requirements || [])
 									.map((item) => `<li>${frappe.utils.escape_html(item)}</li>`)
 									.join("")}
 							</ul>
 							<div class="his-stage-group-title">Deliverables / Templates</div>
 							<ul class="his-stage-list">
-								${stage.deliverables
+								${(stage.deliverables || [])
 									.map((item) => `<li>${frappe.utils.escape_html(item)}</li>`)
 									.join("")}
 							</ul>
