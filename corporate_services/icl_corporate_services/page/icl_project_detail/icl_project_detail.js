@@ -63,6 +63,9 @@ class IclProjectDetailPage {
 						<li class="nav-item">
 							<button class="nav-link" data-project-tab="folder" type="button" role="tab">Project Folder</button>
 						</li>
+						<li class="nav-item">
+							<button class="nav-link" data-project-tab="gdrive" type="button" role="tab">Google Drive</button>
+						</li>
 					</ul>
 				</div>
 				<div class="tab-content">
@@ -90,6 +93,9 @@ class IclProjectDetailPage {
 					<div class="tab-pane p-3 d-none" id="icl-project-folder-pane" role="tabpanel">
 						<div id="icl-project-folder-content" class="text-muted">Loading project folders...</div>
 					</div>
+					<div class="tab-pane p-3 d-none" id="icl-project-gdrive-pane" role="tabpanel">
+						<div id="icl-project-gdrive-content" class="text-muted">Loading Google Drive folders...</div>
+					</div>
 				</div>
 			</div>
 		`);
@@ -106,9 +112,15 @@ class IclProjectDetailPage {
 			$(this).addClass("active");
 			if (tab === "folder") {
 				$("#icl-project-details-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-gdrive-pane").addClass("d-none").removeClass("show active");
 				$("#icl-project-folder-pane").removeClass("d-none").addClass("show active");
+			} else if (tab === "gdrive") {
+				$("#icl-project-details-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-folder-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-gdrive-pane").removeClass("d-none").addClass("show active");
 			} else {
 				$("#icl-project-folder-pane").addClass("d-none").removeClass("show active");
+				$("#icl-project-gdrive-pane").addClass("d-none").removeClass("show active");
 				$("#icl-project-details-pane").removeClass("d-none").addClass("show active");
 			}
 		});
@@ -120,6 +132,7 @@ class IclProjectDetailPage {
 
 		this.renderTemplateSidebar(project.name);
 		this.renderProjectFolderTab(project.name);
+		this.renderGoogleDriveTab(project.name);
 	}
 
 	field(label, value) {
@@ -261,6 +274,61 @@ class IclProjectDetailPage {
 			error: () => {
 				$("#icl-project-folder-content").html(
 					'<div class="alert alert-warning mb-0">Could not load project folders.</div>',
+				);
+			},
+		});
+	}
+
+	renderGoogleDriveTab(projectName) {
+		frappe.call({
+			method:
+				"corporate_services.icl_corporate_services.page.icl_project_detail.icl_project_detail.get_project_google_drive_folders",
+			args: { project_name: projectName },
+			callback: (r) => {
+				const rows = r.message || [];
+				if (!rows.length) {
+					$("#icl-project-gdrive-content").html(
+						'<div class="alert alert-info mb-0">No Google Drive folders have been logged for this project yet.</div>',
+					);
+					return;
+				}
+
+				$("#icl-project-gdrive-content").html(`
+					<div class="card border">
+						<div class="card-body p-0">
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered mb-0 align-middle">
+									<thead>
+										<tr>
+											<th>Folder</th>
+											<th>Google Drive Link</th>
+											<th>Created On</th>
+											<th>Created By</th>
+										</tr>
+									</thead>
+									<tbody>
+										${rows
+											.map(
+												(row) => `
+											<tr>
+												<td>${frappe.utils.escape_html(row.folder_name || "-")}</td>
+												<td><a href="${frappe.utils.escape_html(row.folder_link || "#")}" target="_blank" rel="noopener noreferrer">Open Folder</a></td>
+												<td>${frappe.utils.escape_html(row.created_on || "-")}</td>
+												<td>${frappe.utils.escape_html(row.created_by || "-")}</td>
+											</tr>
+										`,
+											)
+											.join("")}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				`);
+			},
+			error: () => {
+				$("#icl-project-gdrive-content").html(
+					'<div class="alert alert-warning mb-0">Could not load Google Drive folders for this project.</div>',
 				);
 			},
 		});

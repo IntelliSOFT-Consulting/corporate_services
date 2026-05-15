@@ -83,6 +83,7 @@ doctype_js = {
     "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
+    "Project": "public/js/project_google_drive.js",
 }
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
@@ -459,6 +460,7 @@ fixtures = [
     "Custom HTML Block",
     "KPI Template Instructions",
     "Custom DocPerm",
+    "HIS Project Lifecycle Config",
     # "Wiki Space",
     # "Wiki Page",
 ]

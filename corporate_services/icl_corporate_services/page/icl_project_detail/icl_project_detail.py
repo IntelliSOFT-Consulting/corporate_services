@@ -1,4 +1,5 @@
 import frappe
+import re
 
 
 @frappe.whitelist()
@@ -30,31 +31,22 @@ def get_project_template_targets(project_name):
     if not project_name:
         frappe.throw("Project is required.")
 
-    templates = [
-        {"label": "Project Charter", "doctype": "Project Charter"},
-        {
-            "label": "High Level Work Plan",
-            "doctype": "High Level Work Plan",
-            "preferred_fields": ["project_name"],
-        },
-        {
-            "label": "Detailed Work Plan",
-            "doctype": "Detailed Work Plan",
-            "preferred_fields": ["project_name"],
-        },
-        {"label": "Project Communications Plan", "doctype": "Project Communications Plan"},
-        {"label": "Project Feedback Tracker", "doctype": "Project Feedback Tracker"},
-        {"label": "Risk Assessment Matrix", "doctype": "Risk Assessment Matrix"},
-        {"label": "Project Implementation Plan", "doctype": "Project Implementation Plan"},
-    ]
+    templates = frappe.get_all(
+        "HIS Project Requirement Template",
+        filters={"is_active": 1},
+        fields=["requirement", "target_doctype", "display_order"],
+        order_by="display_order asc, modified asc",
+        limit_page_length=200,
+    )
 
     candidates = ["project_name", "project", "project_id"]
     out = []
 
     for template in templates:
-        doctype = template["doctype"]
-        preferred = template.get("preferred_fields", [])
-        search_fields = preferred + [f for f in candidates if f not in preferred]
+        doctype = template["target_doctype"]
+        if not doctype:
+            continue
+        search_fields = candidates
 
         fieldname = None
         first_name = None
@@ -85,7 +77,7 @@ def get_project_template_targets(project_name):
 
         out.append(
             {
-                "label": template["label"],
+                "label": template["requirement"],
                 "doctype": doctype,
                 "project_field": fieldname,
                 "first_name": first_name,
@@ -136,3 +128,57 @@ def get_project_folder_tree(project_name):
         "root": {"name": root_doc.name, "file_name": root_doc.file_name},
         "children": _children(root_doc.name),
     }
+
+
+@frappe.whitelist()
+def get_project_google_drive_folders(project_name):
+    if not project_name:
+        frappe.throw("Project is required.")
+
+    comments = frappe.get_all(
+        "Comment",
+        filters={
+            "reference_doctype": "Project",
+            "reference_name": project_name,
+            "comment_type": "Comment",
+        },
+        fields=["name", "content", "creation", "owner"],
+        order_by="creation desc",
+        limit_page_length=200,
+    )
+
+    rows = []
+    seen = set()
+    link_pattern = re.compile(r'https?://drive\.google\.com/drive/folders/[A-Za-z0-9_-]+')
+    name_pattern = re.compile(r"Google Drive folder created:\s*.*?>(.*?)</a>", re.IGNORECASE)
+
+    for row in comments:
+        content = row.get("content") or ""
+        if "Google Drive folder created" not in content:
+            continue
+
+        link_match = link_pattern.search(content)
+        if not link_match:
+            continue
+        folder_link = link_match.group(0)
+
+        folder_name = "Google Drive Folder"
+        name_match = name_pattern.search(content)
+        if name_match and name_match.group(1).strip():
+            folder_name = name_match.group(1).strip()
+
+        key = f"{folder_name}|{folder_link}"
+        if key in seen:
+            continue
+        seen.add(key)
+
+        rows.append(
+            {
+                "folder_name": folder_name,
+                "folder_link": folder_link,
+                "created_on": row.get("creation"),
+                "created_by": row.get("owner"),
+            }
+        )
+
+    return rows
