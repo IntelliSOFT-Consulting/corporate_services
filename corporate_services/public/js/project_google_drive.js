@@ -1,0 +1,53 @@
+frappe.ui.form.on("Project", {
+	refresh(frm) {
+		if (frm.is_new()) return;
+
+		frm.add_custom_button("Create Drive Folder", () => {
+			createDriveFolder(frm);
+		}, "Google Drive");
+	},
+});
+
+function createDriveFolder(frm) {
+	frappe.prompt(
+		[
+			{
+				fieldname: "folder_name",
+				label: "Folder Name",
+				fieldtype: "Data",
+				reqd: 1,
+				default: frm.doc.project_name || frm.doc.name,
+			},
+			{
+				fieldname: "parent_folder_id",
+				label: "Parent Folder ID (Optional)",
+				fieldtype: "Data",
+			},
+		],
+		(values) => {
+			frappe.call({
+				method: "corporate_services.api.project.google_drive.create_project_google_drive_folder",
+				args: {
+					project_name: frm.doc.name,
+					folder_name: values.folder_name,
+					parent_folder_id: values.parent_folder_id || null,
+				},
+				freeze: true,
+				freeze_message: "Creating Google Drive folder...",
+				callback: (r) => {
+					const out = r.message || {};
+					const link = out.folder_link || "";
+					frappe.msgprint({
+						title: "Google Drive Folder Created",
+						message: link
+							? `Folder: <strong>${frappe.utils.escape_html(out.folder_name || "")}</strong><br><a href="${frappe.utils.escape_html(link)}" target="_blank">Open in Google Drive</a><br><small>ID: ${frappe.utils.escape_html(out.folder_id || "")}</small>`
+							: "Folder created.",
+						indicator: "green",
+					});
+				},
+			});
+		},
+		"Create Google Drive Folder",
+		"Create",
+	);
+}
