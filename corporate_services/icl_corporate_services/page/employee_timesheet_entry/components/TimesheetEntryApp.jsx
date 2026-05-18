@@ -421,9 +421,10 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                 <button className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" disabled={workflowBusy}>
                     {workflowBusy ? __("Working...") : __("Actions")}
                 </button>
-                <ul className="dropdown-menu dropdown-menu-right">
+                <ul className="dropdown-menu dropdown-menu-right ts-actions-menu">
                     <li>
                         <a
+                            className="ts-actions-link"
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -432,11 +433,13 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                 setProjectSearch("");
                             }}
                         >
-                            {__("Add Project")}
+                            <i className="fa fa-folder-open ts-actions-icon" aria-hidden="true"></i>
+                            <span>{__("Add Project")}</span>
                         </a>
                     </li>
                     <li>
                         <a
+                            className="ts-actions-link"
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -445,20 +448,23 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                 setActivitySearch("");
                             }}
                         >
-                            {__("Add Activity")}
+                            <i className="fa fa-plus-circle ts-actions-icon" aria-hidden="true"></i>
+                            <span>{__("Add Activity")}</span>
                         </a>
                     </li>
                     {workflowActions.length > 0 && <li className="divider"></li>}
                     {workflowActions.map((action) => (
                         <li key={action}>
                             <a
+                                className="ts-actions-link"
                                 href="#"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     runWorkflowAction(action);
                                 }}
                             >
-                                {action}
+                                <i className="fa fa-random ts-actions-icon" aria-hidden="true"></i>
+                                <span>{action}</span>
                             </a>
                         </li>
                     ))}
