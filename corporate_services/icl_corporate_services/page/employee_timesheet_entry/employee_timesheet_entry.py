@@ -507,12 +507,6 @@ def save_web_timesheet(submission_name, sections):
     if reused_names:
         frappe.db.delete("Timesheet Detail", {"parent": ["in", reused_names]})
 
-    minimum_hours = frappe.db.get_value("Employee", doc.employee, "custom_hrs_per_month") or 0
-    # Do not block empty drafts; only validate minimum once hours exist.
-    if total_hours > 0 and total_hours < float(minimum_hours):
-        frappe.throw(
-            f"Total hours ({total_hours:.1f}) is less than the minimum required hours ({minimum_hours}) for this employee."
-        )
 
     # Save in-place timesheets; remove empty ones to avoid stale records.
     persisted_projects = {}
