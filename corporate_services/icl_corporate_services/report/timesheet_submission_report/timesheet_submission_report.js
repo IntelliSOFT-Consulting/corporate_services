@@ -36,6 +36,13 @@ frappe.query_reports["Timesheet Submission Report"] = {
 			}
 		},
 		{
+			"fieldname": "project",
+			"label": __("Project"),
+			"fieldtype": "Link",
+			"options": "Project",
+			"width": 160
+		},
+		{
 			"fieldname": "department",
 			"label": __("Department"),
 			"fieldtype": "Link",
@@ -123,6 +130,23 @@ frappe.query_reports["Timesheet Submission Report"] = {
 	},
 
 	"onload": function (report) {
+		report.page.add_inner_button(__("Open Project Hours Dashboard"), function () {
+			frappe.set_route("project-timesheet-hours-dashboard");
+		});
+
+		report.page.add_inner_button(__("Project Hours Dashboard"), function () {
+			const project = report.get_filter_value("project");
+			if (!project) {
+				frappe.msgprint({
+					title: __("Select Project"),
+					message: __("Please select a Project filter first, then open the dashboard."),
+					indicator: "orange"
+				});
+				return;
+			}
+			frappe.set_route("project-timesheet-hours-dashboard", project);
+		});
+
 		report.page.add_inner_button(__("Notify Non-Submitters"), function () {
 			const month_year = report.get_filter_value("month_year");
 

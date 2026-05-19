@@ -3,6 +3,9 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
         parent: wrapper,
         title: "Timesheet Submissions Reports",
     });
+    page.add_inner_button("Project Hours Dashboard", () => {
+        frappe.set_route("project-timesheet-hours-dashboard");
+    });
 
     frappe.require("/assets/corporate_services/css/timesheet_workflow.css");
 

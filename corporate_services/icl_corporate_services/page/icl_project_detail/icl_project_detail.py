@@ -1,5 +1,6 @@
 import frappe
 import re
+from frappe.utils import add_to_date, get_first_day, get_last_day, getdate
 
 
 @frappe.whitelist()
@@ -182,3 +183,189 @@ def get_project_google_drive_folders(project_name):
         )
 
     return rows
+
+
+@frappe.whitelist()
+def get_project_timesheet_monthly_hours(project_name=None, month=None, finance_approved_only=0):
+    project_name = (project_name or "").strip()
+
+    if project_name:
+        # Enforce project-level read permission.
+        frappe.get_doc("Project", project_name).check_permission("read")
+    else:
+        # Fallback permission gate for all-project aggregate mode.
+        if not (
+            frappe.has_permission("Timesheet", "read")
+            or frappe.has_permission("Timesheet Submission", "read")
+        ):
+            frappe.throw("Not permitted")
+
+    month = (month or "").strip()
+    month_start = None
+    month_end = None
+    month_year_filter = None
+    if month:
+        month_date = _parse_month(month)
+        month_start = get_first_day(month_date)
+        month_end = get_last_day(month_date)
+        month_year_filter = month_start.strftime("%m-%Y")
+
+    submission_filters = {"workflow_state": ["!=", "Draft"], "docstatus": ["!=", 2]}
+    if month_year_filter:
+        submission_filters["month_year"] = month_year_filter
+
+    finance_approved_only = frappe.utils.cint(finance_approved_only)
+    if finance_approved_only:
+        submission_filters["workflow_state"] = "Approved by Finance"
+
+    submissions = frappe.get_all(
+        "Timesheet Submission",
+        filters=submission_filters,
+        fields=["name", "employee", "employee_name", "month_year"],
+        limit_page_length=100000,
+    )
+    submission_by_name = {row["name"]: row for row in submissions}
+    submission_names = list(submission_by_name.keys())
+
+    if not submission_names:
+        return {
+            "project_name": project_name or None,
+            "month": month if month else None,
+            "month_start": str(month_start) if month_start else None,
+            "month_end": str(month_end) if month_end else None,
+            "total_hours": 0.0,
+            "timesheet_count": 0,
+            "daily_hours": [],
+            "employee_hours": [],
+            "monthly_hours": [],
+            "available_months": [],
+            "project_hours": [],
+            "finance_approved_only": finance_approved_only,
+        }
+
+    child_filters = {
+        "parent": ["in", submission_names],
+        "project": ["!=", ""],
+    }
+    if project_name:
+        child_filters["project"] = project_name
+
+    rows = frappe.get_all(
+        "Timesheet Submission List",
+        filters=child_filters,
+        fields=["parent", "project", "project_name", "total_hours"],
+        order_by="parent asc, idx asc",
+        limit_page_length=200000,
+    )
+
+    total_hours = 0.0
+    timesheet_set = set()
+    employee_totals = {}
+    project_totals = {}
+    monthly_totals = {}
+
+    for row in rows:
+        parent = row.get("parent")
+        submission = submission_by_name.get(parent)
+        if not submission:
+            continue
+
+        # Only include rows explicitly linked to a Project (exclude activity-only rows).
+        if not row.get("project"):
+            continue
+
+        hrs = float(row.get("total_hours") or 0)
+        total_hours += hrs
+        timesheet_set.add(parent)
+
+        emp = submission.get("employee") or ""
+        emp_name = submission.get("employee_name") or emp or "-"
+        if emp not in employee_totals:
+            employee_totals[emp] = {"employee": emp, "employee_name": emp_name, "total_hours": 0.0}
+        employee_totals[emp]["total_hours"] += hrs
+
+        proj = row.get("project") or "-"
+        proj_display = row.get("project_name") or proj
+        if proj not in project_totals:
+            project_totals[proj] = {"project": proj, "project_display": proj_display, "total_hours": 0.0}
+        project_totals[proj]["total_hours"] += hrs
+
+        month_iso = _month_year_to_iso(submission.get("month_year"))
+        if month_iso:
+            monthly_totals[month_iso] = monthly_totals.get(month_iso, 0.0) + hrs
+
+    employee_rows = sorted(
+        [
+            {
+                "employee": v["employee"],
+                "employee_name": v["employee_name"],
+                "total_hours": round(v["total_hours"], 2),
+            }
+            for v in employee_totals.values()
+        ],
+        key=lambda x: (-x["total_hours"], x["employee_name"] or ""),
+    )
+
+    project_rows = sorted(
+        [
+            {
+                "project": v["project"],
+                "project_display": v["project_display"],
+                "total_hours": round(v["total_hours"], 2),
+            }
+            for v in project_totals.values()
+        ],
+        key=lambda x: (-x["total_hours"], x["project_display"] or ""),
+    )
+
+    monthly_rows = [
+        {"month": m, "total_hours": round(monthly_totals[m], 2)}
+        for m in sorted(monthly_totals.keys(), reverse=True)
+    ]
+
+    daily_rows = []
+
+    return {
+        "project_name": project_name or None,
+        "month": month if month else None,
+        "month_start": str(month_start) if month_start else None,
+        "month_end": str(month_end) if month_end else None,
+        "total_hours": round(total_hours, 2),
+        "timesheet_count": len(timesheet_set),
+        "daily_hours": daily_rows,
+        "employee_hours": employee_rows,
+        "monthly_hours": monthly_rows,
+        "available_months": [row.get("month") for row in monthly_rows if row.get("month")],
+        "project_hours": project_rows,
+        "finance_approved_only": finance_approved_only,
+    }
+
+
+@frappe.whitelist()
+def get_project_options():
+    return frappe.get_all(
+        "Project",
+        fields=["name", "project_name"],
+        order_by="project_name asc, name asc",
+        limit_page_length=5000,
+    )
+
+
+def _parse_month(month):
+    if not month:
+        return getdate()
+
+    try:
+        # Expected format: YYYY-MM
+        return getdate(f"{month}-01")
+    except Exception:
+        frappe.throw("Month must be in YYYY-MM format.")
+
+
+def _month_year_to_iso(month_year):
+    if not month_year or "-" not in month_year:
+        return None
+    mm, yyyy = month_year.split("-", 1)
+    if len(mm) != 2 or len(yyyy) != 4:
+        return None
+    return f"{yyyy}-{mm}"
