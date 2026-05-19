@@ -192,10 +192,8 @@ function render_questionnaire_ui(frm) {
 			const value = control.get_value ? control.get_value() : "";
 			frappe.model.set_value(row.doctype, row.name, "response", value || "");
 		};
-		const deferredSave = () => setTimeout(saveValue, 0);
-		control.$input && control.$input.on("input change keyup blur paste", deferredSave);
-		control.$wrapper && control.$wrapper.on("input change keyup blur paste", deferredSave);
-		control.$wrapper && control.$wrapper.find(".ql-editor").on("input keyup blur paste", deferredSave);
+		control.$input && control.$input.on("input change", saveValue);
+		control.$wrapper && control.$wrapper.on("input change", saveValue);
 	});
 }
 

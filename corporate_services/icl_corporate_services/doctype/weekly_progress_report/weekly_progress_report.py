@@ -151,15 +151,12 @@ def get_permission_query_conditions(user=None):
         return "1=0"
 
     current_employee_escaped = frappe.db.escape(current_employee)
-    subordinate_filters = [f"reports_to = {current_employee_escaped}"]
-    if _employee_has_custom_reports_to():
-        subordinate_filters.append(f"custom_reports_to = {current_employee_escaped}")
-
     return f"""(
         `tabWeekly Progress Report`.intern = {current_employee_escaped}
         OR `tabWeekly Progress Report`.intern IN (
             SELECT name FROM `tabEmployee`
-            WHERE {" OR ".join(subordinate_filters)}
+            WHERE reports_to = {current_employee_escaped}
+               OR custom_reports_to = {current_employee_escaped}
         )
     )"""
 
@@ -179,21 +176,22 @@ def has_permission(doc, user=None, permission_type=None):
     if doc.intern == current_employee:
         return True
 
-    direct_report_filters = [
-        {
-            "name": doc.intern,
-            "reports_to": current_employee,
-        }
-    ]
-    if _employee_has_custom_reports_to():
-        direct_report_filters.append(
+    return bool(
+        frappe.db.exists(
+            "Employee",
+            {
+                "name": doc.intern,
+                "reports_to": current_employee,
+            },
+        )
+        or frappe.db.exists(
+            "Employee",
             {
                 "name": doc.intern,
                 "custom_reports_to": current_employee,
-            }
+            },
         )
-
-    return any(frappe.db.exists("Employee", filters) for filters in direct_report_filters)
+    )
 
 
 def _get_employee_for_user(user):
@@ -203,7 +201,3 @@ def _get_employee_for_user(user):
 def _user_has_any_role(user, roles):
     user_roles = set(frappe.get_roles(user))
     return bool(user_roles.intersection(set(roles)))
-
-
-def _employee_has_custom_reports_to():
-    return frappe.db.has_column("Employee", "custom_reports_to")
