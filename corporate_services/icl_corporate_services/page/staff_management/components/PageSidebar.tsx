@@ -1,13 +1,10 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import { DeptBreakdown } from "./types";
 import { useEmployeeProfile } from "./hooks/useEmployeeProfile";
 
 interface ListProps {
-  departments: DeptBreakdown[];
-  totalActive: number;
-  activeDept: string;
-  onSelect: (dept: string) => void;
+  activeTab: "overview" | "consultant-time-off";
+  onTabChange: (tab: "overview" | "consultant-time-off") => void;
 }
 
 interface DetailProps {
@@ -182,32 +179,25 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
   );
 }
 
-function ListSidebar({ departments, totalActive, activeDept, onSelect }: ListProps) {
+function ListSidebar({ activeTab, onTabChange }: ListProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div className="sm-sidebar-header">
-        <p className="sm-sidebar-title">Departments</p>
+        <p className="sm-sidebar-title">Dashboard</p>
       </div>
       <div className="sm-sidebar-list">
         <div
-          className={`sm-sidebar-item${activeDept === "" ? " active" : ""}`}
-          onClick={() => onSelect("")}
+          className={`sm-sidebar-item${activeTab === "overview" ? " active" : ""}`}
+          onClick={() => onTabChange("overview")}
         >
-          <span className="sm-sidebar-item-name">All Staff</span>
-          <span className="sm-sidebar-item-count">{totalActive}</span>
+          <span className="sm-sidebar-item-name">Overview</span>
         </div>
-        {departments.map((d) => (
-          <div
-            key={d.department}
-            className={`sm-sidebar-item${activeDept === d.department ? " active" : ""}`}
-            onClick={() => onSelect(d.department)}
-          >
-            <span className="sm-sidebar-item-name" title={d.department}>
-              {d.department}
-            </span>
-            <span className="sm-sidebar-item-count">{d.cnt}</span>
-          </div>
-        ))}
+        <div
+          className={`sm-sidebar-item${activeTab === "consultant-time-off" ? " active" : ""}`}
+          onClick={() => onTabChange("consultant-time-off")}
+        >
+          <span className="sm-sidebar-item-name">Consultant Time Off</span>
+        </div>
       </div>
     </div>
   );

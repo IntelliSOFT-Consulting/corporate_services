@@ -1,0 +1,231 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-05-20 09:48:59.585158",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee_info_section",
+  "naming_series",
+  "intern",
+  "intern_name",
+  "intern_title",
+  "column_break_info_right",
+  "department",
+  "assessment_date",
+  "review_period",
+  "current_responsibilities_section",
+  "current_responsibilities",
+  "characteristics_section",
+  "question_template",
+  "response_ui",
+  "answers",
+  "performance_section",
+  "evaluation_of_performance_achieved_goals",
+  "knowledge_acquired_and_new_skills",
+  "areas_of_excellence_within_performance",
+  "areas_of_improvement_within_performance",
+  "additional_comments_section",
+  "additional_comments",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_info_section",
+   "fieldtype": "Section Break",
+   "label": "EMPLOYEE INFO"
+  },
+  {
+   "default": "IE-.YYYY.-.MM.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "IE-.YYYY.-.MM.-.#####",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "intern",
+   "fieldtype": "Link",
+   "label": "Intern",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "intern.employee_name",
+   "fieldname": "intern_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Intern Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "intern.designation",
+   "fieldname": "intern_title",
+   "fieldtype": "Data",
+   "label": "Intern Title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_info_right",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "intern.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "assessment_date",
+   "fieldtype": "Date",
+   "label": "Assessment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "review_period",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Review Period",
+   "reqd": 1
+  },
+  {
+   "fieldname": "current_responsibilities_section",
+   "fieldtype": "Section Break",
+   "label": "CURRENT RESPONSIBILITIES"
+  },
+  {
+   "fieldname": "current_responsibilities",
+   "fieldtype": "Text Editor",
+   "label": "Current Responsibilities"
+  },
+  {
+   "fieldname": "characteristics_section",
+   "fieldtype": "Section Break",
+   "label": "CHARACTERISTICS"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Intern Evaluation Template",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response_ui",
+   "fieldtype": "HTML",
+   "label": "Characteristics Rating Form"
+  },
+  {
+   "fieldname": "answers",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Characteristics",
+   "options": "Intern Evaluation Answer"
+  },
+  {
+   "fieldname": "performance_section",
+   "fieldtype": "Section Break",
+   "label": "PERFORMANCE ASSESSMENT"
+  },
+  {
+   "fieldname": "evaluation_of_performance_achieved_goals",
+   "fieldtype": "Text Editor",
+   "label": "Evaluation of Performance and Achieved Goals"
+  },
+  {
+   "fieldname": "knowledge_acquired_and_new_skills",
+   "fieldtype": "Text Editor",
+   "label": "Knowledge Acquired and New Skills"
+  },
+  {
+   "fieldname": "areas_of_excellence_within_performance",
+   "fieldtype": "Text Editor",
+   "label": "Areas of Excellence within Performance"
+  },
+  {
+   "fieldname": "areas_of_improvement_within_performance",
+   "fieldtype": "Text Editor",
+   "label": "Areas of Improvement within Performance"
+  },
+  {
+   "fieldname": "additional_comments_section",
+   "fieldtype": "Section Break",
+   "label": "ADDITIONAL COMMENTS"
+  },
+  {
+   "fieldname": "additional_comments",
+   "fieldtype": "Text Editor",
+   "label": "Additional Comments"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Intern Evaluation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-05-21 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Intern Evaluation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
