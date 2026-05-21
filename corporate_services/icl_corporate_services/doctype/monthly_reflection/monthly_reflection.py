@@ -43,7 +43,6 @@ class MonthlyReflection(Document):
         if not self.question_template:
             return
 
-        template = frappe.get_doc("Monthly Reflection Template", self.question_template)
         existing_by_question = {}
         for row in (self.answers or []):
             q = (row.question or "").strip()
@@ -53,20 +52,17 @@ class MonthlyReflection(Document):
             existing_by_question[_normalize_question_key(_strip_number_prefix(q))] = row
 
         new_rows = []
-        active_questions = sorted(
-            [q for q in (template.questions or []) if q.is_active],
-            key=lambda x: (x.display_order or 0, x.idx or 0),
-        )
+        active_questions = _get_active_template_rows(self.question_template)
 
         for q in active_questions:
-            existing = existing_by_question.get(_normalize_question_key(q.question_text))
+            existing = existing_by_question.get(_normalize_question_key(q.get("question_text")))
             response = existing.response if existing else None
             new_rows.append(
                 {
-                    "question": q.question_text,
-                    "help_text": q.help_text,
-                    "is_required": q.is_required,
-                    "response_fieldtype": q.response_fieldtype or "Text Editor",
+                    "question": q.get("question_text"),
+                    "help_text": q.get("help_text"),
+                    "is_required": q.get("is_required"),
+                    "response_fieldtype": q.get("response_fieldtype") or "Text Editor",
                     "response": response,
                 }
             )
@@ -126,23 +122,32 @@ def get_active_template_questions(template_name=None):
     if not template_name:
         return {"template_name": None, "questions": []}
 
-    template = frappe.get_doc("Monthly Reflection Template", template_name)
-    questions = sorted(
-        [q for q in (template.questions or []) if q.is_active],
-        key=lambda x: (x.display_order or 0, x.idx or 0),
-    )
+    questions = _get_active_template_rows(template_name)
     return {
         "template_name": template_name,
         "questions": [
             {
-                "question_text": q.question_text,
-                "help_text": q.help_text,
-                "is_required": q.is_required,
-                "response_fieldtype": q.response_fieldtype or "Text Editor",
+                "question_text": q.get("question_text"),
+                "help_text": q.get("help_text"),
+                "is_required": q.get("is_required"),
+                "response_fieldtype": q.get("response_fieldtype") or "Text Editor",
             }
             for q in questions
         ],
     }
+
+
+def _get_active_template_rows(template_name):
+    return frappe.get_all(
+        "Monthly Reflection Template Question",
+        filters={
+            "parent": template_name,
+            "parenttype": "Monthly Reflection Template",
+            "is_active": 1,
+        },
+        fields=["question_text", "help_text", "is_required", "response_fieldtype", "display_order", "idx"],
+        order_by="display_order asc, idx asc",
+    )
 
 
 def _strip_number_prefix(text):
