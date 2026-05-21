@@ -9,7 +9,6 @@ import { OnLeaveCard } from "./OnLeaveCard";
 import { EmployeeTable } from "./EmployeeTable";
 import { EmployeeDetail } from "./EmployeeDetail";
 import { ConsultantTimeOffTab } from "./ConsultantTimeOffTab";
-import { StaffStats as StaffStatsType } from "./types";
 
 declare global {
   interface Window {
@@ -27,8 +26,6 @@ function StaffManagementApp({ page: _page }: { page: any }) {
     const route = (globalThis as any).frappe?.get_route?.() ?? [];
     return route[1] || null;
   });
-  const [deptFilter, setDeptFilter] = useState("");
-  const [sidebarStats, setSidebarStats] = useState<StaffStatsType | null>(null);
 
   useEffect(() => {
     (globalThis as any).staffManagementSetRoute = (id: string | null) => {
@@ -49,13 +46,6 @@ function StaffManagementApp({ page: _page }: { page: any }) {
     setRouteSegment(null);
   }
 
-  function handleDeptSelect(dept: string) {
-    setDeptFilter(dept);
-    if (routeSegment) {
-      handleBack();
-    }
-  }
-
   const sidebarRoot = document.getElementById("staff-sidebar-root");
 
   return (
@@ -64,10 +54,8 @@ function StaffManagementApp({ page: _page }: { page: any }) {
 
       {sidebarRoot && (
         <PageSidebar
-          departments={sidebarStats?.department_breakdown || []}
-          totalActive={sidebarStats?.total_active || 0}
-          activeDept={deptFilter}
-          onSelect={handleDeptSelect}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
           detailEmployee={routeSegment}
           onBack={handleBack}
         />
@@ -90,9 +78,9 @@ function StaffManagementApp({ page: _page }: { page: any }) {
               <div>
                 <h5 className="font-weight-bold mb-0">Staff Management</h5>
                 <p className="text-muted mb-0" style={{ fontSize: 12 }}>
-                  {deptFilter
-                    ? `Showing: ${deptFilter}`
-                    : "All active employees"}
+                  {activeTab === "overview"
+                    ? "All active employees"
+                    : "Consultant leave and time off tracker"}
                 </p>
               </div>
               <div>
@@ -118,38 +106,11 @@ function StaffManagementApp({ page: _page }: { page: any }) {
               </div>
             </div>
 
-            <ul className="nav nav-tabs mb-3">
-              <li className="nav-item">
-                <a
-                  className={`nav-link${activeTab === "overview" ? " active" : ""}`}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveTab("overview");
-                  }}
-                >
-                  Overview
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className={`nav-link${activeTab === "consultant-time-off" ? " active" : ""}`}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveTab("consultant-time-off");
-                  }}
-                >
-                  Consultant Time Off
-                </a>
-              </li>
-            </ul>
-
             {activeTab === "overview" && (
               <>
-                <StaffStats onStatsLoaded={(s) => s && setSidebarStats(s)} />
+                <StaffStats />
                 <OnLeaveCard onOpen={openEmployee} />
-                <EmployeeTable deptFilter={deptFilter} onOpen={openEmployee} />
+                <EmployeeTable deptFilter="" onOpen={openEmployee} />
               </>
             )}
 
