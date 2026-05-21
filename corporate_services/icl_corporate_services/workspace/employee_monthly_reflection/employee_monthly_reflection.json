@@ -57,13 +57,7 @@
  ],
  "sequence_id": 5.0,
  "shortcuts": [
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Monthly Reflection Dashboard",
-   "link_to": "monthly-reflection-dashboard",
-   "type": "Page"
-  }
+  
  ],
  "title": "Employee Monthly Reflection"
 }

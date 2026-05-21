@@ -66,13 +66,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Monthly Reflection Dashboard",
-   "link_to": "monthly-reflection-dashboard",
-   "type": "Page"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "New Hire Feedback Survey 30 Day",
    "link_to": "New Hire Feedback Survey 30-Day",
    "stats_filter": "[]",
