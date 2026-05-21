@@ -66,6 +66,9 @@ class IclProjectDetailPage {
 						<li class="nav-item">
 							<button class="nav-link" data-project-tab="gdrive" type="button" role="tab">Google Drive</button>
 						</li>
+						<li class="nav-item">
+							<button class="nav-link" data-project-tab="timesheet-hours" type="button" role="tab">Timesheet Hours</button>
+						</li>
 					</ul>
 				</div>
 				<div class="tab-content">
@@ -96,6 +99,9 @@ class IclProjectDetailPage {
 					<div class="tab-pane p-3 d-none" id="icl-project-gdrive-pane" role="tabpanel">
 						<div id="icl-project-gdrive-content" class="text-muted">Loading Google Drive folders...</div>
 					</div>
+					<div class="tab-pane p-3 d-none" id="icl-project-timesheet-hours-pane" role="tabpanel">
+						<div id="icl-project-timesheet-hours-content" class="text-muted">Loading project timesheet hours...</div>
+					</div>
 				</div>
 			</div>
 		`);
@@ -110,17 +116,22 @@ class IclProjectDetailPage {
 			const tab = this.getAttribute("data-project-tab");
 			$("#icl-project-detail-root [data-project-tab]").removeClass("active");
 			$(this).addClass("active");
+
+			const panes = [
+				"#icl-project-details-pane",
+				"#icl-project-folder-pane",
+				"#icl-project-gdrive-pane",
+				"#icl-project-timesheet-hours-pane",
+			];
+			panes.forEach((pane) => $(pane).addClass("d-none").removeClass("show active"));
+
 			if (tab === "folder") {
-				$("#icl-project-details-pane").addClass("d-none").removeClass("show active");
-				$("#icl-project-gdrive-pane").addClass("d-none").removeClass("show active");
 				$("#icl-project-folder-pane").removeClass("d-none").addClass("show active");
 			} else if (tab === "gdrive") {
-				$("#icl-project-details-pane").addClass("d-none").removeClass("show active");
-				$("#icl-project-folder-pane").addClass("d-none").removeClass("show active");
 				$("#icl-project-gdrive-pane").removeClass("d-none").addClass("show active");
+			} else if (tab === "timesheet-hours") {
+				$("#icl-project-timesheet-hours-pane").removeClass("d-none").addClass("show active");
 			} else {
-				$("#icl-project-folder-pane").addClass("d-none").removeClass("show active");
-				$("#icl-project-gdrive-pane").addClass("d-none").removeClass("show active");
 				$("#icl-project-details-pane").removeClass("d-none").addClass("show active");
 			}
 		});
@@ -129,10 +140,29 @@ class IclProjectDetailPage {
 			e.preventDefault();
 			frappe.set_route("Form", "File", this.getAttribute("data-folder-name"));
 		});
+		$("#icl-project-detail-root").off("click", "#project-timesheet-hours-refresh");
+		$("#icl-project-detail-root").on("click", "#project-timesheet-hours-refresh", () => {
+			const selected = $("#project-timesheet-month").val() || "";
+			const financeApprovedOnly = $("#project-timesheet-finance-approved-only").is(":checked") ? 1 : 0;
+			this.renderTimesheetHoursTab(project.name, selected, financeApprovedOnly);
+		});
+		$("#icl-project-detail-root").off("change", "#project-timesheet-month");
+		$("#icl-project-detail-root").on("change", "#project-timesheet-month", () => {
+			const selected = $("#project-timesheet-month").val() || "";
+			const financeApprovedOnly = $("#project-timesheet-finance-approved-only").is(":checked") ? 1 : 0;
+			this.renderTimesheetHoursTab(project.name, selected, financeApprovedOnly);
+		});
+		$("#icl-project-detail-root").off("change", "#project-timesheet-finance-approved-only");
+		$("#icl-project-detail-root").on("change", "#project-timesheet-finance-approved-only", () => {
+			const selected = $("#project-timesheet-month").val() || "";
+			const financeApprovedOnly = $("#project-timesheet-finance-approved-only").is(":checked") ? 1 : 0;
+			this.renderTimesheetHoursTab(project.name, selected, financeApprovedOnly);
+		});
 
 		this.renderTemplateSidebar(project.name);
 		this.renderProjectFolderTab(project.name);
 		this.renderGoogleDriveTab(project.name);
+		this.renderTimesheetHoursTab(project.name, "", 0);
 	}
 
 	field(label, value) {
@@ -332,6 +362,191 @@ class IclProjectDetailPage {
 				);
 			},
 		});
+	}
+
+	renderTimesheetHoursTab(projectName, selectedMonth = "", financeApprovedOnly = 0) {
+		financeApprovedOnly = Number(financeApprovedOnly) ? 1 : 0;
+		$("#icl-project-timesheet-hours-content").html(`
+			<div class="card border">
+				<div class="card-body p-3">
+					<div class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
+						<div class="d-flex align-items-end gap-2">
+							<div id="project-timesheet-month-filter-wrap">
+								<label class="form-label mb-1">Month</label>
+								<select class="form-select form-select-sm" id="project-timesheet-month">
+									<option value="">All Months</option>
+								</select>
+							</div>
+							<button type="button" class="btn btn-sm btn-primary" id="project-timesheet-hours-refresh">Refresh</button>
+						</div>
+						<div class="d-flex align-items-center gap-3">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="project-timesheet-finance-approved-only" ${financeApprovedOnly ? "checked" : ""}>
+								<label class="form-check-label" for="project-timesheet-finance-approved-only">Finance Approved only</label>
+							</div>
+							<div class="text-muted small">Default: all non-draft timesheets</div>
+						</div>
+					</div>
+					<div id="project-timesheet-hours-results" class="text-muted">Loading month summary...</div>
+				</div>
+			</div>
+		`);
+
+		frappe.call({
+			method:
+				"corporate_services.icl_corporate_services.page.icl_project_detail.icl_project_detail.get_project_timesheet_monthly_hours",
+			args: {
+				project_name: projectName,
+				month: selectedMonth || null,
+				finance_approved_only: financeApprovedOnly,
+			},
+			callback: (r) => {
+				const data = r.message || {};
+				const availableMonths = data.available_months || [];
+				const totalHours = this.formatHours(data.total_hours || 0);
+				const timesheetCount = data.timesheet_count || 0;
+				const dailyRows = data.daily_hours || [];
+				const employeeRows = data.employee_hours || [];
+				const monthlyRows = data.monthly_hours || [];
+				const activeMonth = data.month || "";
+
+				$("#project-timesheet-month").html(`
+					<option value="" ${activeMonth ? "" : "selected"}>All Months</option>
+					${availableMonths
+						.map(
+							(m) =>
+								`<option value="${frappe.utils.escape_html(m)}" ${m === activeMonth ? "selected" : ""}>${frappe.utils.escape_html(m)}</option>`,
+						)
+						.join("")}
+				`);
+
+				$("#project-timesheet-hours-results").html(`
+					<div class="row g-2 mb-3">
+						<div class="col-md-4">
+							<div class="border rounded p-2 h-100">
+								<div class="text-muted" style="font-size:12px;">Period</div>
+								<div class="fw-semibold">${frappe.utils.escape_html(activeMonth || "All Months")}</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="border rounded p-2 h-100">
+								<div class="text-muted" style="font-size:12px;">Total Hours Worked</div>
+								<div class="fw-semibold">${frappe.utils.escape_html(totalHours)}</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="border rounded p-2 h-100">
+								<div class="text-muted" style="font-size:12px;">Non-Draft Timesheets</div>
+								<div class="fw-semibold">${frappe.utils.escape_html(String(timesheetCount))}</div>
+							</div>
+						</div>
+					</div>
+					<div class="card border mb-3">
+						<div class="card-body p-0">
+							<div class="p-2 border-bottom"><strong>Monthly Totals</strong></div>
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered mb-0 align-middle">
+									<thead>
+										<tr>
+											<th>Month</th>
+											<th class="text-end">Hours</th>
+										</tr>
+									</thead>
+									<tbody>
+										${monthlyRows.length
+											? monthlyRows
+												.map(
+													(row) => `
+												<tr>
+													<td>${frappe.utils.escape_html(row.month || "-")}</td>
+													<td class="text-end">${frappe.utils.escape_html(this.formatHours(row.total_hours || 0))}</td>
+												</tr>
+											`,
+												)
+												.join("")
+											: '<tr><td colspan="2" class="text-muted text-center">No submitted timesheet hours found for this project.</td></tr>'}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row g-3">
+						<div class="col-lg-6">
+							<div class="card border h-100">
+								<div class="card-body p-0">
+									<div class="p-2 border-bottom"><strong>Daily Hours</strong></div>
+									<div class="table-responsive">
+										<table class="table table-sm table-bordered mb-0 align-middle">
+											<thead>
+												<tr>
+													<th>Date</th>
+													<th class="text-end">Hours</th>
+												</tr>
+											</thead>
+											<tbody>
+												${dailyRows.length
+													? dailyRows
+														.map(
+															(row) => `
+														<tr>
+															<td>${frappe.utils.escape_html(row.work_date || "-")}</td>
+															<td class="text-end">${frappe.utils.escape_html(this.formatHours(row.total_hours || 0))}</td>
+														</tr>
+													`,
+														)
+														.join("")
+													: '<tr><td colspan="2" class="text-muted text-center">No submitted timesheet hours for this month.</td></tr>'}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card border h-100">
+								<div class="card-body p-0">
+									<div class="p-2 border-bottom"><strong>Employee Breakdown</strong></div>
+									<div class="table-responsive">
+										<table class="table table-sm table-bordered mb-0 align-middle">
+											<thead>
+												<tr>
+													<th>Employee</th>
+													<th class="text-end">Hours</th>
+												</tr>
+											</thead>
+											<tbody>
+												${employeeRows.length
+													? employeeRows
+														.map(
+															(row) => `
+														<tr>
+															<td>${frappe.utils.escape_html(row.employee_name || row.employee || "-")}</td>
+															<td class="text-end">${frappe.utils.escape_html(this.formatHours(row.total_hours || 0))}</td>
+														</tr>
+													`,
+														)
+														.join("")
+													: '<tr><td colspan="2" class="text-muted text-center">No employee hours found for this month.</td></tr>'}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				`);
+			},
+			error: () => {
+				$("#project-timesheet-hours-results").html(
+					'<div class="alert alert-warning mb-0">Could not load monthly timesheet hours for this project.</div>',
+				);
+			},
+		});
+	}
+
+	formatHours(value) {
+		const num = Number(value || 0);
+		return Number.isFinite(num) ? num.toFixed(2) : "0.00";
 	}
 
 	renderFolderTree(nodes) {
