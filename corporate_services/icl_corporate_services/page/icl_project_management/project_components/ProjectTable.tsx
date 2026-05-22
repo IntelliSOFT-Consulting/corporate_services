@@ -9,9 +9,9 @@ const STATUS_INDICATOR: Record<string, string> = {
   Cancelled: "red",
 };
 const TONE_LABELS: Record<"green" | "amber" | "red", string> = {
-  green: "Green",
-  amber: "Amber",
-  red: "Red",
+  green: "Completed",
+  amber: "Open",
+  red: "Cancelled",
 };
 
 const STATUSES = ["Open", "Completed", "Cancelled"];
@@ -196,7 +196,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
               <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                 <div style={{ fontWeight: 600 }}>{p.project_name || p.name}</div>
                 <span className={`indicator-pill ${toneBadgeClass(p.status_tone)}`} style={{ fontSize: 11 }}>
-                  <span>{p.status_tone_label || "Amber"}</span>
+                  <span>{p.status || p.status_tone_label || "Open"}</span>
                 </span>
               </div>
               <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
