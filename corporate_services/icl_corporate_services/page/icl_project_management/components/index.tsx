@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { createPortal } from "react-dom";
+
+import { GlobalStyles } from "../project_components/ui/GlobalStyles";
+import { ProjectTable } from "../project_components/ProjectTable";
+import { ProjectDetail } from "../project_components/ProjectDetail";
 
 declare global {
   interface Window {
@@ -33,6 +38,68 @@ type DashboardData = {
   projects?: ProjectRow[];
 };
 
+type Tab = "dashboard" | "projects";
+const TAB_KEY = "icl_project_management_tab";
+
+function isTab(value: string | null): value is Tab {
+  return value === "dashboard" || value === "projects";
+}
+
+function getTabFromUrl(): Tab | null {
+  try {
+    const params = new URLSearchParams(globalThis.location.search || "");
+    const tab = params.get("tab");
+    return isTab(tab) ? tab : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeTabToUrl(tab: Tab) {
+  try {
+    const url = new URL(globalThis.location.href);
+    url.searchParams.set("tab", tab);
+    globalThis.history.replaceState(globalThis.history.state, "", url.toString());
+  } catch {
+    // no-op
+  }
+}
+
+const LOCAL_STYLES = `
+.ipm-sidebar-header {
+  padding: 12px 10px 10px;
+  border-bottom: 1px solid var(--border-color, #e2e6ea);
+}
+.ipm-sidebar-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #6c757d);
+  margin: 0;
+}
+.ipm-sidebar-list {
+  padding: 6px 0;
+}
+.ipm-sidebar-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border-left: 3px solid transparent;
+}
+.ipm-sidebar-item:hover {
+  background: var(--fg-hover-color, #f8f9fa);
+}
+.ipm-sidebar-item.active {
+  background: var(--control-bg, #e8eaf0);
+  border-left-color: var(--primary, #5e64ff);
+  font-weight: 600;
+}
+.ipm-content {
+  padding: 0 10px;
+}
+`;
+
 function Metric({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="col-md-3 mb-3">
@@ -46,22 +113,10 @@ function Metric({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function ProjectManagementApp({ page }: { page: any }) {
+function DashboardTab() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<DashboardData>({});
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    page.set_primary_action("Create New Project", () => {
-      globalThis.frappe?.new_doc("Project");
-    });
-    page.add_menu_item("HIS Project Lifecycle Guide", () => {
-      globalThis.frappe?.set_route("health-information-system-project-lifecycle");
-    });
-    page.add_menu_item("Project Requirements Templates", () => {
-      globalThis.frappe?.set_route("project-requirements-templates");
-    });
-  }, [page]);
 
   useEffect(() => {
     setLoading(true);
@@ -211,6 +266,108 @@ function ProjectManagementApp({ page }: { page: any }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function ProjectsTab({ initialProjectId }: { initialProjectId: string | null }) {
+  const [selectedId, setSelectedId] = useState<string | null>(initialProjectId);
+
+  useEffect(() => {
+    setSelectedId(initialProjectId);
+  }, [initialProjectId]);
+
+  function openProject(id: string) {
+    (globalThis as any).frappe?.set_route("icl-project-management", id);
+    setSelectedId(id);
+  }
+
+  function handleBack() {
+    (globalThis as any).frappe?.set_route("icl-project-management");
+    setSelectedId(null);
+  }
+
+  return (
+    <div className="pm-app-wrap">
+      {selectedId ? (
+        <ProjectDetail projectId={selectedId} onBack={handleBack} />
+      ) : (
+        <>
+          <ProjectTable onOpen={openProject} />
+        </>
+      )}
+    </div>
+  );
+}
+
+function SidebarTabs({
+  tab,
+  onChange,
+}: {
+  tab: Tab;
+  onChange: (tab: Tab) => void;
+}) {
+  return (
+    <div>
+      <div className="ipm-sidebar-header">
+        <p className="ipm-sidebar-title">Project Management</p>
+      </div>
+      <div className="ipm-sidebar-list">
+        <div
+          className={`ipm-sidebar-item${tab === "dashboard" ? " active" : ""}`}
+          onClick={() => onChange("dashboard")}
+        >
+          Dashboard
+        </div>
+        <div
+          className={`ipm-sidebar-item${tab === "projects" ? " active" : ""}`}
+          onClick={() => onChange("projects")}
+        >
+          Projects
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectManagementApp({ page }: { page: any }) {
+  const initialRouteProject = (((globalThis as any).frappe?.get_route?.() ?? [])[1] as string) || null;
+
+  const [tab, setTab] = useState<Tab>(() => {
+    if (initialRouteProject) return "projects";
+    const fromUrl = getTabFromUrl();
+    if (fromUrl) return fromUrl;
+    const saved = globalThis?.localStorage?.getItem(TAB_KEY) || null;
+    return isTab(saved) ? saved : "dashboard";
+  });
+
+  useEffect(() => {
+    page.set_primary_action("Create New Project", () => {
+      globalThis.frappe?.new_doc("Project");
+    });
+    page.add_menu_item("HIS Project Lifecycle Guide", () => {
+      globalThis.frappe?.set_route("health-information-system-project-lifecycle");
+    });
+    page.add_menu_item("Project Requirements Templates", () => {
+      globalThis.frappe?.set_route("project-requirements-templates");
+    });
+  }, [page]);
+
+  useEffect(() => {
+    globalThis?.localStorage?.setItem(TAB_KEY, tab);
+    writeTabToUrl(tab);
+  }, [tab]);
+
+  const sidebarRoot = document.getElementById("project-management-sidebar-root");
+
+  return (
+    <>
+      <GlobalStyles />
+      <style>{LOCAL_STYLES}</style>
+      {sidebarRoot && createPortal(<SidebarTabs tab={tab} onChange={setTab} />, sidebarRoot)}
+      <div className="ipm-content">
+        {tab === "dashboard" ? <DashboardTab /> : <ProjectsTab initialProjectId={initialRouteProject} />}
+      </div>
+    </>
   );
 }
 

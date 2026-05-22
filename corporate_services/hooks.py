@@ -38,8 +38,6 @@ page_js = {
     "survey-manager": "public/js/survey_admin.js",
     # Desk React page for the opportunity module (loaded on /app/icl-opportunity-module)
     "icl-opportunity-module": "public/js/opportunity_module.js",
-    # Desk React page for the project module (loaded on /app/icl-project-module)
-    "icl-project-module": "public/js/project_module.js",
     # Desk React page for project management dashboard
     "icl-project-management": "public/js/project_management.js",
     "employee-turnover": "public/js/employee_turnover.js",
