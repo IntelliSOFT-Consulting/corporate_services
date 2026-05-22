@@ -3,7 +3,7 @@ frappe.ui.form.on("Project", {
 		if (frm.is_new()) return;
 
 		frm.add_custom_button("Project Hours Dashboard", () => {
-			frappe.set_route("icl-project-detail", frm.doc.name);
+			frappe.set_route("icl-project-management", frm.doc.name);
 		}, "View");
 
 		frm.add_custom_button("Create Drive Folder", () => {

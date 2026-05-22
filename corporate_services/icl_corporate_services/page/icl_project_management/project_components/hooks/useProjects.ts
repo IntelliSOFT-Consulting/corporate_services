@@ -9,12 +9,22 @@ export function useProjects() {
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [total, setTotal] = useState(0);
   const [charts, setCharts] = useState<ProjectListResult["charts"]>({});
+  const [statusCounter, setStatusCounter] = useState<ProjectListResult["status_counter"]>({
+    green: 0,
+    amber: 0,
+    red: 0,
+  });
+  const [thisWeek, setThisWeek] = useState<ProjectListResult["this_week"]>({
+    status_reports_due_this_week: 0,
+    milestones_due_next_7_days: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [toneFilter, setToneFilter] = useState<"" | "green" | "amber" | "red">("");
 
   const load = useCallback(
     async (currentPage: number, currentSearch: string, currentStatus: string) => {
@@ -34,6 +44,10 @@ export function useProjects() {
         setProjects(result.projects);
         setTotal(result.total);
         setCharts(result.charts ?? {});
+        setStatusCounter(result.status_counter ?? { green: 0, amber: 0, red: 0 });
+        setThisWeek(
+          result.this_week ?? { status_reports_due_this_week: 0, milestones_due_next_7_days: 0 }
+        );
       } catch (e: any) {
         setError(e?.message || "Failed to load projects.");
       } finally {
@@ -60,11 +74,17 @@ export function useProjects() {
   };
 
   const totalPages = Math.ceil(total / PAGE_LENGTH);
+  const filteredProjects = toneFilter
+    ? projects.filter((p) => p.status_tone === toneFilter)
+    : projects;
 
   return {
-    projects,
+    projects: filteredProjects,
+    rawProjects: projects,
     total,
     charts,
+    statusCounter,
+    thisWeek,
     loading,
     error,
     page,
@@ -74,6 +94,8 @@ export function useProjects() {
     setPage,
     handleSearch,
     handleStatusFilter,
+    toneFilter,
+    setToneFilter,
     refresh,
   };
 }

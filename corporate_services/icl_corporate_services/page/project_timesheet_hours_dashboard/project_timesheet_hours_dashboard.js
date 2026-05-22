@@ -88,7 +88,7 @@ class ProjectTimesheetHoursDashboard {
 	loadProjectOptions(onDone) {
 		frappe.call({
 			method:
-				"corporate_services.icl_corporate_services.page.icl_project_detail.icl_project_detail.get_project_options",
+				"corporate_services.api.project.get_project_options",
 			callback: (r) => {
 				const rows = r.message || [];
 				this.projectNameMap = {};
@@ -130,7 +130,7 @@ class ProjectTimesheetHoursDashboard {
 
 		frappe.call({
 			method:
-				"corporate_services.icl_corporate_services.page.icl_project_detail.icl_project_detail.get_project_timesheet_monthly_hours",
+				"corporate_services.api.project.get_project_timesheet_monthly_hours",
 			args: {
 				project_name: project || null,
 				month: selectedMonth || null,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useProjectDetail } from "./hooks/useProjectDetail";
 import { ProjectChartCard } from "./ProjectCharts";
 
@@ -70,11 +70,85 @@ interface Props {
   onBack: () => void;
 }
 
+type DriveFolder = {
+  folder_name?: string;
+  folder_link?: string;
+  created_on?: string;
+  created_by?: string;
+};
+
+type FolderNode = {
+  name: string;
+  file_name: string;
+  children?: FolderNode[];
+};
+
+function FolderTree({ node, onOpen }: { node: FolderNode; onOpen: (name: string) => void }) {
+  return (
+    <li style={{ marginBottom: 6 }}>
+      <a
+        href="#"
+        className="pm-proj-link"
+        onClick={(e) => {
+          e.preventDefault();
+          onOpen(node.name);
+        }}
+      >
+        {node.file_name}
+      </a>
+      {!!(node.children && node.children.length) && (
+        <ul style={{ marginTop: 6, paddingLeft: 16 }}>
+          {node.children.map((child) => (
+            <FolderTree key={child.name} node={child} onOpen={onOpen} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 export function ProjectDetail({ projectId, onBack }: Props) {
   const { doc, loading, error } = useProjectDetail(projectId);
   const linkedUsers = doc?.linked_users ?? [];
   const timesheets = doc?.timesheets ?? [];
   const travelRequests = doc?.travel_requests ?? [];
+  const [activeTab, setActiveTab] = useState<"details" | "google" | "folders">("details");
+  const [googleFolders, setGoogleFolders] = useState<DriveFolder[]>([]);
+  const [folderTree, setFolderTree] = useState<FolderNode[]>([]);
+  const [tabLoading, setTabLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!projectId) return;
+    setTabLoading(true);
+    Promise.all([
+      (globalThis as any).frappe.call({
+        method: "corporate_services.api.project.get_project_google_drive_folders",
+        args: { project_name: projectId },
+      }),
+      (globalThis as any).frappe.call({
+        method: "corporate_services.api.project.get_project_folder_tree",
+        args: { project_name: projectId },
+      }),
+    ])
+      .then(([googleRes, folderRes]) => {
+        if (cancelled) return;
+        setGoogleFolders(googleRes?.message ?? []);
+        setFolderTree(folderRes?.message?.children ?? []);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setGoogleFolders([]);
+        setFolderTree([]);
+      })
+      .finally(() => {
+        if (!cancelled) setTabLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
 
   return (
     <div className="pm-fade-in">
@@ -127,6 +201,33 @@ export function ProjectDetail({ projectId, onBack }: Props) {
         <div className="row">
           <div className="col-md-8">
 
+            <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "details" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("details")}
+                >
+                  Project Details
+                </button>
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "google" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("google")}
+                >
+                  Google Drive
+                </button>
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "folders" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("folders")}
+                >
+                  Folders
+                </button>
+              </div>
+            </div>
+
+            {activeTab === "details" && <div>
             <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
               <h6 className="pm-section-title">Overview</h6>
               <div className="pm-field-grid">
@@ -345,6 +446,68 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                 </div>
               )}
             </div>
+            </div>}
+
+            {activeTab === "google" && (
+              <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+                <h6 className="pm-section-title">Google Drive Folders</h6>
+                {tabLoading ? (
+                  <div className="text-muted">Loading Google Drive folders…</div>
+                ) : googleFolders.length === 0 ? (
+                  <div className="pm-empty-inline">No Google Drive folders found for this project.</div>
+                ) : (
+                  <div className="pm-related-table-wrap">
+                    <table className="table table-sm pm-related-table">
+                      <thead>
+                        <tr>
+                          <th>Folder</th>
+                          <th>Created On</th>
+                          <th>Created By</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {googleFolders.map((row, idx) => (
+                          <tr key={`${row.folder_link || row.folder_name || "folder"}-${idx}`}>
+                            <td>
+                              {row.folder_link ? (
+                                <a className="pm-proj-link" href={row.folder_link} target="_blank" rel="noreferrer">
+                                  {row.folder_name || "Google Drive Folder"}
+                                </a>
+                              ) : (
+                                row.folder_name || "-"
+                              )}
+                            </td>
+                            <td>{formatDateOrDash(row.created_on)}</td>
+                            <td>{row.created_by || "-"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === "folders" && (
+              <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+                <h6 className="pm-section-title">Project Folders</h6>
+                {tabLoading ? (
+                  <div className="text-muted">Loading folders…</div>
+                ) : folderTree.length === 0 ? (
+                  <div className="pm-empty-inline">No project folders found in File Manager.</div>
+                ) : (
+                  <ul style={{ margin: 0, paddingLeft: 16 }}>
+                    {folderTree.map((node) => (
+                      <FolderTree
+                        key={node.name}
+                        node={node}
+                        onOpen={(name) => (globalThis as any).frappe?.set_route("Form", "File", name)}
+                      />
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
 
           </div>
 

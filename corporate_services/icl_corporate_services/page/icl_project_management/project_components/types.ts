@@ -16,6 +16,12 @@ export type ProjectRow = {
   timesheet_count?: number;
   total_timesheet_hours?: number;
   travel_request_count?: number;
+  status_tone?: "green" | "amber" | "red";
+  status_tone_label?: string;
+  lifecycle_phase?: string;
+  next_milestone_name?: string;
+  next_milestone_due_date?: string;
+  days_to_contract_end?: number | null;
 };
 
 export type ProjectTimesheet = {
@@ -90,6 +96,15 @@ export type ProjectDetail = ProjectRow & {
 export type ProjectListResult = {
   projects: ProjectRow[];
   total: number;
+  status_counter?: {
+    green: number;
+    amber: number;
+    red: number;
+  };
+  this_week?: {
+    status_reports_due_this_week: number;
+    milestones_due_next_7_days: number;
+  };
   charts?: {
     timesheet_hours_by_project?: ProjectListHoursChart[];
     travel_requests_by_project?: ProjectListCountChart[];

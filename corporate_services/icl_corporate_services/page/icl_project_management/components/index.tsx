@@ -239,7 +239,7 @@ function DashboardTab() {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            globalThis.frappe?.set_route("icl-project-detail", row.name);
+                            globalThis.frappe?.set_route("icl-project-management", row.name);
                           }}
                         >
                           {row.name}
