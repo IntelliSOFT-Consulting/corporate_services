@@ -19,7 +19,7 @@ export function useEmployees(deptFilter: string) {
       setError(null);
       try {
         const r = await (globalThis as any).frappe.call({
-          method: "corporate_services.api.staff_management.get_employees",
+          method: "corporate_services.api.hr_management.get_employees",
           args: {
             page: p,
             page_size: PAGE_SIZE,

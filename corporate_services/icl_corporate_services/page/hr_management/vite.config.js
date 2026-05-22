@@ -14,7 +14,7 @@ export default defineConfig({
       input: path.resolve(__dirname, "components/index.tsx"),
       output: {
         format: "iife",
-        entryFileNames: "staff_management.js",
+        entryFileNames: "hr_management.js",
       },
     },
   },

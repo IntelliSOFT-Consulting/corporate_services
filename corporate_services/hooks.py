@@ -40,8 +40,10 @@ page_js = {
     "icl-opportunity-module": "public/js/opportunity_module.js",
     # Desk React page for the project module (loaded on /app/icl-project-module)
     "icl-project-module": "public/js/project_module.js",
+    # Desk React page for project management dashboard
+    "icl-project-management": "public/js/project_management.js",
     "employee-turnover": "public/js/employee_turnover.js",
-    "staff-management": "public/js/staff_management.js",
+    "hr-management": "public/js/hr_management.js",
 }
 
 # Custom Pages

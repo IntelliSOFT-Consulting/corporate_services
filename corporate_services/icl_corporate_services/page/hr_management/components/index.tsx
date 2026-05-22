@@ -23,8 +23,8 @@ import { SurveyManagerTab } from "./SurveyManagerTab";
 declare global {
   interface Window {
     frappe: any;
-    initStaffManagement?: (page?: any) => void;
-    staffManagementSetRoute?: (id: string | null) => void;
+    initHRManagement?: (page?: any) => void;
+    hrManagementSetRoute?: (id: string | null) => void;
   }
 }
 
@@ -42,7 +42,7 @@ type Tab =
   | "intern-evaluation"
   | "employee-turnover";
 
-const TAB_STORAGE_KEY = "staff_management_active_tab";
+const TAB_STORAGE_KEY = "hr_management_active_tab";
 const DEFAULT_TAB: Tab = "overview";
 
 function isValidTab(value: string | null): value is Tab {
@@ -95,11 +95,11 @@ function StaffManagementApp({ page: _page }: { page: any }) {
   });
 
   useEffect(() => {
-    (globalThis as any).staffManagementSetRoute = (id: string | null) => {
+    (globalThis as any).hrManagementSetRoute = (id: string | null) => {
       setRouteSegment(id || null);
     };
     return () => {
-      delete (globalThis as any).staffManagementSetRoute;
+      delete (globalThis as any).hrManagementSetRoute;
     };
   }, []);
 
@@ -109,16 +109,16 @@ function StaffManagementApp({ page: _page }: { page: any }) {
   }, [activeTab]);
 
   function openEmployee(employee: string) {
-    (globalThis as any).frappe?.set_route("staff-management", employee);
+    (globalThis as any).frappe?.set_route("hr-management", employee);
     setRouteSegment(employee);
   }
 
   function handleBack() {
-    (globalThis as any).frappe?.set_route("staff-management");
+    (globalThis as any).frappe?.set_route("hr-management");
     setRouteSegment(null);
   }
 
-  const sidebarRoot = document.getElementById("staff-sidebar-root");
+  const sidebarRoot = document.getElementById("hr-sidebar-root");
 
   return (
     <>
@@ -216,12 +216,12 @@ function StaffManagementApp({ page: _page }: { page: any }) {
 }
 
 function mount(page: any) {
-  const el = document.getElementById("staff-management-root");
+  const el = document.getElementById("hr-management-root");
   if (!el) return;
   createRoot(el).render(<StaffManagementApp page={page} />);
 }
 
-(globalThis as any).initStaffManagement = function initStaffManagement(
+(globalThis as any).initHRManagement = function initHRManagement(
   page: any,
 ) {
   mount(page);

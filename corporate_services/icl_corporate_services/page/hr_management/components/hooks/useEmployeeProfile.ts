@@ -12,7 +12,7 @@ export function useEmployeeProfile(employee: string) {
     setError(null);
     (globalThis as any).frappe
       .call({
-        method: "corporate_services.api.staff_management.get_employee_profile",
+        method: "corporate_services.api.hr_management.get_employee_profile",
         args: { employee },
       })
       .then((r: any) => {

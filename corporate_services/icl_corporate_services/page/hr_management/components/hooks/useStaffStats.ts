@@ -10,7 +10,7 @@ export function useStaffStats() {
     setLoading(true);
     setError(null);
     (globalThis as any).frappe
-      .call({ method: "corporate_services.api.staff_management.get_staff_stats" })
+      .call({ method: "corporate_services.api.hr_management.get_staff_stats" })
       .then((r: any) => {
         setStats(r.message);
         setLoading(false);

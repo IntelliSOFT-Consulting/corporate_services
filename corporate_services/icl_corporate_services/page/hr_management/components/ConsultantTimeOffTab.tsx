@@ -77,7 +77,7 @@ export function ConsultantTimeOffTab() {
 
   useEffect(() => {
     (globalThis as any).frappe
-      .call({ method: "corporate_services.api.staff_management.get_staff_stats" })
+      .call({ method: "corporate_services.api.hr_management.get_staff_stats" })
       .then((r: any) => {
         const depts: string[] = (r.message?.department_breakdown ?? []).map(
           (d: { department: string }) => d.department
@@ -92,7 +92,7 @@ export function ConsultantTimeOffTab() {
     (globalThis as any).frappe
       .call({
         method:
-          "corporate_services.api.staff_management.get_consultant_time_off_report",
+          "corporate_services.api.hr_management.get_consultant_time_off_report",
         args: { from_date: fromDate, to_date: toDate, department: department || undefined },
       })
       .then((r: any) => {

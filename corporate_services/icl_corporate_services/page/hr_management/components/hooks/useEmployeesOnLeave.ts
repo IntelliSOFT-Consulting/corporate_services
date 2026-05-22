@@ -7,7 +7,7 @@ export function useEmployeesOnLeave() {
 
   useEffect(() => {
     (globalThis as any).frappe
-      .call({ method: "corporate_services.api.staff_management.get_employees_on_leave" })
+      .call({ method: "corporate_services.api.hr_management.get_employees_on_leave" })
       .then((r: any) => {
         setLeaves(r.message || []);
         setLoading(false);

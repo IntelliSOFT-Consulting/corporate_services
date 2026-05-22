@@ -89,7 +89,7 @@ function DetailSidebar({ employee, onBack }: DetailProps) {
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <polyline points="15 18 9 12 15 6" />
           </svg>
-          All Staff
+          All Employees
         </button>
         <div className="text-muted mt-2" style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
           {employee}
@@ -290,7 +290,7 @@ function ListSidebar({ activeTab, onTabChange }: ListProps) {
 }
 
 export function PageSidebar({ detailEmployee, onBack, ...listProps }: Props) {
-  const sidebarRoot = document.getElementById("staff-sidebar-root");
+  const sidebarRoot = document.getElementById("hr-sidebar-root");
   if (!sidebarRoot) return null;
 
   const content = detailEmployee ? (
