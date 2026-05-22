@@ -38,11 +38,31 @@ type DashboardData = {
   projects?: ProjectRow[];
 };
 
-type Tab = "dashboard" | "projects";
+type LifecycleStage = {
+  stage_name?: string;
+  steps?: string[];
+  requirements?: string[];
+  deliverables?: string[];
+};
+
+type LifecycleData = {
+  intro_title?: string;
+  intro_description?: string;
+  stages?: LifecycleStage[];
+};
+
+type TemplateResource = {
+  requirement?: string;
+  description?: string;
+  doctype?: string;
+  template_file?: string;
+};
+
+type Tab = "dashboard" | "projects" | "lifecycle" | "templates";
 const TAB_KEY = "icl_project_management_tab";
 
 function isTab(value: string | null): value is Tab {
-  return value === "dashboard" || value === "projects";
+  return value === "dashboard" || value === "projects" || value === "lifecycle" || value === "templates";
 }
 
 function getTabFromUrl(): Tab | null {
@@ -113,7 +133,7 @@ function Metric({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function DashboardTab() {
+function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<DashboardData>({});
   const [error, setError] = useState<string | null>(null);
@@ -184,13 +204,7 @@ function DashboardTab() {
             <li>Capture all required lifecycle deliverables as the project progresses.</li>
             <li>Track completion using the <strong>HIS PM Project LifeCycle</strong> checklist.</li>
           </ul>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              globalThis.frappe?.set_route("health-information-system-project-lifecycle");
-            }}
-          >
+          <a href="#" onClick={(e) => { e.preventDefault(); onOpenLifecycle(); }}>
             Open HIS Lifecycle Guide
           </a>
         </div>
@@ -269,6 +283,202 @@ function DashboardTab() {
   );
 }
 
+function LifecycleTab() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<LifecycleData>({});
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    globalThis.frappe
+      .call({
+        method:
+          "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.get_lifecycle_config",
+      })
+      .then((r: any) => {
+        setData((r && r.message) || {});
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        setError(e?.message || "Could not load lifecycle configuration.");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div className="container-fluid p-3 text-muted">Loading lifecycle guide...</div>;
+  }
+
+  if (error) {
+    return <div className="container-fluid p-3"><div className="alert alert-danger mb-0">{error}</div></div>;
+  }
+
+  const introTitle = data.intro_title || "Project Start-to-End Guide";
+  const introDescription = data.intro_description || "";
+  const stages = data.stages || [];
+
+  return (
+    <div className="container-fluid p-3">
+      <div className="card border mb-3" style={{ background: "#f7fbff", borderColor: "#d9ebfb" }}>
+        <div className="card-body">
+          <h6 className="mb-1">{introTitle}</h6>
+          <p className="text-muted mb-0">{introDescription}</p>
+        </div>
+      </div>
+
+      {!stages.length ? (
+        <div className="alert alert-info mb-0">
+          No lifecycle stages configured yet. Create records in HIS Project Lifecycle Config.
+        </div>
+      ) : (
+        <div className="row">
+          {stages.map((stage, idx) => (
+            <div className="col-lg-6 mb-3" key={`${stage.stage_name || "stage"}-${idx}`}>
+              <div className="card border h-100">
+                <div className="card-header bg-light d-flex justify-content-between align-items-start">
+                  <h6 className="mb-0">{stage.stage_name || ""}</h6>
+                  <div>
+                    {(stage.steps || []).map((step, sidx) => (
+                      <span key={`${step}-${sidx}`} className="badge bg-info text-dark mr-1 mb-1">
+                        {step}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div className="text-muted small text-uppercase mb-1">Requirements</div>
+                  <ul className="mb-3">
+                    {(stage.requirements || []).map((item, ridx) => <li key={`${item}-${ridx}`}>{item}</li>)}
+                  </ul>
+                  <div className="text-muted small text-uppercase mb-1">Deliverables / Templates</div>
+                  <ul className="mb-0">
+                    {(stage.deliverables || []).map((item, didx) => <li key={`${item}-${didx}`}>{item}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TemplatesTab() {
+  const [loading, setLoading] = useState(true);
+  const [resources, setResources] = useState<TemplateResource[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  function loadLibrary() {
+    setLoading(true);
+    setError(null);
+    globalThis.frappe
+      .call({
+        method:
+          "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.get_template_library",
+      })
+      .then((r: any) => {
+        setResources((r && r.message) || []);
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        setError(e?.message || "Could not load template library.");
+        setLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    loadLibrary();
+  }, []);
+
+  function openUploadDialog(requirement: string) {
+    new globalThis.frappe.ui.FileUploader({
+      allow_multiple: false,
+      restrictions: {
+        allowed_file_types: [".doc", ".docx", ".pdf"],
+      },
+      on_success: (file: any) => {
+        globalThis.frappe.call({
+          method:
+            "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.link_template_file",
+          args: {
+            requirement,
+            file_url: file.file_url,
+          },
+          callback: () => {
+            globalThis.frappe.show_alert({ message: "Template saved", indicator: "green" });
+            loadLibrary();
+          },
+        });
+      },
+    });
+  }
+
+  if (loading) {
+    return <div className="container-fluid p-3 text-muted">Loading project requirements templates...</div>;
+  }
+
+  if (error) {
+    return <div className="container-fluid p-3"><div className="alert alert-danger mb-0">{error}</div></div>;
+  }
+
+  return (
+    <div className="container-fluid p-3">
+      <div className="alert alert-info mb-3" role="alert">
+        Upload one default Word template per requirement. Users can download, edit offline, and upload the
+        completed file to the target project document.
+      </div>
+      <div className="row">
+        {resources.map((item, idx) => (
+          <div className="col-lg-6 mb-3" key={`${item.requirement || "resource"}-${idx}`}>
+            <div className="card border h-100">
+              <div className="card-body">
+                <h6 className="mb-2">{item.requirement || ""}</h6>
+                <p className="text-muted mb-2">{item.description || ""}</p>
+                <div className="small text-muted mb-2">Target: {item.doctype || ""}</div>
+                <div className="small mb-3">
+                  {item.template_file ? (
+                    <span className="text-success">Template uploaded</span>
+                  ) : (
+                    <span className="text-warning">No template uploaded</span>
+                  )}
+                </div>
+                <div className="d-flex flex-wrap" style={{ gap: 8 }}>
+                  <button
+                    className="btn btn-sm btn-default"
+                    onClick={() => globalThis.frappe?.set_route("List", item.doctype)}
+                  >
+                    View List
+                  </button>
+                  <button
+                    className="btn btn-sm btn-default"
+                    onClick={() => item.requirement && openUploadDialog(item.requirement)}
+                  >
+                    Upload/Replace Template
+                  </button>
+                  <button
+                    className="btn btn-sm btn-default"
+                    onClick={() => {
+                      if (!item.template_file) {
+                        globalThis.frappe.show_alert({ message: "No template uploaded yet", indicator: "orange" });
+                        return;
+                      }
+                      globalThis.open(item.template_file, "_blank");
+                    }}
+                  >
+                    Download Template
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ProjectsTab({ initialProjectId }: { initialProjectId: string | null }) {
   const [selectedId, setSelectedId] = useState<string | null>(initialProjectId);
 
@@ -324,6 +534,18 @@ function SidebarTabs({
         >
           Projects
         </div>
+        <div
+          className={`ipm-sidebar-item${tab === "lifecycle" ? " active" : ""}`}
+          onClick={() => onChange("lifecycle")}
+        >
+          HIS Lifecycle Guide
+        </div>
+        <div
+          className={`ipm-sidebar-item${tab === "templates" ? " active" : ""}`}
+          onClick={() => onChange("templates")}
+        >
+          Project Requirement Templates
+        </div>
       </div>
     </div>
   );
@@ -345,10 +567,16 @@ function ProjectManagementApp({ page }: { page: any }) {
       globalThis.frappe?.new_doc("Project");
     });
     page.add_menu_item("HIS Project Lifecycle Guide", () => {
-      globalThis.frappe?.set_route("health-information-system-project-lifecycle");
+      setTab("lifecycle");
     });
     page.add_menu_item("Project Requirements Templates", () => {
-      globalThis.frappe?.set_route("project-requirements-templates");
+      setTab("templates");
+    });
+    page.add_menu_item("View All Projects", () => {
+      setTab("projects");
+    });
+    page.add_menu_item("Project Management Settings", () => {
+      globalThis.frappe?.set_route("Form", "Project Management Settings", "Project Management Settings");
     });
   }, [page]);
 
@@ -365,7 +593,10 @@ function ProjectManagementApp({ page }: { page: any }) {
       <style>{LOCAL_STYLES}</style>
       {sidebarRoot && createPortal(<SidebarTabs tab={tab} onChange={setTab} />, sidebarRoot)}
       <div className="ipm-content">
-        {tab === "dashboard" ? <DashboardTab /> : <ProjectsTab initialProjectId={initialRouteProject} />}
+        {tab === "dashboard" && <DashboardTab onOpenLifecycle={() => setTab("lifecycle")} />}
+        {tab === "projects" && <ProjectsTab initialProjectId={initialRouteProject} />}
+        {tab === "lifecycle" && <LifecycleTab />}
+        {tab === "templates" && <TemplatesTab />}
       </div>
     </>
   );

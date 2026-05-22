@@ -239,7 +239,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
       </div>
 
       {/* -- Table -- */}
-      <div className="pm-table-wrap">
+      <div className="pm-table-wrap mb-4">
         <table className="table table-hover pm-table">
           <thead>
             <tr>
@@ -250,11 +250,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
               <th>Customer</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Priority</th>
-              <th>Timesheets</th>
               <th>Hours</th>
-              <th>Travel Requests</th>
-              <th>Opportunity Bid</th>
             </tr>
           </thead>
           <tbody>
@@ -301,29 +297,7 @@ export function ProjectTable({ onOpen }: ProjectTableProps) {
                   <td>{proj.customer || <span className="text-muted">-</span>}</td>
                   <td style={{ whiteSpace: "nowrap" }}>{formatDate(proj.expected_start_date)}</td>
                   <td style={{ whiteSpace: "nowrap" }}>{formatDate(proj.expected_end_date)}</td>
-                  <td>{proj.priority || <span className="text-muted">-</span>}</td>
                   <td>{proj.timesheet_count ?? 0}</td>
-                  <td>{formatHours(proj.total_timesheet_hours ?? 0)}</td>
-                  <td>{proj.travel_request_count ?? 0}</td>
-                  <td>
-                    {proj.custom_bid ? (
-                      <a
-                        className="pm-proj-link"
-                        href="#"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          (globalThis as any).frappe?.set_route(
-                            "icl-opportunity-module",
-                            proj.custom_bid
-                          );
-                        }}
-                      >
-                        {proj.custom_bid}
-                      </a>
-                    ) : (
-                      <span className="text-muted">-</span>
-                    )}
-                  </td>
                 </tr>
               ))
             )}
