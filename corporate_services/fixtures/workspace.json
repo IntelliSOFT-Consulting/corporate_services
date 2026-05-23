@@ -12,7 +12,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-05-15 11:06:10.307880",
+  "modified": "2026-05-23 11:06:03.530417",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -479,7 +479,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:10.536519",
+  "modified": "2026-05-23 11:06:03.647281",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -793,7 +793,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:10.944948",
+  "modified": "2026-05-23 11:06:03.939711",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -1011,7 +1011,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:11.109027",
+  "modified": "2026-05-23 11:06:04.073704",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1238,7 +1238,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-05-15 11:06:11.230082",
+  "modified": "2026-05-23 11:06:04.145089",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -1636,7 +1636,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:11.448409",
+  "modified": "2026-05-23 11:06:04.287347",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2271,7 +2271,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-05-15 11:06:11.709306",
+  "modified": "2026-05-23 11:06:04.498524",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -2890,7 +2890,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:11.877628",
+  "modified": "2026-05-23 11:06:04.594500",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -3080,7 +3080,7 @@
  },
  {
   "charts": [],
-  "content": "[{\"id\":\"blmPuKXOXj\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"0Bt6t_MgbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"yxxMl-b6UW\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qrRiTXEhxs\",\"type\":\"paragraph\",\"data\":{\"text\":\"Employee Engagement and Development\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"s7uru5qw1R\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Travel Process\",\"col\":4}},{\"id\":\"XF3QdhW6ca\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"u0a9ASTFeH\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"OiZMOsOXp8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"👨‍👩‍👧‍👧 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"T6yr0xsTTT\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"OoJFCAAqn9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}}]",
+  "content": "[{\"id\":\"blmPuKXOXj\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"0Bt6t_MgbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"yxxMl-b6UW\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qrRiTXEhxs\",\"type\":\"paragraph\",\"data\":{\"text\":\"Employee Engagement and Development\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"s7uru5qw1R\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Travel Process\",\"col\":4}},{\"id\":\"XF3QdhW6ca\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"u0a9ASTFeH\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"OiZMOsOXp8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"🔐Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"👨‍👩‍👧‍👧 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"T6yr0xsTTT\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"OoJFCAAqn9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"xF0AZ0PG0Q\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"naV29WkOn6\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Internship Completion process</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -3278,9 +3278,45 @@
     "parenttype": "Workspace",
     "report_ref_doctype": null,
     "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Internship Completion process",
+    "link_count": 1,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Staff",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Internship Completion Report",
+    "link_count": 0,
+    "link_to": "Internship Completion Report",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Staff",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:10:28.803925",
+  "modified": "2026-05-23 11:28:09.638928",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -3965,7 +4001,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:12.361687",
+  "modified": "2026-05-23 11:06:04.829163",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4323,7 +4359,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:12.600841",
+  "modified": "2026-05-23 11:06:04.939607",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4730,7 +4766,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:12.801930",
+  "modified": "2026-05-23 11:06:05.065597",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5813,7 +5849,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:13.086617",
+  "modified": "2026-05-23 11:06:05.244656",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6281,7 +6317,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:13.415081",
+  "modified": "2026-05-23 11:06:05.448081",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7015,7 +7051,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:13.599224",
+  "modified": "2026-05-23 11:06:05.573093",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7199,7 +7235,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:13.817839",
+  "modified": "2026-05-23 11:06:05.687498",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7402,7 +7438,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-05-15 11:06:13.925120",
+  "modified": "2026-05-23 11:06:05.754152",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [],
@@ -7562,7 +7598,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-05-15 11:06:14.051076",
+  "modified": "2026-05-23 11:06:05.823367",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7666,7 +7702,7 @@
   "is_hidden": 0,
   "label": "ICL Opportunity",
   "links": [],
-  "modified": "2026-05-15 11:06:14.157314",
+  "modified": "2026-05-23 11:06:05.873273",
   "module": "ICL Corporate Services",
   "name": "ICL Opportunity",
   "number_cards": [],
@@ -7784,7 +7820,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-05-15 11:06:14.233940",
+  "modified": "2026-05-23 11:06:05.925614",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7845,7 +7881,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-05-15 11:06:14.308673",
+  "modified": "2026-05-23 11:06:05.966559",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [

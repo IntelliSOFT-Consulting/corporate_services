@@ -1,0 +1,203 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-05-23 10:56:31.169724",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "instructions",
+  "section_break_oiqw",
+  "question_template",
+  "naming_series",
+  "intern",
+  "intern_name",
+  "column_break_bvch",
+  "internship_start_date",
+  "internship_end_date",
+  "date_of_report",
+  "column_break_w3xd",
+  "supervisor",
+  "department",
+  "amended_from",
+  "questions_section",
+  "response_ui",
+  "answers"
+ ],
+ "fields": [
+  {
+   "fieldname": "instructions",
+   "fieldtype": "HTML",
+   "label": "Instructions",
+   "options": "<div style=\"padding:10px;border:1px solid #dbeafe;background:#f8fbff;border-radius:8px;\">\n<strong>Instructions</strong>\n<ul style=\"margin:8px 0 0 18px;\">\n<li>Complete this Internship Completion Report in its entirety.</li>\n<li>Reflect on your experiences, achievements, and learning during your internship at ICL.</li>\n<li>Be honest and specific in your responses.</li>\n<li>Use additional sheets if necessary.</li>\n</ul>\n</div>"
+  },
+  {
+   "fieldname": "section_break_oiqw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Internship Completion Report Template",
+   "read_only": 1
+  },
+  {
+   "default": "ICR-.YYYY.-.MM.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "ICR-.YYYY.-.MM.-.#####",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "intern",
+   "fieldtype": "Link",
+   "label": "Intern",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "intern.employee_name",
+   "fieldname": "intern_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Intern Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bvch",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "internship_start_date",
+   "fieldtype": "Date",
+   "label": "Internship Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "internship_end_date",
+   "fieldtype": "Date",
+   "label": "Internship End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_report",
+   "fieldtype": "Date",
+   "label": "Date of Report",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_w3xd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "intern.custom_reports_to_name",
+   "fieldname": "supervisor",
+   "fieldtype": "Data",
+   "label": "Supervisor / Team Lead",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "intern.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department / Team",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Internship Completion Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "questions_section",
+   "fieldtype": "Section Break",
+   "label": "Completion Questions and Responses"
+  },
+  {
+   "fieldname": "response_ui",
+   "fieldtype": "HTML",
+   "label": "Response Form"
+  },
+  {
+   "fieldname": "answers",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Responses",
+   "options": "Internship Completion Report Answer"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-05-23 11:35:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Internship Completion Report",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Supervisor",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

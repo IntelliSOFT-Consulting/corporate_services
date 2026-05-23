@@ -242,6 +242,7 @@ on_update_map = {
     "Monthly Reflection":"corporate_services.api.notification.monthly_reflection.monthly_reflection.alert",
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
     "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
+    "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
