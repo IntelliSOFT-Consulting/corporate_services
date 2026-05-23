@@ -1,5 +1,6 @@
 import React from "react";
 import { ProjectRow } from "../types";
+import { useProjects } from "../hooks/useProjects";
 
 const STATUS_INDICATOR: Record<string, string> = {
   Open: "blue",
@@ -49,33 +50,65 @@ function formatDate(date?: string) {
 }
 
 interface ProjectsTableProps {
-  projects: ProjectRow[];
-  loading: boolean;
-  search: string;
-  statusFilter: string;
-  page: number;
-  totalPages: number;
   onOpen: (id: string) => void;
-  onSearchChange: (value: string) => void;
-  onPageChange: (page: number) => void;
+  title?: string;
+  projects?: ProjectRow[];
+  loading?: boolean;
+  search?: string;
+  statusFilter?: string;
+  page?: number;
+  totalPages?: number;
+  onSearchChange?: (value: string) => void;
+  onPageChange?: (page: number) => void;
 }
 
 export function ProjectsTable({
-  projects,
-  loading,
-  search,
-  statusFilter,
-  page,
-  totalPages,
   onOpen,
-  onSearchChange,
-  onPageChange,
+  title = "Projects Table",
+  projects: controlledProjects,
+  loading: controlledLoading,
+  search: controlledSearch,
+  statusFilter: controlledStatusFilter,
+  page: controlledPage,
+  totalPages: controlledTotalPages,
+  onSearchChange: controlledSearchChange,
+  onPageChange: controlledPageChange,
 }: ProjectsTableProps) {
+  const {
+    projects: hookProjects,
+    loading: hookLoading,
+    error: hookError,
+    page: hookPage,
+    totalPages: hookTotalPages,
+    search: hookSearch,
+    statusFilter: hookStatusFilter,
+    setPage: hookSetPage,
+    handleSearch: hookHandleSearch,
+  } = useProjects();
+
+  const isControlled =
+    Array.isArray(controlledProjects) &&
+    typeof controlledLoading === "boolean" &&
+    typeof controlledSearch === "string" &&
+    typeof controlledPage === "number" &&
+    typeof controlledTotalPages === "number" &&
+    typeof controlledSearchChange === "function" &&
+    typeof controlledPageChange === "function";
+
+  const projects = isControlled ? controlledProjects : hookProjects;
+  const loading = isControlled ? controlledLoading : hookLoading;
+  const search = isControlled ? controlledSearch : hookSearch;
+  const statusFilter = isControlled ? (controlledStatusFilter ?? "") : hookStatusFilter;
+  const page = isControlled ? controlledPage : hookPage;
+  const totalPages = isControlled ? controlledTotalPages : hookTotalPages;
+  const onSearchChange = isControlled ? controlledSearchChange : hookHandleSearch;
+  const onPageChange = isControlled ? controlledPageChange : hookSetPage;
+
   return (
     <>
       <div className="pm-table-wrap mb-4">
         <div className="pm-toolbar p-3" style={{ marginTop: 8 }}>
-          <div style={{ fontWeight: 600 }}>Projects Table</div>
+          <div style={{ fontWeight: 600 }}>{title}</div>
           <div className="pm-search-wrap" style={{ marginLeft: "auto" }}>
             <span className="pm-search-icon">
               <svg
@@ -99,6 +132,11 @@ export function ProjectsTable({
             />
           </div>
         </div>
+        {!isControlled && hookError && (
+          <div className="alert alert-danger mx-3" style={{ fontSize: 13 }}>
+            {hookError}
+          </div>
+        )}
 
         <table className="table table-hover pm-table">
           <thead>

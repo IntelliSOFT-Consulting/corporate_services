@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { GlobalStyles } from "../project_components/ui/GlobalStyles";
 import { Project } from "../project_components/Index";
 import { ProjectDetail } from "../project_components/ProjectDetail";
+import { ProjectsTable } from "../project_components/Tables/Projects";
 
 declare global {
   interface Window {
@@ -62,7 +63,12 @@ type Tab = "dashboard" | "projects" | "lifecycle" | "templates";
 const TAB_KEY = "icl_project_management_tab";
 
 function isTab(value: string | null): value is Tab {
-  return value === "dashboard" || value === "projects" || value === "lifecycle" || value === "templates";
+  return (
+    value === "dashboard" ||
+    value === "projects" ||
+    value === "lifecycle" ||
+    value === "templates"
+  );
 }
 
 function getTabFromUrl(): Tab | null {
@@ -79,7 +85,11 @@ function writeTabToUrl(tab: Tab) {
   try {
     const url = new URL(globalThis.location.href);
     url.searchParams.set("tab", tab);
-    globalThis.history.replaceState(globalThis.history.state, "", url.toString());
+    globalThis.history.replaceState(
+      globalThis.history.state,
+      "",
+      url.toString(),
+    );
   } catch {
     // no-op
   }
@@ -125,7 +135,9 @@ function Metric({ label, value }: { label: string; value: string | number }) {
     <div className="col-md-3 mb-3">
       <div className="card border h-100">
         <div className="card-body">
-          <div className="text-muted" style={{ fontSize: 12 }}>{label}</div>
+          <div className="text-muted" style={{ fontSize: 12 }}>
+            {label}
+          </div>
           <div style={{ fontSize: 28, fontWeight: 600 }}>{value}</div>
         </div>
       </div>
@@ -133,7 +145,13 @@ function Metric({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
+function DashboardTab({
+  onOpenLifecycle,
+  onOpenProject,
+}: {
+  onOpenLifecycle: () => void;
+  onOpenProject: (id: string) => void;
+}) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<DashboardData>({});
   const [error, setError] = useState<string | null>(null);
@@ -174,15 +192,22 @@ function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
   }, [loading, data.status_breakdown]);
 
   const summary = data.summary || {};
-  const projects = data.projects || [];
   const statusBreakdown = data.status_breakdown || [];
 
   if (loading) {
-    return <div className="container-fluid p-3 text-muted">Loading project dashboard...</div>;
+    return (
+      <div className="container-fluid p-3 text-muted">
+        Loading project dashboard...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="container-fluid p-3"><div className="alert alert-danger mb-0">{error}</div></div>;
+    return (
+      <div className="container-fluid p-3">
+        <div className="alert alert-danger mb-0">{error}</div>
+      </div>
+    );
   }
 
   return (
@@ -195,16 +220,31 @@ function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
         <div className="card-body">
           <h6 className="mb-2">HIS Project Quick Guide</h6>
           <p className="text-muted mb-2">
-            For every new Health Information System (HIS) project, follow the lifecycle stages:
-            <strong> Prepare</strong> -&gt; <strong>Plan</strong> -&gt; <strong>Design</strong> -&gt;
-            <strong> Development</strong> -&gt; <strong>Implementation</strong> -&gt; <strong>Maintenance</strong>.
+            For every new Health Information System (HIS) project, follow the
+            lifecycle stages:
+            <strong> Prepare</strong> -&gt; <strong>Plan</strong> -&gt;{" "}
+            <strong>Design</strong> -&gt;
+            <strong> Development</strong> -&gt; <strong>Implementation</strong>{" "}
+            -&gt; <strong>Maintenance</strong>.
           </p>
           <ul className="mb-2">
             <li>Start by creating the project record and project charter.</li>
-            <li>Capture all required lifecycle deliverables as the project progresses.</li>
-            <li>Track completion using the <strong>HIS PM Project LifeCycle</strong> checklist.</li>
+            <li>
+              Capture all required lifecycle deliverables as the project
+              progresses.
+            </li>
+            <li>
+              Track completion using the{" "}
+              <strong>HIS PM Project LifeCycle</strong> checklist.
+            </li>
           </ul>
-          <a href="#" onClick={(e) => { e.preventDefault(); onOpenLifecycle(); }}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              onOpenLifecycle();
+            }}
+          >
             Open HIS Lifecycle Guide
           </a>
         </div>
@@ -213,8 +253,14 @@ function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
       <div className="row">
         <Metric label="Total Projects" value={summary.total_projects || 0} />
         <Metric label="Active Projects" value={summary.active_projects || 0} />
-        <Metric label="Completed Projects" value={summary.completed_projects || 0} />
-        <Metric label="Avg Progress" value={`${Math.round(summary.average_progress || 0)}%`} />
+        <Metric
+          label="Completed Projects"
+          value={summary.completed_projects || 0}
+        />
+        <Metric
+          label="Avg Progress"
+          value={`${Math.round(summary.average_progress || 0)}%`}
+        />
       </div>
 
       <div className="card border mb-3">
@@ -228,57 +274,7 @@ function DashboardTab({ onOpenLifecycle }: { onOpenLifecycle: () => void }) {
         </div>
       </div>
 
-      <div className="card border">
-        <div className="card-body">
-          <h6 className="mb-3">All Projects</h6>
-          <div className="table-responsive">
-            <table className="table table-sm table-bordered align-middle">
-              <thead>
-                <tr>
-                  <th>Project</th>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th>Progress</th>
-                  <th>Priority</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {projects.length ? (
-                  projects.map((row) => (
-                    <tr key={row.name}>
-                      <td>
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            globalThis.frappe?.set_route("icl-project-management", row.name);
-                          }}
-                        >
-                          {row.name}
-                        </a>
-                      </td>
-                      <td>{row.project_name || ""}</td>
-                      <td>{row.status || ""}</td>
-                      <td>{row.percent_complete || 0}%</td>
-                      <td>{row.priority || ""}</td>
-                      <td>{row.expected_start_date || ""}</td>
-                      <td>{row.expected_end_date || ""}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={7} className="text-center text-muted">
-                      No projects found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <ProjectsTable onOpen={onOpenProject} title="All Projects" />
     </div>
   );
 }
@@ -307,11 +303,19 @@ function LifecycleTab() {
   }, []);
 
   if (loading) {
-    return <div className="container-fluid p-3 text-muted">Loading lifecycle guide...</div>;
+    return (
+      <div className="container-fluid p-3 text-muted">
+        Loading lifecycle guide...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="container-fluid p-3"><div className="alert alert-danger mb-0">{error}</div></div>;
+    return (
+      <div className="container-fluid p-3">
+        <div className="alert alert-danger mb-0">{error}</div>
+      </div>
+    );
   }
 
   const introTitle = data.intro_title || "Project Start-to-End Guide";
@@ -327,20 +331,26 @@ function LifecycleTab() {
 
   return (
     <div className="container-fluid p-3">
-      <div className="card border mb-3" style={{ background: "#f7fbff", borderColor: "#d9ebfb" }}>
+      <div
+        className="card border mb-3"
+        style={{ background: "#f7fbff", borderColor: "#d9ebfb" }}
+      >
         <div className="card-body">
           <h6 className="mb-1">{introTitle}</h6>
           <p className="text-muted mb-0">{introDescription}</p>
         </div>
       </div>
 
-      <div className="card border mb-3" style={{ background: "#fffaf2", borderColor: "#f1dfb8" }}>
+      <div
+        className="card border mb-3"
+        style={{ background: "#fffaf2", borderColor: "#f1dfb8" }}
+      >
         <div className="card-body">
           <h6 className="mb-2">How PMs should use this toolkit</h6>
           <p className="text-muted mb-2">
-            The toolkit is now the working guide for the project manager. It combines the lifecycle
-            stages, deliverables, templates, and folder structure so the project stays organized in
-            one place.
+            The toolkit is now the working guide for the project manager. It
+            combines the lifecycle stages, deliverables, templates, and folder
+            structure so the project stays organized in one place.
           </p>
           <ol className="mb-0 pl-3">
             {toolkitUseSteps.map((step) => (
@@ -354,31 +364,46 @@ function LifecycleTab() {
 
       {!stages.length ? (
         <div className="alert alert-info mb-0">
-          No lifecycle stages configured yet. Create records in HIS Project Lifecycle Config.
+          No lifecycle stages configured yet. Create records in HIS Project
+          Lifecycle Config.
         </div>
       ) : (
         <div className="row">
           {stages.map((stage, idx) => (
-            <div className="col-lg-6 mb-3" key={`${stage.stage_name || "stage"}-${idx}`}>
+            <div
+              className="col-lg-6 mb-3"
+              key={`${stage.stage_name || "stage"}-${idx}`}
+            >
               <div className="card border h-100">
                 <div className="card-header bg-light d-flex justify-content-between align-items-start">
                   <h6 className="mb-0">{stage.stage_name || ""}</h6>
                   <div>
                     {(stage.steps || []).map((step, sidx) => (
-                      <span key={`${step}-${sidx}`} className="badge bg-info text-dark mr-1 mb-1">
+                      <span
+                        key={`${step}-${sidx}`}
+                        className="badge bg-info text-dark mr-1 mb-1"
+                      >
                         {step}
                       </span>
                     ))}
                   </div>
                 </div>
                 <div className="card-body">
-                  <div className="text-muted small text-uppercase mb-1">Requirements</div>
+                  <div className="text-muted small text-uppercase mb-1">
+                    Requirements
+                  </div>
                   <ul className="mb-3">
-                    {(stage.requirements || []).map((item, ridx) => <li key={`${item}-${ridx}`}>{item}</li>)}
+                    {(stage.requirements || []).map((item, ridx) => (
+                      <li key={`${item}-${ridx}`}>{item}</li>
+                    ))}
                   </ul>
-                  <div className="text-muted small text-uppercase mb-1">Deliverables / Templates</div>
+                  <div className="text-muted small text-uppercase mb-1">
+                    Deliverables / Templates
+                  </div>
                   <ul className="mb-0">
-                    {(stage.deliverables || []).map((item, didx) => <li key={`${item}-${didx}`}>{item}</li>)}
+                    {(stage.deliverables || []).map((item, didx) => (
+                      <li key={`${item}-${didx}`}>{item}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -432,7 +457,10 @@ function TemplatesTab() {
             file_url: file.file_url,
           },
           callback: () => {
-            globalThis.frappe.show_alert({ message: "Template saved", indicator: "green" });
+            globalThis.frappe.show_alert({
+              message: "Template saved",
+              indicator: "green",
+            });
             loadLibrary();
           },
         });
@@ -441,27 +469,41 @@ function TemplatesTab() {
   }
 
   if (loading) {
-    return <div className="container-fluid p-3 text-muted">Loading project requirements templates...</div>;
+    return (
+      <div className="container-fluid p-3 text-muted">
+        Loading project requirements templates...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="container-fluid p-3"><div className="alert alert-danger mb-0">{error}</div></div>;
+    return (
+      <div className="container-fluid p-3">
+        <div className="alert alert-danger mb-0">{error}</div>
+      </div>
+    );
   }
 
   return (
     <div className="container-fluid p-3">
       <div className="alert alert-info mb-3" role="alert">
-        Upload one default Word template per requirement. Users can download, edit offline, and upload the
-        completed file to the target project document.
+        Upload one default Word template per requirement. Users can download,
+        edit offline, and upload the completed file to the target project
+        document.
       </div>
       <div className="row">
         {resources.map((item, idx) => (
-          <div className="col-lg-6 mb-3" key={`${item.requirement || "resource"}-${idx}`}>
+          <div
+            className="col-lg-6 mb-3"
+            key={`${item.requirement || "resource"}-${idx}`}
+          >
             <div className="card border h-100">
               <div className="card-body">
                 <h6 className="mb-2">{item.requirement || ""}</h6>
                 <p className="text-muted mb-2">{item.description || ""}</p>
-                <div className="small text-muted mb-2">Target: {item.doctype || ""}</div>
+                <div className="small text-muted mb-2">
+                  Target: {item.doctype || ""}
+                </div>
                 <div className="small mb-3">
                   {item.template_file ? (
                     <span className="text-success">Template uploaded</span>
@@ -472,13 +514,17 @@ function TemplatesTab() {
                 <div className="d-flex flex-wrap" style={{ gap: 8 }}>
                   <button
                     className="btn btn-sm btn-default"
-                    onClick={() => globalThis.frappe?.set_route("List", item.doctype)}
+                    onClick={() =>
+                      globalThis.frappe?.set_route("List", item.doctype)
+                    }
                   >
                     View List
                   </button>
                   <button
                     className="btn btn-sm btn-default"
-                    onClick={() => item.requirement && openUploadDialog(item.requirement)}
+                    onClick={() =>
+                      item.requirement && openUploadDialog(item.requirement)
+                    }
                   >
                     Upload/Replace Template
                   </button>
@@ -486,7 +532,10 @@ function TemplatesTab() {
                     className="btn btn-sm btn-default"
                     onClick={() => {
                       if (!item.template_file) {
-                        globalThis.frappe.show_alert({ message: "No template uploaded yet", indicator: "orange" });
+                        globalThis.frappe.show_alert({
+                          message: "No template uploaded yet",
+                          indicator: "orange",
+                        });
                         return;
                       }
                       globalThis.open(item.template_file, "_blank");
@@ -504,7 +553,11 @@ function TemplatesTab() {
   );
 }
 
-function ProjectsTab({ initialProjectId }: { initialProjectId: string | null }) {
+function ProjectsTab({
+  initialProjectId,
+}: {
+  initialProjectId: string | null;
+}) {
   const [selectedId, setSelectedId] = useState<string | null>(initialProjectId);
 
   useEffect(() => {
@@ -577,7 +630,8 @@ function SidebarTabs({
 }
 
 function ProjectManagementApp({ page }: { page: any }) {
-  const initialRouteProject = (((globalThis as any).frappe?.get_route?.() ?? [])[1] as string) || null;
+  const initialRouteProject =
+    (((globalThis as any).frappe?.get_route?.() ?? [])[1] as string) || null;
 
   const [tab, setTab] = useState<Tab>(() => {
     if (initialRouteProject) return "projects";
@@ -601,7 +655,11 @@ function ProjectManagementApp({ page }: { page: any }) {
       setTab("projects");
     });
     page.add_menu_item("Project Management Settings", () => {
-      globalThis.frappe?.set_route("Form", "Project Management Settings", "Project Management Settings");
+      globalThis.frappe?.set_route(
+        "Form",
+        "Project Management Settings",
+        "Project Management Settings",
+      );
     });
   }, [page]);
 
@@ -610,16 +668,29 @@ function ProjectManagementApp({ page }: { page: any }) {
     writeTabToUrl(tab);
   }, [tab]);
 
-  const sidebarRoot = document.getElementById("project-management-sidebar-root");
+  const sidebarRoot = document.getElementById(
+    "project-management-sidebar-root",
+  );
 
   return (
     <>
       <GlobalStyles />
       <style>{LOCAL_STYLES}</style>
-      {sidebarRoot && createPortal(<SidebarTabs tab={tab} onChange={setTab} />, sidebarRoot)}
+      {sidebarRoot &&
+        createPortal(<SidebarTabs tab={tab} onChange={setTab} />, sidebarRoot)}
       <div className="ipm-content">
-        {tab === "dashboard" && <DashboardTab onOpenLifecycle={() => setTab("lifecycle")} />}
-        {tab === "projects" && <ProjectsTab initialProjectId={initialRouteProject} />}
+        {tab === "dashboard" && (
+          <DashboardTab
+            onOpenLifecycle={() => setTab("lifecycle")}
+            onOpenProject={(id: string) => {
+              globalThis.frappe?.set_route("icl-project-management", id);
+              setTab("projects");
+            }}
+          />
+        )}
+        {tab === "projects" && (
+          <ProjectsTab initialProjectId={initialRouteProject} />
+        )}
         {tab === "lifecycle" && <LifecycleTab />}
         {tab === "templates" && <TemplatesTab />}
       </div>
@@ -633,6 +704,8 @@ function mount(page: any) {
   createRoot(el).render(<ProjectManagementApp page={page} />);
 }
 
-(globalThis as any).initProjectManagement = function initProjectManagement(page: any) {
+(globalThis as any).initProjectManagement = function initProjectManagement(
+  page: any,
+) {
   mount(page);
 };
