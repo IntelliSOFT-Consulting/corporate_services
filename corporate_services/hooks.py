@@ -282,7 +282,6 @@ event_maps = {
     # },
     "after_insert": {
         "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
-        "Project": "corporate_services.api.project.project_folders.create_project_lifecycle_folders",
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     },

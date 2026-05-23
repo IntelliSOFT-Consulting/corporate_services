@@ -6,11 +6,39 @@ frappe.ui.form.on("Project", {
 			frappe.set_route("icl-project-management", frm.doc.name);
 		}, "View");
 
+		frm.add_custom_button("Create Project Folder Structure", () => {
+			createProjectFolderStructure(frm);
+		}, "Files");
+
 		frm.add_custom_button("Create Drive Folder", () => {
 			createDriveFolder(frm);
 		}, "Google Drive");
 	},
 });
+
+function createProjectFolderStructure(frm) {
+	frappe.confirm(
+		`Create the File Manager folder structure for <strong>${frappe.utils.escape_html(frm.doc.project_name || frm.doc.name)}</strong>?`,
+		() => {
+			frappe.call({
+				method: "corporate_services.api.project.project_folders.create_project_lifecycle_folders_for_project",
+				args: {
+					project_name: frm.doc.name,
+				},
+				freeze: true,
+				freeze_message: "Creating project folder structure...",
+				callback: (r) => {
+					const out = r.message || {};
+					frappe.msgprint({
+						title: "Project Folder Structure Created",
+						message: `Root folder: <strong>${frappe.utils.escape_html(out.root_file_name || frm.doc.name)}</strong><br><small>Stages created: ${frappe.utils.escape_html(String(out.stages_created || 0))}</small>`,
+						indicator: "green",
+					});
+				},
+			});
+		}
+	);
+}
 
 function createDriveFolder(frm) {
 	frappe.prompt(

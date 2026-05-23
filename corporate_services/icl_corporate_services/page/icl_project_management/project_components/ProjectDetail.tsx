@@ -95,6 +95,12 @@ type FolderNode = {
   children?: FolderNode[];
 };
 
+type DriveConnectionStatus = {
+  connected: boolean;
+  message: string;
+  auth_url?: string;
+};
+
 function FolderTree({
   node,
   onOpen,
@@ -130,46 +136,156 @@ export function ProjectDetail({ projectId, onBack }: Props) {
   const linkedUsers = doc?.linked_users ?? [];
   const timesheets = doc?.timesheets ?? [];
   const travelRequests = doc?.travel_requests ?? [];
-  const [activeTab, setActiveTab] = useState<"details" | "google" | "folders">(
+  const [activeTab, setActiveTab] = useState<"details" | "documents">(
     "details",
   );
   const [googleFolders, setGoogleFolders] = useState<DriveFolder[]>([]);
+  const [folderRoot, setFolderRoot] = useState<{ name?: string; file_name?: string } | null>(null);
   const [folderTree, setFolderTree] = useState<FolderNode[]>([]);
   const [tabLoading, setTabLoading] = useState(false);
+  const [creatingFileFolders, setCreatingFileFolders] = useState(false);
+  const [creatingDriveFolders, setCreatingDriveFolders] = useState(false);
+  const [checkingDriveConnection, setCheckingDriveConnection] = useState(false);
+  const [driveConnectionStatus, setDriveConnectionStatus] =
+    useState<DriveConnectionStatus | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
+  const refreshProjectStorage = async () => {
     if (!projectId) return;
     setTabLoading(true);
-    Promise.all([
-      (globalThis as any).frappe.call({
-        method:
-          "corporate_services.api.project.get_project_google_drive_folders",
-        args: { project_name: projectId },
-      }),
-      (globalThis as any).frappe.call({
-        method: "corporate_services.api.project.get_project_folder_tree",
-        args: { project_name: projectId },
-      }),
-    ])
-      .then(([googleRes, folderRes]) => {
-        if (cancelled) return;
-        setGoogleFolders(googleRes?.message ?? []);
-        setFolderTree(folderRes?.message?.children ?? []);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setGoogleFolders([]);
-        setFolderTree([]);
-      })
-      .finally(() => {
-        if (!cancelled) setTabLoading(false);
-      });
+    try {
+      const [googleRes, folderRes] = await Promise.all([
+        (globalThis as any).frappe.call({
+          method:
+            "corporate_services.api.project.get_project_google_drive_folders",
+          args: { project_name: projectId },
+        }),
+        (globalThis as any).frappe.call({
+          method: "corporate_services.api.project.get_project_folder_tree",
+          args: { project_name: projectId },
+        }),
+      ]);
+      setGoogleFolders(googleRes?.message ?? []);
+      setFolderRoot(folderRes?.message?.root ?? null);
+      setFolderTree(folderRes?.message?.children ?? []);
+    } catch {
+      setGoogleFolders([]);
+      setFolderRoot(null);
+      setFolderTree([]);
+    } finally {
+      setTabLoading(false);
+    }
+  };
 
-    return () => {
-      cancelled = true;
-    };
+  useEffect(() => {
+    void refreshProjectStorage();
   }, [projectId]);
+
+  const handleCreateProjectFolders = async () => {
+    if (!projectId) return;
+    setCreatingFileFolders(true);
+    try {
+      const r = await (globalThis as any).frappe.call({
+        method:
+          "corporate_services.api.project.project_folders.create_project_lifecycle_folders_for_project",
+        args: { project_name: projectId },
+      });
+      (globalThis as any).frappe?.show_alert({
+        message:
+          r?.message?.root_folder_name || "Project folder structure created",
+        indicator: "green",
+      });
+      await refreshProjectStorage();
+    } catch (e: any) {
+      (globalThis as any).frappe?.msgprint({
+        title: "Project Folder Creation Failed",
+        message: e?.message || "Could not create the File Manager folder structure.",
+        indicator: "red",
+      });
+    } finally {
+      setCreatingFileFolders(false);
+    }
+  };
+
+  const checkGoogleDriveConnection = async (silent = false) => {
+    if (!projectId) return null;
+    setCheckingDriveConnection(true);
+    try {
+      const r = await (globalThis as any).frappe.call({
+        method:
+          "corporate_services.api.project.google_drive.check_project_google_drive_connection",
+        args: { project_name: projectId },
+      });
+      const status = (r?.message ?? null) as DriveConnectionStatus | null;
+      setDriveConnectionStatus(status);
+      if (!silent && status?.message) {
+        (globalThis as any).frappe?.show_alert({
+          message: status.message,
+          indicator: status.connected ? "green" : "orange",
+        });
+      }
+      return status;
+    } catch (e: any) {
+      const status: DriveConnectionStatus = {
+        connected: false,
+        message:
+          e?.message ||
+          "Could not verify Google Drive connection. Please reconnect your Google account.",
+      };
+      setDriveConnectionStatus(status);
+      if (!silent) {
+        (globalThis as any).frappe?.msgprint({
+          title: "Google Drive Connection Check Failed",
+          message: status.message,
+          indicator: "red",
+        });
+      }
+      return status;
+    } finally {
+      setCheckingDriveConnection(false);
+    }
+  };
+
+  const handleCreateDriveFolders = async () => {
+    if (!projectId) return;
+    const status = await checkGoogleDriveConnection(true);
+    if (!status?.connected) {
+      (globalThis as any).frappe?.msgprint({
+        title: "Google Drive Connection Required",
+        message:
+          status?.message ||
+          "Google Drive connection is not active. Please reconnect and try again.",
+        indicator: "orange",
+      });
+      return;
+    }
+    setCreatingDriveFolders(true);
+    try {
+      const r = await (globalThis as any).frappe.call({
+        method:
+          "corporate_services.api.project.google_drive.create_project_google_drive_folder",
+        args: { project_name: projectId, folder_name: projectId },
+      });
+      const folderLink = r?.message?.folder_link;
+      (globalThis as any).frappe?.show_alert({
+        message: folderLink
+          ? "Google Drive folder created"
+          : "Google Drive folder synced",
+        indicator: "green",
+      });
+      if (folderLink) {
+        window.open(folderLink, "_blank", "noreferrer");
+      }
+      await refreshProjectStorage();
+    } catch (e: any) {
+      (globalThis as any).frappe?.msgprint({
+        title: "Google Drive Folder Creation Failed",
+        message: e?.message || "Could not create the Google Drive folder structure.",
+        indicator: "red",
+      });
+    } finally {
+      setCreatingDriveFolders(false);
+    }
+  };
 
   return (
     <div className="pm-fade-in">
@@ -258,17 +374,10 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                 </button>
                 <button
                   type="button"
-                  className={`btn btn-sm ${activeTab === "google" ? "btn-primary" : "btn-default"}`}
-                  onClick={() => setActiveTab("google")}
+                  className={`btn btn-sm ${activeTab === "documents" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("documents")}
                 >
-                  Google Drive
-                </button>
-                <button
-                  type="button"
-                  className={`btn btn-sm ${activeTab === "folders" ? "btn-primary" : "btn-default"}`}
-                  onClick={() => setActiveTab("folders")}
-                >
-                  Folders
+                  Documents & Folders
                 </button>
               </div>
             </div>
@@ -496,89 +605,190 @@ export function ProjectDetail({ projectId, onBack }: Props) {
               </div>
             )}
 
-            {activeTab === "google" && (
-              <div
-                className="frappe-card"
-                style={{ padding: "16px 20px", marginBottom: 16 }}
-              >
-                <h6 className="pm-section-title">Google Drive Folders</h6>
-                {tabLoading ? (
-                  <div className="text-muted">
-                    Loading Google Drive folders…
+            {activeTab === "documents" && (
+              <div>
+                <div
+                  className="frappe-card"
+                  style={{ padding: "16px 20px", marginBottom: 16 }}
+                >
+                  <div className="pm-list-section-header">
+                    <h6 className="pm-section-title" style={{ marginBottom: 0 }}>
+                      Project Documents & Folders
+                    </h6>
+                    <span className="text-muted" style={{ fontSize: 12 }}>
+                      File Manager: {folderRoot?.file_name || "Not created"} · Google Drive: {googleFolders.length > 0 ? `${googleFolders.length} folder${googleFolders.length === 1 ? "" : "s"}` : "Not created"}
+                    </span>
                   </div>
-                ) : googleFolders.length === 0 ? (
-                  <div className="pm-empty-inline">
-                    No Google Drive folders found for this project.
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 8,
+                      marginTop: 12,
+                      marginBottom: 12,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-primary"
+                      onClick={() => void handleCreateProjectFolders()}
+                      disabled={tabLoading || creatingFileFolders}
+                    >
+                      {creatingFileFolders ? "Creating File Manager Folders…" : "Create / Sync Project Folders"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-primary"
+                      onClick={() => void handleCreateDriveFolders()}
+                      disabled={tabLoading || creatingDriveFolders}
+                    >
+                      {creatingDriveFolders ? "Creating Google Drive Folder…" : "Create / Sync Google Drive Folder"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-default"
+                      onClick={() => void checkGoogleDriveConnection(false)}
+                      disabled={checkingDriveConnection || tabLoading}
+                    >
+                      {checkingDriveConnection
+                        ? "Checking Google Drive…"
+                        : "Check Google Drive Connection"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-default"
+                      onClick={() => void refreshProjectStorage()}
+                      disabled={tabLoading}
+                    >
+                      Refresh
+                    </button>
                   </div>
-                ) : (
-                  <div className="pm-related-table-wrap">
-                    <table className="table table-sm pm-related-table">
-                      <thead>
-                        <tr>
-                          <th>Folder</th>
-                          <th>Created On</th>
-                          <th>Created By</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {googleFolders.map((row, idx) => (
-                          <tr
-                            key={`${row.folder_link || row.folder_name || "folder"}-${idx}`}
-                          >
-                            <td>
-                              {row.folder_link ? (
-                                <a
-                                  className="pm-proj-link"
-                                  href={row.folder_link}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  {row.folder_name || "Google Drive Folder"}
-                                </a>
-                              ) : (
-                                row.folder_name || "-"
-                              )}
-                            </td>
-                            <td>{formatDateOrDash(row.created_on)}</td>
-                            <td>{row.created_by || "-"}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="text-muted" style={{ fontSize: 13 }}>
+                    Use this single tab to manage both File Manager and Google Drive because they share the same lifecycle blueprint.
                   </div>
-                )}
-              </div>
-            )}
+                </div>
 
-            {activeTab === "folders" && (
-              <div
-                className="frappe-card"
-                style={{ padding: "16px 20px", marginBottom: 16 }}
-              >
-                <h6 className="pm-section-title">Project Folders</h6>
-                {tabLoading ? (
-                  <div className="text-muted">Loading folders…</div>
-                ) : folderTree.length === 0 ? (
-                  <div className="pm-empty-inline">
-                    No project folders found in File Manager.
+                {driveConnectionStatus && (
+                  <div
+                    className="frappe-card"
+                    style={{
+                      padding: "12px 16px",
+                      marginBottom: 16,
+                      border: `1px solid ${driveConnectionStatus.connected ? "#c6f6d5" : "#fbd38d"}`,
+                      background: driveConnectionStatus.connected ? "#f0fff4" : "#fffaf0",
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, marginBottom: 4 }}>
+                      Google Drive Connection
+                    </div>
+                    <div style={{ fontSize: 13 }}>{driveConnectionStatus.message}</div>
+                    {!!driveConnectionStatus.auth_url &&
+                      !driveConnectionStatus.connected && (
+                        <div style={{ marginTop: 10 }}>
+                          <a
+                            href={driveConnectionStatus.auth_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn btn-xs btn-default"
+                          >
+                            Re-authorize Google Drive
+                          </a>
+                        </div>
+                      )}
                   </div>
-                ) : (
-                  <ul style={{ margin: 0, paddingLeft: 16 }}>
-                    {folderTree.map((node) => (
-                      <FolderTree
-                        key={node.name}
-                        node={node}
-                        onOpen={(name) =>
-                          (globalThis as any).frappe?.set_route(
-                            "Form",
-                            "File",
-                            name,
-                          )
-                        }
-                      />
-                    ))}
-                  </ul>
                 )}
+
+                <div className="pm-charts-grid" style={{ marginBottom: 16 }}>
+                  <div className="frappe-card" style={{ padding: "16px 20px" }}>
+                    <div className="pm-list-section-header">
+                      <h6 className="pm-section-title" style={{ marginBottom: 0 }}>
+                        Google Drive Folders
+                      </h6>
+                      <span className="text-muted" style={{ fontSize: 12 }}>
+                        {googleFolders.length} record{googleFolders.length === 1 ? "" : "s"}
+                      </span>
+                    </div>
+                    {tabLoading ? (
+                      <div className="text-muted" style={{ marginTop: 12 }}>
+                        Loading Google Drive folders…
+                      </div>
+                    ) : googleFolders.length === 0 ? (
+                      <div className="pm-empty-inline" style={{ marginTop: 12 }}>
+                        No Google Drive folder found for this project. Click the button above to create it.
+                      </div>
+                    ) : (
+                      <div className="pm-related-table-wrap" style={{ marginTop: 12 }}>
+                        <table className="table table-sm pm-related-table">
+                          <thead>
+                            <tr>
+                              <th>Folder</th>
+                              <th>Created On</th>
+                              <th>Created By</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {googleFolders.map((row, idx) => (
+                              <tr key={`${row.folder_link || row.folder_name || "folder"}-${idx}`}>
+                                <td>
+                                  {row.folder_link ? (
+                                    <a
+                                      className="pm-proj-link"
+                                      href={row.folder_link}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      {row.folder_name || "Google Drive Folder"}
+                                    </a>
+                                  ) : (
+                                    row.folder_name || "-"
+                                  )}
+                                </td>
+                                <td>{formatDateOrDash(row.created_on)}</td>
+                                <td>{row.created_by || "-"}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="frappe-card" style={{ padding: "16px 20px" }}>
+                    <div className="pm-list-section-header">
+                      <h6 className="pm-section-title" style={{ marginBottom: 0 }}>
+                        Project Folders
+                      </h6>
+                      <span className="text-muted" style={{ fontSize: 12 }}>
+                        {folderRoot?.file_name || "Not created"}
+                      </span>
+                    </div>
+                    {tabLoading ? (
+                      <div className="text-muted" style={{ marginTop: 12 }}>
+                        Loading folders…
+                      </div>
+                    ) : folderTree.length === 0 ? (
+                      <div className="pm-empty-inline" style={{ marginTop: 12 }}>
+                        No project folders found in File Manager. Click the button above to create them.
+                      </div>
+                    ) : (
+                      <ul style={{ margin: "12px 0 0", paddingLeft: 16 }}>
+                        {folderTree.map((node) => (
+                          <FolderTree
+                            key={node.name}
+                            node={node}
+                            onOpen={(name) =>
+                              (globalThis as any).frappe?.set_route(
+                                "Form",
+                                "File",
+                                name,
+                              )
+                            }
+                          />
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </div>

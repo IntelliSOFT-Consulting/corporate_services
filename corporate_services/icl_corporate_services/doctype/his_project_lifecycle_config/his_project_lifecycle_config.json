@@ -9,7 +9,9 @@
   "intro_title",
   "intro_description",
   "stages_section",
-  "stages"
+  "stages",
+  "toolkit_section",
+  "toolkit_items"
  ],
  "fields": [
   {
@@ -37,6 +39,17 @@
    "label": "Stages",
    "options": "HIS Project Lifecycle Stage",
    "reqd": 1
+  },
+  {
+   "fieldname": "toolkit_section",
+   "fieldtype": "Section Break",
+   "label": "Toolkit Documents"
+  },
+  {
+   "fieldname": "toolkit_items",
+   "fieldtype": "Table",
+   "label": "Toolkit Items",
+   "options": "HIS Project Lifecycle Toolkit Item"
   }
  ],
  "grid_page_length": 50,

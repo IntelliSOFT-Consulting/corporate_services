@@ -3,6 +3,8 @@ from frappe import _
 import re
 from frappe.utils import add_to_date, get_first_day, get_last_day, getdate
 
+from corporate_services.api.project.lifecycle_toolkit import get_project_lifecycle_rows, get_toolkit_items
+
 
 def _as_int(value, default):
     try:
@@ -117,6 +119,11 @@ def get_projects(page_length=20, page=1, search=None, status=None):
             "travel_requests_by_project": [],
         },
     }
+
+
+@frappe.whitelist()
+def get_project_lifecycle_items(project=None, docname=None):
+    return get_project_lifecycle_rows(project=project, docname=docname)
 
 
 def _get_project_visibility_filters():
@@ -372,19 +379,13 @@ def get_project_template_targets(project_name):
     if not project_name:
         frappe.throw("Project is required.")
 
-    templates = frappe.get_all(
-        "HIS Project Requirement Template",
-        filters={"is_active": 1},
-        fields=["requirement", "target_doctype", "display_order"],
-        order_by="display_order asc, modified asc",
-        limit_page_length=200,
-    )
+    templates = get_toolkit_items()
 
     candidates = ["project_name", "project", "project_id"]
     out = []
 
     for template in templates:
-        doctype = template["target_doctype"]
+        doctype = template.get("target_doctype")
         if not doctype:
             continue
 
@@ -415,11 +416,12 @@ def get_project_template_targets(project_name):
 
         out.append(
             {
-                "label": template["requirement"],
+                "label": template.get("requirement"),
                 "doctype": doctype,
                 "project_field": fieldname,
                 "first_name": first_name,
                 "match_count": match_count,
+                "stage_name": template.get("stage_name"),
             }
         )
 

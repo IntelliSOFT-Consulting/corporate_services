@@ -8,8 +8,12 @@ import frappe
 import requests
 from frappe import _
 from frappe.integrations.google_oauth import GoogleOAuth
+from frappe.integrations.doctype.google_drive.google_drive import get_google_drive_object
 from frappe.utils import get_url
 from frappe.utils.password import get_decrypted_password, set_encrypted_password
+
+from corporate_services.api.project.lifecycle_toolkit import get_stage_folder_blueprint
+from corporate_services.api.project.project_folders import _ensure_drive_folder
 
 GOOGLE_AUTH_BASE = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
@@ -31,7 +35,7 @@ def _get_oauth_config():
                 "or `google_drive_client_id` / `google_drive_client_secret` in site_config.json."
             )
         )
-    # Use Frappe's standard Google OAuth callback to match ERPNext Google integration setup.
+    # Keep callback aligned with Frappe/ERPNext's documented Google OAuth flow.
     redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
     return client_id, client_secret, redirect_uri
 
@@ -145,23 +149,11 @@ def _ensure_project_access(project_name):
 @frappe.whitelist()
 def get_google_drive_auth_url(project_name):
     _ensure_project_access(project_name)
-    user = frappe.session.user
-    client_id, _client_secret, redirect_uri = _get_oauth_config()
-
-    nonce = secrets.token_urlsafe(24)
-    _cache_set_state(user, nonce, project_name)
-    state = json.dumps({"user": user, "nonce": nonce})
-
-    params = {
-        "client_id": client_id,
-        "redirect_uri": redirect_uri,
-        "response_type": "code",
-        "scope": "https://www.googleapis.com/auth/drive.file",
-        "access_type": "offline",
-        "prompt": "consent",
-        "state": state,
-    }
-    return {"auth_url": f"{GOOGLE_AUTH_BASE}?{urlencode(params)}"}
+    oauth = GoogleOAuth("drive")
+    # Redirect back to the same project details tab after authorization.
+    redirect = f"/app/icl-project-management/{project_name}?tab=projects#"
+    auth = oauth.get_authentication_url({"redirect": redirect})
+    return {"auth_url": auth.get("url")}
 
 
 @frappe.whitelist()
@@ -229,21 +221,51 @@ def google_drive_oauth_callback(code=None, state=None, error=None):
 
 
 @frappe.whitelist()
-def create_project_google_drive_folder(project_name, folder_name=None, parent_folder_id=None):
-    _ensure_project_access(project_name)
-    google_drive_doc = frappe.get_doc("Google Drive")
-    refresh_token = google_drive_doc.get_password(fieldname="refresh_token", raise_exception=False)
-    if not refresh_token:
-        frappe.throw(
-            _(
-                "Google Drive is not authorized. Please open Google Drive settings and click "
-                "'Authorize Google Drive Access'."
-            )
-        )
+def check_project_google_drive_connection(project_name=None):
+    project_name = (project_name or "").strip()
+    if project_name:
+        _ensure_project_access(project_name)
 
     try:
-        access_token = google_drive_doc.get_access_token()
-        drive_service = GoogleOAuth("drive").get_google_service_object(access_token, refresh_token)
+        if not frappe.db.exists("Google Drive", "Google Drive"):
+            auth_url = None
+            if project_name:
+                try:
+                    auth_url = get_google_drive_auth_url(project_name).get("auth_url")
+                except Exception:
+                    auth_url = None
+            return {
+                "connected": False,
+                "message": "Google Drive settings are not available. Please configure Google Drive.",
+                "auth_url": auth_url,
+            }
+        gd = frappe.get_doc("Google Drive", "Google Drive")
+        gd.get_access_token()
+        return {
+            "connected": True,
+            "message": "Google Drive connection is active.",
+        }
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Google Drive connection check failed")
+        auth_url = None
+        if project_name:
+            try:
+                auth_url = get_google_drive_auth_url(project_name).get("auth_url")
+            except Exception:
+                auth_url = None
+        return {
+            "connected": False,
+            "message": "Google Drive token refresh failed. Please reconnect your Google account.",
+            "auth_url": auth_url,
+        }
+
+
+@frappe.whitelist()
+def create_project_google_drive_folder(project_name, folder_name=None, parent_folder_id=None):
+    _ensure_project_access(project_name)
+
+    try:
+        drive_service, _account = get_google_drive_object()
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Google Drive access token refresh failed")
         frappe.throw(
@@ -254,25 +276,10 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
 
     folder_name = (folder_name or "").strip() or project_name
 
-    metadata = {
-        "name": folder_name,
-        "mimeType": "application/vnd.google-apps.folder",
-    }
-    if parent_folder_id:
-        metadata["parents"] = [parent_folder_id]
-    try:
-        folder = (
-            drive_service.files()
-            .create(body=metadata, fields="id,name,webViewLink")
-            .execute()
-        )
-    except Exception:
-        frappe.log_error(frappe.get_traceback(), "Google Drive folder creation failed")
-        frappe.throw(_("Failed to create Google Drive folder. Please verify Google Drive authorization."))
-
+    folder = _ensure_drive_folder(drive_service, folder_name, parent_folder_id)
     folder_id = folder.get("id")
     folder_link = folder.get("webViewLink") or f"https://drive.google.com/drive/folders/{folder_id}"
-    created_children = _create_lifecycle_folders(drive_service, folder_id)
+    lifecycle_count = _create_drive_lifecycle_structure(drive_service, folder_id)
 
     try:
         project_doc = frappe.get_doc("Project", project_name)
@@ -280,8 +287,8 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
             "Comment",
             _(
                 "Google Drive folder created: <a href=\"{0}\" target=\"_blank\">{1}</a>"
-                "<br><small>Lifecycle subfolders created: {2}</small>"
-            ).format(folder_link, folder_name, created_children),
+                "<br><small>Lifecycle stages and toolkit items were created under this root: {2}</small>"
+            ).format(folder_link, folder_name, lifecycle_count),
         )
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Failed to add Project comment for Google Drive folder")
@@ -290,70 +297,66 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
         "folder_id": folder_id,
         "folder_name": folder.get("name") or folder_name,
         "folder_link": folder_link,
-        "lifecycle_folders_created": created_children,
+        "lifecycle_folders_created": lifecycle_count,
     }
 
 
-def _create_drive_folder(drive_service, name, parent_id=None):
-    payload = {
-        "name": name,
-        "mimeType": "application/vnd.google-apps.folder",
-    }
-    if parent_id:
-        payload["parents"] = [parent_id]
-    return drive_service.files().create(body=payload, fields="id,name").execute()
-
-
-def _create_lifecycle_folders(drive_service, project_root_folder_id):
-    if not frappe.db.exists("DocType", "HIS Project Lifecycle Config"):
-        return 0
-
-    try:
-        config = frappe.get_single("HIS Project Lifecycle Config")
-    except Exception:
-        return 0
-
-    stages = sorted(
-        [row for row in (config.stages or []) if row.is_active],
-        key=lambda x: (x.display_order or 0, x.idx or 0),
-    )
+def _create_drive_lifecycle_structure(drive_service, project_root_folder_id):
+    stages = get_stage_folder_blueprint()
     created_count = 0
 
     for stage in stages:
-        stage_name = (stage.stage_name or "").strip()
+        stage_name = (stage.get("stage_name") or "").strip()
         if not stage_name:
             continue
 
-        stage_folder = _create_drive_folder(drive_service, stage_name, project_root_folder_id)
+        stage_folder = _ensure_drive_folder(drive_service, stage_name, project_root_folder_id)
         stage_folder_id = stage_folder.get("id")
-        created_count += 1
+        if stage_folder.get("created"):
+            created_count += 1
 
-        requirement_items = _split_lines(stage.requirements)
-        deliverable_items = _split_lines(stage.deliverables)
+        grouped_items = stage.get("toolkit_item_groups") or {}
+        if grouped_items:
+            for group_name, items in grouped_items.items():
+                if not items:
+                    continue
+                group_folder = _ensure_drive_folder(drive_service, group_name, stage_folder_id)
+                if group_folder.get("created"):
+                    created_count += 1
+                group_folder_id = group_folder.get("id")
+                for item in items:
+                    item_name = (item.get("requirement") or "").strip()
+                    if not item_name:
+                        continue
+                    child_folder = _ensure_drive_folder(drive_service, item_name, group_folder_id)
+                    if child_folder.get("created"):
+                        created_count += 1
+            continue
+
+        requirement_items = stage.get("requirements") or []
+        deliverable_items = stage.get("deliverables") or []
 
         if requirement_items:
-            req_root = _create_drive_folder(drive_service, "Requirements", stage_folder_id)
-            req_root_id = req_root.get("id")
-            created_count += 1
-            for item in requirement_items:
-                _create_drive_folder(drive_service, item, req_root_id)
+            req_root = _ensure_drive_folder(drive_service, "Requirements", stage_folder_id)
+            if req_root.get("created"):
                 created_count += 1
+            req_root_id = req_root.get("id")
+            for item in requirement_items:
+                child_folder = _ensure_drive_folder(drive_service, item, req_root_id)
+                if child_folder.get("created"):
+                    created_count += 1
 
         if deliverable_items:
-            del_root = _create_drive_folder(drive_service, "Deliverables - Templates", stage_folder_id)
-            del_root_id = del_root.get("id")
-            created_count += 1
-            for item in deliverable_items:
-                _create_drive_folder(drive_service, item, del_root_id)
+            del_root = _ensure_drive_folder(drive_service, "Deliverables - Templates", stage_folder_id)
+            if del_root.get("created"):
                 created_count += 1
+            del_root_id = del_root.get("id")
+            for item in deliverable_items:
+                child_folder = _ensure_drive_folder(drive_service, item, del_root_id)
+                if child_folder.get("created"):
+                    created_count += 1
 
     return created_count
-
-
-def _split_lines(value):
-    if not value:
-        return []
-    return [line.strip() for line in str(value).splitlines() if line.strip()]
 
 
 def _oauth_close_window_html(success, message):

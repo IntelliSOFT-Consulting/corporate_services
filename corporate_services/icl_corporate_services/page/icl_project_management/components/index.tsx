@@ -317,6 +317,13 @@ function LifecycleTab() {
   const introTitle = data.intro_title || "Project Start-to-End Guide";
   const introDescription = data.intro_description || "";
   const stages = data.stages || [];
+  const toolkitUseSteps = [
+    "Start with the stage cards to understand what the PM must prepare, plan, design, implement, and close out.",
+    "Create or open the Project record, then use the manual folder actions to generate the File Manager folder tree or Google Drive folder when you need them.",
+    "Go to the Project Requirements Templates area to review each toolkit item, confirm its target document, and upload or replace the template file if needed.",
+    "Use the toolkit items as the checklist for deliverables, evidence, and templates for each stage; update them as the project progresses instead of creating separate one-off documents.",
+    "Keep the folder structure aligned to the stages and toolkit items so the PM team can quickly find what is pending, in progress, or completed.",
+  ];
 
   return (
     <div className="container-fluid p-3">
@@ -324,6 +331,24 @@ function LifecycleTab() {
         <div className="card-body">
           <h6 className="mb-1">{introTitle}</h6>
           <p className="text-muted mb-0">{introDescription}</p>
+        </div>
+      </div>
+
+      <div className="card border mb-3" style={{ background: "#fffaf2", borderColor: "#f1dfb8" }}>
+        <div className="card-body">
+          <h6 className="mb-2">How PMs should use this toolkit</h6>
+          <p className="text-muted mb-2">
+            The toolkit is now the working guide for the project manager. It combines the lifecycle
+            stages, deliverables, templates, and folder structure so the project stays organized in
+            one place.
+          </p>
+          <ol className="mb-0 pl-3">
+            {toolkitUseSteps.map((step) => (
+              <li key={step} className="mb-2">
+                {step}
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
 
@@ -544,7 +569,7 @@ function SidebarTabs({
           className={`ipm-sidebar-item${tab === "templates" ? " active" : ""}`}
           onClick={() => onChange("templates")}
         >
-          Project Requirement Templates
+          Project Requirements Templates
         </div>
       </div>
     </div>
