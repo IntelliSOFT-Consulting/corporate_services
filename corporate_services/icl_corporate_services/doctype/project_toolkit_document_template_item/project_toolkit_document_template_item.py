@@ -4,5 +4,6 @@
 from frappe.model.document import Document
 
 
-class HISProjectLifecycleStage(Document):
+class ProjectToolkitDocumentTemplateItem(Document):
     pass
+

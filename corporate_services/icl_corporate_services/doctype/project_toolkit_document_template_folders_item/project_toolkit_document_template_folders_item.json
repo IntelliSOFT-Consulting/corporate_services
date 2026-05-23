@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:folder_name",
+ "creation": "2026-05-23 21:04:46.882057",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "folder_name",
+  "project_phase",
+  "description",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "folder_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Folder Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "project_phase",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Project Phase",
+   "options": "Project Phase",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-23 21:26:47.673854",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Toolkit Document Template Folders Item",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

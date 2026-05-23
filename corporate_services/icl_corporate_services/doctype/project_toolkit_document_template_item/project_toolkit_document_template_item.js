@@ -1,4 +1,9 @@
 // Copyright (c) 2026, IntelliSOFT Consulting and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("HIS Project Lifecycle Stage", {});
+// frappe.ui.form.on("Project Toolkit Document Template Item", {
+// 	refresh(frm) {
+//
+// 	},
+// });
+
