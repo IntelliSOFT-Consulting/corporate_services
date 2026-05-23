@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ProjectListResult, ProjectRow } from "../types";
 
-const PAGE_LENGTH = 20;
+const PAGE_LENGTH = 10;
 
 export function useProjects() {
   const frappe = (globalThis as any).frappe;

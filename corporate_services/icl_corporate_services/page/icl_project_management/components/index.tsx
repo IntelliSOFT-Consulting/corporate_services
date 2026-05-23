@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createPortal } from "react-dom";
 
 import { GlobalStyles } from "../project_components/ui/GlobalStyles";
-import { ProjectTable } from "../project_components/ProjectTable";
+import { Project } from "../project_components/Index";
 import { ProjectDetail } from "../project_components/ProjectDetail";
 
 declare global {
@@ -527,7 +527,7 @@ function ProjectsTab({ initialProjectId }: { initialProjectId: string | null }) 
         <ProjectDetail projectId={selectedId} onBack={handleBack} />
       ) : (
         <>
-          <ProjectTable onOpen={openProject} />
+          <Project onOpen={openProject} />
         </>
       )}
     </div>
