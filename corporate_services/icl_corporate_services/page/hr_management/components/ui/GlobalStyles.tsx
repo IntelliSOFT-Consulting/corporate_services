@@ -62,6 +62,24 @@ const CSS = `
   margin-left: 8px;
 }
 
+.sm-sidebar-group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-top: 1px solid var(--border-color, #e2e6ea);
+  background: var(--fg-color, #fafbfc);
+}
+
+.sm-sidebar-group-toggle:hover {
+  background: var(--fg-hover-color, #f0f1f3);
+}
+
+.sm-sidebar-subitem {
+  padding-left: 28px;
+}
+
 /* Table row cursor */
 .sm-table tbody tr { cursor: pointer; }
 

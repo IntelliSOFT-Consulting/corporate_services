@@ -29,7 +29,7 @@ declare global {
 }
 
 type Tab =
-  | "overview"
+  | "dashboard"
   | "consultant-time-off"
   | "weekly-progress-report"
   | "monthly-reflection"
@@ -42,12 +42,11 @@ type Tab =
   | "intern-evaluation"
   | "employee-turnover";
 
-const TAB_STORAGE_KEY = "hr_management_active_tab";
-const DEFAULT_TAB: Tab = "overview";
+const DEFAULT_TAB: Tab = "dashboard";
 
 function isValidTab(value: string | null): value is Tab {
   return (
-    value === "overview" ||
+    value === "dashboard" ||
     value === "consultant-time-off" ||
     value === "weekly-progress-report" ||
     value === "monthly-reflection" ||
@@ -85,9 +84,7 @@ function writeTabToUrl(tab: Tab) {
 function StaffManagementApp({ page: _page }: { page: any }) {
   const [activeTab, setActiveTab] = useState<Tab>(() => {
     const fromUrl = getTabFromUrl();
-    if (fromUrl) return fromUrl;
-    const saved = globalThis?.localStorage?.getItem(TAB_STORAGE_KEY) || null;
-    return isValidTab(saved) ? saved : DEFAULT_TAB;
+    return fromUrl || DEFAULT_TAB;
   });
   const [routeSegment, setRouteSegment] = useState<string | null>(() => {
     const route = (globalThis as any).frappe?.get_route?.() ?? [];
@@ -104,18 +101,19 @@ function StaffManagementApp({ page: _page }: { page: any }) {
   }, []);
 
   useEffect(() => {
-    globalThis?.localStorage?.setItem(TAB_STORAGE_KEY, activeTab);
     writeTabToUrl(activeTab);
   }, [activeTab]);
 
   function openEmployee(employee: string) {
     (globalThis as any).frappe?.set_route("hr-management", employee);
     setRouteSegment(employee);
+    setTimeout(() => writeTabToUrl(activeTab), 0);
   }
 
   function handleBack() {
     (globalThis as any).frappe?.set_route("hr-management");
     setRouteSegment(null);
+    setTimeout(() => writeTabToUrl(activeTab), 0);
   }
 
   const sidebarRoot = document.getElementById("hr-sidebar-root");
@@ -128,8 +126,6 @@ function StaffManagementApp({ page: _page }: { page: any }) {
         <PageSidebar
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          detailEmployee={routeSegment}
-          onBack={handleBack}
         />
       )}
 
@@ -150,7 +146,7 @@ function StaffManagementApp({ page: _page }: { page: any }) {
               <div>
                 <h5 className="font-weight-bold mb-0">HR Management</h5>
                 <p className="text-muted mb-0" style={{ fontSize: 12 }}>
-                  {activeTab === "overview"
+                  {activeTab === "dashboard"
                     ? "Unified HR operations dashboard"
                     : activeTab === "consultant-time-off"
                       ? "Consultant leave and time off tracker"
@@ -189,7 +185,7 @@ function StaffManagementApp({ page: _page }: { page: any }) {
               </div>
             </div>
 
-            {activeTab === "overview" && (
+            {activeTab === "dashboard" && (
               <>
                 <StaffStats />
                 <OnLeaveCard onOpen={openEmployee} />

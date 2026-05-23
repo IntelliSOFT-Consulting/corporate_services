@@ -23,6 +23,37 @@ function Field({ label, value }: { label: string; value?: string | null }) {
   );
 }
 
+function ActionItem({
+  label,
+  onClick,
+  count,
+}: {
+  label: string;
+  onClick: () => void;
+  count?: number;
+}) {
+  return (
+    <div
+      className="d-flex align-items-center justify-content-between px-2 py-2"
+      style={{
+        border: "1px solid var(--border-color, #e2e6ea)",
+        borderRadius: 6,
+        cursor: "pointer",
+        marginBottom: 8,
+        background: "#fff",
+      }}
+      onClick={onClick}
+    >
+      <span style={{ fontSize: 13, color: "var(--text-color, #333)" }}>{label}</span>
+      {count !== undefined && count > 0 && (
+        <span className="badge badge-light" style={{ fontSize: 11 }}>
+          {count}
+        </span>
+      )}
+    </div>
+  );
+}
+
 function formatDate(d?: string | null) {
   if (!d) return null;
   return new Date(d).toLocaleDateString(undefined, {
@@ -45,6 +76,110 @@ function tenure(joining?: string | null) {
   return rem > 0
     ? `${years} year${years !== 1 ? "s" : ""}, ${rem} month${rem !== 1 ? "s" : ""}`
     : `${years} year${years !== 1 ? "s" : ""}`;
+}
+
+function EmployeeQuickLinks({
+  employee,
+  data,
+}: {
+  employee: string;
+  data: {
+    leave_allocations: LeaveAllocation[];
+    leave_applications: LeaveApplication[];
+    travel_requests: TravelRequest[];
+    travel_reconciliations: TravelReconciliation[];
+    timesheet_submissions: TimesheetSubmission[];
+    asset_requisitions: AssetRequisition[];
+  };
+}) {
+  const frappe = (globalThis as any).frappe;
+  const counts = {
+    leaveAllocations: data.leave_allocations.length,
+    leaveApplications: data.leave_applications.length,
+    travelRequests: data.travel_requests.length,
+    travelReconciliations: data.travel_reconciliations.length,
+    timesheetSubmissions: data.timesheet_submissions.length,
+    assetRequisitions: data.asset_requisitions.length,
+  };
+
+  return (
+    <div className="frappe-card p-3 mb-3">
+      <h6
+        className="font-weight-bold text-muted mb-3"
+        style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em" }}
+      >
+        Quick Links
+      </h6>
+
+      <div className="mb-3">
+        <div className="text-muted mb-2" style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Leave
+        </div>
+        <ActionItem
+          label="Leave Allocations"
+          count={counts.leaveAllocations}
+          onClick={() => frappe?.set_route("List", "Leave Allocation", { employee })}
+        />
+        <ActionItem
+          label="Leave Applications"
+          count={counts.leaveApplications}
+          onClick={() => frappe?.set_route("List", "Leave Application", { employee })}
+        />
+      </div>
+
+      <div className="mb-3">
+        <div className="text-muted mb-2" style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Travel
+        </div>
+        <ActionItem
+          label="Travel Requests"
+          count={counts.travelRequests}
+          onClick={() => frappe?.set_route("List", "Travel Request", { employee })}
+        />
+        <ActionItem
+          label="Travel Reconciliations"
+          count={counts.travelReconciliations}
+          onClick={() =>
+            frappe?.set_route("List", "Travel Request Reconciliation", { employee })
+          }
+        />
+      </div>
+
+      <div className="mb-3">
+        <div className="text-muted mb-2" style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Timesheets
+        </div>
+        <ActionItem
+          label="Timesheet Submissions"
+          count={counts.timesheetSubmissions}
+          onClick={() => frappe?.set_route("timesheet_workflow", "employee", employee)}
+        />
+      </div>
+
+      <div className="mb-3">
+        <div className="text-muted mb-2" style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Assets
+        </div>
+        <ActionItem
+          label="Asset Requisitions"
+          count={counts.assetRequisitions}
+          onClick={() =>
+            frappe?.set_route("List", "Asset Requisition", { requested_by: employee })
+          }
+        />
+      </div>
+
+      <div>
+        <div className="text-muted mb-2" style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          Record
+        </div>
+        <ActionItem
+          label="Open Employee Form"
+          onClick={() => frappe?.set_route("Form", "Employee", employee)}
+        />
+      </div>
+    </div>
+  );
 }
 
 interface Props {
@@ -624,6 +759,7 @@ export function EmployeeDetail({ employee, onBack }: Props) {
 
           {/* Right: personal info */}
           <div className="col-md-4">
+            <EmployeeQuickLinks employee={employee} data={data} />
             <div className="frappe-card p-3 mb-3">
               <h6
                 className="font-weight-bold text-muted mb-3"

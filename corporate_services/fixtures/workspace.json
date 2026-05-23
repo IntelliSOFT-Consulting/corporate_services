@@ -7505,7 +7505,7 @@
     "icon": null,
     "kanban_board": null,
     "label": "Icl Leads",
-    "link_to": "icl-leads",
+    "link_to": "business-development-management",
     "parent": "ICL Business Development",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",

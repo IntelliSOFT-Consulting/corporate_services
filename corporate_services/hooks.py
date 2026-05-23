@@ -42,6 +42,7 @@ page_js = {
     "icl-project-management": "public/js/project_management.js",
     "employee-turnover": "public/js/employee_turnover.js",
     "hr-management": "public/js/hr_management.js",
+    "business-development-management": "public/js/business_development_management.js",
 }
 
 # Custom Pages
