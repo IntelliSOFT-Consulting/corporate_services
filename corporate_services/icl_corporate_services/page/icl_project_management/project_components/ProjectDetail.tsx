@@ -89,11 +89,6 @@ type DriveFolder = {
   created_by?: string;
 };
 
-type FolderNode = {
-  name: string;
-  file_name: string;
-  children?: FolderNode[];
-};
 
 type DriveConnectionStatus = {
   connected: boolean;
@@ -101,49 +96,18 @@ type DriveConnectionStatus = {
   auth_url?: string;
 };
 
-function FolderTree({
-  node,
-  onOpen,
-}: {
-  node: FolderNode;
-  onOpen: (name: string) => void;
-}) {
-  return (
-    <li style={{ marginBottom: 6 }}>
-      <a
-        href="#"
-        className="pm-proj-link"
-        onClick={(e) => {
-          e.preventDefault();
-          onOpen(node.name);
-        }}
-      >
-        {node.file_name}
-      </a>
-      {!!(node.children && node.children.length) && (
-        <ul style={{ marginTop: 6, paddingLeft: 16 }}>
-          {node.children.map((child) => (
-            <FolderTree key={child.name} node={child} onOpen={onOpen} />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-}
+
 
 export function ProjectDetail({ projectId, onBack }: Props) {
   const { doc, loading, error } = useProjectDetail(projectId);
   const linkedUsers = doc?.linked_users ?? [];
   const timesheets = doc?.timesheets ?? [];
-  const travelRequests = doc?.travel_requests ?? [];
   const [activeTab, setActiveTab] = useState<"details" | "documents">(
     "details",
   );
   const [googleFolders, setGoogleFolders] = useState<DriveFolder[]>([]);
   const [folderRoot, setFolderRoot] = useState<{ name?: string; file_name?: string } | null>(null);
-  const [folderTree, setFolderTree] = useState<FolderNode[]>([]);
   const [tabLoading, setTabLoading] = useState(false);
-  const [creatingFileFolders, setCreatingFileFolders] = useState(false);
   const [creatingDriveFolders, setCreatingDriveFolders] = useState(false);
   const [checkingDriveConnection, setCheckingDriveConnection] = useState(false);
   const [driveConnectionStatus, setDriveConnectionStatus] =
@@ -166,11 +130,9 @@ export function ProjectDetail({ projectId, onBack }: Props) {
       ]);
       setGoogleFolders(googleRes?.message ?? []);
       setFolderRoot(folderRes?.message?.root ?? null);
-      setFolderTree(folderRes?.message?.children ?? []);
     } catch {
       setGoogleFolders([]);
       setFolderRoot(null);
-      setFolderTree([]);
     } finally {
       setTabLoading(false);
     }
@@ -179,32 +141,6 @@ export function ProjectDetail({ projectId, onBack }: Props) {
   useEffect(() => {
     void refreshProjectStorage();
   }, [projectId]);
-
-  const handleCreateProjectFolders = async () => {
-    if (!projectId) return;
-    setCreatingFileFolders(true);
-    try {
-      const r = await (globalThis as any).frappe.call({
-        method:
-          "corporate_services.api.project.project_folders.create_project_lifecycle_folders_for_project",
-        args: { project_name: projectId },
-      });
-      (globalThis as any).frappe?.show_alert({
-        message:
-          r?.message?.root_folder_name || "Project folder structure created",
-        indicator: "green",
-      });
-      await refreshProjectStorage();
-    } catch (e: any) {
-      (globalThis as any).frappe?.msgprint({
-        title: "Project Folder Creation Failed",
-        message: e?.message || "Could not create the File Manager folder structure.",
-        indicator: "red",
-      });
-    } finally {
-      setCreatingFileFolders(false);
-    }
-  };
 
   const checkGoogleDriveConnection = async (silent = false) => {
     if (!projectId) return null;
@@ -628,14 +564,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                       flexWrap: "wrap",
                     }}
                   >
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-primary"
-                      onClick={() => void handleCreateProjectFolders()}
-                      disabled={tabLoading || creatingFileFolders}
-                    >
-                      {creatingFileFolders ? "Creating File Manager Folders…" : "Create / Sync Project Folders"}
-                    </button>
+                 
                     <button
                       type="button"
                       className="btn btn-sm btn-primary"
@@ -750,42 +679,6 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                           </tbody>
                         </table>
                       </div>
-                    )}
-                  </div>
-
-                  <div className="frappe-card" style={{ padding: "16px 20px" }}>
-                    <div className="pm-list-section-header">
-                      <h6 className="pm-section-title" style={{ marginBottom: 0 }}>
-                        Project Folders
-                      </h6>
-                      <span className="text-muted" style={{ fontSize: 12 }}>
-                        {folderRoot?.file_name || "Not created"}
-                      </span>
-                    </div>
-                    {tabLoading ? (
-                      <div className="text-muted" style={{ marginTop: 12 }}>
-                        Loading folders…
-                      </div>
-                    ) : folderTree.length === 0 ? (
-                      <div className="pm-empty-inline" style={{ marginTop: 12 }}>
-                        No project folders found in File Manager. Click the button above to create them.
-                      </div>
-                    ) : (
-                      <ul style={{ margin: "12px 0 0", paddingLeft: 16 }}>
-                        {folderTree.map((node) => (
-                          <FolderTree
-                            key={node.name}
-                            node={node}
-                            onOpen={(name) =>
-                              (globalThis as any).frappe?.set_route(
-                                "Form",
-                                "File",
-                                name,
-                              )
-                            }
-                          />
-                        ))}
-                      </ul>
                     )}
                   </div>
                 </div>

@@ -7,24 +7,6 @@ import frappe
 
 
 LIFECYCLE_CONFIG_DOCTYPE = "HIS Project Lifecycle Config"
-LIFECYCLE_STAGE_DOCTYPE = "HIS Project Lifecycle Stage"
-LIFECYCLE_TOOLKIT_DOCTYPE = "HIS Project Lifecycle Toolkit Item"
-LEGACY_TEMPLATE_DOCTYPE = "HIS Project Requirement Template"
-
-DEFAULT_INTRO_TITLE = "Project Start-to-End Guide"
-DEFAULT_INTRO_DESCRIPTION = (
-    "Use this lifecycle page as a checklist for all required processes and deliverables "
-    "when creating and running a Health Information System project."
-)
-
-DEFAULT_STAGE_FALLBACK = [
-    "Prepare",
-    "Plan",
-    "Design",
-    "Development",
-    "Implementation",
-    "Maintenance",
-]
 
 
 def _split_lines(value: Any) -> List[str]:
@@ -70,20 +52,6 @@ def _normalize_toolkit_row(row: Any, fallback_stage_name: str = "") -> Dict[str,
         "description": getattr(row, "description", None),
         "display_order": getattr(row, "display_order", None),
         "folder_group": _normalize_folder_group(getattr(row, "folder_group", None)),
-        "template_file": getattr(row, "template_file", None),
-        "is_active": bool(getattr(row, "is_active", 0)),
-    }
-
-
-def _normalize_legacy_row(row: Any) -> Dict[str, Any]:
-    return {
-        "name": getattr(row, "name", None),
-        "stage_name": "",
-        "requirement": (getattr(row, "requirement", None) or "").strip(),
-        "target_doctype": getattr(row, "target_doctype", None),
-        "description": getattr(row, "description", None),
-        "display_order": getattr(row, "display_order", None),
-        "folder_group": "Deliverables - Templates",
         "template_file": getattr(row, "template_file", None),
         "is_active": bool(getattr(row, "is_active", 0)),
     }
@@ -177,22 +145,7 @@ def get_lifecycle_stages(include_inactive: bool = False) -> List[Dict[str, Any]]
             }
         )
 
-    if normalized_stages:
-        return normalized_stages
-
-    return [
-        {
-            "stage_name": stage_name,
-            "display_order": idx + 1,
-            "is_active": True,
-            "steps": [],
-            "requirements": [],
-            "deliverables": [],
-            "toolkit_items": [],
-            "toolkit_item_groups": {},
-        }
-        for idx, stage_name in enumerate(DEFAULT_STAGE_FALLBACK)
-    ]
+    return normalized_stages
 
 
 def get_toolkit_items(include_inactive: bool = False) -> List[Dict[str, Any]]:
@@ -204,28 +157,7 @@ def get_toolkit_items(include_inactive: bool = False) -> List[Dict[str, Any]]:
             item_copy["stage_name"] = stage.get("stage_name") or item_copy.get("stage_name") or ""
             items.append(item_copy)
 
-    if items:
-        return items
-
-    if not frappe.db.exists("DocType", LEGACY_TEMPLATE_DOCTYPE):
-        return []
-
-    legacy_rows = frappe.get_all(
-        LEGACY_TEMPLATE_DOCTYPE,
-        fields=[
-            "name",
-            "requirement",
-            "target_doctype",
-            "description",
-            "template_file",
-            "display_order",
-            "is_active",
-        ],
-        filters={} if include_inactive else {"is_active": 1},
-        limit_page_length=500,
-        order_by="display_order asc, modified asc",
-    )
-    return [_normalize_legacy_row(row) for row in legacy_rows]
+    return items
 
 
 def get_template_library_rows(include_inactive: bool = False) -> List[Dict[str, Any]]:
@@ -297,39 +229,131 @@ def get_project_lifecycle_rows(project: Optional[str] = None, docname: Optional[
     return build_project_lifecycle_rows(existing_rows=existing_rows, include_inactive=include_inactive)
 
 
-def get_stage_folder_blueprint(include_inactive: bool = False) -> List[Dict[str, Any]]:
-    stages = get_lifecycle_stages(include_inactive=include_inactive)
-    blueprint = []
-    for stage in stages:
-        toolkit_items = list(stage.get("toolkit_items") or [])
-        grouped = defaultdict(list)
-        for item in toolkit_items:
-            grouped[item.get("folder_group") or "Deliverables - Templates"].append(item)
+def get_project_toolkit_folder_blueprint(include_inactive: bool = False) -> List[Dict[str, Any]]:
+    """Return active project toolkit folders grouped by project phase.
 
-        # Fall back to the stage text fields if no structured toolkit items exist yet.
-        if not toolkit_items:
-            if stage.get("requirements"):
-                grouped["Requirements"] = [
-                    {"requirement": requirement, "template_file": None, "description": None}
-                    for requirement in stage.get("requirements") or []
-                ]
-            if stage.get("deliverables"):
-                grouped["Deliverables - Templates"] = [
-                    {"requirement": deliverable, "template_file": None, "description": None}
-                    for deliverable in stage.get("deliverables") or []
-                ]
+    Source of truth: HIS Project Lifecycle Config -> Project Toolkit Folders.
+    """
+    doc = get_lifecycle_config_doc()
+    if not doc:
+        return []
 
-        blueprint.append(
+    rows = list(getattr(doc, "project_toolkit_folders", None) or [])
+    selected_folder_ids: List[str] = []
+    for row in rows:
+        folder_id = (getattr(row, "folder_name", None) or "").strip()
+        if not folder_id:
+            continue
+        if include_inactive or bool(getattr(row, "is_active", 0)):
+            selected_folder_ids.append(folder_id)
+
+    if not selected_folder_ids:
+        return []
+
+    folder_docs = frappe.get_all(
+        "HIS Project Folders",
+        fields=["name", "folder_name", "project_phase", "is_active", "is_child_folder", "parent_folder"],
+        filters={"name": ["in", list(dict.fromkeys(selected_folder_ids))]},
+        limit_page_length=1000,
+    )
+    folder_by_id = {d.name: d for d in folder_docs}
+
+    active_ids: List[str] = []
+    for folder_id in selected_folder_ids:
+        folder = folder_by_id.get(folder_id)
+        if not folder:
+            continue
+        if include_inactive or bool(folder.get("is_active")):
+            active_ids.append(folder_id)
+
+    if not active_ids:
+        return []
+
+    nodes: Dict[str, Dict[str, Any]] = {}
+    for folder_id in active_ids:
+        folder = folder_by_id[folder_id]
+        nodes[folder_id] = {
+            "folder_id": folder_id,
+            "folder_name": (folder.get("folder_name") or folder_id).strip(),
+            "project_phase": (folder.get("project_phase") or "").strip(),
+            "is_child_folder": bool(folder.get("is_child_folder")),
+            "parent_folder": (folder.get("parent_folder") or "").strip(),
+            "children": [],
+        }
+
+    root_ids: List[str] = []
+    for folder_id in active_ids:
+        node = nodes[folder_id]
+        parent_id = node["parent_folder"]
+        if node["is_child_folder"] and parent_id and parent_id in nodes:
+            nodes[parent_id]["children"].append(node)
+        else:
+            root_ids.append(folder_id)
+
+    phases: Dict[str, Dict[str, Any]] = {}
+    for root_id in root_ids:
+        node = nodes[root_id]
+        phase_name = node["project_phase"] or "General"
+        if phase_name not in phases:
+            phases[phase_name] = {"phase_name": phase_name, "folders": []}
+        phases[phase_name]["folders"].append(node)
+
+    phase_order: List[str] = []
+    for folder_id in active_ids:
+        phase_name = (nodes[folder_id]["project_phase"] or "General")
+        if phase_name not in phase_order:
+            phase_order.append(phase_name)
+
+    return [phases[phase_name] for phase_name in phase_order if phase_name in phases]
+
+
+def get_project_toolkit_document_template_targets(include_inactive: bool = False) -> List[Dict[str, Any]]:
+    """Return active document templates with their phase/folder availability targets."""
+    doc = get_lifecycle_config_doc()
+    if not doc:
+        return []
+
+    child_rows = list(getattr(doc, "project_toolkit_document_templates", None) or [])
+    template_names: List[str] = []
+    for row in child_rows:
+        template_name = (getattr(row, "document_name", None) or "").strip()
+        if not template_name:
+            continue
+        if include_inactive or bool(getattr(row, "is_active", 0)):
+            template_names.append(template_name)
+
+    if not template_names:
+        return []
+
+    targets: List[Dict[str, Any]] = []
+    for template_name in list(dict.fromkeys(template_names)):
+        if not frappe.db.exists("Project Toolkit Document Templates", template_name):
+            continue
+
+        template_doc = frappe.get_doc("Project Toolkit Document Templates", template_name)
+        if not (include_inactive or bool(getattr(template_doc, "is_active", 0))):
+            continue
+
+        placements = []
+        for row in list(getattr(template_doc, "project_phase", None) or []):
+            if not (include_inactive or bool(getattr(row, "available", 0))):
+                continue
+            placements.append(
+                {
+                    "project_phase": (getattr(row, "project_phase", None) or "").strip(),
+                    "folder": (getattr(row, "folder", None) or "").strip(),
+                }
+            )
+
+        targets.append(
             {
-                "stage_name": stage.get("stage_name") or "",
-                "display_order": stage.get("display_order"),
-                "steps": stage.get("steps") or [],
-                "requirements": stage.get("requirements") or [],
-                "deliverables": stage.get("deliverables") or [],
-                "toolkit_item_groups": dict(grouped),
+                "document_name": (getattr(template_doc, "document_name", None) or template_name).strip(),
+                "attachment": (getattr(template_doc, "attachment", None) or "").strip(),
+                "placements": placements,
             }
         )
-    return blueprint
+
+    return targets
 
 
 def find_toolkit_item(requirement: Optional[str] = None, docname: Optional[str] = None):
@@ -342,15 +366,6 @@ def find_toolkit_item(requirement: Optional[str] = None, docname: Optional[str] 
             for row in getattr(doc, "toolkit_items", None) or []:
                 if row.name == docname:
                     return {"type": "config", "row": row, "doc": doc}
-        if frappe.db.exists("DocType", LEGACY_TEMPLATE_DOCTYPE) and frappe.db.exists(
-            LEGACY_TEMPLATE_DOCTYPE, docname
-        ):
-            return {
-                "type": "legacy",
-                "row": frappe.get_doc(LEGACY_TEMPLATE_DOCTYPE, docname),
-                "doc": None,
-            }
-
     if requirement:
         doc = get_lifecycle_config_doc()
         if doc and _is_field_available(doc, "toolkit_items"):
@@ -361,15 +376,6 @@ def find_toolkit_item(requirement: Optional[str] = None, docname: Optional[str] 
             ]
             if matches:
                 return {"type": "config", "row": matches[0], "doc": doc}
-
-        if frappe.db.exists("DocType", LEGACY_TEMPLATE_DOCTYPE):
-            docname = frappe.db.get_value(LEGACY_TEMPLATE_DOCTYPE, {"requirement": requirement}, "name")
-            if docname:
-                return {
-                    "type": "legacy",
-                    "row": frappe.get_doc(LEGACY_TEMPLATE_DOCTYPE, docname),
-                    "doc": None,
-                }
 
     return None
 
@@ -388,13 +394,6 @@ def update_toolkit_template_file(
         frappe.throw(
             f"Requirement '{target}' does not exist in the HIS Project Lifecycle Toolkit configuration."
         )
-
-    if resolved["type"] == "legacy":
-        row = resolved["row"]
-        row.template_file = file_url
-        row.is_active = 1
-        row.save(ignore_permissions=True)
-        return {"name": row.name, "template_file": row.template_file}
 
     doc = resolved["doc"]
     row = resolved["row"]
