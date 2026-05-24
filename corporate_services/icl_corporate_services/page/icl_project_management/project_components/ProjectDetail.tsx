@@ -106,7 +106,6 @@ export function ProjectDetail({ projectId, onBack }: Props) {
     "details",
   );
   const [googleFolders, setGoogleFolders] = useState<DriveFolder[]>([]);
-  const [folderRoot, setFolderRoot] = useState<{ name?: string; file_name?: string } | null>(null);
   const [tabLoading, setTabLoading] = useState(false);
   const [creatingDriveFolders, setCreatingDriveFolders] = useState(false);
   const [checkingDriveConnection, setCheckingDriveConnection] = useState(false);
@@ -129,10 +128,8 @@ export function ProjectDetail({ projectId, onBack }: Props) {
         }),
       ]);
       setGoogleFolders(googleRes?.message ?? []);
-      setFolderRoot(folderRes?.message?.root ?? null);
     } catch {
       setGoogleFolders([]);
-      setFolderRoot(null);
     } finally {
       setTabLoading(false);
     }
@@ -220,6 +217,37 @@ export function ProjectDetail({ projectId, onBack }: Props) {
       });
     } finally {
       setCreatingDriveFolders(false);
+    }
+  };
+
+  const handleDeleteDriveFolder = async (folderLink: string, folderName: string) => {
+    const confirmed = await new Promise((resolve) => {
+      (globalThis as any).frappe?.confirm(
+        `Are you sure you want to delete the Google Drive folder "${folderName}"? This action cannot be undone.`,
+        () => resolve(true),
+        () => resolve(false)
+      );
+    });
+
+    if (!confirmed) return;
+
+    try {
+      await (globalThis as any).frappe.call({
+        method:
+          "corporate_services.api.project.google_drive.delete_project_google_drive_folder",
+        args: { project_name: projectId, folder_link: folderLink },
+      });
+      (globalThis as any).frappe?.show_alert({
+        message: "Google Drive folder deleted successfully",
+        indicator: "green",
+      });
+      await refreshProjectStorage();
+    } catch (e: any) {
+      (globalThis as any).frappe?.msgprint({
+        title: "Delete Failed",
+        message: e?.message || "Could not delete the Google Drive folder.",
+        indicator: "red",
+      });
     }
   };
 
@@ -552,7 +580,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                       Project Documents & Folders
                     </h6>
                     <span className="text-muted" style={{ fontSize: 12 }}>
-                      File Manager: {folderRoot?.file_name || "Not created"} · Google Drive: {googleFolders.length > 0 ? `${googleFolders.length} folder${googleFolders.length === 1 ? "" : "s"}` : "Not created"}
+                      Google Drive: {googleFolders.length > 0 ? `${googleFolders.length} folder${googleFolders.length === 1 ? "" : "s"}` : "Not created"}
                     </span>
                   </div>
                   <div
@@ -653,6 +681,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                               <th>Folder</th>
                               <th>Created On</th>
                               <th>Created By</th>
+                              <th style={{ width: 80, textAlign: "center" }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -674,6 +703,15 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                                 </td>
                                 <td>{formatDateOrDash(row.created_on)}</td>
                                 <td>{row.created_by || "-"}</td>
+                                <td style={{ textAlign: "center" }}>
+                                  <button
+                                    className="btn btn-xs btn-danger"
+                                    onClick={() => handleDeleteDriveFolder(row.folder_link, row.folder_name)}
+                                    title="Delete this Google Drive folder"
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
                               </tr>
                             ))}
                           </tbody>

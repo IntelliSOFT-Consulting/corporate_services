@@ -1,4 +1,5 @@
 import json
+import re
 import time
 import html
 import mimetypes
@@ -6,6 +7,7 @@ import mimetypes
 import frappe
 import requests
 from googleapiclient.http import MediaInMemoryUpload
+from googleapiclient.errors import HttpError
 from frappe import _
 from frappe.integrations.google_oauth import GoogleOAuth
 from frappe.integrations.doctype.google_drive.google_drive import get_google_drive_object
@@ -330,6 +332,65 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
         "lifecycle_folders_created": lifecycle_count,
         "templates_uploaded": templates_count,
     }
+
+
+@frappe.whitelist()
+def delete_project_google_drive_folder(project_name, folder_link):
+	"""Delete a Google Drive folder for a project and remove the associated comment."""
+	project_name = (project_name or "").strip()
+	folder_link = (folder_link or "").strip()
+
+	if not project_name:
+		frappe.throw(_("Project is required."))
+	if not folder_link:
+		frappe.throw(_("Folder link is required."))
+
+	_ensure_project_access(project_name)
+
+	folder_id_match = re.search(r'/folders/([A-Za-z0-9_-]+)', folder_link)
+	if not folder_id_match:
+		frappe.throw(_("Invalid folder link format."))
+
+	folder_id = folder_id_match.group(1)
+
+	folder_deleted = False
+	try:
+		drive_service, _account = get_google_drive_object()
+		drive_service.files().delete(fileId=folder_id, supportsAllDrives=True).execute()
+		folder_deleted = True
+	except HttpError as e:
+		# If folder not found (404), it's already deleted - still proceed to clean up comment
+		if e.resp.status == 404:
+			folder_deleted = True
+		else:
+			frappe.log_error(frappe.get_traceback(), f"Failed to delete Google Drive folder {folder_id}")
+			frappe.throw(_("Failed to delete Google Drive folder. Please try again."))
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), f"Failed to delete Google Drive folder {folder_id}")
+		frappe.throw(_("Failed to delete Google Drive folder. Please try again."))
+
+	# Remove the associated comment from the project even if folder was already deleted
+	if folder_deleted:
+		try:
+			comments = frappe.get_all(
+				"Comment",
+				filters={
+					"reference_doctype": "Project",
+					"reference_name": project_name,
+					"comment_type": "Comment",
+				},
+				fields=["name", "content"],
+			)
+
+			for comment in comments:
+				content = comment.get("content") or ""
+				if folder_link in content and "Google Drive folder created" in content:
+					frappe.delete_doc("Comment", comment.get("name"), ignore_permissions=True)
+					break
+		except Exception:
+			frappe.log_error(frappe.get_traceback(), "Failed to remove Google Drive folder comment")
+
+	return {"status": "success", "message": _("Google Drive folder deleted successfully.")}
 
 
 def _create_drive_lifecycle_structure(drive_service, project_root_folder_id):
