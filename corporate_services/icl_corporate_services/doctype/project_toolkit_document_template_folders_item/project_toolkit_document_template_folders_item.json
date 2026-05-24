@@ -15,31 +15,38 @@
  "fields": [
   {
    "fieldname": "folder_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Folder Name",
+   "options": "HIS Project Folders",
    "reqd": 1,
    "unique": 1
   },
   {
+   "fetch_from": "folder_name.description",
    "fieldname": "description",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Description"
+   "label": "Description",
+   "read_only": 1
   },
   {
    "default": "0",
+   "fetch_from": "folder_name.is_active",
    "fieldname": "is_active",
    "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Is Active"
+   "label": "Is Active",
+   "read_only": 1
   },
   {
+   "fetch_from": "folder_name.project_phase",
    "fieldname": "project_phase",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Project Phase",
    "options": "Project Phase",
+   "read_only": 1,
    "reqd": 1
   }
  ],
@@ -47,7 +54,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-05-23 21:26:47.673854",
+ "modified": "2026-05-24 09:25:30.253139",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Toolkit Document Template Folders Item",

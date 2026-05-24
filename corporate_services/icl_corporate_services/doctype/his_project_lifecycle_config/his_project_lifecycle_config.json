@@ -55,7 +55,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-23 21:17:28.054982",
+ "modified": "2026-05-24 10:00:55.231432",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HIS Project Lifecycle Config",
@@ -95,5 +95,6 @@
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
