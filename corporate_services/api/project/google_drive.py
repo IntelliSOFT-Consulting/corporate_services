@@ -628,7 +628,11 @@ def _parse_drive_datetime(value):
     if not value:
         return None
     try:
-        return get_datetime(value)
+        dt = get_datetime(value)
+        # Remove timezone info to ensure MySQL compatibility
+        if dt and hasattr(dt, 'replace'):
+        	return dt.replace(tzinfo=None)
+        return dt
     except Exception:
         return None
 
