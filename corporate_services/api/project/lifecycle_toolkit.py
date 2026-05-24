@@ -229,6 +229,36 @@ def get_project_lifecycle_rows(project: Optional[str] = None, docname: Optional[
     return build_project_lifecycle_rows(existing_rows=existing_rows, include_inactive=include_inactive)
 
 
+def get_project_lifecycle_doc(project: Optional[str] = None, docname: Optional[str] = None):
+    existing_doc = None
+    docname = (docname or "").strip()
+    project = (project or "").strip()
+
+    if docname and frappe.db.exists("HIS PM Project LifeCycle", docname):
+        existing_doc = frappe.get_doc("HIS PM Project LifeCycle", docname)
+    elif project:
+        existing_doc_name = frappe.db.get_value("HIS PM Project LifeCycle", {"project": project}, "name")
+        if existing_doc_name:
+            existing_doc = frappe.get_doc("HIS PM Project LifeCycle", existing_doc_name)
+
+    return existing_doc
+
+
+def get_or_create_project_lifecycle_doc(project: str):
+    project = (project or "").strip()
+    if not project:
+        frappe.throw("Project is required.")
+
+    doc = get_project_lifecycle_doc(project=project)
+    if doc:
+        return doc
+
+    doc = frappe.new_doc("HIS PM Project LifeCycle")
+    doc.project = project
+    doc.insert(ignore_permissions=True)
+    return doc
+
+
 def get_project_toolkit_folder_blueprint(include_inactive: bool = False) -> List[Dict[str, Any]]:
     """Return active project toolkit folders grouped by project phase.
 

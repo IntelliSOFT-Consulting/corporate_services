@@ -30,9 +30,30 @@ function sync_lifecycle_items(frm, force = false) {
 	});
 }
 
+function sync_drive_documents(frm) {
+	if (!frm.doc.project) return;
+
+	frappe.call({
+		method: "corporate_services.api.project.google_drive.sync_project_drive_documents",
+		args: {
+			project_name: frm.doc.project,
+			docname: frm.doc.name,
+		},
+		callback: function (r) {
+			const out = (r && r.message) || {};
+			frm.reload_doc();
+			frappe.show_alert({
+				message: `Drive metadata synced. Updated: ${out.updated || 0}, Missing: ${out.missing || 0}`,
+				indicator: "green",
+			});
+		},
+	});
+}
+
 frappe.ui.form.on("HIS PM Project LifeCycle", {
 	refresh(frm) {
 		frm.page.set_primary_action("Sync from Toolkit", () => sync_lifecycle_items(frm, true));
+		frm.add_custom_button("Sync Drive Metadata", () => sync_drive_documents(frm), "Actions");
 		if (frm.doc.project) {
 			sync_lifecycle_items(frm);
 		}

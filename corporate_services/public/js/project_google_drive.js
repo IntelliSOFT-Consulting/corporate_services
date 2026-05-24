@@ -27,7 +27,7 @@ function createDriveFolder(frm) {
 			frappe.msgprint({
 				title: "Google Drive Folder Created",
 				message: link
-					? `Folder: <strong>${frappe.utils.escape_html(out.folder_name || "")}</strong><br><a href="${frappe.utils.escape_html(link)}" target="_blank">Open in Google Drive</a><br><small>ID: ${frappe.utils.escape_html(out.folder_id || "")}</small><br><small>Toolkit folders created: ${frappe.utils.escape_html(String(out.lifecycle_folders_created || 0))}</small>`
+					? `Folder: <strong>${frappe.utils.escape_html(out.folder_name || "")}</strong><br><a href="${frappe.utils.escape_html(link)}" target="_blank">Open in Google Drive</a><br><small>ID: ${frappe.utils.escape_html(out.folder_id || "")}</small><br><small>Toolkit folders created: ${frappe.utils.escape_html(String(out.lifecycle_folders_created || 0))}</small><br><small>Drive docs uploaded: ${frappe.utils.escape_html(String(out.templates_uploaded || 0))}</small>`
 					: "Folder created.",
 				indicator: "green",
 			});

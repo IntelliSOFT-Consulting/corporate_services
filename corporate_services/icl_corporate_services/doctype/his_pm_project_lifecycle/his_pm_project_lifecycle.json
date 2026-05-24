@@ -1,12 +1,17 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:project",
  "creation": "2026-05-11 08:59:12.049634",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "project",
-  "lifecycle_items"
+  "drive_section",
+  "drive_root_folder_id",
+  "drive_root_folder_link",
+  "last_drive_sync_at",
+  "drive_documents"
  ],
  "fields": [
   {
@@ -15,22 +20,47 @@
    "in_list_view": 1,
    "label": "Project",
    "options": "Project",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
-   "fieldname": "lifecycle_items",
+   "fieldname": "drive_section",
+   "fieldtype": "Section Break",
+   "label": "Google Drive"
+  },
+  {
+   "fieldname": "drive_root_folder_id",
+   "fieldtype": "Data",
+   "label": "Drive Root Folder ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drive_root_folder_link",
+   "fieldtype": "Data",
+   "label": "Drive Root Folder Link",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_drive_sync_at",
+   "fieldtype": "Datetime",
+   "label": "Last Drive Sync",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drive_documents",
    "fieldtype": "Table",
-   "label": "Lifecycle Items",
-   "options": "HIS PM Project LifeCycle Item"
+   "label": "Drive Documents",
+   "options": "HIS PM Project Drive Document"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-11 19:08:22.579663",
+ "modified": "2026-05-24 11:47:07.327324",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HIS PM Project LifeCycle",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

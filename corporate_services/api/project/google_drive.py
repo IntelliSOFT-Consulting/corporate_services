@@ -9,12 +9,13 @@ from googleapiclient.http import MediaInMemoryUpload
 from frappe import _
 from frappe.integrations.google_oauth import GoogleOAuth
 from frappe.integrations.doctype.google_drive.google_drive import get_google_drive_object
-from frappe.utils import get_url
+from frappe.utils import get_datetime, get_url, now_datetime
 from frappe.utils.password import get_decrypted_password, set_encrypted_password
 
 from corporate_services.api.project.lifecycle_toolkit import (
     get_project_toolkit_document_template_targets,
     get_project_toolkit_folder_blueprint,
+    get_or_create_project_lifecycle_doc,
 )
 
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
@@ -295,8 +296,19 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
     folder = _ensure_drive_folder(drive_service, folder_name, parent_folder_id)
     folder_id = folder.get("id")
     folder_link = folder.get("webViewLink") or f"https://drive.google.com/drive/folders/{folder_id}"
+    lifecycle_doc = get_or_create_project_lifecycle_doc(project_name)
+    lifecycle_doc.drive_root_folder_id = folder_id
+    lifecycle_doc.drive_root_folder_link = folder_link
     lifecycle_count, folder_id_map = _create_drive_lifecycle_structure(drive_service, folder_id)
-    templates_count = _upload_project_toolkit_templates(drive_service, folder_id, folder_id_map)
+    templates_count = _upload_project_toolkit_templates(
+        drive_service,
+        folder_id,
+        folder_id_map,
+        lifecycle_doc,
+        project_name,
+    )
+    lifecycle_doc.last_drive_sync_at = now_datetime()
+    lifecycle_doc.save(ignore_permissions=True)
 
     try:
         project_doc = frappe.get_doc("Project", project_name)
@@ -379,7 +391,7 @@ def _create_drive_folder_tree(drive_service, parent_folder_id, folder_node, curr
     return created_count
 
 
-def _upload_project_toolkit_templates(drive_service, project_root_folder_id, folder_id_map):
+def _upload_project_toolkit_templates(drive_service, project_root_folder_id, folder_id_map, lifecycle_doc, project_name):
     targets = get_project_toolkit_document_template_targets()
     if not targets:
         return 0
@@ -401,17 +413,29 @@ def _upload_project_toolkit_templates(drive_service, project_root_folder_id, fol
         if isinstance(file_content, str):
             file_content = file_content.encode("utf-8")
         mime_type = _resolve_file_mime_type(file_doc)
+        source_attachment = attachment
 
         doc_label = (target.get("document_name") or file_doc.file_name or "Template").strip()
         placements = target.get("placements") or []
         if not placements:
-            uploaded_count += _upload_template_to_folder(
+            upload_result = _upload_template_to_folder(
                 drive_service=drive_service,
                 parent_folder_id=project_root_folder_id,
                 file_name=file_doc.file_name or doc_label,
                 file_content=file_content,
                 mime_type=mime_type,
                 description=doc_label,
+            )
+            uploaded_count += int(bool(upload_result.get("created")))
+            _upsert_project_drive_document(
+                lifecycle_doc=lifecycle_doc,
+                row_key=_build_drive_document_row_key(doc_label, "General", project_root_folder_id),
+                template_name=doc_label,
+                project_phase="General",
+                folder_name="",
+                source_attachment=source_attachment,
+                drive_file=upload_result.get("file") or {},
+                sync_status="Synced" if upload_result.get("file") else "Error",
             )
             continue
 
@@ -434,13 +458,24 @@ def _upload_project_toolkit_templates(drive_service, project_root_folder_id, fol
                     "Google Drive Template Upload Target Missing",
                 )
                 continue
-            uploaded_count += _upload_template_to_folder(
+            upload_result = _upload_template_to_folder(
                 drive_service=drive_service,
                 parent_folder_id=target_folder_id,
                 file_name=file_doc.file_name or doc_label,
                 file_content=file_content,
                 mime_type=mime_type,
                 description=doc_label,
+            )
+            uploaded_count += int(bool(upload_result.get("created")))
+            _upsert_project_drive_document(
+                lifecycle_doc=lifecycle_doc,
+                row_key=_build_drive_document_row_key(doc_label, phase_name, folder_doc_id),
+                template_name=doc_label,
+                project_phase=phase_name,
+                folder_name=folder_doc_id,
+                source_attachment=source_attachment,
+                drive_file=upload_result.get("file") or {},
+                sync_status="Synced" if upload_result.get("file") else "Error",
             )
 
     return uploaded_count
@@ -502,7 +537,7 @@ def _upload_template_to_folder(
                 f"name='{escaped_name}' and "
                 f"'{parent_folder_id}' in parents"
             ),
-            fields="files(id)",
+            fields="files(id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress))",
             pageSize=1,
             supportsAllDrives=True,
             includeItemsFromAllDrives=True,
@@ -510,7 +545,12 @@ def _upload_template_to_folder(
         .execute()
     )
     if (existing or {}).get("files"):
-        return 0
+        existing_file = (existing or {}).get("files", [{}])[0]
+        existing_file["id"] = existing_file.get("id")
+        existing_file["webViewLink"] = existing_file.get("webViewLink") or (
+            f"https://drive.google.com/file/d/{existing_file.get('id')}/view"
+        )
+        return {"created": False, "file": existing_file}
 
     media = MediaInMemoryUpload(
         file_content,
@@ -524,10 +564,27 @@ def _upload_template_to_folder(
     drive_service.files().create(
         body=metadata,
         media_body=media,
-        fields="id",
+        fields="id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress)",
         supportsAllDrives=True,
     ).execute()
-    return 1
+    created = (
+        drive_service.files()
+        .list(
+            q=(
+                "trashed=false and "
+                f"name='{escaped_name}' and "
+                f"'{parent_folder_id}' in parents"
+            ),
+            fields="files(id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress))",
+            pageSize=1,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        )
+        .execute()
+    )
+    file_obj = ((created or {}).get("files") or [{}])[0]
+    file_obj["webViewLink"] = file_obj.get("webViewLink") or f"https://drive.google.com/file/d/{file_obj.get('id')}/view"
+    return {"created": True, "file": file_obj}
 
 
 def _resolve_file_mime_type(file_doc):
@@ -545,6 +602,125 @@ def _resolve_file_mime_type(file_doc):
             return mime_type
 
     return "application/octet-stream"
+
+
+def _build_drive_document_row_key(template_name, project_phase, folder_name):
+    return "|".join(
+        [
+            _normalize_drive_key(template_name),
+            _normalize_drive_key(project_phase),
+            _normalize_drive_key(folder_name),
+        ]
+    )
+
+
+def _serialize_drive_user(user_data):
+    if not user_data:
+        return ""
+    display_name = (user_data.get("displayName") or "").strip()
+    email = (user_data.get("emailAddress") or "").strip()
+    if display_name and email:
+        return f"{display_name} <{email}>"
+    return display_name or email
+
+
+def _parse_drive_datetime(value):
+    if not value:
+        return None
+    try:
+        return get_datetime(value)
+    except Exception:
+        return None
+
+
+def _upsert_project_drive_document(
+    lifecycle_doc,
+    row_key,
+    template_name,
+    project_phase,
+    folder_name,
+    source_attachment,
+    drive_file,
+    sync_status="Synced",
+):
+    if not lifecycle_doc:
+        return
+
+    rows = list(getattr(lifecycle_doc, "drive_documents", None) or [])
+    target_row = None
+    for row in rows:
+        if (getattr(row, "row_key", None) or "") == row_key:
+            target_row = row
+            break
+
+    if not target_row:
+        target_row = lifecycle_doc.append("drive_documents", {})
+
+    target_row.row_key = row_key
+    target_row.template_name = template_name
+    target_row.project_phase = project_phase
+    target_row.folder_name = folder_name
+    target_row.source_attachment = source_attachment
+    target_row.drive_file_name = drive_file.get("name") or template_name
+    target_row.drive_file_id = drive_file.get("id")
+    target_row.drive_file_link = drive_file.get("webViewLink") or (
+        f"https://drive.google.com/file/d/{drive_file.get('id')}/view"
+        if drive_file.get("id")
+        else ""
+    )
+    target_row.drive_revision_id = drive_file.get("headRevisionId") or ""
+    target_row.drive_modified_at = _parse_drive_datetime(drive_file.get("modifiedTime"))
+    target_row.drive_modified_by = _serialize_drive_user(drive_file.get("lastModifyingUser") or {})
+    target_row.last_synced_at = now_datetime()
+    target_row.sync_status = sync_status
+
+
+@frappe.whitelist()
+def sync_project_drive_documents(project_name=None, docname=None):
+    lifecycle_doc = get_or_create_project_lifecycle_doc(project_name or docname or "")
+    if not lifecycle_doc:
+        frappe.throw(_("Project lifecycle record was not found."))
+
+    try:
+        drive_service, _account = get_google_drive_object()
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Google Drive access token refresh failed")
+        frappe.throw(_("Failed to refresh Google Drive token. Please re-authorize from Google Drive settings."))
+
+    updated = 0
+    missing = 0
+
+    for row in list(getattr(lifecycle_doc, "drive_documents", None) or []):
+        drive_file_id = (getattr(row, "drive_file_id", None) or "").strip()
+        if not drive_file_id:
+            continue
+
+        try:
+            meta = (
+                drive_service.files()
+                .get(
+                    fileId=drive_file_id,
+                    fields="id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress)",
+                    supportsAllDrives=True,
+                )
+                .execute()
+            )
+            row.drive_file_name = meta.get("name") or row.drive_file_name
+            row.drive_file_link = meta.get("webViewLink") or row.drive_file_link
+            row.drive_revision_id = meta.get("headRevisionId") or row.drive_revision_id
+            row.drive_modified_at = _parse_drive_datetime(meta.get("modifiedTime")) or row.drive_modified_at
+            row.drive_modified_by = _serialize_drive_user(meta.get("lastModifyingUser") or {}) or row.drive_modified_by
+            row.last_synced_at = now_datetime()
+            row.sync_status = "Synced"
+            updated += 1
+        except Exception:
+            row.sync_status = "Missing"
+            row.last_synced_at = now_datetime()
+            missing += 1
+
+    lifecycle_doc.last_drive_sync_at = now_datetime()
+    lifecycle_doc.save(ignore_permissions=True)
+    return {"updated": updated, "missing": missing, "last_drive_sync_at": lifecycle_doc.last_drive_sync_at}
 
 
 def _oauth_close_window_html(success, message):
