@@ -6,6 +6,8 @@ import { GlobalStyles } from "../project_components/ui/GlobalStyles";
 import { Project } from "../project_components/Index";
 import { ProjectDetail } from "../project_components/ProjectDetail";
 import { ProjectsTable } from "../project_components/Tables/Projects";
+import Guide from "./Guide";
+import WorkPlanPage from "../work_plan";
 
 declare global {
   interface Window {
@@ -146,7 +148,6 @@ function Metric({ label, value }: { label: string; value: string | number }) {
 }
 
 function DashboardTab({
-  onOpenLifecycle,
   onOpenProject,
 }: {
   onOpenLifecycle: () => void;
@@ -216,39 +217,7 @@ function DashboardTab({
         Welcome to the ICL Project Management dashboard.
       </div>
 
-      <div className="card border mb-3">
-        <div className="card-body">
-          <h6 className="mb-2">HIS Project Quick Guide</h6>
-          <p className="text-muted mb-2">
-            For every new Health Information System (HIS) project, follow the
-            lifecycle stages:
-            <strong> Prepare</strong> -&gt; <strong>Plan</strong> -&gt;{" "}
-            <strong>Design</strong> -&gt;
-            <strong> Development</strong> -&gt; <strong>Implementation</strong>{" "}
-            -&gt; <strong>Maintenance</strong>.
-          </p>
-          <ul className="mb-2">
-            <li>Start by creating the project record and project charter.</li>
-            <li>
-              Capture all required lifecycle deliverables as the project
-              progresses.
-            </li>
-            <li>
-              Track completion using the{" "}
-              <strong>HIS PM Project LifeCycle</strong> checklist.
-            </li>
-          </ul>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              onOpenLifecycle();
-            }}
-          >
-            Open HIS Lifecycle Guide
-          </a>
-        </div>
-      </div>
+     <Guide />
 
       <div className="row">
         <Metric label="Total Projects" value={summary.total_projects || 0} />
@@ -275,6 +244,7 @@ function DashboardTab({
       </div>
 
       <ProjectsTable onOpen={onOpenProject} title="All Projects" />
+      <WorkPlanPage />
     </div>
   );
 }

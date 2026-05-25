@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useProjectDetail } from "./hooks/useProjectDetail";
 import { ProjectChartCard } from "./ProjectCharts";
+import WorkPlanPage  from "../work_plan";
 
 const STATUS_INDICATOR: Record<string, string> = {
   Open: "blue",
@@ -102,7 +103,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
   const { doc, loading, error } = useProjectDetail(projectId);
   const linkedUsers = doc?.linked_users ?? [];
   const timesheets = doc?.timesheets ?? [];
-  const [activeTab, setActiveTab] = useState<"details" | "documents">(
+  const [activeTab, setActiveTab] = useState<"details" | "documents" | "work_plan">(
     "details",
   );
   const [googleFolders, setGoogleFolders] = useState<DriveFolder[]>([]);
@@ -342,6 +343,14 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                   onClick={() => setActiveTab("documents")}
                 >
                   Documents & Folders
+                </button>
+                
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeTab === "work_plan" ? "btn-primary" : "btn-default"}`}
+                  onClick={() => setActiveTab("work_plan")}
+                >
+                  Work Plan
                 </button>
               </div>
             </div>
@@ -721,6 +730,10 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                   </div>
                 </div>
               </div>
+
+            )}
+            {activeTab === "work_plan" && (
+              <WorkPlanPage />
             )}
           </div>
 

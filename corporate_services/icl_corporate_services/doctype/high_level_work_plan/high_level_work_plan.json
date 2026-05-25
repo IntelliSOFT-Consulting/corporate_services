@@ -1,26 +1,38 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2026-05-11 08:39:26.791731",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "project_info_section",
+  "naming_series",
+  "project",
   "project_name",
   "project_lead",
   "column_break_ipct",
   "project_start_date",
   "project_end_date",
   "project_duration",
+  "entry_type_section",
+  "entry_type",
+  "column_break_tkhf",
+  "high_level_work_plan",
+  "column_break_evbd",
+  "template_import",
+  "section_break_mdng",
+  "google_drive_link_for_the_workplan",
   "section_break_yjde",
   "high_level_workplan_table"
  ],
  "fields": [
   {
+   "fetch_from": "project.project_name",
    "fieldname": "project_name",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Project Name",
-   "options": "Project"
+   "unique": 1
   },
   {
    "fieldname": "project_lead",
@@ -62,15 +74,76 @@
    "fieldname": "project_info_section",
    "fieldtype": "Section Break",
    "label": "Project Info"
+  },
+  {
+   "default": "HLW-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "HLW-.YYYY.-.MM.-",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "unique": 1
+  },
+  {
+   "fieldname": "entry_type_section",
+   "fieldtype": "Section Break",
+   "label": "Entry Type"
+  },
+  {
+   "fieldname": "entry_type",
+   "fieldtype": "Select",
+   "label": "Entry Type",
+   "options": "System Entry\nTemplate Import"
+  },
+  {
+   "fieldname": "column_break_tkhf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.entry_type===\"Template Import\";",
+   "description": "High Level Work Plan Template",
+   "fieldname": "template_import",
+   "fieldtype": "Attach",
+   "label": "Template Import"
+  },
+  {
+   "depends_on": "eval:doc.entry_type===\"Template Import\";",
+   "description": "This is the link to the high level work plan, which can be downloaded.",
+   "fieldname": "high_level_work_plan",
+   "fieldtype": "Data",
+   "label": "High Level Work Plan",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_evbd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_mdng",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "Template",
+   "fieldname": "google_drive_link_for_the_workplan",
+   "fieldtype": "Data",
+   "label": "Google Drive link for the workplan"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-13 10:08:20.942484",
+ "modified": "2026-05-25 11:34:00.649332",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "High Level Work Plan",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
