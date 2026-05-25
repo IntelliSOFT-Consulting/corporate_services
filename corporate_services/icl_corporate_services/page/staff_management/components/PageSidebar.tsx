@@ -3,8 +3,34 @@ import { createPortal } from "react-dom";
 import { useEmployeeProfile } from "./hooks/useEmployeeProfile";
 
 interface ListProps {
-  activeTab: "overview" | "consultant-time-off";
-  onTabChange: (tab: "overview" | "consultant-time-off") => void;
+  activeTab:
+    | "overview"
+    | "consultant-time-off"
+    | "weekly-progress-report"
+    | "monthly-reflection"
+    | "leave-application"
+    | "employee-onboarding"
+    | "job-opening-dashboard"
+    | "recruitment-report"
+    | "job-applications"
+    | "survey-manager"
+    | "intern-evaluation"
+    | "employee-turnover";
+  onTabChange: (
+    tab:
+      | "overview"
+      | "consultant-time-off"
+      | "weekly-progress-report"
+      | "monthly-reflection"
+      | "leave-application"
+      | "employee-onboarding"
+      | "job-opening-dashboard"
+      | "recruitment-report"
+      | "job-applications"
+      | "survey-manager"
+      | "intern-evaluation"
+      | "employee-turnover"
+  ) => void;
 }
 
 interface DetailProps {
@@ -197,6 +223,66 @@ function ListSidebar({ activeTab, onTabChange }: ListProps) {
           onClick={() => onTabChange("consultant-time-off")}
         >
           <span className="sm-sidebar-item-name">Consultant Time Off</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "weekly-progress-report" ? " active" : ""}`}
+          onClick={() => onTabChange("weekly-progress-report")}
+        >
+          <span className="sm-sidebar-item-name">Weekly Progress Report</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "monthly-reflection" ? " active" : ""}`}
+          onClick={() => onTabChange("monthly-reflection")}
+        >
+          <span className="sm-sidebar-item-name">Monthly Reflection</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "leave-application" ? " active" : ""}`}
+          onClick={() => onTabChange("leave-application")}
+        >
+          <span className="sm-sidebar-item-name">Leave Application</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "employee-onboarding" ? " active" : ""}`}
+          onClick={() => onTabChange("employee-onboarding")}
+        >
+          <span className="sm-sidebar-item-name">Employee Onboarding</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "job-opening-dashboard" ? " active" : ""}`}
+          onClick={() => onTabChange("job-opening-dashboard")}
+        >
+          <span className="sm-sidebar-item-name">Job Opening Dashboard</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "recruitment-report" ? " active" : ""}`}
+          onClick={() => onTabChange("recruitment-report")}
+        >
+          <span className="sm-sidebar-item-name">Recruitment Report</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "job-applications" ? " active" : ""}`}
+          onClick={() => onTabChange("job-applications")}
+        >
+          <span className="sm-sidebar-item-name">Job Applications</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "survey-manager" ? " active" : ""}`}
+          onClick={() => onTabChange("survey-manager")}
+        >
+          <span className="sm-sidebar-item-name">Survey Manager</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "intern-evaluation" ? " active" : ""}`}
+          onClick={() => onTabChange("intern-evaluation")}
+        >
+          <span className="sm-sidebar-item-name">Intern Evaluation</span>
+        </div>
+        <div
+          className={`sm-sidebar-item${activeTab === "employee-turnover" ? " active" : ""}`}
+          onClick={() => onTabChange("employee-turnover")}
+        >
+          <span className="sm-sidebar-item-name">Employee Turnover</span>
         </div>
       </div>
     </div>

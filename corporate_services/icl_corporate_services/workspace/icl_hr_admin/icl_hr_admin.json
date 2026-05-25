@@ -283,13 +283,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Intern Weekly Progress Dashboard",
-   "link_to": "intern-weekly-progress-dashboard",
-   "type": "Page"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Staff Management",
    "link_to": "staff-management",
    "type": "Page"

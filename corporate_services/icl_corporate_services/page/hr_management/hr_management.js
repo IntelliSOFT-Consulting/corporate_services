@@ -1,4 +1,4 @@
-frappe.pages['staff-management'].on_page_load = function(wrapper) {
+frappe.pages['hr-management'].on_page_load = function(wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: 'HR Management',
@@ -22,9 +22,9 @@ frappe.pages['staff-management'].on_page_load = function(wrapper) {
 	});
 };
 
-frappe.pages['staff-management'].on_page_show = function() {
+frappe.pages['hr-management'].on_page_show = function() {
 	const route = frappe.get_route();
-	// route[0] = 'staff-management', route[1] = employee id (optional)
+	// route[0] = 'hr-management', route[1] = employee id (optional)
 	const employeeId = route[1] || null;
 	if (globalThis.staffManagementSetRoute) {
 		globalThis.staffManagementSetRoute(employeeId);
