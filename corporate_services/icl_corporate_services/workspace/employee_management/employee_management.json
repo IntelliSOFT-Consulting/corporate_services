@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"UINlqBwn4M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Management</span>\",\"col\":12}},{\"id\":\"kEnd6sRLkF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Schedule\",\"col\":3}},{\"id\":\"nxlTpvlAA9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Hire Feedback Survey 30 Day\",\"col\":3}},{\"id\":\"Jrvf2Xs832\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Internship Commencement\",\"col\":3}},{\"id\":\"2EnCCATsWW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Offboarding Schedule\",\"col\":3}},{\"id\":\"piDkNhiPu5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"BPDW4ISUZK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Reports\",\"col\":3}},{\"id\":\"bTzSNC_yrR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Management\",\"col\":3}},{\"id\":\"5xNxfxT7dN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Turnover\",\"col\":3}},{\"id\":\"qBxU2ynFMa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection Dashboard\",\"col\":3}},{\"id\":\"2lwoCr9uoe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"bdpvE4KWaE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Uxr4MyIgEn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Employees\",\"col\":4}},{\"id\":\"fpu4zuXvMc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-ADHG5Kmyo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CCwFaXnWwc\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Onboarding Schedule\",\"col\":4}}]",
+ "content": "[{\"id\":\"UINlqBwn4M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Management</span>\",\"col\":12}},{\"id\":\"kEnd6sRLkF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Schedule\",\"col\":3}},{\"id\":\"nxlTpvlAA9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Hire Feedback Survey 30 Day\",\"col\":3}},{\"id\":\"Jrvf2Xs832\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Internship Commencement\",\"col\":3}},{\"id\":\"2EnCCATsWW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Offboarding Schedule\",\"col\":3}},{\"id\":\"piDkNhiPu5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"BPDW4ISUZK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Reports\",\"col\":3}},{\"id\":\"bTzSNC_yrR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"HR Management\",\"col\":3}},{\"id\":\"5xNxfxT7dN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Turnover\",\"col\":3}},{\"id\":\"qBxU2ynFMa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection Dashboard\",\"col\":3}},{\"id\":\"2lwoCr9uoe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"bdpvE4KWaE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Uxr4MyIgEn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Employees\",\"col\":4}},{\"id\":\"fpu4zuXvMc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-ADHG5Kmyo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CCwFaXnWwc\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Onboarding Schedule\",\"col\":4}}]",
  "creation": "2026-04-29 12:57:03.443155",
  "custom_blocks": [
   {
@@ -52,8 +52,8 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Staff Management",
-   "link_to": "staff-management",
+   "label": "HR Management",
+   "link_to": "hr-management",
    "type": "Page"
   },
   {

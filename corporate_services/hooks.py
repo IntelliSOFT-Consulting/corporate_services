@@ -38,10 +38,11 @@ page_js = {
     "survey-manager": "public/js/survey_admin.js",
     # Desk React page for the opportunity module (loaded on /app/icl-opportunity-module)
     "icl-opportunity-module": "public/js/opportunity_module.js",
-    # Desk React page for the project module (loaded on /app/icl-project-module)
-    "icl-project-module": "public/js/project_module.js",
+    # Desk React page for project management dashboard
+    "icl-project-management": "public/js/project_management.js",
     "employee-turnover": "public/js/employee_turnover.js",
-    "staff-management": "public/js/staff_management.js",
+    "hr-management": "public/js/hr_management.js",
+    "business-development-management": "public/js/business_development_management.js",
 }
 
 # Custom Pages
@@ -242,6 +243,7 @@ on_update_map = {
     "Monthly Reflection":"corporate_services.api.notification.monthly_reflection.monthly_reflection.alert",
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
     "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
+    "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -282,7 +284,6 @@ event_maps = {
     # },
     "after_insert": {
         "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
-        "Project": "corporate_services.api.project.project_folders.create_project_lifecycle_folders",
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     },

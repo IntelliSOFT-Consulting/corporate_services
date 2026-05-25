@@ -13,15 +13,18 @@
   {
    "fieldname": "lead_project_manager",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Lead Project Manager",
-   "options": "User"
+   "options": "User",
+   "reqd": 1
   },
   {
    "description": "All Active Project Managers",
    "fieldname": "project_managers",
    "fieldtype": "Table",
    "label": "Project Managers",
-   "options": "Project Manager"
+   "options": "Project Manager",
+   "reqd": 1
   },
   {
    "fieldname": "project_managers_tab",
@@ -33,7 +36,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-14 15:05:30.066570",
+ "modified": "2026-05-23 20:05:30.788466",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Management Settings",

@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-23 11:30:10.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_title",
+  "question",
+  "help_text",
+  "response_fieldtype",
+  "is_required",
+  "response"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_title",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Section Title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Question",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "help_text",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "Guidance",
+   "read_only": 1
+  },
+  {
+   "default": "Text Editor",
+   "fieldname": "response_fieldtype",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Response Field Type",
+   "options": "Text Editor\nSmall Text",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_required",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Required",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Text Editor",
+   "label": "Response"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-23 11:30:10.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Internship Completion Report Answer",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,10 +1,10 @@
 {
  "content": null,
- "creation": "2026-04-02 10:46:08.568046",
+ "creation": "2026-05-23 13:20:00.000000",
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2026-04-02 10:47:52.055771",
+ "modified": "2026-05-23 13:20:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "icl-opportunity-module",
@@ -13,6 +13,9 @@
  "roles": [
   {
    "role": "BD coordinator"
+  },
+  {
+   "role": "Projects Manager"
   },
   {
    "role": "System Manager"
