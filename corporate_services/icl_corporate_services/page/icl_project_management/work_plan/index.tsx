@@ -13,6 +13,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
 
   const [loading, setLoading] = useState(false);
   const [highPlan, setHighPlan] = useState<any | null>(null);
+  const [highPlanRows, setHighPlanRows] = useState<any[]>([]);
   const [detailedPlan, setDetailedPlan] = useState<any | null>(null);
 
   useEffect(() => {
@@ -21,37 +22,15 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
 
     const fetchPlans = async () => {
       try {
-        const [highRes, detRes] = await Promise.all([
-          (globalThis as any).frappe.call({
-            method: "frappe.client.get_list",
-            args: {
-              doctype: "High Level Work Plan",
-              filters: [["project_name", "=", projectId]],
-              fields: [
-                "name",
-                "entry_type",
-                "template_import",
-                "project_lead",
-                "project_start_date",
-                "project_end_date",
-                "project_duration",
-              ],
-              limit_page_length: 1,
-            },
-          }),
-          (globalThis as any).frappe.call({
-            method: "frappe.client.get_list",
-            args: {
-              doctype: "Detailed Work Plan",
-              filters: [["project_name", "=", projectId]],
-              fields: ["name"],
-              limit_page_length: 1,
-            },
-          }),
-        ]);
+        const resp = await (globalThis as any).frappe.call({
+          method:
+            "corporate_services.icl_corporate_services.doctype.high_level_work_plan.high_level_work_plan.get_plans_for_project",
+          args: { project: projectId },
+        });
 
-        setHighPlan((highRes?.message ?? [])[0] ?? null);
-        setDetailedPlan((detRes?.message ?? [])[0] ?? null);
+        setHighPlan(resp?.message?.high ?? null);
+        setDetailedPlan(resp?.message?.detailed ?? null);
+        setHighPlanRows(resp?.message?.high_rows ?? []);
       } catch (e) {
         setHighPlan(null);
         setDetailedPlan(null);
@@ -94,7 +73,9 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
       });
       const tpl = (resp?.message ?? [])[0] ?? null;
       if (tpl && tpl.attachment) {
-        const url = tpl.attachment.startsWith("/") ? tpl.attachment : "/files/" + tpl.attachment;
+        const url = tpl.attachment.startsWith("/")
+          ? tpl.attachment
+          : "/files/" + tpl.attachment;
         window.open(url, "_blank", "noreferrer");
         return;
       }
@@ -117,7 +98,10 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
         a.click();
         a.remove();
         window.URL.revokeObjectURL(url);
-        (globalThis as any).frappe?.show_alert({ message: "Template downloaded", indicator: "green" });
+        (globalThis as any).frappe?.show_alert({
+          message: "Template downloaded",
+          indicator: "green",
+        });
         return;
       }
     } catch (e) {
@@ -126,7 +110,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
 
     // Fallback to backend API
     try {
-      const apiUrl = `/api/project/project_work_plan/high_level?project_name=${encodeURIComponent(projectId)}`;
+      const apiUrl = `/api/project/project_work_plan/high_level?project=${encodeURIComponent(projectId)}`;
       const r = await fetch(apiUrl, { credentials: "same-origin" });
       if (!r.ok) throw new Error("Template not available from API");
 
@@ -162,9 +146,17 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
         return;
       }
 
-      (globalThis as any).frappe?.msgprint({ title: "Download Failed", message: "Template could not be downloaded.", indicator: "red" });
+      (globalThis as any).frappe?.msgprint({
+        title: "Download Failed",
+        message: "Template could not be downloaded.",
+        indicator: "red",
+      });
     } catch (e: any) {
-      (globalThis as any).frappe?.msgprint({ title: "Download Failed", message: e?.message || "Could not download template.", indicator: "red" });
+      (globalThis as any).frappe?.msgprint({
+        title: "Download Failed",
+        message: e?.message || "Could not download template.",
+        indicator: "red",
+      });
     }
   };
 
@@ -237,6 +229,49 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                     <div className="col-md-6"></div>
                   </div>
                 </div>
+              </div>
+
+              {/* High level workplan rows table */}
+              <div style={{ marginTop: 12 }}>
+                <h6>High Level Work Plan Items</h6>
+                {highPlanRows.length === 0 ? (
+                  <div className="text-muted">No workplan rows found.</div>
+                ) : (
+                  <div className="table-responsive" style={{ marginTop: 8 }}>
+                    <table className="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Line Item</th>
+                          <th>Key Deliverable</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Expected Outcome</th>
+                          <th>Status</th>
+                          <th>Resources</th>
+                          <th>Comments</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {highPlanRows.map((r: any, idx: number) => (
+                          <tr key={idx}>
+                            <td>{r.line_item || ""}</td>
+                            <td>{r.key_deliverable || ""}</td>
+                            <td>{r.start_date || ""}</td>
+                            <td>{r.end_date || ""}</td>
+                            <td>{r.expected_outcome || ""}</td>
+                            <td>{r.status || ""}</td>
+                            <td style={{ whiteSpace: "pre-wrap" }}>
+                              {r.resources || ""}
+                            </td>
+                            <td style={{ whiteSpace: "pre-wrap" }}>
+                              {r.comments || ""}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
           ) : (

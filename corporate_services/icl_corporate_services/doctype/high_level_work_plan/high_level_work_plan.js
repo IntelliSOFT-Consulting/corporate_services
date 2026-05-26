@@ -35,8 +35,6 @@ frappe.ui.form.on("High Level Work Plan", {
 					if (tpl && tpl.attachment) {
 						const url = tpl.attachment.startsWith('/') ? tpl.attachment : '/files/' + tpl.attachment;
 						window.open(url, '_blank', 'noreferrer');
-						// todo - Download the file instead of opening in a new tab.
-						// Add a link to the google drive file for this template.
 						return;
 					}
 				} catch (e) {
@@ -86,6 +84,60 @@ frappe.ui.form.on("High Level Work Plan", {
 					frappe.msgprint({ title: 'Download Failed', message: e?.message || 'Could not download template.', indicator: 'red' });
 				}
 			});
+
+			// If a template is attached, show Import Now button
+			if (frm.doc && frm.doc.template_import) {
+				frm.add_custom_button('Import Now', function () {
+					frappe.msgprint({ title: 'Importing', message: 'Import in progress. This may take a moment...', indicator: 'blue' });
+					frappe.call({
+						method: 'corporate_services.icl_corporate_services.doctype.high_level_work_plan.high_level_work_plan.import_template',
+						args: { docname: frm.doc.name },
+						freeze: true,
+						callback: function (r) {
+							if (!r) return;
+							if (r.exc) {
+								frappe.msgprint({ title: 'Import Failed', message: (r.exc && r.exc.message) || 'Import failed.', indicator: 'red' });
+								return;
+							}
+							let inserted = (r.message && r.message.inserted) || 0;
+							const sample = (r.message && r.message.sample) || [];
+							let msg = `${inserted} rows imported.`;
+							if (sample.length) {
+								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' — ' + s.key_deliverable : '')).join(' | ');
+							}
+							frappe.msgprint({ title: 'Import Completed', message: msg, indicator: 'green' });
+							frm.reload_doc();
+						}
+					});
+				});
+			}
+
+			// If a Google Drive link is present, show Fetch From Drive button
+			if (frm.doc && frm.doc.google_drive_link_for_the_workplan) {
+				frm.add_custom_button('Fetch From Drive', function () {
+					frappe.msgprint({ title: 'Fetching', message: 'Fetching workplan from Google Drive. This may take a moment...', indicator: 'blue' });
+					frappe.call({
+						method: 'corporate_services.icl_corporate_services.doctype.high_level_work_plan.high_level_work_plan.fetch_workplan_from_drive',
+						args: { docname: frm.doc.name },
+						freeze: true,
+						callback: function (r) {
+							if (!r) return;
+							if (r.exc) {
+								frappe.msgprint({ title: 'Fetch Failed', message: (r.exc && r.exc.message) || 'Fetch failed.', indicator: 'red' });
+								return;
+							}
+							let inserted = (r.message && r.message.inserted) || 0;
+							const sample = (r.message && r.message.sample) || [];
+							let msg = `${inserted} rows imported from Drive.`;
+							if (sample.length) {
+								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' — ' + s.key_deliverable : '')).join(' | ');
+							}
+							frappe.msgprint({ title: 'Fetch Completed', message: msg, indicator: 'green' });
+							frm.reload_doc();
+						}
+					});
+				});
+			}
 		}
 	},
 });
