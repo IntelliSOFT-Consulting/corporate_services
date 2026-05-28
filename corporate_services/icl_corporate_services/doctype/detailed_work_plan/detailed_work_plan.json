@@ -1,11 +1,15 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:naming_series",
  "creation": "2026-05-11 08:41:54.562617",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
+  "project",
   "project_name",
+  "column_break_yeoa",
   "client",
   "developer",
   "intellisoft_project_lead",
@@ -13,16 +17,18 @@
   "project_timeline",
   "project_start_date",
   "project_end_date",
+  "entry_type_section",
+  "google_drive_link",
   "section_break_cory",
-  "table_bcjf"
+  "detailed_work_plan_table"
  ],
  "fields": [
   {
+   "fetch_from": "project.project_name",
    "fieldname": "project_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Project Name",
-   "reqd": 1
+   "label": "Project Name"
   },
   {
    "fieldname": "client",
@@ -61,21 +67,55 @@
   },
   {
    "fieldname": "section_break_cory",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Detailed workplan"
   },
   {
-   "fieldname": "table_bcjf",
+   "fieldname": "entry_type_section",
+   "fieldtype": "Section Break",
+   "label": "Entry Type"
+  },
+  {
+   "description": "For the workplan",
+   "fieldname": "google_drive_link",
+   "fieldtype": "Data",
+   "label": "Google Drive link"
+  },
+  {
+   "fieldname": "detailed_work_plan_table",
    "fieldtype": "Table",
+   "label": "Detailed workplan",
    "options": "Detailed Work Plan Table"
+  },
+  {
+   "default": "DWP-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "DWP-.YYYY.-.MM.-",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_yeoa",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-13 10:50:01.350179",
+ "modified": "2026-05-26 11:50:36.955438",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Detailed Work Plan",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
