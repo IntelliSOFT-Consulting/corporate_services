@@ -53,6 +53,12 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const isInitialLoadRef = useRef(true);
     const autosaveRef = useRef(null);
     const autosaveDirtyRef = useRef(false);
+    const autosaveErrorShownRef = useRef(false);
+
+    const markDirty = useCallback(() => {
+        autosaveDirtyRef.current = true;
+        autosaveErrorShownRef.current = false;
+    }, []);
 
     const loadContext = useCallback((targetSubmission) => {
         if (!targetSubmission) {
@@ -163,6 +169,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                 const response = r.message || {};
                 const ok = response.status === "success";
                 if (ok) {
+                    autosaveErrorShownRef.current = false;
                     if (showAlert) {
                         frappe.show_alert(
                             {
@@ -178,6 +185,16 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                         message: response.message || "Could not save timesheet.",
                         indicator: "red",
                     });
+                } else {
+                    autosaveDirtyRef.current = false;
+                    if (!autosaveErrorShownRef.current) {
+                        autosaveErrorShownRef.current = true;
+                        frappe.msgprint({
+                            title: response.status === "locked" ? "Timesheet Locked" : "Autosave Failed",
+                            message: response.message || "Could not autosave timesheet. Edit the timesheet to try again.",
+                            indicator: "red",
+                        });
+                    }
                 }
             },
             error() {
@@ -189,6 +206,16 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                         message: "Could not save timesheet.",
                         indicator: "red",
                     });
+                } else {
+                    autosaveDirtyRef.current = false;
+                    if (!autosaveErrorShownRef.current) {
+                        autosaveErrorShownRef.current = true;
+                        frappe.msgprint({
+                            title: "Autosave Failed",
+                            message: "Could not autosave timesheet. Edit the timesheet to try again.",
+                            indicator: "red",
+                        });
+                    }
                 }
             },
         });
@@ -224,7 +251,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const rowTotal = useCallback((task) => Object.values(task.hours).reduce((s, v) => s + (parseFloat(v) || 0), 0), []);
 
     const updateHours = useCallback((secIdx, taskId, date, value) => {
-        autosaveDirtyRef.current = true;
+        markDirty();
         setSections((prev) =>
             prev.map((sec, si) =>
                 si !== secIdx
@@ -237,51 +264,55 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                       }
             )
         );
-    }, []);
+    }, [markDirty]);
 
     const updateTask = useCallback((secIdx, taskId, value) => {
-        autosaveDirtyRef.current = true;
+        markDirty();
         setSections((prev) =>
             prev.map((sec, si) => (si !== secIdx ? sec : { ...sec, tasks: sec.tasks.map((t) => (t.id !== taskId ? t : { ...t, task: value })) }))
         );
-    }, []);
+    }, [markDirty]);
 
     const addTask = useCallback((secIdx) => {
-        autosaveDirtyRef.current = true;
+        markDirty();
         setSections((prev) => prev.map((sec, si) => (si !== secIdx ? sec : { ...sec, tasks: [...sec.tasks, makeEmptyTask()] })));
-    }, []);
+    }, [markDirty]);
 
     const removeTask = useCallback((secIdx, taskId) => {
+        markDirty();
         setSections((prev) =>
             prev.map((sec, si) => {
                 if (si !== secIdx || sec.tasks.length <= 1) return sec;
                 return { ...sec, tasks: sec.tasks.filter((t) => t.id !== taskId) };
             })
         );
-    }, []);
+    }, [markDirty]);
 
     const updateSectionName = useCallback((secIdx, value) => {
+        markDirty();
         setSections((prev) =>
             prev.map((sec, si) => (si !== secIdx ? sec : { ...sec, name: value }))
         );
-    }, []);
+    }, [markDirty]);
 
     const removeSection = useCallback((secIdx) => {
+        markDirty();
         setSections((prev) => prev.filter((_, si) => si !== secIdx));
-    }, []);
+    }, [markDirty]);
 
     const addProject = useCallback((projectName) => {
+        markDirty();
         setSections((prev) => [...prev, makeSection("project", projectName)]);
         setAddProjectOpen(false);
         setProjectSearch("");
-    }, []);
+    }, [markDirty]);
 
     const addActivity = useCallback((activityName) => {
-        autosaveDirtyRef.current = true;
+        markDirty();
         setSections((prev) => [...prev, makeSection("activity", activityName)]);
         setAddActivityOpen(false);
         setActivitySearch("");
-    }, []);
+    }, [markDirty]);
 
     const createAndAddActivity = useCallback(() => {
         const name = (newActivityType || "").trim();

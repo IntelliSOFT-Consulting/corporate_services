@@ -10,6 +10,9 @@ from corporate_services.api.notification.notification_contacts import (
 from corporate_services.api.timesheet.timesheet_generation_export import (
     SHORT_TERM_CONSULTANT_TEMPLATE,
 )
+from corporate_services.api.timesheet.project_manager_approval import (
+    get_submission_timesheet_template,
+)
 
 
 def get_project_owner_contacts_for_employee(employee):
@@ -100,7 +103,7 @@ def get_project_manager_contacts_for_submission(doc):
         employee_doc = frappe.db.get_value(
             "Employee",
             employee_id,
-            ["employee_name", "company_email", "personal_email"],
+            ["employee_name", "company_email", "personal_email", "user_id"],
             as_dict=True,
         ) or {}
         email = employee_doc.get("company_email") or employee_doc.get("personal_email")
@@ -112,6 +115,7 @@ def get_project_manager_contacts_for_submission(doc):
             contacts_by_email[email] = frappe._dict(
                 email=email,
                 name=employee_doc.get("employee_name") or row.get("employee_name") or employee_id,
+                user_id=employee_doc.get("user_id"),
                 projects=[],
             )
         if project_name and project_name not in contacts_by_email[email].projects:
@@ -120,12 +124,13 @@ def get_project_manager_contacts_for_submission(doc):
     return list(contacts_by_email.values())
 
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(recipients, subject, message, pdf_content, doc_name, cc=None):
     attachments = []
     if pdf_content:
         attachments = [{'fname': '{}.pdf'.format(doc_name), 'fcontent': pdf_content}]
     frappe.sendmail(
         recipients=recipients,
+        cc=cc,
         subject=subject,
         message=message,
         attachments=attachments,
@@ -175,6 +180,12 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None, proje
             Kind regards,<br>
             {}
         """.format(employee_name, doc.doctype, doctype_url, supervisor_name),
+        "employee_rejected_project_manager": """
+            Dear {},<br><br>
+            Your {} has been reviewed and unfortunately, it has been rejected by the Project Manager. You can view the reason and details <a href="{}">here</a>.<br><br>
+            Kind regards,<br>
+            {}
+        """.format(employee_name, doc.doctype, doctype_url, project_manager_name),
 
         "submitted_to_finance": """
             Dear Finance,<br><br>
@@ -229,13 +240,13 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None, proje
 
 def alert(doc, method):
     if doc.workflow_state in [
-        "Submitted to Project Manager", "Submitted to Supervisor", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance", "Approved"
+        "Submitted to Project Manager", "Submitted to Supervisor", "Rejected By Project Manager", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance", "Approved"
     ]:
         employee_id = doc.employee
         
         employee = frappe.get_doc("Employee", employee_id)
         employee_email = employee.company_email or employee.personal_email
-        template_name = getattr(doc, "timesheet_template", None)
+        template_name = get_submission_timesheet_template(doc)
 
         project_manager_contact = get_project_manager_contact(employee)
         project_manager_email = project_manager_contact.email if project_manager_contact else None
@@ -299,8 +310,14 @@ def alert(doc, method):
         elif doc.workflow_state == "Submitted to Supervisor":
             if employee.reports_to:
                 message_type = "supervisor"
+                cc_emails = []
                 if template_name == SHORT_TERM_CONSULTANT_TEMPLATE:
                     message_type = "submitted_to_supervisor_from_pm"
+                    cc_emails = [
+                        contact.email
+                        for contact in get_project_manager_contacts_for_submission(doc)
+                        if contact.email and contact.email != supervisor_email
+                    ]
 
                 message_to_supervisor = generate_message(
                     doc,
@@ -314,7 +331,8 @@ def alert(doc, method):
                     subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
                     pdf_content=pdf_content,
-                    doc_name=doc.name
+                    doc_name=doc.name,
+                    cc=list(dict.fromkeys(cc_emails)),
                 )
              
         elif doc.workflow_state == "Approved by Supervisor":
@@ -335,6 +353,21 @@ def alert(doc, method):
             send_email(
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Rejected'),
+                message=message_to_employee,
+                pdf_content=pdf_content,
+                doc_name=doc.name
+            )
+        elif doc.workflow_state == "Rejected By Project Manager":
+            message_to_employee = generate_message(
+                doc,
+                employee.employee_name,
+                "employee_rejected_project_manager",
+                supervisor_name=supervisor_name,
+                project_manager_name=frappe.db.get_value("User", frappe.session.user, "full_name") or project_manager_name,
+            )
+            send_email(
+                recipients=[employee_email],
+                subject=frappe._('Your Timesheet Submission has been Rejected by the Project Manager'),
                 message=message_to_employee,
                 pdf_content=pdf_content,
                 doc_name=doc.name

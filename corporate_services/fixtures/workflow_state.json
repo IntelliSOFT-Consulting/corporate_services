@@ -210,6 +210,15 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
+  "modified": "2026-05-29 00:00:00.000000",
+  "name": "Rejected By Project Manager",
+  "style": "Danger",
+  "workflow_state_name": "Rejected By Project Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
   "modified": "2026-05-23 12:57:50.123764",
   "name": "Submitted to Finance",
   "style": "",

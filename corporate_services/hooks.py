@@ -221,7 +221,10 @@ on_update_map = {
     "Asset Custodianship Requisition": "corporate_services.api.notification.asset_custotianship_requisition.alert",
     "Asset Requisition": "corporate_services.api.notification.asset_requisition.alert",
     "Timesheet Submission":"corporate_services.api.timesheet.finance_timesheet_submission.finance_timesheet_submission",
-    "Project":"corporate_services.api.notification.project.project_manager.alert",
+    "Project": [
+        "corporate_services.api.notification.project.project_manager.alert",
+        "corporate_services.api.project.timesheet_submission_sync.sync_timesheet_submission_project_name",
+    ],
     "Employee Grievance":"corporate_services.api.notification.grievance.grievance.alert",
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
     "Asset Damage Loss Theft Report Form": "corporate_services.api.notification.assets.loss_damage_loss_report.alert",
