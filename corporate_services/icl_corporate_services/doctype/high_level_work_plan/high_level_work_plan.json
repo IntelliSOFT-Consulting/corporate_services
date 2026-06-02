@@ -1,26 +1,36 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:naming_series",
  "creation": "2026-05-11 08:39:26.791731",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "project_info_section",
+  "naming_series",
+  "project",
   "project_name",
   "project_lead",
   "column_break_ipct",
   "project_start_date",
   "project_end_date",
   "project_duration",
+  "entry_type_section",
+  "entry_type",
+  "column_break_tkhf",
+  "template_import",
+  "section_break_mdng",
+  "google_drive_link_for_the_workplan",
   "section_break_yjde",
   "high_level_workplan_table"
  ],
  "fields": [
   {
+   "fetch_from": "project.project_name",
    "fieldname": "project_name",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Project Name",
-   "options": "Project"
+   "unique": 1
   },
   {
    "fieldname": "project_lead",
@@ -33,14 +43,18 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "project.expected_start_date",
    "fieldname": "project_start_date",
    "fieldtype": "Date",
-   "label": "Project Start Date"
+   "label": "Project Start Date",
+   "read_only": 1
   },
   {
+   "fetch_from": "project.expected_end_date",
    "fieldname": "project_end_date",
    "fieldtype": "Date",
-   "label": "Project End Date"
+   "label": "Project End Date",
+   "read_only": 1
   },
   {
    "fieldname": "project_duration",
@@ -62,15 +76,65 @@
    "fieldname": "project_info_section",
    "fieldtype": "Section Break",
    "label": "Project Info"
+  },
+  {
+   "default": "HLW-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "HLW-.YYYY.-.MM.-",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "unique": 1
+  },
+  {
+   "fieldname": "entry_type_section",
+   "fieldtype": "Section Break",
+   "label": "Entry Type"
+  },
+  {
+   "fieldname": "entry_type",
+   "fieldtype": "Select",
+   "label": "Entry Type",
+   "options": "System Entry\nTemplate Import"
+  },
+  {
+   "fieldname": "column_break_tkhf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.entry_type===\"Template Import\";",
+   "description": "High Level Work Plan Template",
+   "fieldname": "template_import",
+   "fieldtype": "Attach",
+   "label": "Template Import"
+  },
+  {
+   "fieldname": "section_break_mdng",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.entry_type===\"Template Import\";",
+   "description": "Template",
+   "fieldname": "google_drive_link_for_the_workplan",
+   "fieldtype": "Data",
+   "label": "Google Drive link for the workplan"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-13 10:08:20.942484",
+ "modified": "2026-05-26 09:06:24.831080",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "High Level Work Plan",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

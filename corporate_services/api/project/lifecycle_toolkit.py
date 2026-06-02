@@ -7,6 +7,8 @@ import frappe
 
 
 LIFECYCLE_CONFIG_DOCTYPE = "HIS Project Lifecycle Config"
+DEFAULT_INTRO_TITLE = "Project Lifecycle Toolkit"
+DEFAULT_INTRO_DESCRIPTION = "The Project Lifecycle Toolkit provides a set of resources and templates to support project teams in successfully executing projects through each phase of the project lifecycle. Use the toolkit to access relevant templates, understand key requirements, and follow recommended steps for each phase of your project."
 
 
 def _split_lines(value: Any) -> List[str]:

@@ -63,7 +63,8 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Status"
+   "label": "Status",
+   "options": "IN PROGRESS\nNOT STARTED\nCOMPLETED"
   },
   {
    "columns": 2,
@@ -108,7 +109,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-05-13 10:07:19.765780",
+ "modified": "2026-05-26 09:37:17.629650",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "High Level Work Plan Table",

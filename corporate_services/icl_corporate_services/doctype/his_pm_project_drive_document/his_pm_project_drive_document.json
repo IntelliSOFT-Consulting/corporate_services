@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-05-24 00:00:00.000000",
+ "creation": "2026-05-24 00:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -29,6 +29,7 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "template_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -36,6 +37,7 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "project_phase",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -43,6 +45,7 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "folder_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -68,8 +71,10 @@
    "read_only": 1
   },
   {
+   "columns": 2,
    "fieldname": "drive_file_link",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Drive File Link",
    "read_only": 1
   },
@@ -80,24 +85,31 @@
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "drive_modified_at",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Drive Modified At",
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "drive_modified_by",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Drive Modified By",
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "last_synced_at",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Last Synced At",
    "read_only": 1
   },
   {
+   "columns": 1,
    "default": "Synced",
    "fieldname": "sync_status",
    "fieldtype": "Select",
@@ -111,7 +123,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-05-24 00:00:00.000000",
+ "modified": "2026-05-26 08:53:16.963859",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HIS PM Project Drive Document",
@@ -122,4 +134,3 @@
  "sort_order": "DESC",
  "states": []
 }
-
