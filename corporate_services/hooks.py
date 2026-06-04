@@ -192,6 +192,7 @@ has_permission = {
 
 override_doctype_class = {
     "Salary Slip": "corporate_services.overrides.salary_slip.CorporateServicesSalarySlip",
+    # "Wiki Page": "corporate_services.overrides.wiki_page.CorporateServicesWikiPage",
 }
 
 # Document Events
@@ -465,6 +466,9 @@ fixtures = [
     "KPI Template Instructions",
     "Custom DocPerm",
     "HIS Project Lifecycle Config",
+    # {
+    #     "dt": "Wiki Page",
+    #     "filters": [["published", "=", 1]],
+    # },
     # "Wiki Space",
-    # "Wiki Page",
 ]

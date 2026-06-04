@@ -19,7 +19,8 @@
   "question_template",
   "dynamic_questions_section",
   "response_ui",
-  "answers"
+  "answers",
+  "amended_from"
  ],
  "fields": [
   {
@@ -132,12 +133,23 @@
    "hidden": 1,
    "label": "Responses",
    "options": "Monthly Reflection Answer"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Monthly Reflection",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2026-05-14 08:13:14.401155",
+ "modified": "2026-06-02 19:20:50.997937",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Monthly Reflection",

@@ -79,7 +79,7 @@ class TimesheetSubmission(Document):
 
 		if (
 			previous_state == "Submitted to Project Manager"
-			and current_state == "Rejected By Project Manager"
+			and current_state == "Draft"
 			and is_short_term_consultant_submission(self)
 		):
 			validate_current_user_is_submission_project_manager(self)
