@@ -7292,7 +7292,7 @@
  },
  {
   "charts": [],
-  "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Leads\",\"col\":3}},{\"id\":\"9L2kRgP8NC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Opportunity Module\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-HinV4f9Cj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bidding Dashboard\",\"col\":3}},{\"id\":\"6au60Aefwf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"-iRgxoP8j1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"kdhJF3jAb0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"tgFIeCDSb0\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Bidding\",\"col\":4}},{\"id\":\"OGCHj8PGpk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}}]",
+  "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Leads\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-HinV4f9Cj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bidding Dashboard\",\"col\":3}},{\"id\":\"6au60Aefwf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lead\",\"col\":3}},{\"id\":\"-iRgxoP8j1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"kdhJF3jAb0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"tgFIeCDSb0\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Bidding\",\"col\":4}},{\"id\":\"OGCHj8PGpk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -7548,23 +7548,6 @@
     "stats_filter": "[]",
     "type": "DocType",
     "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Icl Opportunity Module",
-    "link_to": "icl-opportunity-module",
-    "parent": "ICL Business Development",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": null,
-    "type": "Page",
-    "url": null
    }
   ],
   "title": "ICL Business Development"
@@ -7683,7 +7666,7 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"HOrs48oc3_\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Opportunity Module</b></span>\",\"col\":12}},{\"id\":\"h9ruacd7CD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity\",\"col\":3}},{\"id\":\"L5bE7TZ6bf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Type\",\"col\":3}},{\"id\":\"iMlFwoBP-9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Lost Reason\",\"col\":3}},{\"id\":\"_630XE-ptZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Master Boat Analysis\",\"col\":3}},{\"id\":\"W0ETUzBtpP\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"Ov1mPFk5JD\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"77THh8j08G\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Opportunity Trends\",\"col\":12}},{\"id\":\"JUK7s4D4dj\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Won Opportunities\",\"col\":12}}]",
+  "content": "[{\"id\":\"HOrs48oc3_\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Opportunity Module</b></span>\",\"col\":12}},{\"id\":\"h9ruacd7CD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity\",\"col\":3}},{\"id\":\"L5bE7TZ6bf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Type\",\"col\":3}},{\"id\":\"iMlFwoBP-9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Lost Reason\",\"col\":3}},{\"id\":\"W0ETUzBtpP\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"Ov1mPFk5JD\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"77THh8j08G\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Opportunity Trends\",\"col\":12}},{\"id\":\"JUK7s4D4dj\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Won Opportunities\",\"col\":12}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",

@@ -1,6 +1,8 @@
 import React from "react";
 import type { OpportunityDetail, OpportunityRow, OpportunityStats, WorkflowStateInfo } from "./types";
 import { formatDate, formatMoney, statusColor } from "./utils";
+import { WorkflowStatus } from "./WorkflowStatus";
+import { FileBrowser } from "./FileBrowser";
 
 function Donut({ total, value, color }: { total: number; value: number; color: string }) {
   const pct = total > 0 ? Math.max(0, Math.min(100, Math.round((value / total) * 100))) : 0;
@@ -87,7 +89,6 @@ type DetailProps = {
 
 export function DetailView(props: DetailProps) {
   const { detail, detailLoading, workflowStates, detailTab, setDetailTab, groupedChecklist, sendingReminder, awarding, onBack, onAward, onSendReminder } = props;
-  const currentStep = workflowStates.findIndex((s) => s.state === detail.workflow_state);
 
   return (
     <div className="om-wrap">
@@ -102,7 +103,7 @@ export function DetailView(props: DetailProps) {
       {detailLoading && <div className="text-muted small mb-2">Loading details...</div>}
 
       <div className="row g-3"><div className="col-lg-8">
-        <div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">WORKFLOW STATUS</div><div className="mb-2"><span className={`om-pill ${statusColor(detail.workflow_state)}`}>{detail.workflow_state || "Draft"}</span></div><div className="om-workflow">{workflowStates.map((s, idx) => <div key={s.state} className={`om-step${idx <= currentStep ? " active" : ""}`}><span>{idx + 1}</span><small>{s.state}</small></div>)}</div></div>
+        <WorkflowStatus states={workflowStates} currentState={detail.workflow_state} />
         <div className="frappe-card om-card p-2 mb-3"><div className="btn-group btn-group-sm"><button className={`btn ${detailTab === "overview" ? "btn-primary" : "btn-default"}`} onClick={() => setDetailTab("overview")}>Overview</button><button className={`btn ${detailTab === "finance" ? "btn-primary" : "btn-default"}`} onClick={() => setDetailTab("finance")}>Finance</button><button className={`btn ${detailTab === "checklist" ? "btn-primary" : "btn-default"}`} onClick={() => setDetailTab("checklist")}>Task Checklist</button></div></div>
 
         {detailTab === "overview" && <><div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">OVERVIEW</div><div className="om-grid"><div><label>Title</label><p>{detail.title || "-"}</p></div><div><label>Party</label><p>{detail.customer_name || "-"}</p></div><div><label>Opportunity From</label><p>{detail.opportunity_from || "-"}</p></div><div><label>Company</label><p>{detail.company || "-"}</p></div><div><label>Sales Stage</label><p>{detail.sales_stage || "-"}</p></div><div><label>Source</label><p>{detail.source || "-"}</p></div><div><label>Territory</label><p>{detail.territory || "-"}</p></div><div><label>Campaign</label><p>{detail.campaign || "-"}</p></div></div></div><div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">CONTACT</div><div className="om-grid"><div><label>Contact Person</label><p>{detail.contact_person || "-"}</p></div><div><label>Email</label><p>{detail.contact_email || "-"}</p></div><div><label>Mobile</label><p>{detail.contact_mobile || "-"}</p></div><div><label>Phone</label><p>{detail.phone || "-"}</p></div><div><label>City</label><p>{detail.city || "-"}</p></div><div><label>Country</label><p>{detail.country || "-"}</p></div></div></div></>}
@@ -114,6 +115,9 @@ export function DetailView(props: DetailProps) {
         <div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">CLOSING DATE</div><div className="om-stack"><div><label>Expected Closing (Due Date)</label><p>{formatDate(detail.expected_closing)}</p></div><button className="btn btn-default btn-sm" disabled={sendingReminder} onClick={onSendReminder}>{sendingReminder ? "Sending…" : "Send Due Reminder to Owner"}</button></div></div>
         <div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">REMINDER ACTIVITY LOG</div><div className="om-list">{(detail.reminder_activities || []).length === 0 && <div className="text-muted">No reminder activity yet.</div>}{(detail.reminder_activities || []).map((x) => <div key={x.name} className="om-note"><div>{x.content}</div><small>{formatDate(x.creation)} • {x.owner}</small></div>)}</div></div>
         <div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">MARKET</div><div className="om-stack"><div><label>Industry</label><p>{detail.industry || "-"}</p></div><div><label>Market Segment</label><p>{detail.market_segment || "-"}</p></div><div><label>No. of Employees</label><p>{detail.no_of_employees || "-"}</p></div><div><label>Annual Revenue</label><p>{formatMoney(detail.annual_revenue, detail.currency)}</p></div></div></div>
+        {detail.opportunity_folder && (
+          <div className="frappe-card om-card p-3 mb-3"><div className="om-section-title">FILES</div><FileBrowser rootFolder={detail.opportunity_folder} opportunityName={detail.name} /></div>
+        )}
       </div></div>
     </div>
   );
