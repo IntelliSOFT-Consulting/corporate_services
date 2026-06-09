@@ -123,14 +123,9 @@ class TimesheetSubmission(Document):
 			)
 
 	def validate_current_project_manager_approval_comment(self):
-		validate_current_user_is_submission_project_manager(self)
-
-		if frappe.session.user not in get_approval_comment_owners(self):
-			frappe.throw(
-				_(
-					"Add a comment confirming your Project Manager approval before approving this timesheet submission."
-				)
-			)
+		# Approval-comment requirement removed: a Project Manager can approve without
+		# first adding a confirmation comment.
+		return
 
 	def check_duplicate_submission(self):
 		existing = frappe.db.get_value(

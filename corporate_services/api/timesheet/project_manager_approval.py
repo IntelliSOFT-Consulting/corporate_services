@@ -147,36 +147,12 @@ def get_approval_comment_owners(doc):
 
 
 def validate_project_manager_approval_comments(doc):
-	project_ids = get_submission_project_ids(doc)
-	pm_by_project = get_project_pm_user_map(project_ids)
-	approved_by = get_approval_comment_owners(doc)
-
-	missing_projects = []
-	for project_id in project_ids:
-		project_info = pm_by_project.get(project_id)
-		if not project_info or not project_info["project_managers"]:
-			missing_projects.append(project_id)
-			continue
-
-		if not any(pm.user_id in approved_by for pm in project_info["project_managers"]):
-			missing_projects.append(project_info["project_name"])
-
-	if missing_projects:
-		frappe.throw(
-			_(
-				"Project Manager approval comments are required before the supervisor can approve this short-term consultant timesheet. Missing approval comment for: {0}."
-			).format(", ".join(missing_projects))
-		)
+	# Approval-comment requirement removed: the supervisor can approve without any
+	# Project Manager approval comment on the linked projects.
+	return
 
 
 def validate_current_user_is_submission_project_manager(doc):
-	project_ids = get_submission_project_ids(doc)
-	pm_by_project = get_project_pm_user_map(project_ids)
-	pm_users = {
-		pm.user_id
-		for project_info in pm_by_project.values()
-		for pm in project_info["project_managers"]
-	}
-
-	if frappe.session.user not in pm_users:
-		frappe.throw(_("Only a Project Manager assigned to one of the linked projects can act on this submission."))
+	# Restriction removed: any Project Manager may act on the submission, not only
+	# those assigned to one of the linked projects.
+	return
