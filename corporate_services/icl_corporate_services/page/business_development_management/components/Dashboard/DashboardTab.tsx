@@ -179,7 +179,6 @@ export function DashboardTab() {
   const leadSourceBars = useMemo(() => toBars(data?.leads_by_source), [data]);
   const oppStageBars = useMemo(() => toBars(data?.opps_by_stage), [data]);
   const oppStateBars = useMemo(() => toBars(data?.opps_by_state), [data]);
-  const pipelineBars = useMemo(() => toMoneyBars(data?.pipeline_by_stage), [data]);
 
   return (
     <div className="container-fluid p-4">
@@ -197,19 +196,16 @@ export function DashboardTab() {
       <h6 className="text-uppercase text-muted mb-3 mt-2" style={{ letterSpacing: 0.5 }}>Opportunities</h6>
       <div className="row mb-2">
         <StatCard label="Total Opportunities" value={k ? k.total_opportunities.toLocaleString() : 0} colorClass="bg-blue-light" loading={loading} />
-        <StatCard label="Open Pipeline" value={k ? k.open_opportunities.toLocaleString() : 0} sub={k ? fmtMoney(k.pipeline_value, cur) : ""} colorClass="bg-orange-light" loading={loading} />
-        <StatCard label="Won" value={k ? k.won_opportunities.toLocaleString() : 0} sub={k ? fmtMoney(k.won_value, cur) : ""} colorClass="bg-green-light" loading={loading} />
+        <StatCard label="Open Pipeline" value={k ? k.open_opportunities.toLocaleString() : 0}  colorClass="bg-orange-light" loading={loading} />
+        <StatCard label="Won" value={k ? k.won_opportunities.toLocaleString() : 0} colorClass="bg-green-light" loading={loading} />
         <StatCard label="Win Rate" value={k ? `${k.win_rate}%` : "0%"} sub={k ? `${k.lost_opportunities} lost` : ""} colorClass="bg-red-light" loading={loading} />
-        <StatCard label="Avg Deal Size" value={k ? fmtMoney(k.avg_deal_size, cur) : fmtMoney(0, cur)} colorClass="bg-purple-light" loading={loading} />
       </div>
 
       <div className="row g-3 mb-3 mt-1">
-        <div className="col-lg-8">
+        <div className="col-lg-12">
           <TrendCard rows={data?.monthly_trend || []} />
         </div>
-        <div className="col-lg-4">
-          <BarChartCard title="Pipeline Value by Stage" bars={pipelineBars} />
-        </div>
+       
       </div>
 
       <div className="row g-3 mb-3">
@@ -235,7 +231,6 @@ export function DashboardTab() {
                   <th>Customer</th>
                   <th>Stage</th>
                   <th>Status</th>
-                  <th className="text-end">Amount</th>
                   <th>Expected Closing</th>
                 </tr>
               </thead>
@@ -249,7 +244,6 @@ export function DashboardTab() {
                     <td>{o.customer_name || "-"}</td>
                     <td>{o.sales_stage || "-"}</td>
                     <td><span className="icl-badge default">{o.status || "-"}</span></td>
-                    <td className="text-end">{fmtMoney(o.opportunity_amount || 0, o.currency || cur)}</td>
                     <td className="text-muted">{o.expected_closing ? frappe.datetime.str_to_user(o.expected_closing) : "-"}</td>
                   </tr>
                 ))}
