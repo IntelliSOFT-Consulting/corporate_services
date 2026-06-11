@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { LeadDetail } from "./LeadDetail";
 
 type LeadRow = {
   name: string;
@@ -89,9 +90,10 @@ type LeadsTableProps = {
   rows: LeadRow[];
   start: number;
   oppMap: OppMap;
+  onOpen: (name: string) => void;
 };
 
-function LeadsTable({ rows, start, oppMap }: LeadsTableProps) {
+function LeadsTable({ rows, start, oppMap, onOpen }: LeadsTableProps) {
   return (
     <div className="table-responsive">
       <table className="table table-hover mb-0" id="icl-leads-table">
@@ -123,7 +125,7 @@ function LeadsTable({ rows, start, oppMap }: LeadsTableProps) {
               key={lead.name}
               onClick={(e) => {
                 if ((e.target as HTMLElement).closest("a")) return;
-                frappe.set_route("leads/" + lead.name);
+                onOpen(lead.name);
               }}
             >
               <td className="text-muted">{start + idx + 1}</td>
@@ -147,9 +149,9 @@ function LeadsTable({ rows, start, oppMap }: LeadsTableProps) {
               <td>{lead.lead_owner || "-"}</td>
               <td className="text-muted">{lead.creation ? frappe.datetime.str_to_user(lead.creation) : "-"}</td>
               <td>
-                <a href={`/leads/${lead.name}`} className="btn btn-xs btn-default" onClick={(e) => e.stopPropagation()}>
+                <button className="btn btn-xs btn-default" onClick={(e) => { e.stopPropagation(); onOpen(lead.name); }}>
                   <i className="fa fa-external-link" />
-                </a>
+                </button>
               </td>
             </tr>
           ))}
@@ -175,6 +177,7 @@ export function LeadsTab() {
   const [allLeads, setAllLeads] = useState<LeadRow[]>([]);
   const [oppMap, setOppMap] = useState<OppMap>({});
   const [selectedLead, setSelectedLead] = useState<string | null>(null);
+  const [detailLead, setDetailLead] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 20;
@@ -283,6 +286,10 @@ export function LeadsTab() {
   const leadBars = renderBarData(() => 1);
   const oppBars = renderBarData((lead) => (oppMap[lead.name] || []).length);
 
+  if (detailLead) {
+    return <LeadDetail name={detailLead} onBack={() => setDetailLead(null)} />;
+  }
+
   return (
     <div className="container-fluid p-4">
       <div className="row mb-4">
@@ -321,7 +328,7 @@ export function LeadsTab() {
               />
             </div>
             <div className="card-body p-0">
-              <LeadsTable rows={pagedLeads.rows} start={pagedLeads.start} oppMap={oppMap} />
+              <LeadsTable rows={pagedLeads.rows} start={pagedLeads.start} oppMap={oppMap} onOpen={setDetailLead} />
             </div>
             {pagedLeads.totalPages > 1 && (
               <div className="card-footer bg-white border-top d-flex justify-content-between align-items-center">

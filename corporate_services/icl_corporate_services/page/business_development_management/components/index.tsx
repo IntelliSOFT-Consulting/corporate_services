@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { createPortal } from "react-dom";
 import { LeadsTab } from "./Leads/LeadsTab";
+import { DashboardTab } from "./Dashboard/DashboardTab";
 import { Opportunity } from "./Opportunity/Opportunity";
 import { injectBusinessDevelopmentStyles } from "./ui/injectStyles";
 
@@ -62,26 +63,7 @@ function App() {
     <div>
       <div id="__sidebar-render-trigger" style={{ display: "none" }} />
       <div className="p-2">
-        {activeTab === "dashboard" && (
-          <div className="frappe-card p-3">
-            <h5 className="mb-2">Dashboard</h5>
-            <p className="text-muted mb-3">
-              Business Development landing view.
-            </p>
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => setActiveTab("icl-leads")}
-            >
-              Open ICL Leads
-            </button>
-            <button
-              className="btn btn-default btn-sm ms-2"
-              onClick={() => setActiveTab("opportunity")}
-            >
-              Open Opportunity
-            </button>
-          </div>
-        )}
+        {activeTab === "dashboard" && <DashboardTab />}
         {activeTab === "icl-leads" && <LeadsTab />}
         {activeTab === "opportunity" && <Opportunity />}
       </div>

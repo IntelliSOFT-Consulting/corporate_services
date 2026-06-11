@@ -41,6 +41,7 @@ export type OpportunityDetail = OpportunityRow & {
   no_of_employees?: string;
   annual_revenue?: number;
   reminder_activities?: Array<{ name: string; owner: string; creation: string; content: string }>;
+  opportunity_folder?: { name: string; file_name: string } | null;
 };
 
 export type WorkflowStateInfo = {

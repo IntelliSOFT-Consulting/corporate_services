@@ -6,74 +6,7 @@
   "intro_title": "Project Start-to-End Guide",
   "modified": "2026-05-15 11:04:49.428495",
   "name": "HIS Project Lifecycle Config",
-  "stages": [
-   {
-    "deliverables": "",
-    "display_order": 1,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Site Preparedness Checklist\nInfoSavvy Questionnaire\nHIS Landscape Assessment",
-    "stage_name": "Prepare",
-    "steps": "Prepare"
-   },
-   {
-    "deliverables": "Project Charter\nBusiness Needs Assessment\nProject Management Plan\nRisk Management Plan",
-    "display_order": 2,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Business Needs Statement\nProject Charter",
-    "stage_name": "Plan",
-    "steps": "Initiation\nConcept\nPlanning"
-   },
-   {
-    "deliverables": "Functional Requirements\nNon-Functional Requirements",
-    "display_order": 3,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Requirements Development\nPreliminary Design Review Checklist",
-    "stage_name": "Design",
-    "steps": "Requirements Analysis\nDesign"
-   },
-   {
-    "deliverables": "Test Case Template",
-    "display_order": 4,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Test Case",
-    "stage_name": "Development",
-    "steps": "Development\nTest"
-   },
-   {
-    "deliverables": "Implementation Plan\nOperations and Maintenance Manual",
-    "display_order": 5,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Operations and Maintenance Manual",
-    "stage_name": "Implementation",
-    "steps": "Implementation"
-   },
-   {
-    "deliverables": "Annual Operational Analysis\nDisposition Plan",
-    "display_order": 6,
-    "is_active": 1,
-    "parent": "HIS Project Lifecycle Config",
-    "parentfield": "stages",
-    "parenttype": "HIS Project Lifecycle Config",
-    "requirements": "Annual Operational Analysis\nDisposition Plan",
-    "stage_name": "Maintenance",
-    "steps": "Operations & Maintenance\nDisposition"
-   }
-  ],
-  "toolkit_items": []
+  "project_toolkit_document_templates": [],
+  "project_toolkit_folders": []
  }
 ]

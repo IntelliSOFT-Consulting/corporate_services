@@ -54,13 +54,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Master Boat Analysis",
-   "link_to": "master_boat_analysis",
-   "type": "Page"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Opportunity Type",
    "link_to": "Opportunity Type",
    "stats_filter": "[]",
