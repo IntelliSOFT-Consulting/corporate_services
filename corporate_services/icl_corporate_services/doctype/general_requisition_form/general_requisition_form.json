@@ -57,7 +57,8 @@
    "fieldname": "table_pegz",
    "fieldtype": "Table",
    "label": "General requisition description",
-   "options": "General requisition description form"
+   "options": "General requisition description form",
+   "reqd": 1
   },
   {
    "fieldname": "total",
@@ -95,7 +96,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-11 09:04:09.137865",
+ "modified": "2026-06-11 09:08:08.049435",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "General Requisition Form",

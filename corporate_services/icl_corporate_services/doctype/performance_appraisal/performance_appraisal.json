@@ -100,9 +100,9 @@
   },
   {
    "fieldname": "evaluation_type",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Evaluation Type",
-   "options": "\nProbation ( 90 days)\nQuarterly\nAnnual",
+   "options": "Appraisal Type",
    "reqd": 1
   },
   {
@@ -235,7 +235,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-19 06:45:46.090726",
+ "modified": "2026-06-10 14:12:58.102828",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Performance Appraisal",
