@@ -15,7 +15,9 @@
   "section_break_sovp",
   "request_justification",
   "table_pegz",
-  "total"
+  "total",
+  "section_break_hgmh",
+  "table_kkvi"
  ],
  "fields": [
   {
@@ -54,6 +56,7 @@
   {
    "fieldname": "table_pegz",
    "fieldtype": "Table",
+   "label": "General requisition description",
    "options": "General requisition description form"
   },
   {
@@ -77,11 +80,22 @@
    "hidden": 1,
    "label": "Series",
    "options": "GR-.YYYY.-"
+  },
+  {
+   "description": "The attachments should be either invoices, receipts or a PO where applicable.",
+   "fieldname": "section_break_hgmh",
+   "fieldtype": "Section Break",
+   "label": "Requisition Attachment"
+  },
+  {
+   "fieldname": "table_kkvi",
+   "fieldtype": "Table",
+   "options": "Requisition attachments"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-05 10:34:16.785161",
+ "modified": "2026-06-11 09:04:09.137865",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "General Requisition Form",
@@ -137,6 +151,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
