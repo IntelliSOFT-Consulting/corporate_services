@@ -103,7 +103,7 @@ frappe.ui.form.on("High Level Work Plan", {
 							const sample = (r.message && r.message.sample) || [];
 							let msg = `${inserted} rows imported.`;
 							if (sample.length) {
-								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' — ' + s.key_deliverable : '')).join(' | ');
+								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' - ' + s.key_deliverable : '')).join(' | ');
 							}
 							frappe.msgprint({ title: 'Import Completed', message: msg, indicator: 'green' });
 							frm.reload_doc();
@@ -130,7 +130,7 @@ frappe.ui.form.on("High Level Work Plan", {
 							const sample = (r.message && r.message.sample) || [];
 							let msg = `${inserted} rows imported from Drive.`;
 							if (sample.length) {
-								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' — ' + s.key_deliverable : '')).join(' | ');
+								msg += '\nSample: ' + sample.map(s => (s.line_item || '') + (s.key_deliverable ? ' - ' + s.key_deliverable : '')).join(' | ');
 							}
 							frappe.msgprint({ title: 'Fetch Completed', message: msg, indicator: 'green' });
 							frm.reload_doc();

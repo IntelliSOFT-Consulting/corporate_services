@@ -21,6 +21,7 @@
   "job_title",
   "evaluation_period_section",
   "evaluation_type",
+  "appraisal_template",
   "column_break_wirx",
   "from_start_date",
   "column_break_ysmv",
@@ -31,13 +32,14 @@
   "current_performance",
   "performance_html",
   "total",
+  "performance_score_section",
+  "max_score",
+  "score_percentage",
+  "column_break_score",
+  "performance_rating",
+  "recommended_action",
   "supervisor_comments_section",
-  "highlights_of_performance",
-  "key_development_needs",
-  "behavioral_observations",
-  "column_break_tipo",
-  "readiness_for_additional_responsibility",
-  "support_or_resources_needed"
+  "supervisor_comments"
  ],
  "fields": [
   {
@@ -131,40 +133,6 @@
    "label": "Supervisor Comments"
   },
   {
-   "description": "What are the employee\u2019s most notable achievements, strengths, or contributions this period?",
-   "fieldname": "highlights_of_performance",
-   "fieldtype": "Small Text",
-   "label": "1. Highlights of Performance"
-  },
-  {
-   "description": "Which areas require improvement, upskilling, or closer attention?",
-   "fieldname": "key_development_needs",
-   "fieldtype": "Small Text",
-   "label": "2. Key Development Needs"
-  },
-  {
-   "description": "Any comments on attitude, collaboration, adaptability, or professionalism?",
-   "fieldname": "behavioral_observations",
-   "fieldtype": "Small Text",
-   "label": "3. Behavioral Observations"
-  },
-  {
-   "description": "Is the employee ready to take on more responsibility, leadership, or stretch assignments",
-   "fieldname": "readiness_for_additional_responsibility",
-   "fieldtype": "Small Text",
-   "label": "4. Readiness for Additional Responsibility"
-  },
-  {
-   "description": "What support (tools, training, mentorship) would help the employee perform even better?",
-   "fieldname": "support_or_resources_needed",
-   "fieldtype": "Small Text",
-   "label": "5. Support or Resources Needed"
-  },
-  {
-   "fieldname": "column_break_tipo",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -230,6 +198,61 @@
    "fieldname": "performance_html",
    "fieldtype": "HTML",
    "label": "performance html"
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "appraisal_template",
+   "label": "Appraisal Template",
+   "fieldtype": "Link",
+   "options": "Performance Appraisal Template",
+   "read_only": 1
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "performance_score_section",
+   "label": "Performance Score",
+   "fieldtype": "Section Break"
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "max_score",
+   "label": "Max Score",
+   "fieldtype": "Int",
+   "read_only": 1
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "score_percentage",
+   "label": "Score (%)",
+   "fieldtype": "Float",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "column_break_score",
+   "fieldtype": "Column Break"
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "performance_rating",
+   "label": "Performance Rating",
+   "fieldtype": "Data",
+   "read_only": 1
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "recommended_action",
+   "label": "Recommended Action",
+   "fieldtype": "Small Text",
+   "read_only": 1
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "supervisor_comments",
+   "label": "Supervisor Comments",
+   "fieldtype": "Table",
+   "options": "Performance Appraisal Comment"
   }
  ],
  "grid_page_length": 50,

@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "creation": "2026-06-12 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "question",
+  "prompt",
+  "response"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Question",
+   "reqd": 1
+  },
+  {
+   "columns": 4,
+   "fieldname": "prompt",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Prompt"
+  },
+  {
+   "columns": 4,
+   "fieldname": "response",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Response"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Performance Appraisal Comment",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
