@@ -6,7 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "question",
-  "prompt",
+  "description",
   "response"
  ],
  "fields": [
@@ -19,10 +19,10 @@
   },
   {
    "columns": 4,
-   "fieldname": "prompt",
+   "fieldname": "description",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Prompt"
+   "label": "Description"
   },
   {
    "columns": 4,

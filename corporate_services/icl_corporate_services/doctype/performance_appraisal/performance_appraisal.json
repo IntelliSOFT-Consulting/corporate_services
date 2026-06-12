@@ -39,7 +39,8 @@
   "performance_rating",
   "recommended_action",
   "supervisor_comments_section",
-  "supervisor_comments"
+  "supervisor_comments",
+  "supervisor_comments_html"
  ],
  "fields": [
   {
@@ -253,6 +254,12 @@
    "label": "Supervisor Comments",
    "fieldtype": "Table",
    "options": "Performance Appraisal Comment"
+  },
+  {
+   "doctype": "DocField",
+   "fieldname": "supervisor_comments_html",
+   "label": "Supervisor Comments HTML",
+   "fieldtype": "HTML"
   }
  ],
  "grid_page_length": 50,

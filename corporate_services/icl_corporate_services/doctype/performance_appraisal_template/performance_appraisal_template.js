@@ -2,11 +2,11 @@
 // For license information, please see license.txt
 
 const DEFAULT_COMMENTS = [
-	{ question: "Highlights of Performance", prompt: "What are the employee's most notable achievements, strengths, or contributions this period?" },
-	{ question: "Key Development Needs", prompt: "Which areas require improvement, upskilling, or closer attention?" },
-	{ question: "Behavioral Observations", prompt: "Any comments on attitude, collaboration, adaptability, or professionalism?" },
-	{ question: "Readiness for Additional Responsibility", prompt: "Is the employee ready to take on more responsibility, leadership, or stretch assignments?" },
-	{ question: "Support or Resources Needed", prompt: "What support (tools, training, mentorship) would help the employee perform even better?" },
+	{ question: "Highlights of Performance", description: "What are the employee's most notable achievements, strengths, or contributions this period?" },
+	{ question: "Key Development Needs", description: "Which areas require improvement, upskilling, or closer attention?" },
+	{ question: "Behavioral Observations", description: "Any comments on attitude, collaboration, adaptability, or professionalism?" },
+	{ question: "Readiness for Additional Responsibility", description: "Is the employee ready to take on more responsibility, leadership, or stretch assignments?" },
+	{ question: "Support or Resources Needed", description: "What support (tools, training, mentorship) would help the employee perform even better?" },
 ];
 
 const DEFAULT_SCORE_BANDS = [

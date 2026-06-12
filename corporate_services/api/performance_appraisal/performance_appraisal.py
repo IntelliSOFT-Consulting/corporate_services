@@ -124,7 +124,7 @@ def create_appraisals_for_cycle(cycle):
             for comment in template.supervisor_comments:
                 appraisal.append("supervisor_comments", {
                     "question": comment.question,
-                    "prompt": comment.prompt,
+                    "description": comment.description,
                 })
 
         appraisal.insert(ignore_permissions=True)
