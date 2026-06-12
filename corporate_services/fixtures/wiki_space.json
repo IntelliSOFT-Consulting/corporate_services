@@ -1,0 +1,25 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Wiki Space",
+  "modified": "2026-05-06 09:02:49.840685",
+  "name": "vr2o87gj2p",
+  "route": "/wiki/hr",
+  "wiki_sidebars": [
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "Wiki",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "to91i4vr14"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "Wiki",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "perfappraisaldoc1"
+   }
+  ]
+ }
+]

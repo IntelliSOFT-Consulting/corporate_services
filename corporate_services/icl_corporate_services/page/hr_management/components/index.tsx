@@ -19,6 +19,7 @@ import { JobOpeningDashboardTab } from "./JobOpeningDashboardTab";
 import { RecruitmentReportTab } from "./RecruitmentReportTab";
 import { JobApplicationsTab } from "./JobApplicationsTab";
 import { SurveyManagerTab } from "./SurveyManagerTab";
+import { PerformanceAppraisalTab } from "./PerformanceAppraisalTab";
 
 declare global {
   interface Window {
@@ -40,6 +41,7 @@ type Tab =
   | "job-applications"
   | "survey-manager"
   | "intern-evaluation"
+  | "performance-appraisal"
   | "employee-turnover";
 
 const DEFAULT_TAB: Tab = "dashboard";
@@ -57,6 +59,7 @@ function isValidTab(value: string | null): value is Tab {
     value === "job-applications" ||
     value === "survey-manager" ||
     value === "intern-evaluation" ||
+    value === "performance-appraisal" ||
     value === "employee-turnover"
   );
 }
@@ -168,7 +171,9 @@ function StaffManagementApp({ page: _page }: { page: any }) {
                                     ? "Survey management"
                       : activeTab === "intern-evaluation"
                         ? "Intern evaluation dashboard"
-                        : "Employee turnover dashboard"}
+                        : activeTab === "performance-appraisal"
+                          ? "Performance appraisal cycles"
+                          : "Employee turnover dashboard"}
                 </p>
               </div>
               <div>
@@ -203,6 +208,7 @@ function StaffManagementApp({ page: _page }: { page: any }) {
             {activeTab === "job-applications" && <JobApplicationsTab />}
             {activeTab === "survey-manager" && <SurveyManagerTab />}
             {activeTab === "intern-evaluation" && <InternEvaluationTab />}
+            {activeTab === "performance-appraisal" && <PerformanceAppraisalTab />}
             {activeTab === "employee-turnover" && <EmployeeTurnoverTab />}
           </>
         )}

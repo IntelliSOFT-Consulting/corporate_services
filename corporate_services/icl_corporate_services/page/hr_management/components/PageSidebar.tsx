@@ -18,6 +18,7 @@ type SidebarTab =
   | "job-applications"
   | "survey-manager"
   | "intern-evaluation"
+  | "performance-appraisal"
   | "employee-turnover";
 
 type Props = ListProps;
@@ -154,6 +155,12 @@ function ListSidebar({ activeTab, onTabChange }: ListProps) {
       key: "intern-evaluation",
       label: "Intern Evaluation",
       tab: "intern-evaluation",
+    },
+    {
+      type: "item",
+      key: "performance-appraisal",
+      label: "Performance Appraisal",
+      tab: "performance-appraisal",
     },
     {
       type: "item",

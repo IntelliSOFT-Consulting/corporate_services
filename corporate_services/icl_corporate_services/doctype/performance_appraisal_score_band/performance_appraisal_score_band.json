@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-06-12 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "min_percentage",
+  "percentage_label",
+  "rating",
+  "recommended_action"
+ ],
+ "fields": [
+  {
+   "description": "Lowest score % that falls in this band",
+   "fieldname": "min_percentage",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Min Percentage",
+   "reqd": 1
+  },
+  {
+   "fieldname": "percentage_label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Percentage Range"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Performance Rating",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recommended_action",
+   "fieldtype": "Small Text",
+   "label": "Recommended Action"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Performance Appraisal Score Band",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
