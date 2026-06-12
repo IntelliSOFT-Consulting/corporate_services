@@ -238,6 +238,7 @@ on_update_map = {
     "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     "General Requisition Form": "corporate_services.api.notification.requisition.general_requisition.alert",
     "Appraisal": "corporate_services.api.notification.appraisal.appraisal.alert",
+    "Performance Appraisal": "corporate_services.api.performance_appraisal.performance_appraisal.alert",
     "Asset Movement": "corporate_services.api.notification.assets.asset_handover.alert",
     "Task":"corporate_services.api.notification.project.project_task.task_on_update",
     "Supplier Quote Submission":"corporate_services.api.supplier.finance_alert.alert",
