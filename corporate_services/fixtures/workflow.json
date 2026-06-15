@@ -897,8 +897,8 @@
     "parenttype": "Workflow",
     "send_email": 0,
     "state": "Approved",
-    "update_field": null,
-    "update_value": null,
+    "update_field": "status",
+    "update_value": "Approved",
     "workflow_builder_id": "4"
    },
    {
@@ -913,8 +913,8 @@
     "parenttype": "Workflow",
     "send_email": 0,
     "state": "Rejected",
-    "update_field": null,
-    "update_value": null,
+    "update_field": "status",
+    "update_value": "Rejected",
     "workflow_builder_id": "5"
    },
    {
