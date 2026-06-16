@@ -104,7 +104,7 @@ def _log_due_reminder_activity(opportunity_name: str, recipient: str, trigger: s
 
 
 def _send_opportunity_due_reminder(opportunity, trigger: str = "automatic"):
-    if not _can_send_reminder(opportunity):
+    if trigger != "manual" and not _can_send_reminder(opportunity):
         return False
 
     recipient = _get_active_owner_email(opportunity.name) or _get_owner_email(
@@ -165,8 +165,6 @@ def send_manual_due_reminder(opportunity_name: str):
         frappe.throw(_("Not permitted to send reminder for this Opportunity."))
 
     opportunity = frappe.get_doc("Opportunity", opportunity_name)
-    if not _can_send_reminder(opportunity):
-        frappe.throw(_("No reminder sent because bid status must be In-progress."))
 
     sent = _send_opportunity_due_reminder(opportunity, trigger="manual")
 

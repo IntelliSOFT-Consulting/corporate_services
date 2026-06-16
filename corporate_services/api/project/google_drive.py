@@ -1,21 +1,80 @@
 import json
-import secrets
+import re
 import time
 import html
-from urllib.parse import urlencode
+import mimetypes
 
 import frappe
 import requests
+from googleapiclient.http import MediaInMemoryUpload
+from googleapiclient.errors import HttpError
 from frappe import _
 from frappe.integrations.google_oauth import GoogleOAuth
-from frappe.utils import get_url
+from frappe.integrations.doctype.google_drive.google_drive import get_google_drive_object
+from frappe.utils import get_datetime, get_url, now_datetime
 from frappe.utils.password import get_decrypted_password, set_encrypted_password
 
-GOOGLE_AUTH_BASE = "https://accounts.google.com/o/oauth2/v2/auth"
+from corporate_services.api.project.lifecycle_toolkit import (
+    get_project_toolkit_document_template_targets,
+    get_project_toolkit_folder_blueprint,
+    get_or_create_project_lifecycle_doc,
+)
+
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
-GOOGLE_DRIVE_FILES_URL = "https://www.googleapis.com/drive/v3/files"
 TOKEN_STORE_FIELD = "google_drive_oauth_payload"
 CACHE_STATE_PREFIX = "google_drive_oauth_state"
+
+
+def _normalize_drive_key(value):
+    return " ".join((value or "").strip().lower().split())
+
+
+def _ensure_drive_folder(drive_service, folder_name, parent_folder_id=None):
+    folder_name = (folder_name or "").strip()
+    if not folder_name:
+        frappe.throw(_("Folder name is required."))
+
+    escaped_name = folder_name.replace("'", "\\'")
+    query_parts = [
+        "mimeType='application/vnd.google-apps.folder'",
+        f"name='{escaped_name}'",
+        "trashed=false",
+    ]
+    if parent_folder_id:
+        query_parts.append(f"'{parent_folder_id}' in parents")
+    query = " and ".join(query_parts)
+
+    existing = (
+        drive_service.files()
+        .list(
+            q=query,
+            fields="files(id,name,webViewLink,parents)",
+            pageSize=1,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        )
+        .execute()
+    )
+    files = (existing or {}).get("files") or []
+    if files:
+        files[0]["created"] = False
+        return files[0]
+
+    metadata = {"name": folder_name, "mimeType": "application/vnd.google-apps.folder"}
+    if parent_folder_id:
+        metadata["parents"] = [parent_folder_id]
+
+    created = (
+        drive_service.files()
+        .create(
+            body=metadata,
+            fields="id,name,webViewLink,parents",
+            supportsAllDrives=True,
+        )
+        .execute()
+    )
+    created["created"] = True
+    return created
 
 
 def _get_oauth_config():
@@ -31,7 +90,7 @@ def _get_oauth_config():
                 "or `google_drive_client_id` / `google_drive_client_secret` in site_config.json."
             )
         )
-    # Use Frappe's standard Google OAuth callback to match ERPNext Google integration setup.
+    # Keep callback aligned with Frappe/ERPNext's documented Google OAuth flow.
     redirect_uri = get_url("/api/method/frappe.integrations.google_oauth.callback")
     return client_id, client_secret, redirect_uri
 
@@ -60,11 +119,6 @@ def _get_oauth_config_from_google_settings():
     return None, None
 
 
-def _cache_set_state(user, nonce, project_name):
-    cache_key = f"{CACHE_STATE_PREFIX}:{user}:{nonce}"
-    frappe.cache().set_value(cache_key, project_name, expires_in_sec=600)
-
-
 def _cache_get_state(user, nonce):
     cache_key = f"{CACHE_STATE_PREFIX}:{user}:{nonce}"
     return frappe.cache().get_value(cache_key)
@@ -84,37 +138,6 @@ def _load_token_payload(user):
     if not raw:
         return _load_token_payload_from_google_drive_single()
     return json.loads(raw)
-
-
-def _refresh_access_token_if_needed(user, payload):
-    now_ts = int(time.time())
-    expires_at = int(payload.get("expires_at") or 0)
-    if payload.get("access_token") and expires_at - 60 > now_ts:
-        return payload
-
-    refresh_token = payload.get("refresh_token")
-    if not refresh_token:
-        frappe.throw(_("Google Drive session expired. Please reconnect your Google account."))
-
-    client_id, client_secret, _redirect_uri = _get_oauth_config()
-    resp = requests.post(
-        GOOGLE_TOKEN_URL,
-        data={
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "refresh_token": refresh_token,
-            "grant_type": "refresh_token",
-        },
-        timeout=30,
-    )
-    if resp.status_code >= 300:
-        frappe.throw(_("Failed to refresh Google Drive token. Please reconnect your Google account."))
-
-    token_data = resp.json()
-    payload["access_token"] = token_data.get("access_token")
-    payload["expires_at"] = int(time.time()) + int(token_data.get("expires_in") or 3600)
-    _save_token_payload(user, payload)
-    return payload
 
 
 def _load_token_payload_from_google_drive_single():
@@ -145,23 +168,11 @@ def _ensure_project_access(project_name):
 @frappe.whitelist()
 def get_google_drive_auth_url(project_name):
     _ensure_project_access(project_name)
-    user = frappe.session.user
-    client_id, _client_secret, redirect_uri = _get_oauth_config()
-
-    nonce = secrets.token_urlsafe(24)
-    _cache_set_state(user, nonce, project_name)
-    state = json.dumps({"user": user, "nonce": nonce})
-
-    params = {
-        "client_id": client_id,
-        "redirect_uri": redirect_uri,
-        "response_type": "code",
-        "scope": "https://www.googleapis.com/auth/drive.file",
-        "access_type": "offline",
-        "prompt": "consent",
-        "state": state,
-    }
-    return {"auth_url": f"{GOOGLE_AUTH_BASE}?{urlencode(params)}"}
+    oauth = GoogleOAuth("drive")
+    # Redirect back to the same project details tab after authorization.
+    redirect = f"/app/icl-project-management/{project_name}?tab=projects#"
+    auth = oauth.get_authentication_url({"redirect": redirect})
+    return {"auth_url": auth.get("url")}
 
 
 @frappe.whitelist()
@@ -229,21 +240,51 @@ def google_drive_oauth_callback(code=None, state=None, error=None):
 
 
 @frappe.whitelist()
-def create_project_google_drive_folder(project_name, folder_name=None, parent_folder_id=None):
-    _ensure_project_access(project_name)
-    google_drive_doc = frappe.get_doc("Google Drive")
-    refresh_token = google_drive_doc.get_password(fieldname="refresh_token", raise_exception=False)
-    if not refresh_token:
-        frappe.throw(
-            _(
-                "Google Drive is not authorized. Please open Google Drive settings and click "
-                "'Authorize Google Drive Access'."
-            )
-        )
+def check_project_google_drive_connection(project_name=None):
+    project_name = (project_name or "").strip()
+    if project_name:
+        _ensure_project_access(project_name)
 
     try:
-        access_token = google_drive_doc.get_access_token()
-        drive_service = GoogleOAuth("drive").get_google_service_object(access_token, refresh_token)
+        if not frappe.db.exists("Google Drive", "Google Drive"):
+            auth_url = None
+            if project_name:
+                try:
+                    auth_url = get_google_drive_auth_url(project_name).get("auth_url")
+                except Exception:
+                    auth_url = None
+            return {
+                "connected": False,
+                "message": "Google Drive settings are not available. Please configure Google Drive.",
+                "auth_url": auth_url,
+            }
+        gd = frappe.get_doc("Google Drive", "Google Drive")
+        gd.get_access_token()
+        return {
+            "connected": True,
+            "message": "Google Drive connection is active.",
+        }
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Google Drive connection check failed")
+        auth_url = None
+        if project_name:
+            try:
+                auth_url = get_google_drive_auth_url(project_name).get("auth_url")
+            except Exception:
+                auth_url = None
+        return {
+            "connected": False,
+            "message": "Google Drive token refresh failed. Please reconnect your Google account.",
+            "auth_url": auth_url,
+        }
+
+
+@frappe.whitelist()
+def create_project_google_drive_folder(project_name, folder_name=None, parent_folder_id=None):
+    _ensure_project_access(project_name)
+
+    try:
+        drive_service, _account = get_google_drive_object()
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Google Drive access token refresh failed")
         frappe.throw(
@@ -254,25 +295,22 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
 
     folder_name = (folder_name or "").strip() or project_name
 
-    metadata = {
-        "name": folder_name,
-        "mimeType": "application/vnd.google-apps.folder",
-    }
-    if parent_folder_id:
-        metadata["parents"] = [parent_folder_id]
-    try:
-        folder = (
-            drive_service.files()
-            .create(body=metadata, fields="id,name,webViewLink")
-            .execute()
-        )
-    except Exception:
-        frappe.log_error(frappe.get_traceback(), "Google Drive folder creation failed")
-        frappe.throw(_("Failed to create Google Drive folder. Please verify Google Drive authorization."))
-
+    folder = _ensure_drive_folder(drive_service, folder_name, parent_folder_id)
     folder_id = folder.get("id")
     folder_link = folder.get("webViewLink") or f"https://drive.google.com/drive/folders/{folder_id}"
-    created_children = _create_lifecycle_folders(drive_service, folder_id)
+    lifecycle_doc = get_or_create_project_lifecycle_doc(project_name)
+    lifecycle_doc.drive_root_folder_id = folder_id
+    lifecycle_doc.drive_root_folder_link = folder_link
+    lifecycle_count, folder_id_map = _create_drive_lifecycle_structure(drive_service, folder_id)
+    templates_count = _upload_project_toolkit_templates(
+        drive_service,
+        folder_id,
+        folder_id_map,
+        lifecycle_doc,
+        project_name,
+    )
+    lifecycle_doc.last_drive_sync_at = now_datetime()
+    lifecycle_doc.save(ignore_permissions=True)
 
     try:
         project_doc = frappe.get_doc("Project", project_name)
@@ -280,8 +318,9 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
             "Comment",
             _(
                 "Google Drive folder created: <a href=\"{0}\" target=\"_blank\">{1}</a>"
-                "<br><small>Lifecycle subfolders created: {2}</small>"
-            ).format(folder_link, folder_name, created_children),
+                "<br><small>Lifecycle folders created under this root: {2}</small>"
+                "<br><small>Document templates uploaded: {3}</small>"
+            ).format(folder_link, folder_name, lifecycle_count, templates_count),
         )
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Failed to add Project comment for Google Drive folder")
@@ -290,70 +329,463 @@ def create_project_google_drive_folder(project_name, folder_name=None, parent_fo
         "folder_id": folder_id,
         "folder_name": folder.get("name") or folder_name,
         "folder_link": folder_link,
-        "lifecycle_folders_created": created_children,
+        "lifecycle_folders_created": lifecycle_count,
+        "templates_uploaded": templates_count,
     }
 
 
-def _create_drive_folder(drive_service, name, parent_id=None):
-    payload = {
-        "name": name,
-        "mimeType": "application/vnd.google-apps.folder",
-    }
-    if parent_id:
-        payload["parents"] = [parent_id]
-    return drive_service.files().create(body=payload, fields="id,name").execute()
+@frappe.whitelist()
+def delete_project_google_drive_folder(project_name, folder_link):
+	"""Delete a Google Drive folder for a project and remove the associated comment."""
+	project_name = (project_name or "").strip()
+	folder_link = (folder_link or "").strip()
+
+	if not project_name:
+		frappe.throw(_("Project is required."))
+	if not folder_link:
+		frappe.throw(_("Folder link is required."))
+
+	_ensure_project_access(project_name)
+
+	folder_id_match = re.search(r'/folders/([A-Za-z0-9_-]+)', folder_link)
+	if not folder_id_match:
+		frappe.throw(_("Invalid folder link format."))
+
+	folder_id = folder_id_match.group(1)
+
+	folder_deleted = False
+	try:
+		drive_service, _account = get_google_drive_object()
+		drive_service.files().delete(fileId=folder_id, supportsAllDrives=True).execute()
+		folder_deleted = True
+	except HttpError as e:
+		# If folder not found (404), it's already deleted - still proceed to clean up comment
+		if e.resp.status == 404:
+			folder_deleted = True
+		else:
+			frappe.log_error(frappe.get_traceback(), f"Failed to delete Google Drive folder {folder_id}")
+			frappe.throw(_("Failed to delete Google Drive folder. Please try again."))
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), f"Failed to delete Google Drive folder {folder_id}")
+		frappe.throw(_("Failed to delete Google Drive folder. Please try again."))
+
+	# Remove the associated comment from the project even if folder was already deleted
+	if folder_deleted:
+		try:
+			comments = frappe.get_all(
+				"Comment",
+				filters={
+					"reference_doctype": "Project",
+					"reference_name": project_name,
+					"comment_type": "Comment",
+				},
+				fields=["name", "content"],
+			)
+
+			for comment in comments:
+				content = comment.get("content") or ""
+				if folder_link in content and "Google Drive folder created" in content:
+					frappe.delete_doc("Comment", comment.get("name"), ignore_permissions=True)
+					break
+		except Exception:
+			frappe.log_error(frappe.get_traceback(), "Failed to remove Google Drive folder comment")
+
+	return {"status": "success", "message": _("Google Drive folder deleted successfully.")}
 
 
-def _create_lifecycle_folders(drive_service, project_root_folder_id):
-    if not frappe.db.exists("DocType", "HIS Project Lifecycle Config"):
-        return 0
-
-    try:
-        config = frappe.get_single("HIS Project Lifecycle Config")
-    except Exception:
-        return 0
-
-    stages = sorted(
-        [row for row in (config.stages or []) if row.is_active],
-        key=lambda x: (x.display_order or 0, x.idx or 0),
-    )
+def _create_drive_lifecycle_structure(drive_service, project_root_folder_id):
+    phase_blueprint = get_project_toolkit_folder_blueprint()
     created_count = 0
+    folder_id_map = {}
 
-    for stage in stages:
-        stage_name = (stage.stage_name or "").strip()
-        if not stage_name:
+    for phase in phase_blueprint:
+        phase_name = (phase.get("phase_name") or "").strip()
+        if not phase_name:
             continue
 
-        stage_folder = _create_drive_folder(drive_service, stage_name, project_root_folder_id)
-        stage_folder_id = stage_folder.get("id")
+        phase_folder = _ensure_drive_folder(drive_service, phase_name, project_root_folder_id)
+        phase_folder_id = phase_folder.get("id")
+        if phase_folder.get("created"):
+            created_count += 1
+        if phase_folder_id:
+            folder_id_map[(_normalize_drive_key(phase_name), "__phase__")] = phase_folder_id
+
+        for folder in (phase.get("folders") or []):
+            created_count += _create_drive_folder_tree(
+                drive_service=drive_service,
+                parent_folder_id=phase_folder_id,
+                folder_node=folder,
+                current_phase=phase_name,
+                folder_id_map=folder_id_map,
+            )
+
+    return created_count, folder_id_map
+
+
+def _create_drive_folder_tree(drive_service, parent_folder_id, folder_node, current_phase, folder_id_map):
+    folder_name = (folder_node.get("folder_name") or "").strip()
+    if not folder_name:
+        return 0
+
+    created_count = 0
+    folder = _ensure_drive_folder(drive_service, folder_name, parent_folder_id)
+    if folder.get("created"):
         created_count += 1
 
-        requirement_items = _split_lines(stage.requirements)
-        deliverable_items = _split_lines(stage.deliverables)
+    folder_doc_id = (folder_node.get("folder_id") or "").strip()
+    node_phase = (folder_node.get("project_phase") or current_phase or "General").strip() or "General"
+    folder_id = folder.get("id")
+    if folder_doc_id and folder_id:
+        folder_id_map[(_normalize_drive_key(node_phase), _normalize_drive_key(folder_name))] = folder_id
+        folder_id_map[folder_doc_id] = folder_id
+        folder_id_map[_normalize_drive_key(folder_name)] = folder_id
 
-        if requirement_items:
-            req_root = _create_drive_folder(drive_service, "Requirements", stage_folder_id)
-            req_root_id = req_root.get("id")
-            created_count += 1
-            for item in requirement_items:
-                _create_drive_folder(drive_service, item, req_root_id)
-                created_count += 1
-
-        if deliverable_items:
-            del_root = _create_drive_folder(drive_service, "Deliverables - Templates", stage_folder_id)
-            del_root_id = del_root.get("id")
-            created_count += 1
-            for item in deliverable_items:
-                _create_drive_folder(drive_service, item, del_root_id)
-                created_count += 1
+    for child in (folder_node.get("children") or []):
+        created_count += _create_drive_folder_tree(
+            drive_service,
+            folder_id,
+            child,
+            node_phase,
+            folder_id_map,
+        )
 
     return created_count
 
 
-def _split_lines(value):
+def _upload_project_toolkit_templates(drive_service, project_root_folder_id, folder_id_map, lifecycle_doc, project_name):
+    targets = get_project_toolkit_document_template_targets()
+    if not targets:
+        return 0
+
+    uploaded_count = 0
+    for target in targets:
+        attachment = (target.get("attachment") or "").strip()
+        if not attachment:
+            continue
+
+        file_doc_name = frappe.db.get_value("File", {"file_url": attachment}, "name")
+        if not file_doc_name:
+            continue
+
+        file_doc = frappe.get_doc("File", file_doc_name)
+        file_content = file_doc.get_content()
+        if not file_content:
+            continue
+        if isinstance(file_content, str):
+            file_content = file_content.encode("utf-8")
+        mime_type = _resolve_file_mime_type(file_doc)
+        source_attachment = attachment
+
+        doc_label = (target.get("document_name") or file_doc.file_name or "Template").strip()
+        placements = target.get("placements") or []
+        if not placements:
+            upload_result = _upload_template_to_folder(
+                drive_service=drive_service,
+                parent_folder_id=project_root_folder_id,
+                file_name=file_doc.file_name or doc_label,
+                file_content=file_content,
+                mime_type=mime_type,
+                description=doc_label,
+            )
+            uploaded_count += int(bool(upload_result.get("created")))
+            _upsert_project_drive_document(
+                lifecycle_doc=lifecycle_doc,
+                row_key=_build_drive_document_row_key(doc_label, "General", project_root_folder_id),
+                template_name=doc_label,
+                project_phase="General",
+                folder_name="",
+                source_attachment=source_attachment,
+                drive_file=upload_result.get("file") or {},
+                sync_status="Synced" if upload_result.get("file") else "Error",
+            )
+            continue
+
+        for placement in placements:
+            phase_name = (placement.get("project_phase") or "").strip() or "General"
+            folder_doc_id = (placement.get("folder") or "").strip()
+            target_folder_id = _resolve_or_create_template_folder(
+                drive_service=drive_service,
+                project_root_folder_id=project_root_folder_id,
+                folder_id_map=folder_id_map,
+                project_phase=phase_name,
+                folder_name=folder_doc_id,
+            )
+            if not target_folder_id:
+                frappe.log_error(
+                    (
+                        "Could not resolve Drive folder for template "
+                        f"{doc_label} with phase={phase_name!r}, folder={folder_doc_id!r}"
+                    ),
+                    "Google Drive Template Upload Target Missing",
+                )
+                continue
+            upload_result = _upload_template_to_folder(
+                drive_service=drive_service,
+                parent_folder_id=target_folder_id,
+                file_name=file_doc.file_name or doc_label,
+                file_content=file_content,
+                mime_type=mime_type,
+                description=doc_label,
+            )
+            uploaded_count += int(bool(upload_result.get("created")))
+            _upsert_project_drive_document(
+                lifecycle_doc=lifecycle_doc,
+                row_key=_build_drive_document_row_key(doc_label, phase_name, folder_doc_id),
+                template_name=doc_label,
+                project_phase=phase_name,
+                folder_name=folder_doc_id,
+                source_attachment=source_attachment,
+                drive_file=upload_result.get("file") or {},
+                sync_status="Synced" if upload_result.get("file") else "Error",
+            )
+
+    return uploaded_count
+
+
+def _resolve_or_create_template_folder(
+    drive_service,
+    project_root_folder_id,
+    folder_id_map,
+    project_phase,
+    folder_name,
+):
+    phase_key = _normalize_drive_key(project_phase or "General")
+    folder_key = _normalize_drive_key(folder_name)
+    if not folder_key:
+        return None
+
+    target_folder_id = (
+        folder_id_map.get((phase_key, folder_key))
+        or folder_id_map.get(folder_key)
+        or folder_id_map.get(folder_name)
+    )
+    if target_folder_id:
+        return target_folder_id
+
+    phase_folder_id = folder_id_map.get((phase_key, "__phase__"))
+    if not phase_folder_id:
+        phase_folder = _ensure_drive_folder(drive_service, project_phase or "General", project_root_folder_id)
+        phase_folder_id = phase_folder.get("id")
+        if phase_folder_id:
+            folder_id_map[(phase_key, "__phase__")] = phase_folder_id
+
+    if not phase_folder_id:
+        return None
+
+    folder = _ensure_drive_folder(drive_service, folder_name, phase_folder_id)
+    target_folder_id = folder.get("id")
+    if target_folder_id:
+        folder_id_map[(phase_key, folder_key)] = target_folder_id
+        folder_id_map[folder_key] = target_folder_id
+        folder_id_map[folder_name] = target_folder_id
+    return target_folder_id
+
+
+def _upload_template_to_folder(
+    drive_service,
+    parent_folder_id,
+    file_name,
+    file_content,
+    mime_type=None,
+    description=None,
+):
+    escaped_name = (file_name or "").replace("'", "\\'")
+    existing = (
+        drive_service.files()
+        .list(
+            q=(
+                "trashed=false and "
+                f"name='{escaped_name}' and "
+                f"'{parent_folder_id}' in parents"
+            ),
+            fields="files(id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress))",
+            pageSize=1,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        )
+        .execute()
+    )
+    if (existing or {}).get("files"):
+        existing_file = (existing or {}).get("files", [{}])[0]
+        existing_file["id"] = existing_file.get("id")
+        existing_file["webViewLink"] = existing_file.get("webViewLink") or (
+            f"https://drive.google.com/file/d/{existing_file.get('id')}/view"
+        )
+        return {"created": False, "file": existing_file}
+
+    media = MediaInMemoryUpload(
+        file_content,
+        mimetype=mime_type or "application/octet-stream",
+        resumable=False,
+    )
+    metadata = {"name": file_name, "parents": [parent_folder_id]}
+    if description:
+        metadata["description"] = description
+
+    drive_service.files().create(
+        body=metadata,
+        media_body=media,
+        fields="id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress)",
+        supportsAllDrives=True,
+    ).execute()
+    created = (
+        drive_service.files()
+        .list(
+            q=(
+                "trashed=false and "
+                f"name='{escaped_name}' and "
+                f"'{parent_folder_id}' in parents"
+            ),
+            fields="files(id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress))",
+            pageSize=1,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        )
+        .execute()
+    )
+    file_obj = ((created or {}).get("files") or [{}])[0]
+    file_obj["webViewLink"] = file_obj.get("webViewLink") or f"https://drive.google.com/file/d/{file_obj.get('id')}/view"
+    return {"created": True, "file": file_obj}
+
+
+def _resolve_file_mime_type(file_doc):
+    candidates = [
+        getattr(file_doc, "content_type", None),
+        getattr(file_doc, "mime_type", None),
+        getattr(file_doc, "file_type", None),
+        mimetypes.guess_type(getattr(file_doc, "file_name", None) or "")[0],
+        mimetypes.guess_type(getattr(file_doc, "file_url", None) or "")[0],
+    ]
+
+    for candidate in candidates:
+        mime_type = (candidate or "").strip()
+        if "/" in mime_type:
+            return mime_type
+
+    return "application/octet-stream"
+
+
+def _build_drive_document_row_key(template_name, project_phase, folder_name):
+    return "|".join(
+        [
+            _normalize_drive_key(template_name),
+            _normalize_drive_key(project_phase),
+            _normalize_drive_key(folder_name),
+        ]
+    )
+
+
+def _serialize_drive_user(user_data):
+    if not user_data:
+        return ""
+    display_name = (user_data.get("displayName") or "").strip()
+    email = (user_data.get("emailAddress") or "").strip()
+    if display_name and email:
+        return f"{display_name} <{email}>"
+    return display_name or email
+
+
+def _parse_drive_datetime(value):
     if not value:
-        return []
-    return [line.strip() for line in str(value).splitlines() if line.strip()]
+        return None
+    try:
+        dt = get_datetime(value)
+        # Remove timezone info to ensure MySQL compatibility
+        if dt and hasattr(dt, 'replace'):
+        	return dt.replace(tzinfo=None)
+        return dt
+    except Exception:
+        return None
+
+
+def _upsert_project_drive_document(
+    lifecycle_doc,
+    row_key,
+    template_name,
+    project_phase,
+    folder_name,
+    source_attachment,
+    drive_file,
+    sync_status="Synced",
+):
+    if not lifecycle_doc:
+        return
+
+    rows = list(getattr(lifecycle_doc, "drive_documents", None) or [])
+    target_row = None
+    for row in rows:
+        if (getattr(row, "row_key", None) or "") == row_key:
+            target_row = row
+            break
+
+    if not target_row:
+        target_row = lifecycle_doc.append("drive_documents", {})
+
+    target_row.row_key = row_key
+    target_row.template_name = template_name
+    target_row.project_phase = project_phase
+    target_row.folder_name = folder_name
+    target_row.source_attachment = source_attachment
+    target_row.drive_file_name = drive_file.get("name") or template_name
+    target_row.drive_file_id = drive_file.get("id")
+    target_row.drive_file_link = drive_file.get("webViewLink") or (
+        f"https://drive.google.com/file/d/{drive_file.get('id')}/view"
+        if drive_file.get("id")
+        else ""
+    )
+    target_row.drive_revision_id = drive_file.get("headRevisionId") or ""
+    target_row.drive_modified_at = _parse_drive_datetime(drive_file.get("modifiedTime"))
+    target_row.drive_modified_by = _serialize_drive_user(drive_file.get("lastModifyingUser") or {})
+    target_row.last_synced_at = now_datetime()
+    target_row.sync_status = sync_status
+
+
+@frappe.whitelist()
+def sync_project_drive_documents(project_name=None, docname=None):
+    lifecycle_doc = get_or_create_project_lifecycle_doc(project_name or docname or "")
+    if not lifecycle_doc:
+        frappe.throw(_("Project lifecycle record was not found."))
+
+    try:
+        drive_service, _account = get_google_drive_object()
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Google Drive access token refresh failed")
+        frappe.throw(_("Failed to refresh Google Drive token. Please re-authorize from Google Drive settings."))
+
+    updated = 0
+    missing = 0
+
+    for row in list(getattr(lifecycle_doc, "drive_documents", None) or []):
+        drive_file_id = (getattr(row, "drive_file_id", None) or "").strip()
+        if not drive_file_id:
+            continue
+
+        try:
+            meta = (
+                drive_service.files()
+                .get(
+                    fileId=drive_file_id,
+                    fields="id,name,webViewLink,modifiedTime,headRevisionId,lastModifyingUser(displayName,emailAddress)",
+                    supportsAllDrives=True,
+                )
+                .execute()
+            )
+            row.drive_file_name = meta.get("name") or row.drive_file_name
+            row.drive_file_link = meta.get("webViewLink") or row.drive_file_link
+            row.drive_revision_id = meta.get("headRevisionId") or row.drive_revision_id
+            row.drive_modified_at = _parse_drive_datetime(meta.get("modifiedTime")) or row.drive_modified_at
+            row.drive_modified_by = _serialize_drive_user(meta.get("lastModifyingUser") or {}) or row.drive_modified_by
+            row.last_synced_at = now_datetime()
+            row.sync_status = "Synced"
+            updated += 1
+        except Exception:
+            row.sync_status = "Missing"
+            row.last_synced_at = now_datetime()
+            missing += 1
+
+    lifecycle_doc.last_drive_sync_at = now_datetime()
+    lifecycle_doc.save(ignore_permissions=True)
+    return {"updated": updated, "missing": missing, "last_drive_sync_at": lifecycle_doc.last_drive_sync_at}
 
 
 def _oauth_close_window_html(success, message):

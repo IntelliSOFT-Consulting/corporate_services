@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:folder_name",
+ "creation": "2026-05-24 09:20:43.191742",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "folder_name",
+  "project_phase",
+  "is_active",
+  "column_break_zmoh",
+  "is_child_folder",
+  "parent_folder",
+  "section_break_detj",
+  "description"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "folder_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Folder Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "project_phase",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Project Phase",
+   "options": "Project Phase",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "column_break_zmoh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "is_child_folder",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Child Folder"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "depends_on": "eval:doc.is_child_folder;",
+   "fieldname": "parent_folder",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Parent Folder",
+   "mandatory_depends_on": "eval:doc.is_child_folder;",
+   "options": "HIS Project Folders"
+  },
+  {
+   "fieldname": "section_break_detj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-24 09:38:21.666121",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "HIS Project Folders",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

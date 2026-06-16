@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "scope_baseline_section",
   "project",
   "data_wfin",
   "customer",
@@ -38,12 +39,17 @@
    "fieldname": "description",
    "fieldtype": "Small Text",
    "label": "Description"
+  },
+  {
+   "fieldname": "scope_baseline_section",
+   "fieldtype": "Section Break",
+   "label": "Scope Baseline"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-12 09:38:00.513947",
+ "modified": "2026-05-25 09:31:54.636723",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Deliverable",

@@ -9,25 +9,35 @@
   "from",
   "destination",
   "province",
+  "travel_region",
   "transport_means_of_travel",
   "fares",
-  "m_i",
-  "accommodation"
+  "accommodation_min",
+  "accommodation_max",
+  "meals_incidentals_min",
+  "meals__incidentals__max"
  ],
  "fields": [
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "from",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "From"
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "province",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Province"
+  },
+  {
+   "columns": 1,
+   "fieldname": "travel_region",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Travel Region"
   },
   {
    "columns": 1,
@@ -38,10 +48,35 @@
   },
   {
    "columns": 1,
-   "fieldname": "m_i",
+   "description": "Currency (KES)",
+   "fieldname": "accommodation_min",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "M & I"
+   "label": "Accommodation Min"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "accommodation_max",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Accommodation Max"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "meals_incidentals_min",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Meals & Incidentals Min"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "meals__incidentals__max",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Meals & Incidentals Max"
   },
   {
    "columns": 1,
@@ -52,13 +87,6 @@
   },
   {
    "columns": 1,
-   "fieldname": "accommodation",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Accommodation"
-  },
-  {
-   "columns": 2,
    "fieldname": "destination",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -68,7 +96,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-03-23 20:16:43.681024",
+ "modified": "2026-05-22 10:13:35.630276",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Travel Request Local Per Diem Rates",

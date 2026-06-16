@@ -1,0 +1,137 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-06-12 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "evaluation_type",
+  "template",
+  "date",
+  "column_break_period",
+  "from_start_date",
+  "to_end_date",
+  "employees_section",
+  "employees",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Cycle Details"
+  },
+  {
+   "default": "PAC-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PAC-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluation_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Evaluation Type",
+   "options": "Appraisal Type",
+   "reqd": 1
+  },
+  {
+   "description": "Leave blank to use the active template",
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Appraisal Template",
+   "options": "Performance Appraisal Template"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_period",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From (Start Date)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To (End Date)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employees_section",
+   "fieldtype": "Section Break",
+   "label": "Employees"
+  },
+  {
+   "fieldname": "employees",
+   "fieldtype": "Table",
+   "label": "Employees",
+   "options": "Performance Appraisal Cycle Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Performance Appraisal Cycle",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-06-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Performance Appraisal Cycle",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

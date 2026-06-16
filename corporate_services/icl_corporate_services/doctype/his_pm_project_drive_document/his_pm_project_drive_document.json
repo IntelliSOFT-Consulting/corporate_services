@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-24 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "row_key",
+  "template_name",
+  "project_phase",
+  "folder_name",
+  "source_attachment",
+  "drive_file_name",
+  "drive_file_id",
+  "drive_file_link",
+  "drive_revision_id",
+  "drive_modified_at",
+  "drive_modified_by",
+  "last_synced_at",
+  "sync_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "row_key",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Row Key",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Name",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "project_phase",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Project Phase",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "folder_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Folder Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_attachment",
+   "fieldtype": "Attach",
+   "label": "Source Attachment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drive_file_name",
+   "fieldtype": "Data",
+   "label": "Drive File Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drive_file_id",
+   "fieldtype": "Data",
+   "label": "Drive File ID",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "drive_file_link",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Drive File Link",
+   "read_only": 1
+  },
+  {
+   "fieldname": "drive_revision_id",
+   "fieldtype": "Data",
+   "label": "Drive Revision ID",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "drive_modified_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Drive Modified At",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "drive_modified_by",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Drive Modified By",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "last_synced_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Last Synced At",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "Synced",
+   "fieldname": "sync_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Sync Status",
+   "options": "Synced\nMissing\nError",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-26 08:53:16.963859",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "HIS PM Project Drive Document",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

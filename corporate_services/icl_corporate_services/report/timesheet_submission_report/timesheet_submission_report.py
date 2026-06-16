@@ -249,7 +249,7 @@ def get_data(filters, ctx):
         row["month_year_display"] = format_month_year(row.get("month_year"))
 
     # Append "Not Submitted" rows when a specific month is selected
-    if filters.get("month_year") and ctx["role"] != "employee":
+    if filters.get("month_year") and ctx["role"] != "employee" and not filters.get("project"):
         rows.extend(get_not_submitted_rows(filters, ctx, rows))
 
     return rows
@@ -296,6 +296,17 @@ def build_conditions(filters, ctx):
     if filters.get("designation"):
         conditions.append("emp.designation = %s")
         params.append(filters["designation"])
+
+    if filters.get("project"):
+        conditions.append(
+            """EXISTS (
+                SELECT 1
+                FROM `tabTimesheet Submission List` tsl
+                WHERE tsl.parent = ts.name
+                AND tsl.project = %s
+            )"""
+        )
+        params.append(filters["project"])
 
     # Workflow state filter only meaningful for hr_finance
     if filters.get("workflow_state") and ctx["role"] == "hr_finance":

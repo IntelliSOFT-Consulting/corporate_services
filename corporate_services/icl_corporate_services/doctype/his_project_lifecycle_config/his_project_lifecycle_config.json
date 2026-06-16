@@ -1,21 +1,22 @@
 {
  "actions": [],
- "allow_import": 1,
- "allow_rename": 0,
- "creation": "2026-05-14 13:40:00.000000",
+ "creation": "2026-05-14 13:40:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "intro_title",
   "intro_description",
   "stages_section",
-  "stages"
+  "project_toolkit_folders",
+  "toolkit_section",
+  "project_toolkit_document_templates"
  ],
  "fields": [
   {
    "default": "Project Start-to-End Guide",
    "fieldname": "intro_title",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Intro Title",
    "reqd": 1
   },
@@ -23,27 +24,38 @@
    "default": "Use this lifecycle page as a checklist for all required processes and deliverables when creating and running a Health Information System project.",
    "fieldname": "intro_description",
    "fieldtype": "Small Text",
+   "in_list_view": 1,
    "label": "Intro Description",
    "reqd": 1
   },
   {
    "fieldname": "stages_section",
    "fieldtype": "Section Break",
-   "label": "Stages"
+   "label": "Stages/ Folders"
   },
   {
-   "fieldname": "stages",
+   "fieldname": "toolkit_section",
+   "fieldtype": "Section Break",
+   "label": "Toolkit Documents"
+  },
+  {
+   "fieldname": "project_toolkit_folders",
    "fieldtype": "Table",
-   "label": "Stages",
-   "options": "HIS Project Lifecycle Stage",
-   "reqd": 1
+   "label": "Project Toolkit Folders",
+   "options": "Project Toolkit Document Template Folders Item"
+  },
+  {
+   "fieldname": "project_toolkit_document_templates",
+   "fieldtype": "Table",
+   "label": "Project Toolkit Document Templates",
+   "options": "Project Toolkit Document Template Item"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-14 13:40:00.000000",
+ "modified": "2026-05-24 10:00:55.231432",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HIS Project Lifecycle Config",
@@ -53,32 +65,28 @@
    "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1
   },
   {
    "create": 1,
+   "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "Projects Manager",
+   "select": 1,
    "share": 1,
    "write": 1
   },
   {
    "create": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "PM Lead",
    "share": 1,
    "write": 1
@@ -87,5 +95,6 @@
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

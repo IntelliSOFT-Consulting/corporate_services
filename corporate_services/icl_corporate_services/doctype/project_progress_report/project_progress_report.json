@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-25 12:08:05.030633",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_bpa3",
+  "project",
+  "project_name",
+  "column_break_rflz",
+  "frequency",
+  "amended_from",
+  "section_break_dwsg",
+  "purpose",
+  "for_period",
+  "column_break_prvi",
+  "report_date",
+  "prepared_by",
+  "report_type_section",
+  "report_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_bpa3",
+   "fieldtype": "Section Break",
+   "label": "Project Information"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Project Progress Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "Weekly\nMonthly"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fetch_from": "project.project_name",
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "label": "Project Name"
+  },
+  {
+   "fieldname": "section_break_dwsg",
+   "fieldtype": "Section Break",
+   "label": "Report Information"
+  },
+  {
+   "description": "[To provide a summary of project progress for a given week]",
+   "fieldname": "purpose",
+   "fieldtype": "Data",
+   "label": "PURPOSE"
+  },
+  {
+   "description": "[State the specific timeframe the report is covering]\n",
+   "fieldname": "for_period",
+   "fieldtype": "Data",
+   "label": "FOR PERIOD"
+  },
+  {
+   "description": "[Date of report submission]\n",
+   "fieldname": "report_date",
+   "fieldtype": "Data",
+   "label": "REPORT DATE"
+  },
+  {
+   "default": "IntelliSOFT Consulting Limited\nRECIPIENTS",
+   "description": "[List the client and ICL team members receiving the report]",
+   "fieldname": "prepared_by",
+   "fieldtype": "Data",
+   "label": "PREPARED BY"
+  },
+  {
+   "fieldname": "column_break_rflz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_prvi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "report_type_section",
+   "fieldtype": "Section Break",
+   "label": "Report Type"
+  },
+  {
+   "fieldname": "report_type",
+   "fieldtype": "Select",
+   "label": "Report Type",
+   "options": "System Report\nDocs Report"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-05-25 12:19:45.891358",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Progress Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Projects Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -9,14 +9,22 @@
  "field_order": [
   "naming_series",
   "currency",
-  "from",
-  "destination",
+  "column_break_xpif",
+  "travel_region",
   "province",
   "column_break_pjzx",
+  "from",
+  "destination",
+  "section_break_oizu",
   "transport_means_of_travel",
+  "column_break_nhdr",
   "fares",
-  "m_i",
-  "accommodation"
+  "section_break_juhc",
+  "accommodation_min",
+  "accommodation_max",
+  "column_break_sqmf",
+  "meals_incidentals_min",
+  "meals__incidentals__max"
  ],
  "fields": [
   {
@@ -27,6 +35,7 @@
    "label": "From"
   },
   {
+   "columns": 1,
    "fieldname": "province",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -41,22 +50,10 @@
   },
   {
    "columns": 1,
-   "fieldname": "m_i",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "M & I"
-  },
-  {
    "fieldname": "transport_means_of_travel",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Transport / Means of travel"
-  },
-  {
-   "columns": 1,
-   "fieldname": "accommodation",
-   "fieldtype": "Currency",
-   "label": "Accommodation"
   },
   {
    "fieldname": "column_break_pjzx",
@@ -88,10 +85,69 @@
    "in_standard_filter": 1,
    "label": "To (Counties)",
    "unique": 1
+  },
+  {
+   "fieldname": "section_break_juhc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "travel_region",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Travel Region"
+  },
+  {
+   "fieldname": "column_break_sqmf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "accommodation_max",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Accommodation Max"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "accommodation_min",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Accommodation Min"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "meals__incidentals__max",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Meals & Incidentals Max"
+  },
+  {
+   "columns": 1,
+   "description": "Currency (KES)",
+   "fieldname": "meals_incidentals_min",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Meals & Incidentals Min"
+  },
+  {
+   "fieldname": "column_break_xpif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_oizu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_nhdr",
+   "fieldtype": "Column Break"
   }
  ],
  "links": [],
- "modified": "2026-03-23 20:14:02.835209",
+ "modified": "2026-05-22 09:35:04.343233",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Local Per Diem Rates",

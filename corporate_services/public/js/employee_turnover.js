@@ -378,7 +378,7 @@ Error generating stack: `+i.message+`
   color: var(--text-muted, #adb5bd);
 }
 
-/* -- Sidebar (shared with staff-management pattern) -- */
+/* -- Sidebar (shared with the HR management pattern) -- */
 .sm-sidebar-header {
   padding: 14px 12px 10px 12px;
   border-bottom: 1px solid var(--border-color, #e2e6ea);
