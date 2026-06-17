@@ -249,6 +249,10 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
 
     const grandTotal = useMemo(() => Object.values(colTotals).reduce((s, v) => s + v, 0), [colTotals]);
     const rowTotal = useCallback((task) => Object.values(task.hours).reduce((s, v) => s + (parseFloat(v) || 0), 0), []);
+    const sectionTotal = useCallback(
+        (sec) => sec.tasks.reduce((s, t) => s + Object.values(t.hours).reduce((a, v) => a + (parseFloat(v) || 0), 0), 0),
+        []
+    );
 
     const updateHours = useCallback((secIdx, taskId, date, value) => {
         markDirty();
@@ -448,6 +452,17 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
             >
                 Open Submission
             </button>
+            <button
+                className="btn btn-default btn-sm"
+                onClick={() =>
+                    activeSubmission &&
+                    ctx?.employee &&
+                    frappe.set_route("timesheet_workflow", "employee", ctx.employee, "submission", activeSubmission)
+                }
+                disabled={!activeSubmission || !ctx?.employee}
+            >
+                Review
+            </button>
             <div className="btn-group">
                 <button className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" disabled={workflowBusy}>
                     {workflowBusy ? __("Working...") : __("Actions")}
@@ -508,7 +523,10 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     );
     const pageHeaderContext = (
         <div style={{ display: "inline-flex", alignItems: "center" }}>
-            <span className={`indicator-pill ${workflowIndicatorClass}`} style={{ marginLeft: 12 }}>
+            <span
+                className={`indicator-pill ${workflowIndicatorClass}`}
+                style={{ marginLeft: 12, whiteSpace: "nowrap" }}
+            >
                 {ctx.workflow_state || "Draft"}
             </span>
         </div>
@@ -572,6 +590,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                     <th key={d.date} className={"ts-col-date" + (d.is_weekend ? " ts-weekend" : "")}>{d.day_short}</th>
                                 ))}
                                 <th className="ts-col-total">Total Hours</th>
+                                <th className="ts-col-total">Ratio %</th>
                             </tr>
                             <tr className="ts-row-datenum">
                                 <th className="ts-col-sticky" style={{ left: 0, minWidth: 180, top: 29 }}></th>
@@ -579,6 +598,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                 {ctx.dates.map((d) => (
                                     <th key={d.date} className={"ts-col-date" + (d.is_weekend ? " ts-weekend" : "")} style={{ top: 29 }}>{d.date_num}</th>
                                 ))}
+                                <th className="ts-col-total" style={{ top: 29 }}></th>
                                 <th className="ts-col-total" style={{ top: 29 }}></th>
                             </tr>
                         </thead>
@@ -612,6 +632,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                         </td>
                                         {ctx.dates.map((d) => <td key={d.date} className={d.is_weekend ? "ts-weekend" : ""}></td>)}
                                         <td></td>
+                                        <td className="ts-col-total">{grandTotal > 0 ? ((sectionTotal(sec) / grandTotal) * 100).toFixed(1) + "%" : ""}</td>
                                     </tr>
                                     {sec.tasks.map((task) => (
                                         <tr key={task.id}>
@@ -630,6 +651,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                                 </td>
                                             ))}
                                             <td className="ts-col-total">{rowTotal(task) > 0 ? rowTotal(task).toFixed(1) : ""}</td>
+                                            <td className="ts-col-total"></td>
                                         </tr>
                                     ))}
                                     <tr className="ts-row-addtask">
@@ -638,6 +660,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                             <button className="ts-addtask-btn" onClick={() => addTask(secIdx)}>+ Add row</button>
                                         </td>
                                         {ctx.dates.map((d) => <td key={d.date} className={d.is_weekend ? "ts-weekend" : ""}></td>)}
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 </React.Fragment>
@@ -650,6 +673,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                                     </td>
                                 ))}
                                 <td className="ts-col-total">{grandTotal > 0 ? grandTotal.toFixed(1) : ""}</td>
+                                <td className="ts-col-total">{grandTotal > 0 ? "100%" : ""}</td>
                             </tr>
                         </tbody>
                     </table>
