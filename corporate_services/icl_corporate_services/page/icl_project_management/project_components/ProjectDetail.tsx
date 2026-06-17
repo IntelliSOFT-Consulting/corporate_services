@@ -3,6 +3,7 @@ import { useProjectDetail } from "./hooks/useProjectDetail";
 import { ProjectChartCard } from "./ProjectCharts";
 import WorkPlanPage from "../work_plan";
 import QuickActions from "./components/QuickActions";
+import { LessonsLearnedGuide } from "./LessonsLearnedGuide";
 
 const STATUS_INDICATOR: Record<string, string> = {
   Open: "blue",
@@ -323,48 +324,36 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
           <div className="row">
             <div className="col-md-12">
-              <div
-                className="frappe-card"
-                style={{ padding: "16px 20px", marginBottom: 16 }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    marginBottom: 12,
-                    flexWrap: "wrap",
-                  }}
+              <div className="pm-detail-tabs">
+                <button
+                  type="button"
+                  className={`pm-detail-tab ${activeTab === "details" ? "active" : ""}`}
+                  onClick={() => setActiveTab("details")}
                 >
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${activeTab === "details" ? "btn-primary" : "btn-default"}`}
-                    onClick={() => setActiveTab("details")}
-                  >
-                    Project Details
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${activeTab === "documents" ? "btn-primary" : "btn-default"}`}
-                    onClick={() => setActiveTab("documents")}
-                  >
-                    Documents & Folders
-                  </button>
-
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${activeTab === "work_plan" ? "btn-primary" : "btn-default"}`}
-                    onClick={() => setActiveTab("work_plan")}
-                  >
-                    Work Plan
-                  </button>
-                </div>
+                  Project Details
+                </button>
+                <button
+                  type="button"
+                  className={`pm-detail-tab ${activeTab === "documents" ? "active" : ""}`}
+                  onClick={() => setActiveTab("documents")}
+                >
+                  Documents & Folders
+                </button>
+                <button
+                  type="button"
+                  className={`pm-detail-tab ${activeTab === "work_plan" ? "active" : ""}`}
+                  onClick={() => setActiveTab("work_plan")}
+                >
+                  Work Plan
+                </button>
               </div>
 
               {activeTab === "details" && (
                 <div>
+                  <div className="pm-detail-cols">
                   <div
                     className="frappe-card"
-                    style={{ padding: "16px 20px", marginBottom: 16 }}
+                    style={{ padding: "16px 20px" }}
                   >
                     <h6 className="pm-section-title">Overview</h6>
                     <div className="pm-field-grid">
@@ -409,7 +398,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
                   <div
                     className="frappe-card"
-                    style={{ padding: "16px 20px", marginBottom: 16 }}
+                    style={{ padding: "16px 20px" }}
                   >
                     <h6 className="pm-section-title">Progress</h6>
                     <div style={{ marginBottom: 16 }}>
@@ -434,6 +423,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                         }
                       />
                     </div>
+                  </div>
                   </div>
 
                   <div className="pm-charts-grid">
@@ -584,6 +574,8 @@ export function ProjectDetail({ projectId, onBack }: Props) {
                       </div>
                     )}
                   </div>
+
+                  <LessonsLearnedGuide doc={doc} projectId={projectId} />
                 </div>
               )}
 

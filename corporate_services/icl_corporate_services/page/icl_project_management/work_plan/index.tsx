@@ -4,6 +4,35 @@ interface Props {
   projectId?: string;
 }
 
+const ROWS_PER_PAGE = 10;
+
+const STATUS_COLOR: Record<string, string> = {
+  completed: "green",
+  done: "green",
+  "in progress": "blue",
+  ongoing: "blue",
+  "not started": "gray",
+  pending: "orange",
+  "on hold": "orange",
+  delayed: "red",
+  overdue: "red",
+  cancelled: "red",
+};
+
+function WorkStatusBadge({ status }: { status?: string }) {
+  const text = (status || "").trim();
+  if (!text) return <span className="text-muted">-</span>;
+  const color = STATUS_COLOR[text.toLowerCase()] ?? "gray";
+  return (
+    <span
+      className={`indicator-pill ${color}`}
+      style={{ fontSize: 12, whiteSpace: "nowrap" }}
+    >
+      <span>{text}</span>
+    </span>
+  );
+}
+
 const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const projectId =
     propProjectId ||
@@ -15,6 +44,17 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const [highPlan, setHighPlan] = useState<any | null>(null);
   const [highPlanRows, setHighPlanRows] = useState<any[]>([]);
   const [detailedPlan, setDetailedPlan] = useState<any | null>(null);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [highPlanRows]);
+
+  const totalPages = Math.max(1, Math.ceil(highPlanRows.length / ROWS_PER_PAGE));
+  const pagedRows = highPlanRows.slice(
+    (page - 1) * ROWS_PER_PAGE,
+    page * ROWS_PER_PAGE,
+  );
 
   useEffect(() => {
     if (!projectId) return;
@@ -161,7 +201,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   };
 
   return (
-    <div className="work-plan-page">
+    <div className="work-plan-page" style={{ paddingBottom: 32 }}>
       <header className="work-plan-page__header">
         <h4>Project Work Plan</h4>
         <p>
@@ -246,20 +286,22 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                           <th>Start Date</th>
                           <th>End Date</th>
                           <th>Expected Outcome</th>
-                          <th>Status</th>
+                          <th style={{ minWidth: 130 }}>Status</th>
                           <th>Resources</th>
                           <th>Comments</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {highPlanRows.map((r: any, idx: number) => (
-                          <tr key={idx}>
+                        {pagedRows.map((r: any, idx: number) => (
+                          <tr key={(page - 1) * ROWS_PER_PAGE + idx}>
                             <td>{r.line_item || ""}</td>
                             <td>{r.key_deliverable || ""}</td>
                             <td>{r.start_date || ""}</td>
                             <td>{r.end_date || ""}</td>
                             <td>{r.expected_outcome || ""}</td>
-                            <td>{r.status || ""}</td>
+                            <td>
+                              <WorkStatusBadge status={r.status} />
+                            </td>
                             <td style={{ whiteSpace: "pre-wrap" }}>
                               {r.resources || ""}
                             </td>
@@ -270,6 +312,38 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                         ))}
                       </tbody>
                     </table>
+                    {totalPages > 1 && (
+                      <div className="pm-pagination">
+                        <span>
+                          Showing {(page - 1) * ROWS_PER_PAGE + 1}–
+                          {Math.min(page * ROWS_PER_PAGE, highPlanRows.length)} of{" "}
+                          {highPlanRows.length}
+                        </span>
+                        <div className="pm-pagination-btns">
+                          <button
+                            type="button"
+                            className="btn btn-xs btn-default"
+                            disabled={page <= 1}
+                            onClick={() => setPage((p) => Math.max(1, p - 1))}
+                          >
+                            Previous
+                          </button>
+                          <span style={{ padding: "0 8px" }}>
+                            Page {page} of {totalPages}
+                          </span>
+                          <button
+                            type="button"
+                            className="btn btn-xs btn-default"
+                            disabled={page >= totalPages}
+                            onClick={() =>
+                              setPage((p) => Math.min(totalPages, p + 1))
+                            }
+                          >
+                            Next
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
