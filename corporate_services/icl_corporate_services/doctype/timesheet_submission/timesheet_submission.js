@@ -12,6 +12,7 @@ frappe.ui.form.on("Timesheet Submission", {
 
 		toggle_finance_tab(frm);
 		add_insert_tasks_action(frm);
+		add_download_excel_action(frm);
 
 		if (can_view_finance) {
 			compute_finance(frm);
@@ -46,6 +47,28 @@ function add_insert_tasks_action(frm) {
 		window.location.href = `/app/employee_timesheet_entry?submission=${encodeURIComponent(frm.doc.name)}`;
 	});
 	frm.change_custom_button_type(__("Insert Tasks"), null, "success");
+}
+
+function add_download_excel_action(frm) {
+	frm.remove_custom_button(__("Download Excel (Project Ratios)"));
+
+	if (frm.is_new()) return;
+
+	frm.add_custom_button(__("Download Excel (Project Ratios)"), function () {
+		frappe.call({
+			method: "corporate_services.api.timesheet.timesheet_generation_export.timesheet_submission_data_export",
+			args: { docname: frm.doc.name },
+			freeze: true,
+			freeze_message: __("Generating Excel..."),
+			callback: function (r) {
+				if (!r.message || r.message === "error") {
+					frappe.msgprint(__("Failed to generate the timesheet Excel."));
+					return;
+				}
+				window.open(r.message, "_blank");
+			},
+		});
+	});
 }
 
 function compute_finance(frm) {

@@ -156,6 +156,7 @@ function SubmissionDetails({ submission, employee, onBack }) {
   const [loading, setLoading] = useState(true);
   const [commentSaving, setCommentSaving] = useState(false);
   const [workflowSaving, setWorkflowSaving] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [workflowMenuOpen, setWorkflowMenuOpen] = useState(false);
   const [activeBreakdownTab, setActiveBreakdownTab] = useState("projects");
   const [entryPage, setEntryPage] = useState(1);
@@ -211,6 +212,28 @@ function SubmissionDetails({ submission, employee, onBack }) {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [workflowMenuOpen]);
+
+  const handleDownloadExcel = () => {
+    if (!sub?.name) return;
+    setDownloading(true);
+    frappe.call({
+      method:
+        "corporate_services.api.timesheet.timesheet_generation_export.timesheet_submission_data_export",
+      args: { docname: sub.name },
+      callback: (r) => {
+        setDownloading(false);
+        if (!r.message || r.message === "error") {
+          frappe.show_alert({ message: __("Failed to generate the timesheet Excel."), indicator: "red" });
+          return;
+        }
+        window.open(r.message, "_blank");
+      },
+      error: () => {
+        setDownloading(false);
+        frappe.show_alert({ message: __("Failed to generate the timesheet Excel."), indicator: "red" });
+      },
+    });
+  };
 
   const handleCreateSalarySlip = () => {
     if (!details?.submission) return;
@@ -380,6 +403,17 @@ function SubmissionDetails({ submission, employee, onBack }) {
                     }}
                   >
                     Reload
+                  </button>
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    disabled={downloading}
+                    onClick={() => {
+                      setWorkflowMenuOpen(false);
+                      handleDownloadExcel();
+                    }}
+                  >
+                    {downloading ? "Generating Excel..." : "Download Excel (Project Ratios)"}
                   </button>
                   <div className="dropdown-divider"></div>
                   {workflowActions.map((action) => (

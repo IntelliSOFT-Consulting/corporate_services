@@ -356,3 +356,163 @@ def timesheet_generation_export(docname):
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "timesheet_generation_export")
         return "error"
+
+
+@frappe.whitelist()
+def timesheet_submission_data_export(docname):
+    """Export the submitted (inserted) timesheet data of a submission as Excel.
+
+    Single sheet "Project Ratios":
+      - top: hours per project and ratio % of the total (for QuickBooks);
+      - below: the timesheet per project, grouped with each project's tasks
+        (date, task, hours) as shown on the Insert Tasks page.
+    """
+    try:
+        doc = frappe.get_doc("Timesheet Submission", docname)
+        employee_name = frappe.db.get_value("Employee", doc.employee, "employee_name") or doc.employee
+
+        rows = frappe.db.sql(
+            """
+            SELECT
+                COALESCE(ts.custom_project_name, ts.parent_project, td.activity_type, 'Other') AS project,
+                td.from_time AS from_time,
+                td.custom_tasks AS task,
+                td.hours AS hours
+            FROM `tabTimesheet Detail` td
+            INNER JOIN `tabTimesheet` ts ON ts.name = td.parent
+            WHERE ts.custom_timesheet_submission = %(sub)s
+              AND ts.docstatus != 2
+            ORDER BY project ASC, td.from_time ASC, td.idx ASC
+            """,
+            {"sub": docname},
+            as_dict=True,
+        )
+
+        totals = {}
+        for r in rows:
+            totals[r.project] = totals.get(r.project, 0.0) + (r.hours or 0.0)
+        grand_total = sum(totals.values()) or 0.0
+
+        header_fill = PatternFill(start_color="305496", end_color="305496", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+
+        wb = Workbook()
+
+        ws1 = wb.active
+        ws1.title = "Project Ratios"
+        ws1.append([f"Timesheet: {docname}"])
+        ws1.append([f"Employee: {employee_name}"])
+        ws1.append([f"Month-Year: {doc.month_year or ''}"])
+        ws1.append([])
+        ws1.append(["Project", "Total Hours", "Ratio %"])
+        for c in ws1[ws1.max_row]:
+            c.fill = header_fill
+            c.font = header_font
+        for project, hrs in totals.items():
+            ratio = round((hrs / grand_total) * 100, 2) if grand_total else 0
+            ws1.append([project, round(hrs, 2), ratio])
+        ws1.append(["Total", round(grand_total, 2), 100 if grand_total else 0])
+        for c in ws1[ws1.max_row]:
+            c.font = Font(bold=True)
+        ws1.column_dimensions["A"].width = 42
+
+        # -- Per-project task matrix (task x day grid, like the Insert Tasks page)
+        month = int(doc.month_year.split("-")[0])
+        year = int(doc.month_year.split("-")[1])
+        start_date, end_date = get_timesheet_period(month, year)
+        days = []
+        current = start_date
+        while current <= end_date:
+            days.append(current)
+            current += timedelta(days=1)
+        day_keys = [d.isoformat() for d in days]
+        weekend_idx = {i for i, d in enumerate(days) if d.weekday() >= 5}
+
+        # pivot: project -> task -> {date_iso: hours}, preserving first-seen order
+        pivot = {}
+        for r in rows:
+            proj = pivot.setdefault(r.project, {})
+            task = proj.setdefault((r.task or "No Task").strip() or "No Task", {})
+            if r.from_time:
+                key = r.from_time.date().isoformat()
+                task[key] = task.get(key, 0.0) + (r.hours or 0.0)
+
+        thin = Side(style="thin", color="BFBFBF")
+        border = Border(left=thin, right=thin, top=thin, bottom=thin)
+        project_fill = PatternFill(start_color="305496", end_color="305496", fill_type="solid")
+        day_fill = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
+        weekend_fill = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+        center = Alignment(horizontal="center")
+
+        for col_idx in range(2, len(days) + 3):
+            ws1.column_dimensions[ws1.cell(row=1, column=col_idx).column_letter].width = 5
+
+        ws1.append([])
+        ws1.append(["Timesheet per Project"])
+        ws1[ws1.max_row][0].font = Font(bold=True, size=12)
+
+        for project, tasks in pivot.items():
+            ws1.append([])
+            # project banner
+            ws1.append([project])
+            banner = ws1[ws1.max_row]
+            banner[0].font = Font(bold=True, color="FFFFFF")
+            for c_idx in range(1, len(days) + 3):
+                ws1.cell(row=ws1.max_row, column=c_idx).fill = project_fill
+
+            # day header: Task | <day_short date_num> ... | Total
+            header = ["Task"] + [f"{d.strftime('%a')} {d.strftime('%d')}" for d in days] + ["Total"]
+            ws1.append(header)
+            hrow = ws1.max_row
+            for col_idx, cell in enumerate(ws1[hrow]):
+                cell.font = Font(bold=True)
+                cell.border = border
+                cell.alignment = center
+                if col_idx == 0:
+                    cell.alignment = Alignment(horizontal="left")
+                    cell.fill = day_fill
+                elif (col_idx - 1) in weekend_idx:
+                    cell.fill = weekend_fill
+                else:
+                    cell.fill = day_fill
+
+            # one row per task
+            col_totals = [0.0] * len(days)
+            for task, hours_map in tasks.items():
+                row_vals = [task]
+                row_total = 0.0
+                for i, key in enumerate(day_keys):
+                    h = hours_map.get(key)
+                    row_vals.append(round(h, 2) if h else "")
+                    if h:
+                        col_totals[i] += h
+                        row_total += h
+                row_vals.append(round(row_total, 2))
+                ws1.append(row_vals)
+                for col_idx, cell in enumerate(ws1[ws1.max_row]):
+                    cell.border = border
+                    if col_idx > 0:
+                        cell.alignment = center
+                    if 0 < col_idx <= len(days) and (col_idx - 1) in weekend_idx:
+                        cell.fill = weekend_fill
+
+            # project total row
+            total_row = ["Total"] + [round(t, 2) if t else "" for t in col_totals] + [round(sum(col_totals), 2)]
+            ws1.append(total_row)
+            for col_idx, cell in enumerate(ws1[ws1.max_row]):
+                cell.font = Font(bold=True)
+                cell.border = border
+                if col_idx > 0:
+                    cell.alignment = center
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        file_name = f"{docname}-{employee_name}-ProjectRatios.xlsx"
+        file_doc = save_file(file_name, output.read(), "Timesheet Submission", docname, is_private=0)
+        return file_doc.file_url
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "timesheet_submission_data_export")
+        return "error"

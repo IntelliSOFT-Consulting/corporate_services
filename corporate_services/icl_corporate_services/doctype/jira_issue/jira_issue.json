@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "creation": "2026-06-12 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "issue_key",
+  "summary",
+  "issue_type",
+  "status",
+  "priority",
+  "assignee",
+  "column_break_meta",
+  "reporter",
+  "issue_id",
+  "parent_key",
+  "labels",
+  "resolution",
+  "dates_section",
+  "created",
+  "updated",
+  "column_break_dates",
+  "due_date",
+  "url"
+ ],
+ "fields": [
+  {
+   "fieldname": "issue_key",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Issue Key",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "summary",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "issue_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Data",
+   "label": "Priority",
+   "read_only": 1
+  },
+  {
+   "fieldname": "assignee",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assignee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reporter",
+   "fieldtype": "Data",
+   "label": "Reporter",
+   "read_only": 1
+  },
+  {
+   "fieldname": "issue_id",
+   "fieldtype": "Data",
+   "label": "Issue ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parent_key",
+   "fieldtype": "Data",
+   "label": "Parent Key",
+   "read_only": 1
+  },
+  {
+   "fieldname": "labels",
+   "fieldtype": "Data",
+   "label": "Labels",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resolution",
+   "fieldtype": "Data",
+   "label": "Resolution",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dates_section",
+   "fieldtype": "Section Break",
+   "label": "Dates"
+  },
+  {
+   "fieldname": "created",
+   "fieldtype": "Datetime",
+   "label": "Created",
+   "read_only": 1
+  },
+  {
+   "fieldname": "updated",
+   "fieldtype": "Datetime",
+   "label": "Updated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "URL",
+   "options": "URL",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Jira Issue",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
