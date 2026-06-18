@@ -1,8 +1,11 @@
 import frappe
 from frappe.utils import get_url_to_form
 from corporate_services.api.notification.notification_contacts import get_supervisor_contact
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 def employee_grievance(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state == "Approved by HR":
 
         owner_email = frappe.db.get_value("User", doc.owner, "email")
@@ -18,7 +21,8 @@ def employee_grievance(doc, method):
         
         
 def alert_supervisor_asset_requisition(doc, method):
-    
+    if not on_transition(doc):
+        return
     if doc.workflow_state == "Submitted to Supervisor":
         
         employee_id = doc.requested_by

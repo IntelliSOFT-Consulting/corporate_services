@@ -4,9 +4,13 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
-def send_email(recipients, subject, message, cc=None):
+def send_email(doc, recipients, subject, message, cc=None):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         cc=cc,
@@ -65,6 +69,8 @@ def generate_message(doc, recipient_name, employee_name, email_type):
 
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     notify_states = [
         "Submitted to Supervisor",
         "Submitted to HR",
@@ -87,6 +93,7 @@ def alert(doc, method):
             doc, supervisor_contact.name, employee.employee_name, "supervisor"
         )
         send_email(
+            doc,
             recipients=[supervisor_contact.email],
             cc=[employee_email] if employee_email else None,
             subject=frappe._("Performance Appraisal to complete for {}".format(employee.employee_name)),
@@ -98,6 +105,7 @@ def alert(doc, method):
             doc, employee.employee_name, employee.employee_name, "hr"
         )
         send_email(
+            doc,
             recipients=get_hr_manager_emails(),
             subject=frappe._("Performance Appraisal submitted for {}".format(employee.employee_name)),
             message=message,
@@ -112,6 +120,7 @@ def alert(doc, method):
             doc, supervisor_contact.name, employee.employee_name, "needs_clarification"
         )
         send_email(
+            doc,
             recipients=[supervisor_contact.email],
             subject=frappe._("Clarification requested on Performance Appraisal for {}".format(employee.employee_name)),
             message=message,
@@ -122,6 +131,7 @@ def alert(doc, method):
             doc, employee.employee_name, employee.employee_name, "employee_approved_hr"
         )
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Performance Appraisal has been Approved"),
             message=message,
@@ -132,6 +142,7 @@ def alert(doc, method):
             doc, employee.employee_name, employee.employee_name, "employee_rejected_hr"
         )
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Performance Appraisal has been Rejected"),
             message=message,

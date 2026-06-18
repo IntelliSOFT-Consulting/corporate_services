@@ -2,8 +2,12 @@ import frappe
 from frappe.utils import get_url_to_form
 from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails, get_supervisor_contact
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -67,6 +71,8 @@ def generate_message(doc, employee_name, email_type, doc_owner=None):
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to Supervisor","Approved by Supervisor", "Rejected By Supervisor", "Submitted to HR", "Rejected By HR", "Approved by HR"
     ]:
@@ -84,6 +90,7 @@ def alert(doc, method):
 
                 message = generate_message(doc, supervisor_contact.name, "supervisor")
                 send_email(
+                    doc,
                     recipients=[supervisor_contact.email],
                     subject=frappe._('Work Continuity Plan from {}'.format(employee.employee_name)),
                     message=message,
@@ -103,8 +110,9 @@ def alert(doc, method):
                 doc_owner = doc_owner_id.employee_name
                 
                 employee_work_continuity = generate_message(doc, responsibility.employee_name, "employee_work_continuity",doc_owner)
-                
+
                 send_email(
+                    doc,
                     recipients=[employee_email],
                     subject=frappe._('Work Continuity Plan from {}'.format(doc_owner)),
                     message=employee_work_continuity,
@@ -117,6 +125,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approve_supervisor")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Work Continuity Plan has been Approved'),
                 message=message_to_employee,
@@ -126,6 +135,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_supervisor")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Work Continuity Plan has been Rejected'),
                 message=message_to_employee,
@@ -137,6 +147,7 @@ def alert(doc, method):
 
             message = generate_message(doc, employee.employee_name, "hr")
             send_email(
+                doc,
                 recipients=hr_manager_emails,
                 subject=frappe._('Work Continuity Plan'),
                 message=message,
@@ -146,6 +157,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Work Continuity Plan has been Rejected'),
                 message=message_to_employee,
@@ -155,6 +167,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet has been Approved by HR'),
                 message=message_to_employee,

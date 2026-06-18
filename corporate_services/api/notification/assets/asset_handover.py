@@ -7,8 +7,12 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -82,7 +86,8 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
     return messages[email_type]
 
 def alert(doc, method):
-    
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to Supervisor", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance"
     ]:
@@ -107,6 +112,7 @@ def alert(doc, method):
                 
                 message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name )
                 send_email(
+                    doc,
                     recipients=[supervisor_email],
                     subject=frappe._('Asset Movement from {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
@@ -117,6 +123,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "approved_by_supervisor", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Asset Movement Approval by the supervisor'),
                 message=message_to_employee,
@@ -127,6 +134,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_supervisor", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Rejected'),
                 message=message_to_employee,
@@ -138,6 +146,7 @@ def alert(doc, method):
             finance_team_emails = get_finance_team_emails()
             message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance", supervisor_name)
             send_email(
+                doc,
                 recipients=finance_team_emails,
                 subject=frappe._('Asset Movement from {}'.format(employee.employee_name)),
                 message=message_to_finance,
@@ -148,6 +157,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_finance")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Approved by Finance'),
                 message=message_to_employee,
@@ -157,6 +167,7 @@ def alert(doc, method):
 
             message_to_receiver =  generate_message(doc, employee.employee_name, "receiver")
             send_email(
+                doc,
                 recipients=[receiver_email],
                 subject=frappe._('Asset Movement has been Approved by Finance'),
                 message=message_to_receiver,
@@ -169,6 +180,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_finance")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Rejected by Finance'),
                 message=message_to_employee,
@@ -179,6 +191,7 @@ def alert(doc, method):
             hr_manager_emails = get_hr_manager_emails()
             message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
             send_email(
+                doc,
                 recipients= hr_manager_emails,
                 subject=frappe._('Asset Movement Rejected by Finance'),
                 message=message_to_hr,

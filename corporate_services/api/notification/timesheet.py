@@ -13,6 +13,7 @@ from corporate_services.api.timesheet.timesheet_generation_export import (
 from corporate_services.api.timesheet.project_manager_approval import (
     get_submission_timesheet_template,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
 def get_project_owner_contacts_for_employee(employee):
@@ -124,7 +125,10 @@ def get_project_manager_contacts_for_submission(doc):
     return list(contacts_by_email.values())
 
 
-def send_email(recipients, subject, message, pdf_content, doc_name, cc=None):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name, cc=None):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     attachments = []
     if pdf_content:
         attachments = [{'fname': '{}.pdf'.format(doc_name), 'fcontent': pdf_content}]
@@ -239,6 +243,8 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None, proje
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to Project Manager", "Submitted to Supervisor", "Rejected By Project Manager", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to Finance", "Approved by Finance" , "Rejected by Finance", "Approved"
     ]:
@@ -285,6 +291,7 @@ def alert(doc, method):
                         f"<ul>{project_list_html}</ul>"
                     )
                     send_email(
+                        doc,
                         recipients=[pm_contact.email],
                         subject=frappe._("Timesheet Submission from {}".format(employee.employee_name)),
                         message=message_to_pm,
@@ -300,6 +307,7 @@ def alert(doc, method):
                     project_manager_name=project_manager_name,
                 )
                 send_email(
+                    doc,
                     recipients=[project_manager_email],
                     subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
                     message=message_to_project_manager,
@@ -327,6 +335,7 @@ def alert(doc, method):
                     project_manager_name,
                 )
                 send_email(
+                    doc,
                     recipients=[supervisor_email],
                     subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
@@ -341,6 +350,7 @@ def alert(doc, method):
 
             message_to_employee = generate_message(doc, employee.employee_name, "approved_by_supervisor", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Approved by the supervisor'),
                 message=message_to_employee,
@@ -351,6 +361,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_supervisor", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Rejected'),
                 message=message_to_employee,
@@ -366,6 +377,7 @@ def alert(doc, method):
                 project_manager_name=frappe.db.get_value("User", frappe.session.user, "full_name") or project_manager_name,
             )
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Rejected by the Project Manager'),
                 message=message_to_employee,
@@ -377,6 +389,7 @@ def alert(doc, method):
 
             message = generate_message(doc, employee.employee_name, "hr")
             send_email(
+                doc,
                 recipients=hr_manager_emails,
                 subject=frappe._('Timesheet Submission'),
                 message=message,
@@ -386,6 +399,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Rejected'),
                 message=message_to_employee,
@@ -395,6 +409,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet has been Approved by HR'),
                 message=message_to_employee,
@@ -409,6 +424,7 @@ def alert(doc, method):
             finance_team_emails = get_finance_team_emails()
             message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance", supervisor_name)
             send_email(
+                doc,
                 recipients=finance_team_emails,
                 subject=frappe._('Timesheet Submission from {}'.format(employee.employee_name)),
                 message=message_to_finance,
@@ -419,6 +435,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_finance")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Approved by Finance'),
                 message=message_to_employee,
@@ -432,6 +449,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_finance")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Rejected by Finance'),
                 message=message_to_employee,
@@ -442,6 +460,7 @@ def alert(doc, method):
             hr_manager_emails = get_hr_manager_emails()
             message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
             send_email(
+                doc,
                 recipients= hr_manager_emails,
                 subject=frappe._('Timesheet Submission Rejected by Finance'),
                 message=message_to_hr,
@@ -454,6 +473,7 @@ def alert(doc, method):
 
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_consultant")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Timesheet Submission has been Approved'),
                 message=message_to_employee,
