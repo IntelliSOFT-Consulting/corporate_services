@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-06-18 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "agenda",
+  "discussion_summary",
+  "action_points",
+  "raci",
+  "timelines"
+ ],
+ "fields": [
+  {
+   "description": "[Concise short label of issue/agenda discussed]",
+   "fieldname": "agenda",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Agenda",
+   "reqd": 1
+  },
+  {
+   "description": "[Important aspects/summaries from discussion]",
+   "fieldname": "discussion_summary",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Summaries from Discussion"
+  },
+  {
+   "description": "[Action points from this agenda]",
+   "fieldname": "action_points",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Action Points"
+  },
+  {
+   "description": "[Responsible, Accountable, Consulted & Informed]",
+   "fieldname": "raci",
+   "fieldtype": "Small Text",
+   "label": "RACI"
+  },
+  {
+   "fieldname": "timelines",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Timelines"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-18 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Meeting Agenda",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

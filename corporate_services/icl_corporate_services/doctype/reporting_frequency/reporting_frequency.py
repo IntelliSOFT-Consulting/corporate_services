@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class InternalStatusReport(Document):
+class ReportingFrequency(Document):
 	pass

@@ -5,8 +5,12 @@ from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -115,7 +119,10 @@ def add_approval_if_not_exists(doc, title, action_performed=None):
 def alert(doc, method):
     if doc.flags.in_alert:
         return
-    
+
+    if not on_transition(doc):
+        return
+
     if doc.workflow_state not in [
         "Submitted to HR",
         "Submitted to Finance",
@@ -202,6 +209,7 @@ def alert(doc, method):
         for recipient_email in config["recipients"]:
             message = generate_message(doc, requestor_name, config["message_type"], recipient_email)
             send_email(
+                doc,
                 recipients=[recipient_email],
                 subject=frappe._(config.get("subject") or 'Staff Requisition from {}'.format(requestor_name)),
                 message=message,

@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 import frappe
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 from frappe.utils import get_url_to_form, nowdate, getdate
 
 
@@ -95,12 +96,13 @@ def _get_supervisor_email(employee):
     return supervisor.get("company_email") or supervisor.get("personal_email")
 
 
-def _send_workflow_email(recipients, subject, message):
+def _send_workflow_email(doc, recipients, subject, message):
+    recipients = filter_recipients(doc, list(dict.fromkeys([r for r in recipients if r])))
     if not recipients:
         return
 
     frappe.sendmail(
-        recipients=list(dict.fromkeys([r for r in recipients if r])),
+        recipients=recipients,
         subject=subject,
         message=message,
         header=("Weekly Progress Report", "text/html"),
@@ -188,6 +190,9 @@ def alert(doc, method):
     if doc.workflow_state not in watched_states:
         return
 
+    if not on_transition(doc):
+        return
+
     from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
 
     employee = frappe.get_doc("Employee", doc.intern)
@@ -201,6 +206,7 @@ def alert(doc, method):
         if not supervisor_email:
             return
         _send_workflow_email(
+            doc,
             recipients=[supervisor_email],
             subject=f"Weekly Progress Report from {employee_name}",
             message=f"""
@@ -214,6 +220,7 @@ def alert(doc, method):
 
     if doc.workflow_state == "Submitted to HR":
         _send_workflow_email(
+            doc,
             recipients=hr_emails,
             subject=f"Weekly Progress Report pending HR review - {employee_name}",
             message=f"""
@@ -240,6 +247,7 @@ def alert(doc, method):
     }
 
     _send_workflow_email(
+        doc,
         recipients=[employee_email],
         subject=state_subject_map.get(doc.workflow_state, "Weekly Progress Report Update"),
         message=f"""
