@@ -28,7 +28,7 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                     ">${letter}</span>`;
                 }
 
-                function renderList(filterText = "") {
+                function employeeItemsHtml(filterText = "") {
                     const query = filterText.trim().toLowerCase();
                     const filtered = !query
                         ? employees
@@ -39,7 +39,7 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                             (emp.designation || "").toLowerCase().includes(query)
                         );
 
-                    const employeeItems = filtered.length
+                    return filtered.length
                         ? filtered.map((emp) => `
                             <a class="ts-sidebar-item ts-employee-item"
                                data-employee="${emp.name}"
@@ -52,7 +52,11 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                             </a>
                         `).join("")
                         : `<div class="text-muted small px-2 py-2">No active employees found.</div>`;
+                }
 
+                // Render the static shell once. The search input is created a single
+                // time so it is never destroyed/recreated while typing.
+                function renderShell() {
                     sidebarEl.innerHTML = `
                         <div class="ts-sidebar-nav">
                             <div class="ts-sidebar-group">
@@ -68,16 +72,27 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                             <div class="ts-sidebar-group">
                                 <div class="ts-sidebar-group-label">ACTIVE EMPLOYEES</div>
                                 <div class="px-2 pb-2">
-                                    <input type="text" class="form-control form-control-sm ts-sidebar-search" placeholder="Search employees..." value="${frappe.utils.escape_html(filterText)}">
+                                    <input type="text" class="form-control form-control-sm ts-sidebar-search" placeholder="Search employees...">
                                 </div>
                                 <div class="ts-sidebar-group-items ts-sidebar-employee-list">
-                                    ${employeeItems}
+                                    ${employeeItemsHtml("")}
                                 </div>
                             </div>
                         </div>
                     `;
 
-                    bindEvents();
+                    bindStaticEvents();
+                    bindEmployeeEvents();
+                    setActive();
+                }
+
+                // Update only the list container, leaving the search input intact
+                // so focus and caret position are preserved while typing.
+                function updateList(filterText) {
+                    const listEl = sidebarEl.querySelector(".ts-sidebar-employee-list");
+                    if (!listEl) return;
+                    listEl.innerHTML = employeeItemsHtml(filterText);
+                    bindEmployeeEvents();
                     setActive();
                 }
 
@@ -101,10 +116,10 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                     }
                 }
 
-                function bindEvents() {
+                function bindStaticEvents() {
                     const searchInput = sidebarEl.querySelector(".ts-sidebar-search");
                     if (searchInput) {
-                        searchInput.addEventListener("input", (e) => renderList(e.target.value));
+                        searchInput.addEventListener("input", (e) => updateList(e.target.value));
                     }
 
                     sidebarEl.querySelectorAll(".ts-sidebar-item[data-route]").forEach((el) => {
@@ -113,7 +128,9 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                             frappe.set_route("timesheet_workflow", "all-submissions");
                         });
                     });
+                }
 
+                function bindEmployeeEvents() {
                     sidebarEl.querySelectorAll(".ts-sidebar-item[data-employee]").forEach((el) => {
                         el.addEventListener("click", (e) => {
                             e.preventDefault();
@@ -122,7 +139,7 @@ frappe.pages["timesheet_workflow"].on_page_load = function (wrapper) {
                     });
                 }
 
-                renderList();
+                renderShell();
                 frappe.router.on("change", setActive);
             }
         });

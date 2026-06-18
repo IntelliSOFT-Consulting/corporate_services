@@ -435,6 +435,75 @@ const CSS = `
   padding: 4px 0 2px 0;
 }
 
+/* -- Professional card treatment (scoped to this module) -- */
+.pm-app-wrap .frappe-card {
+  border: 1px solid var(--border-color, #e2e6ea);
+  border-radius: 10px;
+  background: var(--card-bg, #fff);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.pm-app-wrap .frappe-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Detail header polish */
+.pm-detail-header {
+  gap: 12px;
+}
+.pm-detail-actions .btn,
+.pm-detail-tab,
+.pm-detail-back {
+  font-weight: 500;
+}
+
+/* Buttons inside cards: full-width, left-aligned, consistent */
+.pm-app-wrap .frappe-card .btn-sm {
+  border-radius: 6px;
+}
+
+/* -- Detail tab strip -- */
+.pm-detail-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-color, #e2e6ea);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.pm-detail-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted, #6c757d);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+.pm-detail-tab:hover {
+  color: var(--text-color, #333);
+}
+.pm-detail-tab.active {
+  color: var(--text-color, #333);
+  border-bottom-color: var(--text-color, #333);
+  font-weight: 600;
+}
+
+/* Two-column detail layout */
+.pm-detail-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: start;
+}
+.pm-detail-cols > .frappe-card {
+  margin-bottom: 0 !important;
+  height: 100%;
+}
+
 /* -- Progress bar -- */
 .pm-progress-bar-track {
   height: 6px;

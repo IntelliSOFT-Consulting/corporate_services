@@ -42,101 +42,79 @@ function formatDate(date?: string) {
 
 const QuickActions: React.FC<Props> = ({ doc }) => {
   return (
-    <>
-      <div className="row">
-        <div
-          className="frappe-card col-md-4"
-          style={{ padding: "16px 20px", marginBottom: 16 }}
-        >
-          <h6 className="pm-section-title">Quick Actions</h6>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <a
-              href="/app/project/new-project-1"
-              className="btn btn-sm btn-default"
-            >
-              + New Project
-            </a>
-            <a
-              href="/app/project-status-report/new-project-status-report-1"
-              className="btn btn-sm btn-default"
-            >
-              + New Status Report
-            </a>
-            <a
-              href="/app/project-milestone/new-project-milestone-1"
-              className="btn btn-sm btn-default"
-            >
-              + Add Milestone
-            </a>
-            <a
-              href="/app/project-update/new-project-update-1"
-              className="btn btn-sm btn-default"
-            >
-              + Add Team Event
-            </a>
-            <a href="/app/file/new-file-1" className="btn btn-sm btn-default">
-              + Upload Document
-            </a>
-          </div>
-        </div>
-
-        <div
-          className="frappe-card col-md-4"
-          style={{ padding: "16px 20px", marginBottom: 16 }}
-        >
-          <h6 className="pm-section-title">Project Setup Status</h6>
-          This should depend with the number of HIS The setup completed. - Todo.
-        </div>
-
-        <div
-          className="frappe-card col-md-4"
-          style={{ padding: "16px 20px", marginBottom: 16 }}
-        >
-          <h6 className="pm-section-title">Financial</h6>
-          <div className="pm-field-grid" style={{ gridTemplateColumns: "1fr" }}>
-            <Field
-              label="Estimated Costing"
-              value={formatCurrency(doc.estimated_costing)}
-            />
-            <Field
-              label="Total Costing Amount"
-              value={formatCurrency(doc.total_costing_amount)}
-            />
-            <Field
-              label="Total Purchase Cost"
-              value={formatCurrency(doc.total_purchase_cost)}
-            />
-            <Field
-              label="Gross Margin"
-              value={formatCurrency(doc.gross_margin)}
-            />
-            <Field
-              label="Gross Margin (%)"
-              value={
-                doc.per_gross_margin != null ? `${doc.per_gross_margin}%` : null
-              }
-            />
-          </div>
-
-          <div
-            className="frappe-card"
-            style={{ padding: "16px 20px", marginBottom: 16 }}
+    <div className="pm-charts-grid">
+      <div className="frappe-card" style={{ padding: "16px 20px" }}>
+        <h6 className="pm-section-title">Quick Actions</h6>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <a href="/app/project/new-project-1" className="btn btn-sm btn-default">
+            + New Project
+          </a>
+          <a
+            href="/app/project-status-report/new-project-status-report-1"
+            className="btn btn-sm btn-default"
           >
-            <h6 className="pm-section-title">Assignment</h6>
-            <div
-              className="pm-field-grid"
-              style={{ gridTemplateColumns: "1fr" }}
-            >
-              <Field label="Owner" value={doc.owner} />
-              <Field label="Created On" value={formatDate(doc.creation)} />
-              <Field label="Last Modified" value={formatDate(doc.modified)} />
-              <Field label="Cost Center" value={doc.cost_center} />
-            </div>
-          </div>
+            + New Status Report
+          </a>
+          <a
+            href="/app/project-milestone/new-project-milestone-1"
+            className="btn btn-sm btn-default"
+          >
+            + Add Milestone
+          </a>
+          <a
+            href="/app/project-update/new-project-update-1"
+            className="btn btn-sm btn-default"
+          >
+            + Add Team Event
+          </a>
+          <a href="/app/file/new-file-1" className="btn btn-sm btn-default">
+            + Upload Document
+          </a>
         </div>
       </div>
-    </>
+
+      <div className="frappe-card" style={{ padding: "16px 20px" }}>
+        <h6 className="pm-section-title">Project Setup Status</h6>
+        <div className="pm-empty-inline">
+          Setup completion tracking based on HIS setup items - coming soon.
+        </div>
+      </div>
+
+      <div className="frappe-card" style={{ padding: "16px 20px" }}>
+        <h6 className="pm-section-title">Financial</h6>
+        <div className="pm-field-grid" style={{ gridTemplateColumns: "1fr" }}>
+          <Field
+            label="Estimated Costing"
+            value={formatCurrency(doc.estimated_costing)}
+          />
+          <Field
+            label="Total Costing Amount"
+            value={formatCurrency(doc.total_costing_amount)}
+          />
+          <Field
+            label="Total Purchase Cost"
+            value={formatCurrency(doc.total_purchase_cost)}
+          />
+          <Field label="Gross Margin" value={formatCurrency(doc.gross_margin)} />
+          <Field
+            label="Gross Margin (%)"
+            value={
+              doc.per_gross_margin != null ? `${doc.per_gross_margin}%` : null
+            }
+          />
+        </div>
+      </div>
+
+      <div className="frappe-card" style={{ padding: "16px 20px" }}>
+        <h6 className="pm-section-title">Assignment</h6>
+        <div className="pm-field-grid" style={{ gridTemplateColumns: "1fr" }}>
+          <Field label="Owner" value={doc.owner} />
+          <Field label="Created On" value={formatDate(doc.creation)} />
+          <Field label="Last Modified" value={formatDate(doc.modified)} />
+          <Field label="Cost Center" value={doc.cost_center} />
+        </div>
+      </div>
+    </div>
   );
 };
 export default QuickActions;
