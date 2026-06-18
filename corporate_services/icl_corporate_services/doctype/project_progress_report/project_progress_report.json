@@ -18,7 +18,11 @@
   "report_date",
   "prepared_by",
   "report_type_section",
-  "report_type"
+  "report_type",
+  "column_break_tceq",
+  "template_type",
+  "project_report_template_section_section",
+  "report_template"
  ],
  "fields": [
   {
@@ -63,26 +67,30 @@
    "description": "[To provide a summary of project progress for a given week]",
    "fieldname": "purpose",
    "fieldtype": "Data",
-   "label": "PURPOSE"
+   "label": "PURPOSE",
+   "reqd": 1
   },
   {
    "description": "[State the specific timeframe the report is covering]\n",
    "fieldname": "for_period",
    "fieldtype": "Data",
-   "label": "FOR PERIOD"
+   "label": "FOR PERIOD",
+   "reqd": 1
   },
   {
    "description": "[Date of report submission]\n",
    "fieldname": "report_date",
-   "fieldtype": "Data",
-   "label": "REPORT DATE"
+   "fieldtype": "Date",
+   "label": "REPORT DATE",
+   "reqd": 1
   },
   {
    "default": "IntelliSOFT Consulting Limited\nRECIPIENTS",
    "description": "[List the client and ICL team members receiving the report]",
    "fieldname": "prepared_by",
    "fieldtype": "Data",
-   "label": "PREPARED BY"
+   "label": "PREPARED BY",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_rflz",
@@ -101,14 +109,39 @@
    "fieldname": "report_type",
    "fieldtype": "Select",
    "label": "Report Type",
-   "options": "System Report\nDocs Report"
+   "options": "System Report\nDocs Report",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_tceq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "template_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Template Type",
+   "options": "\nInternal Weekly Progress\nExternal Weekly Progress",
+   "reqd": 1
+  },
+  {
+   "fieldname": "project_report_template_section_section",
+   "fieldtype": "Section Break",
+   "label": "Project report Template section"
+  },
+  {
+   "fieldname": "report_template",
+   "fieldtype": "Link",
+   "label": "Report Template",
+   "options": "Project Toolkit Document Templates",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-05-25 12:19:45.891358",
+ "modified": "2026-06-18 07:35:03.767255",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Progress Report",
