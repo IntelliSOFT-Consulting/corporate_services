@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { SectionCard } from "../project_components/components/SectionCard";
+import { RelatedTable, Column } from "../project_components/components/RelatedTable";
+import { ProjectChartCard } from "../project_components/ProjectCharts";
+import { openForm } from "../project_components/utils/frappe";
+import { formatDateOrDash } from "../project_components/utils/format";
 
 interface Props {
   projectId?: string;
@@ -19,6 +24,8 @@ const STATUS_COLOR: Record<string, string> = {
   cancelled: "red",
 };
 
+const DONE = new Set(["completed", "done"]);
+
 function WorkStatusBadge({ status }: { status?: string }) {
   const text = (status || "").trim();
   if (!text) return <span className="text-muted">-</span>;
@@ -33,6 +40,42 @@ function WorkStatusBadge({ status }: { status?: string }) {
   );
 }
 
+function Kpi({ label, value }: { label: string; value: React.ReactNode }) {
+  const empty = value == null || value === "";
+  return (
+    <div className="pm-kpi">
+      <div className="pm-kpi-label">{label}</div>
+      <div className="pm-kpi-value">{empty ? "-" : value}</div>
+    </div>
+  );
+}
+
+type WorkRow = {
+  line_item?: string;
+  key_deliverable?: string;
+  start_date?: string;
+  end_date?: string;
+  expected_outcome?: string;
+  status?: string;
+  resources?: string;
+  comments?: string;
+};
+
+const wrap = (text?: string) => (
+  <span style={{ whiteSpace: "pre-wrap" }}>{text || "-"}</span>
+);
+
+const columns: Column<WorkRow>[] = [
+  { header: "Line Item", render: (r) => r.line_item || "-" },
+  { header: "Key Deliverable", render: (r) => r.key_deliverable || "-" },
+  { header: "Start", render: (r) => formatDateOrDash(r.start_date) },
+  { header: "End", render: (r) => formatDateOrDash(r.end_date) },
+  { header: "Expected Outcome", render: (r) => wrap(r.expected_outcome) },
+  { header: "Status", render: (r) => <WorkStatusBadge status={r.status} /> },
+  { header: "Resources", render: (r) => wrap(r.resources) },
+  { header: "Comments", render: (r) => wrap(r.comments) },
+];
+
 const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const projectId =
     propProjectId ||
@@ -42,24 +85,15 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
 
   const [loading, setLoading] = useState(false);
   const [highPlan, setHighPlan] = useState<any | null>(null);
-  const [highPlanRows, setHighPlanRows] = useState<any[]>([]);
+  const [highPlanRows, setHighPlanRows] = useState<WorkRow[]>([]);
   const [detailedPlan, setDetailedPlan] = useState<any | null>(null);
   const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    setPage(1);
-  }, [highPlanRows]);
-
-  const totalPages = Math.max(1, Math.ceil(highPlanRows.length / ROWS_PER_PAGE));
-  const pagedRows = highPlanRows.slice(
-    (page - 1) * ROWS_PER_PAGE,
-    page * ROWS_PER_PAGE,
-  );
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
     if (!projectId) return;
     setLoading(true);
-
     const fetchPlans = async () => {
       try {
         const resp = await (globalThis as any).frappe.call({
@@ -67,7 +101,6 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
             "corporate_services.icl_corporate_services.doctype.high_level_work_plan.high_level_work_plan.get_plans_for_project",
           args: { project: projectId },
         });
-
         setHighPlan(resp?.message?.high ?? null);
         setDetailedPlan(resp?.message?.detailed ?? null);
         setHighPlanRows(resp?.message?.high_rows ?? []);
@@ -78,13 +111,49 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
         setLoading(false);
       }
     };
-
     void fetchPlans();
   }, [projectId]);
 
-  const openForm = (doctype: string, name: string) => {
-    (globalThis as any).frappe?.set_route("Form", doctype, name);
-  };
+  const statuses = useMemo(() => {
+    const set = new Set<string>();
+    highPlanRows.forEach((r) => r.status && set.add(r.status));
+    return Array.from(set);
+  }, [highPlanRows]);
+
+  const statusBreakdown = useMemo(() => {
+    const grouped: Record<string, number> = {};
+    highPlanRows.forEach((r) => {
+      const key = r.status || "Not Set";
+      grouped[key] = (grouped[key] || 0) + 1;
+    });
+    return Object.entries(grouped).map(([label, value]) => ({ label, value }));
+  }, [highPlanRows]);
+
+  const completedPct = useMemo(() => {
+    if (!highPlanRows.length) return 0;
+    const done = highPlanRows.filter((r) =>
+      DONE.has((r.status || "").toLowerCase()),
+    ).length;
+    return Math.round((done / highPlanRows.length) * 100);
+  }, [highPlanRows]);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return highPlanRows.filter((r) => {
+      if (statusFilter && r.status !== statusFilter) return false;
+      if (!q) return true;
+      return [r.line_item, r.key_deliverable, r.expected_outcome, r.resources, r.comments]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [highPlanRows, query, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ROWS_PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * ROWS_PER_PAGE;
+  const pagedRows = filtered.slice(start, start + ROWS_PER_PAGE);
 
   const downloadHighLevelTemplate = async () => {
     if (!projectId) {
@@ -95,8 +164,6 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
       });
       return;
     }
-
-    // First, check Project Toolkit Document Templates for a template targeting this doctype
     try {
       const resp = await (globalThis as any).frappe.call({
         method: "frappe.client.get_list",
@@ -120,40 +187,13 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
         return;
       }
     } catch (e) {
-      // continue to static asset / api fallback
+      // continue to api fallback
     }
 
-    // Static asset fallback
-    const assetUrl = `/assets/corporate_services/js/work_plan.js`;
-
-    try {
-      const res = await fetch(assetUrl, { credentials: "same-origin" });
-      if (res.ok) {
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "high_level_work_plan_template.js";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
-        (globalThis as any).frappe?.show_alert({
-          message: "Template downloaded",
-          indicator: "green",
-        });
-        return;
-      }
-    } catch (e) {
-      // fall through to API fallback
-    }
-
-    // Fallback to backend API
     try {
       const apiUrl = `/api/project/project_work_plan/high_level?project=${encodeURIComponent(projectId)}`;
       const r = await fetch(apiUrl, { credentials: "same-origin" });
       if (!r.ok) throw new Error("Template not available from API");
-
       const ct = r.headers.get("content-type") || "";
       if (ct.includes("application/json")) {
         const j = await r.json();
@@ -161,36 +201,16 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
           window.open(j.file_url, "_blank", "noreferrer");
           return;
         }
-        if (j?.file) {
-          const blob = new Blob([j.file], { type: "application/octet-stream" });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = j.filename || "high_level_work_plan_template";
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(url);
-          return;
-        }
-      } else {
-        const blob = await r.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "high_level_work_plan_template";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
-        return;
       }
-
-      (globalThis as any).frappe?.msgprint({
-        title: "Download Failed",
-        message: "Template could not be downloaded.",
-        indicator: "red",
-      });
+      const blob = await r.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "high_level_work_plan_template";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
     } catch (e: any) {
       (globalThis as any).frappe?.msgprint({
         title: "Download Failed",
@@ -200,204 +220,218 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="text-center text-muted" style={{ padding: "48px 0" }}>
+        <div className="spinner-border spinner-border-sm" role="status" />
+        <div style={{ marginTop: 10 }}>Loading work plan…</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="work-plan-page" style={{ paddingBottom: 32 }}>
-      <header className="work-plan-page__header">
-        <h4>Project Work Plan</h4>
-        <p>
-          This section shows links to any existing High Level or Detailed Work
-          Plans for the current project. If none exist, a reminder is displayed
-          so users can upload/create them in the system.
-        </p>
-      </header>
+    <div className="pm-fade-in">
+      {/* -- High Level Work Plan -- */}
+      {highPlan ? (
+        <>
+          <div className="pm-kpi-strip">
+            <Kpi label="Project Lead" value={highPlan.project_lead} />
+            <Kpi
+              label="Start Date"
+              value={formatDateOrDash(highPlan.project_start_date)}
+            />
+            <Kpi
+              label="End Date"
+              value={formatDateOrDash(highPlan.project_end_date)}
+            />
+            <Kpi label="Duration" value={highPlan.project_duration} />
+            <Kpi label="Items" value={highPlanRows.length} />
+            <Kpi label="Completed" value={`${completedPct}%`} />
+          </div>
 
-      <section className="work-plan-page__content">
-        <div style={{ marginTop: 8 }}>
-          <h6>High Level Work Plan</h6>
-          {loading ? (
-            <div className="text-muted">Checking for existing plans…</div>
-          ) : highPlan ? (
-            <div>
-              <div className="card">
-                <div className="card-body">
-                  <div className="row" style={{ marginBottom: 12 }}>
-                    <div className="col-md-6">
-                      <strong>Project Lead:</strong>{" "}
-                      {highPlan.project_lead || "N/A"}
-                    </div>
-                    <div className="col-md-6">
-                      <strong>Project Start Date:</strong>{" "}
-                      {highPlan.project_start_date || "N/A"}
-                    </div>
-                  </div>
-                  <div className="row" style={{ marginBottom: 12 }}>
-                    <div className="col-md-6">
-                      <strong>Project End Date:</strong>{" "}
-                      {highPlan.project_end_date || "N/A"}
-                    </div>
-                    <div className="col-md-6">
-                      <strong>Project Duration:</strong>{" "}
-                      {highPlan.project_duration || "N/A"}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          openForm("High Level Work Plan", highPlan.name);
-                        }}
-                        className="btn btn-sm btn-primary"
-                      >
-                        Open High Level Work Plan
-                      </a>
-                      {highPlan?.entry_type === "Template Import" ? (
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-default"
-                          style={{ marginLeft: 8 }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            void downloadHighLevelTemplate();
-                          }}
-                        >
-                          Download Template
-                        </button>
-                      ) : null}
-                    </div>
-                    <div className="col-md-6"></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* High level workplan rows table */}
-              <div style={{ marginTop: 12 }}>
-                <h6>High Level Work Plan Items</h6>
-                {highPlanRows.length === 0 ? (
-                  <div className="text-muted">No workplan rows found.</div>
-                ) : (
-                  <div className="table-responsive" style={{ marginTop: 8 }}>
-                    <table className="table table-sm table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Line Item</th>
-                          <th>Key Deliverable</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Expected Outcome</th>
-                          <th style={{ minWidth: 130 }}>Status</th>
-                          <th>Resources</th>
-                          <th>Comments</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pagedRows.map((r: any, idx: number) => (
-                          <tr key={(page - 1) * ROWS_PER_PAGE + idx}>
-                            <td>{r.line_item || ""}</td>
-                            <td>{r.key_deliverable || ""}</td>
-                            <td>{r.start_date || ""}</td>
-                            <td>{r.end_date || ""}</td>
-                            <td>{r.expected_outcome || ""}</td>
-                            <td>
-                              <WorkStatusBadge status={r.status} />
-                            </td>
-                            <td style={{ whiteSpace: "pre-wrap" }}>
-                              {r.resources || ""}
-                            </td>
-                            <td style={{ whiteSpace: "pre-wrap" }}>
-                              {r.comments || ""}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    {totalPages > 1 && (
-                      <div className="pm-pagination">
-                        <span>
-                          Showing {(page - 1) * ROWS_PER_PAGE + 1}–
-                          {Math.min(page * ROWS_PER_PAGE, highPlanRows.length)} of{" "}
-                          {highPlanRows.length}
-                        </span>
-                        <div className="pm-pagination-btns">
-                          <button
-                            type="button"
-                            className="btn btn-xs btn-default"
-                            disabled={page <= 1}
-                            onClick={() => setPage((p) => Math.max(1, p - 1))}
-                          >
-                            Previous
-                          </button>
-                          <span style={{ padding: "0 8px" }}>
-                            Page {page} of {totalPages}
-                          </span>
-                          <button
-                            type="button"
-                            className="btn btn-xs btn-default"
-                            disabled={page >= totalPages}
-                            onClick={() =>
-                              setPage((p) => Math.min(totalPages, p + 1))
-                            }
-                          >
-                            Next
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="alert alert-warning" style={{ padding: 8 }}>
-              No High Level Work Plan found for this project. Please upload or
-              create one (Form &rarr; New &rarr; High Level Work Plan).
-              <div style={{ marginTop: 8 }}>
+          <SectionCard
+            title="High Level Work Plan"
+            right={
+              <div style={{ display: "flex", gap: 8 }}>
                 <button
                   type="button"
-                  className="btn btn-sm btn-default"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    void downloadHighLevelTemplate();
-                  }}
+                  className="btn btn-sm btn-primary"
+                  onClick={() => openForm("High Level Work Plan", highPlan.name)}
                 >
-                  Download Template
+                  Open Plan
                 </button>
+                {highPlan?.entry_type === "Template Import" && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-default"
+                    onClick={() => void downloadHighLevelTemplate()}
+                  >
+                    Download Template
+                  </button>
+                )}
               </div>
+            }
+          >
+            <div className="pm-field-label" style={{ marginBottom: 4 }}>
+              Overall Completion
+            </div>
+            <div className="pm-progress-bar-track">
+              <div
+                className="pm-progress-bar-fill"
+                style={{ width: `${completedPct}%` }}
+              />
+            </div>
+          </SectionCard>
+
+          {statusBreakdown.length > 0 && (
+            <div className="pm-charts-grid" style={{ marginBottom: 16 }}>
+              <ProjectChartCard
+                title="Work Plan Items by Status"
+                items={statusBreakdown}
+                emptyText="No work plan items yet."
+              />
             </div>
           )}
-        </div>
 
-        <div style={{ marginTop: 16 }}>
-          <h6>Detailed Work Plan</h6>
-          {loading ? (
-            <div className="text-muted">Checking for existing plans…</div>
-          ) : detailedPlan ? (
-            <div>
-              <div className="row">
-                <div className="col-md-6">{detailedPlan.name}</div>
-                <div className="col-md-6">
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      openForm("Detailed Work Plan", detailedPlan.name);
-                    }}
-                    className="btn btn-sm btn-primary"
+          <SectionCard
+            title="High Level Work Plan Items"
+            count={filtered.length}
+            countLabel="item"
+            right={
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input
+                  type="text"
+                  className="form-control input-sm"
+                  placeholder="Search items…"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setPage(1);
+                  }}
+                  style={{ width: 180, height: 28, fontSize: 13 }}
+                />
+                <select
+                  className="form-control input-sm"
+                  aria-label="Filter work plan items by status"
+                  value={statusFilter}
+                  onChange={(e) => {
+                    setStatusFilter(e.target.value);
+                    setPage(1);
+                  }}
+                  style={{ width: 150, height: 28, fontSize: 13 }}
+                >
+                  <option value="">All statuses</option>
+                  {statuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            }
+          >
+            <RelatedTable
+              columns={columns}
+              rows={pagedRows}
+              getKey={(_, idx) => String(start + idx)}
+              emptyText={
+                query || statusFilter
+                  ? "No items match your filters."
+                  : "No work plan items found."
+              }
+            />
+
+            {filtered.length > ROWS_PER_PAGE && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginTop: 12,
+                }}
+              >
+                <span className="text-muted" style={{ fontSize: 12 }}>
+                  Showing {start + 1}–
+                  {Math.min(start + ROWS_PER_PAGE, filtered.length)} of{" "}
+                  {filtered.length}
+                </span>
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm"
+                    disabled={currentPage <= 1}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
                   >
-                    Open Detailed Work Plan
-                  </a>
+                    Previous
+                  </button>
+                  <span className="text-muted" style={{ fontSize: 12 }}>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm"
+                    disabled={currentPage >= totalPages}
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className="alert alert-warning" style={{ padding: 8 }}>
-              No Detailed Work Plan found for this project. Please upload or
-              create one (Form &rarr; New &rarr; Detailed Work Plan).
-            </div>
-          )}
+            )}
+          </SectionCard>
+        </>
+      ) : (
+        <div
+          className="frappe-card"
+          style={{ padding: "24px 20px", textAlign: "center", marginBottom: 16 }}
+        >
+          <h6 className="pm-section-title" style={{ justifyContent: "center" }}>
+            No High Level Work Plan
+          </h6>
+          <p className="text-muted" style={{ fontSize: 13 }}>
+            No High Level Work Plan exists for this project yet. Create one (New →
+            High Level Work Plan) or start from the template.
+          </p>
+          <button
+            type="button"
+            className="btn btn-sm btn-default"
+            onClick={() => void downloadHighLevelTemplate()}
+          >
+            Download Template
+          </button>
         </div>
-      </section>
+      )}
+
+      {/* -- Detailed Work Plan -- */}
+      {detailedPlan ? (
+        <SectionCard
+          title="Detailed Work Plan"
+          right={
+            <button
+              type="button"
+              className="btn btn-sm btn-primary"
+              onClick={() => openForm("Detailed Work Plan", detailedPlan.name)}
+            >
+              Open Plan
+            </button>
+          }
+        >
+          <div className="pm-field-value">{detailedPlan.name}</div>
+        </SectionCard>
+      ) : (
+        <div
+          className="frappe-card"
+          style={{ padding: "24px 20px", textAlign: "center" }}
+        >
+          <h6 className="pm-section-title" style={{ justifyContent: "center" }}>
+            No Detailed Work Plan
+          </h6>
+          <p className="text-muted" style={{ fontSize: 13, marginBottom: 0 }}>
+            No Detailed Work Plan exists for this project yet. Create one (New →
+            Detailed Work Plan).
+          </p>
+        </div>
+      )}
     </div>
   );
 };

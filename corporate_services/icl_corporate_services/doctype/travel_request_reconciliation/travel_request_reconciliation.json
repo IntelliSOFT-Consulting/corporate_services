@@ -23,10 +23,13 @@
   "section_break_iixw",
   "total_advance",
   "local_total_advance",
+  "column_break_ansh",
+  "allocated_amount_differs",
   "actual_allocated_amount",
+  "spendings_section_section",
   "total_spent",
   "total_balance",
-  "column_break_zkad",
+  "column_break_owsz",
   "total_local_amount",
   "section_break_oxho",
   "trip_report",
@@ -102,14 +105,16 @@
   },
   {
    "fieldname": "total_spent",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Total Spent",
+   "options": "currency",
    "read_only": 1
   },
   {
    "fieldname": "total_balance",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Total Balance",
+   "options": "currency",
    "read_only": 1
   },
   {
@@ -123,13 +128,13 @@
   },
   {
    "fieldname": "section_break_oxho",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Trip Report Section"
   },
   {
    "fieldname": "trip_report",
    "fieldtype": "Attach",
-   "label": "Trip Report",
-   "reqd": 1
+   "label": "Trip Report"
   },
   {
    "fetch_from": "travel_request.custom_expected_support",
@@ -156,16 +161,13 @@
   },
   {
    "fieldname": "section_break_iixw",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_zkad",
-   "fieldtype": "Column Break"
+   "fieldtype": "Section Break",
+   "label": "Advanced Section"
   },
   {
    "fieldname": "total_local_amount",
    "fieldtype": "Currency",
-   "label": "Total Local Amount",
+   "label": "Total Local Amount spent",
    "read_only": 1
   },
   {
@@ -176,10 +178,18 @@
    "read_only": 1
   },
   {
+   "default": "0",
+   "fieldname": "allocated_amount_differs",
+   "fieldtype": "Check",
+   "label": "Allocated Amount Differs"
+  },
+  {
+   "depends_on": "eval:doc.allocated_amount_differs",
    "description": "Used for reconciliation calculations when different from requested amount.",
    "fieldname": "actual_allocated_amount",
    "fieldtype": "Currency",
-   "label": "Actual Allocated Amount"
+   "label": "Actual Allocated Amount",
+   "options": "currency"
   },
   {
    "fieldname": "amended_from",
@@ -199,12 +209,25 @@
    "label": "Employee",
    "options": "Employee",
    "print_hide": 1
+  },
+  {
+   "fieldname": "column_break_ansh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "spendings_section_section",
+   "fieldtype": "Section Break",
+   "label": "Spendings/Balance"
+  },
+  {
+   "fieldname": "column_break_owsz",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-05-13 08:31:38.386595",
+ "modified": "2026-06-19 09:16:36.079260",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Travel Request Reconciliation",

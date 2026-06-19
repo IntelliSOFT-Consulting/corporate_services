@@ -1,0 +1,19 @@
+[
+ {
+  "custom": 1,
+  "docstatus": 0,
+  "doctype": "DocType Link",
+  "group": "Reconciliation",
+  "hidden": 0,
+  "is_child_table": 0,
+  "link_doctype": "Travel Request Reconciliation",
+  "link_fieldname": "travel_request",
+  "modified": "2026-06-19 09:45:02.212563",
+  "name": "ti9ai65203",
+  "parent": "Travel Request",
+  "parent_doctype": null,
+  "parentfield": "links",
+  "parenttype": "Customize Form",
+  "table_fieldname": null
+ }
+]

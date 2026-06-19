@@ -6,7 +6,7 @@ function PaginationControls({ currentPage, totalPages, totalItems, onPageChange,
   return (
     <div className="d-flex align-items-center justify-content-between flex-wrap mt-2 mb-3" style={{ gap: 8 }}>
       <div style={{ fontSize: 12, color: "#6c757d" }}>
-        Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, totalItems)} of {totalItems}
+        Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, totalItems)} of {totalItems}
       </div>
       <ul className="pagination pagination-sm mb-0">
         <li className={`page-item${currentPage === 1 ? " disabled" : ""}`}>

@@ -56,7 +56,7 @@ def notify_supervisor_for_exit_interview(docname):
 
     frappe.sendmail(
         recipients=[supervisor_email],
-        subject=f"Exit Interview Required – {employee.employee_name}",
+        subject=f"Exit Interview Required - {employee.employee_name}",
         message=message,
         header=("OffBoarding Schedule", "text/html"),
     )
