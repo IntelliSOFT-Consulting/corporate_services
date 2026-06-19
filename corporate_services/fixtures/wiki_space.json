@@ -8,31 +8,87 @@
   "wiki_sidebars": [
    {
     "parent": "vr2o87gj2p",
-    "parent_label": "Wiki",
+    "parent_label": "HR Processes",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "projectmoduledoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "HR Processes",
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",
     "wiki_page": "to91i4vr14"
    },
    {
     "parent": "vr2o87gj2p",
-    "parent_label": "Wiki",
+    "parent_label": "HR Processes",
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",
     "wiki_page": "perfappraisaldoc1"
    },
    {
     "parent": "vr2o87gj2p",
-    "parent_label": "Wiki",
+    "parent_label": "HR Processes",
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",
     "wiki_page": "jiraintegrationdoc1"
    },
    {
     "parent": "vr2o87gj2p",
-    "parent_label": "Wiki",
+    "parent_label": "HR Processes",
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",
     "wiki_page": "projectmeetingsdoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "HR Processes",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "lessonslearneddoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "HR Processes",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "hlworkplandoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "HR Processes",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "dworkplandoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "HR Processes",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "timesheetsubmissiondoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "Leave Process",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "leaveapplicationdoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "Travel",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "travelrequestdoc1"
+   },
+   {
+    "parent": "vr2o87gj2p",
+    "parent_label": "Travel",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "travelreconciliationdoc1"
    }
   ]
  }

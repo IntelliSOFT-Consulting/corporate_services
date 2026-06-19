@@ -101,7 +101,7 @@ def pull_projects():
 	while total is None or start < total:
 		data = doc._request(
 			"/rest/api/3/project/search",
-			params={"startAt": start, "maxResults": 50},
+			params={"startAt": start, "maxResults": 50, "expand": "lead"},
 		)
 		total = data.get("total", 0)
 		values = data.get("values", [])
@@ -206,6 +206,17 @@ def pull_issues(project_key):
 		mapped.append(row)
 
 	jp = frappe.get_doc("Jira Project", project_key)
+
+	# Refresh project meta (lead/name/type) from Jira; /project/{key} returns lead by default.
+	try:
+		p = doc._request(f"/rest/api/3/project/{project_key}")
+		jp.project_name = p.get("name") or jp.project_name
+		jp.project_id = p.get("id") or jp.project_id
+		jp.project_type = p.get("projectTypeKey") or jp.project_type
+		jp.lead = (p.get("lead") or {}).get("displayName") or jp.lead
+	except requests.HTTPError:
+		pass
+
 	jp.set("issues", [])
 	for row in mapped:
 		jp.append("issues", row)
