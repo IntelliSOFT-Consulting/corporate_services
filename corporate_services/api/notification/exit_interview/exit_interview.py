@@ -102,7 +102,7 @@ def alert(doc, method):
         send_email(
             doc,
             recipients=[supervisor_contact.email],
-            subject=frappe._("Exit Interview Submitted – {}".format(employee.employee_name)),
+            subject=frappe._("Exit Interview Submitted - {}".format(employee.employee_name)),
             message=message,
             pdf_content=pdf_content,
             doc_name=doc.name,
@@ -126,7 +126,7 @@ def alert(doc, method):
         send_email(
             doc,
             recipients=hr_manager_emails,
-            subject=frappe._("Exit Interview Submitted to HR – {}".format(employee.employee_name)),
+            subject=frappe._("Exit Interview Submitted to HR - {}".format(employee.employee_name)),
             message=message,
             pdf_content=pdf_content,
             doc_name=doc.name,

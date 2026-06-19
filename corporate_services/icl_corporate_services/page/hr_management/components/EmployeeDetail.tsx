@@ -633,7 +633,7 @@ export function EmployeeDetail({ employee, onBack }: Props) {
                           <td style={{ whiteSpace: "nowrap" }}>
                             {formatDate(r.trip_dates_from)}
                             {r.trip_datesto && r.trip_datesto !== r.trip_dates_from
-                              ? ` – ${formatDate(r.trip_datesto)}`
+                              ? ` - ${formatDate(r.trip_datesto)}`
                               : ""}
                           </td>
                           <td>{r.currency} {r.total_advance?.toLocaleString() ?? "-"}</td>

@@ -315,7 +315,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                     {totalPages > 1 && (
                       <div className="pm-pagination">
                         <span>
-                          Showing {(page - 1) * ROWS_PER_PAGE + 1}–
+                          Showing {(page - 1) * ROWS_PER_PAGE + 1}-
                           {Math.min(page * ROWS_PER_PAGE, highPlanRows.length)} of{" "}
                           {highPlanRows.length}
                         </span>
