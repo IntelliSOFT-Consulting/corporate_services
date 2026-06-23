@@ -594,6 +594,17 @@ function SidebarTabs({
         >
           Project Requirements Templates
         </div>
+        <div
+          className="ipm-sidebar-item"
+          onClick={() =>
+            globalThis.frappe?.set_route(
+              "List",
+              "Project Management Lessons Learned",
+            )
+          }
+        >
+          Lessons Learned
+        </div>
       </div>
     </div>
   );

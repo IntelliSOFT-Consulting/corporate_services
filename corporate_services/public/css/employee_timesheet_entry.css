@@ -221,3 +221,198 @@
     text-align: center;
     opacity: 0.8;
 }
+
+/* ── Mobile layout ── */
+.ts-mobile-wrap {
+    padding-bottom: 80px;
+}
+
+.ts-mobile-section {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.ts-mobile-section-header {
+    background: #87CEEB;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #9ab8cc;
+}
+
+.ts-mobile-header-activity {
+    background: #c8e6c9;
+    border-bottom-color: #a5d6a7;
+}
+
+.ts-mobile-section-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    font-weight: 700;
+    font-size: 13px;
+    flex-wrap: wrap;
+}
+
+.ts-mobile-activity-input {
+    max-width: 200px;
+    height: 30px !important;
+}
+
+.ts-mobile-section-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.ts-mobile-section-total {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.ts-mobile-delete-btn {
+    font-size: 11px;
+}
+
+.ts-mobile-task {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ts-mobile-task:last-of-type {
+    border-bottom: none;
+}
+
+.ts-mobile-task-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    gap: 6px;
+}
+
+.ts-mobile-task-name {
+    flex: 1;
+    font-size: 13px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px;
+    padding: 6px 8px !important;
+    min-width: 0;
+}
+
+.ts-mobile-task-name:focus {
+    border-color: #5e64ff !important;
+    background: #fff !important;
+}
+
+.ts-mobile-hours-toggle {
+    background: #f0f4ff;
+    border: 1px solid #c5caff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5e64ff;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ts-mobile-hours-toggle.active {
+    background: #5e64ff;
+    color: #fff;
+    border-color: #5e64ff;
+}
+
+.ts-mobile-dates {
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    padding: 6px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 12px;
+}
+
+.ts-mobile-date-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.ts-mobile-date-row.ts-weekend {
+    background: #B8D4EA;
+}
+
+.ts-mobile-date-label {
+    color: #555;
+    font-size: 12px;
+    min-width: 50px;
+}
+
+.ts-mobile-hours-input {
+    width: 64px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-align: center;
+    padding: 4px 6px;
+    font-size: 13px;
+    background: #fff;
+}
+
+.ts-mobile-hours-input:focus {
+    outline: none;
+    border-color: #5e64ff;
+}
+
+.ts-mobile-addrow-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    border-top: 1px solid #eee;
+    color: #5e64ff;
+    font-size: 12px;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ts-mobile-footer-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ts-mobile-action-btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 12px;
+}
+
+.ts-mobile-save-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 768px) {
+    .ts-mobile-save-bar {
+        display: none;
+    }
+}
