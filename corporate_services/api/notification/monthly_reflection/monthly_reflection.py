@@ -7,6 +7,7 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
 def build_email_body(greeting, intro, action_line, link_url, sign_off, signer):
@@ -83,7 +84,10 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
     return templates[email_type]
 
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -136,6 +140,9 @@ def alert(doc, method):
     if doc.workflow_state not in WATCHED_STATES:
         return
 
+    if not on_transition(doc):
+        return
+
     employee = frappe.get_doc("Employee", doc.employee)
     employee_email = employee.company_email or employee.personal_email
 
@@ -160,6 +167,7 @@ def alert(doc, method):
         add_user_permission(supervisor_user, doc.employee)
 
         send_email(
+            doc,
             recipients=[supervisor_email],
             subject=frappe._("Monthly Reflection from {}".format(employee.employee_name)),
             message=generate_message(doc, employee.employee_name, supervisor_contact.name, "supervisor"),
@@ -169,6 +177,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Acknowledged by Supervisor":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Acknowledged"),
             message=generate_message(doc, employee.employee_name, None, "employee_acknowledged"),
@@ -178,6 +187,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Returned by Supervisor":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Returned for Revision"),
             message=generate_message(doc, employee.employee_name, None, "employee_rejected"),
@@ -188,6 +198,7 @@ def alert(doc, method):
     elif doc.workflow_state == "Submitted to HR":
         if hr_emails:
             send_email(
+                doc,
                 recipients=hr_emails,
                 subject=frappe._("Monthly Reflection from {} - Pending HR Review".format(employee.employee_name)),
                 message=generate_message(doc, employee.employee_name, None, "hr_submitted"),
@@ -197,6 +208,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Approved by HR":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Approved by HR"),
             message=generate_message(doc, employee.employee_name, None, "employee_hr_approved"),
@@ -206,6 +218,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Rejected By HR":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Returned by HR"),
             message=generate_message(doc, employee.employee_name, None, "employee_hr_rejected"),

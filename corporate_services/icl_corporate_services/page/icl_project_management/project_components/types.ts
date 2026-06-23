@@ -45,6 +45,20 @@ export type ProjectTravelRequest = {
   modified?: string;
 };
 
+export type ProjectTask = {
+  name: string;
+  subject?: string;
+  status?: string;
+  priority?: string;
+  exp_start_date?: string;
+  exp_end_date?: string;
+  progress?: number;
+  custom_task_source?: string;
+  custom_jira_issue_key?: string;
+  custom_jira_issue_url?: string;
+  modified?: string;
+};
+
 export type ProjectLinkedUser = {
   user: string;
   employee?: string;
@@ -84,12 +98,15 @@ export type ProjectDetail = ProjectRow & {
   owner?: string;
   modified?: string;
   creation?: string;
+  custom_jira_project?: string;
   linked_users?: ProjectLinkedUser[];
   timesheets?: ProjectTimesheet[];
   travel_requests?: ProjectTravelRequest[];
+  tasks?: ProjectTask[];
   charts?: {
     timesheet_status_breakdown?: ProjectChartCount[];
     travel_request_workflow_breakdown?: ProjectChartCount[];
+    task_status_breakdown?: ProjectChartCount[];
   };
 };
 

@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestInternalStatusReport(FrappeTestCase):
+class TestReportingFrequency(FrappeTestCase):
 	pass

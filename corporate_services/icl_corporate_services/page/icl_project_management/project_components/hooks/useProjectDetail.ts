@@ -7,6 +7,8 @@ export function useProjectDetail(name: string | null) {
   const [doc, setDoc] = useState<ProjectDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+  const refetch = () => setReloadKey((k) => k + 1);
 
   useEffect(() => {
     if (!name) {
@@ -39,7 +41,7 @@ export function useProjectDetail(name: string | null) {
     return () => {
       cancelled = true;
     };
-  }, [name]);
+  }, [name, reloadKey]);
 
-  return { doc, loading, error };
+  return { doc, loading, error, refetch };
 }

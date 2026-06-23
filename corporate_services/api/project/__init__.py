@@ -296,6 +296,7 @@ def get_project(name):
         "gross_margin": doc.gross_margin,
         "per_gross_margin": doc.per_gross_margin,
         "custom_bid": doc.custom_bid,
+        "custom_jira_project": doc.get("custom_jira_project"),
         "notes": doc.notes,
         "cost_center": doc.cost_center,
         "creation": doc.creation,
@@ -363,15 +364,63 @@ def get_project(name):
             grouped[key] = grouped.get(key, 0) + 1
         tr_breakdown = [{"label": k, "count": v} for k, v in grouped.items()]
 
+    tasks = []
+    task_breakdown = []
+    if _has_field("Task", "project"):
+        task_fields = [
+            "name",
+            "subject",
+            "status",
+            "priority",
+            "exp_start_date",
+            "exp_end_date",
+            "progress",
+            "modified",
+        ]
+        for f in ("custom_task_source", "custom_jira_issue_key", "custom_jira_issue_url"):
+            if _has_field("Task", f):
+                task_fields.append(f)
+        tasks = frappe.get_all(
+            "Task",
+            filters={"project": name},
+            fields=task_fields,
+            order_by="modified desc",
+            limit_page_length=200,
+        )
+        grouped = {}
+        for row in tasks:
+            key = row.get("status") or "Not Set"
+            grouped[key] = grouped.get(key, 0) + 1
+        task_breakdown = [{"label": k, "count": v} for k, v in grouped.items()]
+
     project["linked_users"] = linked_users
     project["timesheets"] = timesheets
     project["travel_requests"] = travel_requests
+    project["tasks"] = tasks
     project["charts"] = {
         "timesheet_status_breakdown": ts_breakdown,
         "travel_request_workflow_breakdown": tr_breakdown,
+        "task_status_breakdown": task_breakdown,
     }
 
     return project
+
+
+@frappe.whitelist()
+def pull_project_jira_tasks(project_name):
+    """Pull Jira issues for the project's linked Jira Project and sync them into Tasks."""
+    if not project_name:
+        frappe.throw(_("Project name is required."))
+
+    jira_key = frappe.db.get_value("Project", project_name, "custom_jira_project")
+    if not jira_key:
+        frappe.throw(_("This project is not linked to a Jira Project."))
+
+    from corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings import (
+        pull_issues,
+    )
+
+    return pull_issues(jira_key)
 
 
 @frappe.whitelist()

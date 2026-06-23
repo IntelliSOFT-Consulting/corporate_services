@@ -5,9 +5,11 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
-def send_email(recipients, subject, message):
+def send_email(doc, recipients, subject, message):
+    recipients = filter_recipients(doc, recipients)
     if not recipients:
         return
 
@@ -67,6 +69,8 @@ def generate_message(doc, employee_name, email_type, sender_name=None):
 
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     watched_states = {
         "Submitted to Supervisor",
         "Submitted to HR",
@@ -92,6 +96,7 @@ def alert(doc, method):
             return
 
         send_email(
+            doc,
             recipients=[supervisor_contact.email],
             subject=frappe._("Internship Completion Report from {}".format(employee_name)),
             message=generate_message(
@@ -106,12 +111,14 @@ def alert(doc, method):
     if doc.workflow_state == "Submitted to HR":
         hr_manager_emails = get_hr_manager_emails()
         send_email(
+            doc,
             recipients=hr_manager_emails,
             subject=frappe._("Internship Completion Report Pending HR Review"),
             message=generate_message(doc, employee_name, "hr", sender_name=actor_name),
         )
         if employee_email:
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._("Your Internship Completion Report has been Approved by Supervisor and Submitted to HR"),
                 message=generate_message(doc, employee_name, "employee_approved_supervisor", sender_name=actor_name),
@@ -123,6 +130,7 @@ def alert(doc, method):
 
     if doc.workflow_state == "Rejected By Supervisor":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Internship Completion Report has been Rejected by Supervisor"),
             message=generate_message(doc, employee_name, "employee_rejected_supervisor", sender_name=actor_name),
@@ -131,6 +139,7 @@ def alert(doc, method):
 
     if doc.workflow_state == "Rejected By HR":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Internship Completion Report has been Rejected by HR"),
             message=generate_message(doc, employee_name, "employee_rejected_hr", sender_name=actor_name),
@@ -139,6 +148,7 @@ def alert(doc, method):
 
     if doc.workflow_state in {"Approved by HR", "Approved By HR"}:
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Internship Completion Report has been Approved by HR"),
             message=generate_message(doc, employee_name, "employee_approved_hr", sender_name=actor_name),

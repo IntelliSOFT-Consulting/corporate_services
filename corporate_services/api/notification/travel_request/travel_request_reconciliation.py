@@ -4,12 +4,16 @@ from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message):
-    recipients = [email for email in (recipients or []) if email]
+def send_email(doc, recipients, subject, message):
+    recipients = filter_recipients(doc, recipients)
     if not recipients:
         return
 
+    recipients = [email for email in (recipients or []) if email]
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -52,6 +56,8 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to Finance", "Approved by Finance" , "Rejected by Finance"
     ]:
@@ -71,6 +77,7 @@ def alert(doc, method):
             
             message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance")
             send_email(
+                doc,
                 recipients=finance_team_emails,
                 subject=frappe._('Travel Request Reconciliation from {}'.format(employee.employee_name)),
                 message=message_to_finance,
@@ -79,6 +86,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "finance_approved")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request Reconciliation has been Approved by Finance'),
                 message=message_to_employee,
@@ -87,6 +95,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "finance_rejected")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request Reconciliation has been Rejected by Finance'),
                 message=message_to_employee,
@@ -94,6 +103,7 @@ def alert(doc, method):
 
             message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
             send_email(
+                doc,
                 recipients= hr_manager_emails,
                 subject=frappe._('Travel Request Reconciliation Rejected by Finance'),
                 message=message_to_hr,

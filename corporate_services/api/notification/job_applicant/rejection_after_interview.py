@@ -1,6 +1,7 @@
 import frappe
 from frappe.utils import get_fullname
 from frappe import _
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 DEFAULT_EMAIL_TEMPLATE = "Rejection After Interview"
 
@@ -140,6 +141,9 @@ def alert(doc, method):
     Automatically sends rejection email when a Job Applicant workflow
     state changes to "Rejected After Interview".
     """
+    if not on_transition(doc):
+        return
+
     if doc.workflow_state != "Rejected After Interview":
         return
 
@@ -153,8 +157,12 @@ def alert(doc, method):
 
     subject, message = _render_template(doc)
 
+    _recips = filter_recipients(doc, [candidate_email])
+    if not _recips:
+        return
+
     _send_email(
-        recipients=[candidate_email],
+        recipients=_recips,
         subject=subject,
         message=message,
     )

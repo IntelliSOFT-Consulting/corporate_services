@@ -2,8 +2,12 @@ import frappe
 from frappe.utils import get_url_to_form
 from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -43,6 +47,8 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to HR", "Approved by HR", "Rejected By HR"
     ]:
@@ -59,6 +65,7 @@ def alert(doc, method):
 
             message = generate_message(doc, employee.employee_name, "hr")
             send_email(
+                doc,
                 recipients=hr_manager_emails,
                 subject=frappe._('Employee Grievance'),
                 message=message,
@@ -69,6 +76,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by HR":
             message_to_employee = generate_message(doc, employee.employee_name, "approved_by_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Grievance has been Approved by HR'),
                 message=message_to_employee,
@@ -79,6 +87,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "rejected_by_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Grievance has been Rejected'),
                 message=message_to_employee,

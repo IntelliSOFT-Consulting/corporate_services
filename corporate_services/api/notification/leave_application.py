@@ -1,8 +1,12 @@
 import frappe
 from frappe.utils import get_url_to_form
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails, get_supervisor_contact
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message):
+def send_email(doc, recipients, subject, message):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -60,6 +64,8 @@ def generate_message(doc, employee_name, email_type, sender_name=None):
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to Supervisor", "Approved by Supervisor", "Rejected By Supervisor", "Submitted to HR", "Rejected By HR", "Approved By HR", "Approved by HR"
     ]:
@@ -78,6 +84,7 @@ def alert(doc, method):
                     sender_name=employee.employee_name
                 )
                 send_email(
+                    doc,
                     recipients=[supervisor_contact.email],
                     subject=frappe._('Leave Application from {}'.format(employee.employee_name)),
                     message=message
@@ -86,6 +93,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_supervisor")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Leave Application has been Approved by Supervisor'),
                 message=message_to_employee
@@ -93,6 +101,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_supervisor")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Leave Application has been Rejected'),
                 message=message_to_employee
@@ -102,6 +111,7 @@ def alert(doc, method):
 
             message_to_hr = generate_message(doc, employee.employee_name, "hr")
             send_email(
+                doc,
                 recipients=hr_manager_emails,
                 subject=frappe._('Leave Application'),
                 message=message_to_hr
@@ -109,6 +119,7 @@ def alert(doc, method):
 
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approve_supervisor")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Leave Application has been Approved by Supervisor and Submitted to HR'),
                 message=message_to_employee
@@ -116,6 +127,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Leave Application has been Rejected'),
                 message=message_to_employee
@@ -123,6 +135,7 @@ def alert(doc, method):
         elif doc.workflow_state in ["Approved By HR", "Approved by HR"]:
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_hr")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Leave Application has been Approved by HR'),
                 message=message_to_employee

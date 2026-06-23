@@ -6,13 +6,17 @@ from corporate_services.api.notification.notification_contacts import (
     get_supervisor_contact,
 )
 from corporate_services.api.workflow.auto_skip import skip_supervisor_for_ceo
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
-def send_email(recipients, subject, message):
-    recipients = [email for email in (recipients or []) if email]
+def send_email(doc, recipients, subject, message):
+    recipients = filter_recipients(doc, recipients)
     if not recipients:
         return
 
+    recipients = [email for email in (recipients or []) if email]
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -80,6 +84,8 @@ def generate_message(doc, employee_name, email_type, supervisor_name=None):
     return messages[email_type]
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     skip_supervisor_for_ceo(
         doc=doc,
         from_state="Submitted to Supervisor",
@@ -114,6 +120,7 @@ def alert(doc, method):
                 
                 message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name )
                 send_email(
+                    doc,
                     recipients=[supervisor_email],
                     subject=frappe._('Travel Request from {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
@@ -122,6 +129,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "approved_by_supervisor", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request has been Approved by the supervisor'),
                 message=message_to_employee,
@@ -130,6 +138,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "supervisor_rejected", supervisor_name)
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request has been Rejected'),
                 message=message_to_employee,
@@ -143,6 +152,7 @@ def alert(doc, method):
                 "submitted_to_finance_ceo" if is_ceo else "submitted_to_finance",
             )
             send_email(
+                doc,
                 recipients=finance_team_emails,
                 subject=frappe._('Travel Request from {}'.format(employee.employee_name)),
                 message=message_to_finance,
@@ -151,6 +161,7 @@ def alert(doc, method):
             if supervisor_email and not is_ceo:
                 message_to_supervisor = generate_message(doc, employee.employee_name, "supervisor", supervisor_name)
                 send_email(
+                    doc,
                     recipients=[supervisor_email],
                     subject=frappe._('Submission of Travel Request for {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
@@ -159,6 +170,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Approved by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "finance_approved")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request has been Approved by Finance'),
                 message=message_to_employee,
@@ -167,6 +179,7 @@ def alert(doc, method):
         elif doc.workflow_state == "Rejected by Finance":
             message_to_employee = generate_message(doc, employee.employee_name, "finance_rejected")
             send_email(
+                doc,
                 recipients=[employee_email],
                 subject=frappe._('Your Travel Request has been Rejected by Finance'),
                 message=message_to_employee,
@@ -174,6 +187,7 @@ def alert(doc, method):
 
             message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
             send_email(
+                doc,
                 recipients= hr_manager_emails,
                 subject=frappe._('Travel Request Rejected by Finance'),
                 message=message_to_hr,

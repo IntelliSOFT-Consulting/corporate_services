@@ -150,16 +150,47 @@ def clear_submission_queue():
         frappe.db.rollback()
 
 
+def sanitize_travel_request_currency_fields():
+    """Strip comma-formatted strings from columns that switch Data -> Currency so
+    the schema change doesn't fail with 'Data truncated'."""
+    targets = {
+        "Travel Request": ["custom_expected_support", "custom_amount_in_local_currency"],
+        "Travel Request Reconciliation": ["total_spent", "total_balance", "total_advance"],
+    }
+
+    for doctype, columns in targets.items():
+        if not frappe.db.table_exists(doctype):
+            continue
+        for column in columns:
+            if not frappe.db.has_column(doctype, column):
+                continue
+            try:
+                frappe.db.sql(
+                    """
+                    UPDATE `tab{dt}`
+                    SET `{col}` = CASE
+                        WHEN TRIM(REPLACE(`{col}`, ',', '')) REGEXP '^-?[0-9]+(\\.[0-9]+)?$'
+                        THEN REPLACE(`{col}`, ',', '')
+                        ELSE 0
+                    END
+                    """.format(dt=doctype, col=column)
+                )
+                frappe.db.commit()
+                frappe.logger().info(f"Sanitized {doctype}.{column}")
+            except Exception as e:
+                frappe.logger().error(f"Error sanitizing {doctype}.{column}: {str(e)}")
+                frappe.db.rollback()
+
+
 def before_migrate_cleanup():
     clear_doctype_customizations([
-        "Work Continuity Plan",
     ])
+    sanitize_travel_request_currency_fields()
     # clear_submission_queue()
 
 
 def post_install():
     clear_doctype_customizations([
-        "Work Continuity Plan",
     ])
     force_sync_fixtures()
     clear_workspaces()

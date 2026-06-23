@@ -78,7 +78,7 @@ export function TextResponseList({ responses }: TextResponseListProps) {
           </button>
 
           <span style={{ color: "var(--text-muted)" }}>
-            {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, total)} of {total}
+            {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, total)} of {total}
           </span>
 
           <button

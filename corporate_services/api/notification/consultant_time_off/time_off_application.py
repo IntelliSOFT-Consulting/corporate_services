@@ -4,6 +4,7 @@ from corporate_services.api.helpers.print_formats import get_default_print_forma
 from corporate_services.api.notification.notification_contacts import (
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
 
 def build_email_body(greeting, intro, action_line, link_url, sign_off, signer):
@@ -57,7 +58,10 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
     return templates[email_type]
 
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -72,6 +76,8 @@ def send_email(recipients, subject, message, pdf_content, doc_name):
 
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     WATCHED_STATES = {
         "Submitted to Supervisor",
         "Approved by Supervisor",
@@ -94,6 +100,7 @@ def alert(doc, method):
         supervisor_contact = get_supervisor_contact(employee)
 
         send_email(
+            doc,
             recipients=[supervisor_contact.email],
             subject=frappe._("Time Off Application from {}".format(employee.employee_name)),
             message=generate_message(doc, employee.employee_name, supervisor_contact.name, "supervisor"),
@@ -103,6 +110,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Approved by Supervisor":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Time Off Application has been Approved"),
             message=generate_message(doc, employee.employee_name, None, "employee_approved"),
@@ -112,6 +120,7 @@ def alert(doc, method):
 
     elif doc.workflow_state == "Rejected By Supervisor":
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Time Off Application has been Rejected"),
             message=generate_message(doc, employee.employee_name, None, "employee_rejected"),

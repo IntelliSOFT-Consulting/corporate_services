@@ -31,7 +31,11 @@ class TravelRequestReconciliation(Document):
 		self.total_spent = total_spent
 		self.total_local_amount = total_local_amount
 
-		allocated_amount = flt(self.actual_allocated_amount) or flt(self.total_advance)
+		if self.allocated_amount_differs:
+			allocated_amount = flt(self.actual_allocated_amount) or flt(self.total_advance)
+		else:
+			self.actual_allocated_amount = 0
+			allocated_amount = flt(self.total_advance)
 		self.total_balance = allocated_amount - total_spent
 
 

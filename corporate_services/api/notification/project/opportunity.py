@@ -1,8 +1,12 @@
 import frappe
 from frappe.utils import get_url_to_form
 from corporate_services.api.helpers.print_formats import get_default_print_format
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -77,6 +81,8 @@ def _get_active_owner_user(doc):
 
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state in [
         "Submitted to CEO", "Approved by CEO", "Rejected by CEO"
     ]:
@@ -123,6 +129,7 @@ def alert(doc, method):
                     doc, approver_employee_name, employee.get("employee_name"), "feedback_from_opp_owner"
                 )
                 send_email(
+                    doc,
                     recipients=[approver_email],
                     subject=frappe._('Project Bid Feedback from the Opportunity owner'),
                     message=message_to_employee,
@@ -135,6 +142,7 @@ def alert(doc, method):
                     doc, approver_employee_name, employee.get("employee_name"), "approval_feedback_from_ceo"
                 )
                 send_email(
+                    doc,
                     recipients=[employee_email],
                     subject=frappe._('Project Bid Feedback from the CEO'),
                     message=message_to_employee,
@@ -147,6 +155,7 @@ def alert(doc, method):
                     doc, approver_employee_name, employee.get("employee_name"), "rejection_feedback_from_ceo"
                 )
                 send_email(
+                    doc,
                     recipients=[employee_email],
                     subject=frappe._('Project Bid Feedback from the CEO'),
                     message=message,

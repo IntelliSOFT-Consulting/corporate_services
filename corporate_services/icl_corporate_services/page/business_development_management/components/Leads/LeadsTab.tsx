@@ -333,7 +333,7 @@ export function LeadsTab() {
             {pagedLeads.totalPages > 1 && (
               <div className="card-footer bg-white border-top d-flex justify-content-between align-items-center">
                 <span className="text-muted small">
-                  Showing {pagedLeads.start + 1}–{Math.min(pagedLeads.start + pageSize, filteredLeads.length)} of {filteredLeads.length}
+                  Showing {pagedLeads.start + 1}-{Math.min(pagedLeads.start + pageSize, filteredLeads.length)} of {filteredLeads.length}
                 </span>
                 <div className="btn-group btn-group-sm">
                   <button className="btn btn-default btn-sm" disabled={pagedLeads.page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>

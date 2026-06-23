@@ -466,6 +466,10 @@ fixtures = [
     "Custom HTML Block",
     "KPI Template Instructions",
     "Custom DocPerm",
+    {
+        "dt": "DocType Link",
+        "filters": [["parent", "=", "Travel Request"], ["custom", "=", 1]],
+    },
     "HIS Project Lifecycle Config",
     {
         "dt": "Wiki Page",

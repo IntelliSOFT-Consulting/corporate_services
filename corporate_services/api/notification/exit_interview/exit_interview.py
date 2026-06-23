@@ -5,8 +5,12 @@ from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
+from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+    recipients = filter_recipients(doc, recipients)
+    if not recipients:
+        return
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -72,6 +76,8 @@ def generate_message(doc, employee_name, email_type):
 
 
 def alert(doc, method):
+    if not on_transition(doc):
+        return
     if doc.workflow_state not in [
         "Submitted to Supervisor",
         "Rejected By Supervisor",
@@ -94,8 +100,9 @@ def alert(doc, method):
 
         message = generate_message(doc, employee.employee_name, "supervisor")
         send_email(
+            doc,
             recipients=[supervisor_contact.email],
-            subject=frappe._("Exit Interview Submitted – {}".format(employee.employee_name)),
+            subject=frappe._("Exit Interview Submitted - {}".format(employee.employee_name)),
             message=message,
             pdf_content=pdf_content,
             doc_name=doc.name,
@@ -104,6 +111,7 @@ def alert(doc, method):
     elif doc.workflow_state == "Rejected By Supervisor":
         message = generate_message(doc, employee.employee_name, "employee_rejected_supervisor")
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Rejected by Supervisor"),
             message=message,
@@ -116,8 +124,9 @@ def alert(doc, method):
 
         message = generate_message(doc, employee.employee_name, "hr")
         send_email(
+            doc,
             recipients=hr_manager_emails,
-            subject=frappe._("Exit Interview Submitted to HR – {}".format(employee.employee_name)),
+            subject=frappe._("Exit Interview Submitted to HR - {}".format(employee.employee_name)),
             message=message,
             pdf_content=pdf_content,
             doc_name=doc.name,
@@ -143,6 +152,7 @@ def alert(doc, method):
     elif doc.workflow_state == "Rejected By HR":
         message = generate_message(doc, employee.employee_name, "employee_rejected_hr")
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Rejected by HR"),
             message=message,
@@ -153,6 +163,7 @@ def alert(doc, method):
     elif doc.workflow_state == "Approved by HR":
         message = generate_message(doc, employee.employee_name, "employee_approved_hr")
         send_email(
+            doc,
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Approved by HR"),
             message=message,

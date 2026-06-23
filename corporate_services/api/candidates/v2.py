@@ -213,18 +213,18 @@ def _send_minimum_requirements_rejection_email(candidate_name, candidate_email, 
     safe_role = role_title or "this role"
 
     subject = f"Application Update - {safe_role} at {company_name}"
-    message = f"""Dear {candidate_name},
+    message = f"""<p>Dear {candidate_name},</p>
 
-Thank you for your interest in the role of {safe_role} at {company_name}.
+<p>Thank you for your interest in the role of {safe_role} at {company_name}.</p>
 
-Based on the minimum requirements indicated in your application, we will not be progressing with your application at this time. We encourage you to apply again in future if your experience aligns with the requirements of a role.
+<p>Based on the minimum requirements indicated in your application, we will not be progressing with your application at this time. We encourage you to apply again in future if your experience aligns with the requirements of a role.</p>
 
-We appreciate the time you took to apply and wish you the best in your career journey.
+<p>We appreciate the time you took to apply and wish you the best in your career journey.</p>
 
-Kind regards,
-{signature_name}
-Human Resources
-{company_name}"""
+<p>Kind regards,<br>
+{signature_name}<br>
+Human Resources<br>
+{company_name}</p>"""
 
     frappe.sendmail(
         recipients=[candidate_email],
@@ -236,29 +236,7 @@ Human Resources
 
 @frappe.whitelist()
 def create_job_candidate():
-    """
-    Create a Job Candidate entry from external system.
-    Accepts multipart/form-data with files and JSON data.
-    
-    Required fields:
-    - names: Candidate's full name
-    - email_address: Valid email address
-    - cv: Resume/CV file (attached)
-    
-    Optional fields:
-    - phone: Phone number
-    - role: Role/position name the candidate is applying for.
-            Matched against Job Opening.job_title to populate the
-            standard job_title Link field automatically.
-    - role_description: Description of the role
-    - cover_letter: Cover letter file (attached)
-    - minimum_requirements: JSON array of minimum requirements
-    - preferred_attributes: JSON array of preferred attributes
-    
-    Returns:
-    - Success: {"success": true, "data": {candidate details}}
-    - Error: {"success": false, "errors": {field: error_message}}
-    """
+ 
     try:
         # Parse form data
         form_data = frappe.local.form_dict
