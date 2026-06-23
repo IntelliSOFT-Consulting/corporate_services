@@ -5,8 +5,8 @@
    "label": "Project Summary"
   }
  ],
- "content": "[{\"id\":\"DEmRsPfh94\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_RuuoWinHL\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"jsqG4zm3q_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"9NUNz7HcnE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"8V_O1gzVdg\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"CwNr5cIINA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":6}},{\"id\":\"jqLKsKxm3P\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}},{\"id\":\"lZyZGqKs9B\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet\",\"col\":6}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"iB6NqAITHC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}}]",
- "creation": "2026-05-11 08:21:17.948365",
+ "content": "[{\"id\":\"DEmRsPfh94\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"rQUQ_bliVA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_RuuoWinHL\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"jsqG4zm3q_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"9NUNz7HcnE\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"tHcqQcdJx4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lessons Learned Template\",\"col\":3}},{\"id\":\"rWc2opwhTo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Management Lessons Learned\",\"col\":3}},{\"id\":\"8V_O1gzVdg\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"CwNr5cIINA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SzDwPXw_TA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":6}},{\"id\":\"jqLKsKxm3P\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"1or-o0PVVu\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cGf56UwBzR\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}},{\"id\":\"lZyZGqKs9B\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet\",\"col\":6}},{\"id\":\"X2tSHOIC0i\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"E48uKGSj1L\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"iB6NqAITHC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Opportunity\",\"col\":4}}]",
+ "creation": "2026-06-19 16:01:07.159020",
  "custom_blocks": [
   {
    "custom_block_name": "Project manager Welcome",
@@ -59,6 +59,25 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Lessons Learned",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project Management Lessons Learned",
+   "link_count": 0,
+   "link_to": "Project Management Lessons Learned",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Timesheet",
    "link_count": 1,
    "link_type": "DocType",
@@ -76,7 +95,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-05-11 08:25:58.598993",
+ "modified": "2026-06-23 07:24:32.909353",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Project Manager",
@@ -111,9 +130,25 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Lessons Learned Template",
+   "link_to": "Lessons Learned Template",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "format": "{}",
    "label": "Project",
    "link_to": "Project",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Project Management Lessons Learned",
+   "link_to": "Project Management Lessons Learned",
    "stats_filter": "[]",
    "type": "DocType"
   },

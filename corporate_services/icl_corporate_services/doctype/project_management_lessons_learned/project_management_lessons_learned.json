@@ -1,19 +1,27 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2026-05-11 08:57:06.637344",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "lessons_learned_report_section",
+  "naming_series",
+  "project",
   "project_title",
-  "project_timelines",
+  "column_break_boxf",
   "date_of_report",
+  "employee",
   "reporter_name",
   "column_break_ttue",
   "client",
   "project_budget",
   "designation_of_reporter",
+  "project_timeline_section_section",
+  "expected_start_date",
+  "column_break_jdtt",
+  "expected_end_date",
   "report_section",
   "question_template",
   "dynamic_questions_section",
@@ -41,16 +49,12 @@
    "label": "LESSONS LEARNED REPORT"
   },
   {
+   "fetch_from": "project.project_name",
    "fieldname": "project_title",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Project Title",
-   "reqd": 1
-  },
-  {
-   "fieldname": "project_timelines",
-   "fieldtype": "Date",
-   "label": "Project Timelines"
+   "read_only": 1
   },
   {
    "fieldname": "date_of_report",
@@ -58,15 +62,19 @@
    "label": "Date of Report"
   },
   {
+   "fetch_from": "employee.employee_name",
    "fieldname": "reporter_name",
    "fieldtype": "Data",
-   "label": "Reporter Name"
+   "in_list_view": 1,
+   "label": "Reporter Name",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ttue",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "project.customer",
    "fieldname": "client",
    "fieldtype": "Data",
    "label": "Client"
@@ -77,6 +85,8 @@
    "label": "Project Budget"
   },
   {
+   "allow_on_submit": 1,
+   "fetch_from": "employee.designation",
    "fieldname": "designation_of_reporter",
    "fieldtype": "Data",
    "label": "Designation of Reporter"
@@ -191,16 +201,65 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "default": "PM-LL-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PM-LL-.YYYY.-",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "project_timeline_section_section",
+   "fieldtype": "Section Break",
+   "label": "Project Timeline Section"
+  },
+  {
+   "fetch_from": "project.expected_start_date",
+   "fieldname": "expected_start_date",
+   "fieldtype": "Date",
+   "label": "Expected Start Date"
+  },
+  {
+   "fieldname": "column_break_jdtt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "project.expected_end_date",
+   "fieldname": "expected_end_date",
+   "fieldtype": "Date",
+   "label": "Expected End Date"
+  },
+  {
+   "fieldname": "column_break_boxf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-06-15 10:00:00.000000",
+ "modified": "2026-06-23 07:40:04.662749",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Management Lessons Learned",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
