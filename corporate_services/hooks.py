@@ -225,6 +225,7 @@ on_update_map = {
     "Project": [
         "corporate_services.api.notification.project.project_manager.alert",
         "corporate_services.api.project.timesheet_submission_sync.sync_timesheet_submission_project_name",
+        "corporate_services.api.project.lessons_learned_closeout.notify_on_closeout",
     ],
     "Employee Grievance":"corporate_services.api.notification.grievance.grievance.alert",
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
