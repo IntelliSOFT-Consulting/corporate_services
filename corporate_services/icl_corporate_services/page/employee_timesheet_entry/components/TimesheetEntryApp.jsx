@@ -54,6 +54,14 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const autosaveRef = useRef(null);
     const autosaveDirtyRef = useRef(false);
     const autosaveErrorShownRef = useRef(false);
+    const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+    const [expandedTaskId, setExpandedTaskId] = useState(null);
+
+    useEffect(() => {
+        const handler = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handler);
+        return () => window.removeEventListener("resize", handler);
+    }, []);
 
     const markDirty = useCallback(() => {
         autosaveDirtyRef.current = true;
@@ -580,7 +588,97 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                     </div>
                 )}
 
-                <div className="ts-table-wrap">
+                {isMobile && (
+                    <div className="ts-mobile-wrap">
+                        {sections.map((sec, secIdx) => (
+                            <div key={sec.type + "_" + sec.name + "_" + secIdx} className="ts-mobile-section">
+                                <div className={`ts-mobile-section-header ${sec.type === "activity" ? "ts-mobile-header-activity" : ""}`}>
+                                    <div className="ts-mobile-section-title">
+                                        {sec.type === "activity" ? (
+                                            <input
+                                                className="form-control form-control-sm ts-mobile-activity-input"
+                                                value={sec.name}
+                                                onChange={(e) => updateSectionName(secIdx, e.target.value)}
+                                                placeholder="Activity name"
+                                            />
+                                        ) : (
+                                            <span>{sec.name}</span>
+                                        )}
+                                        <span className="ts-section-type-badge">{sec.type === "project" ? "Project" : "Activity"}</span>
+                                    </div>
+                                    <div className="ts-mobile-section-meta">
+                                        <span className="ts-mobile-section-total">{sectionTotal(sec).toFixed(1)}h</span>
+                                        {sec.type === "activity" && (
+                                            <button className="btn btn-default btn-xs ts-mobile-delete-btn" onClick={() => removeSection(secIdx)}>Delete</button>
+                                        )}
+                                    </div>
+                                </div>
+                                {sec.tasks.map((task) => (
+                                    <div key={task.id} className="ts-mobile-task">
+                                        <div className="ts-mobile-task-row">
+                                            <input
+                                                className="ts-task-input ts-mobile-task-name"
+                                                type="text"
+                                                maxLength={500}
+                                                value={task.task}
+                                                onChange={(e) => updateTask(secIdx, task.id, e.target.value)}
+                                                placeholder="Task description"
+                                            />
+                                            <button
+                                                className={`ts-mobile-hours-toggle ${expandedTaskId === task.id ? "active" : ""}`}
+                                                onClick={() => setExpandedTaskId(expandedTaskId === task.id ? null : task.id)}
+                                            >
+                                                {rowTotal(task) > 0 ? rowTotal(task).toFixed(1) : "0"}h ▾
+                                            </button>
+                                            {sec.tasks.length > 1 && (
+                                                <button className="ts-remove-btn" onClick={() => removeTask(secIdx, task.id)} title="Remove row">&times;</button>
+                                            )}
+                                        </div>
+                                        {expandedTaskId === task.id && (
+                                            <div className="ts-mobile-dates">
+                                                {ctx.dates.map((d) => (
+                                                    <div key={d.date} className={`ts-mobile-date-row${d.is_weekend ? " ts-weekend" : ""}`}>
+                                                        <span className="ts-mobile-date-label">{d.day_short} {d.date_num}</span>
+                                                        <input
+                                                            className="ts-mobile-hours-input"
+                                                            type="number"
+                                                            min="0"
+                                                            step="0.5"
+                                                            inputMode="decimal"
+                                                            value={task.hours[d.date] || ""}
+                                                            onChange={(e) => updateHours(secIdx, task.id, d.date, e.target.value)}
+                                                            placeholder="0"
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                                <button className="ts-mobile-addrow-btn" onClick={() => addTask(secIdx)}>+ Add task row</button>
+                            </div>
+                        ))}
+                        <div className="ts-mobile-footer-actions">
+                            <button className="btn btn-default btn-sm ts-mobile-action-btn" onClick={() => { setAddActivityOpen(false); setAddProjectOpen((v) => !v); setProjectSearch(""); }}>
+                                + Add Project
+                            </button>
+                            <button className="btn btn-default btn-sm ts-mobile-action-btn" onClick={() => { setAddProjectOpen(false); setAddActivityOpen((v) => !v); setActivitySearch(""); }}>
+                                + Add Activity
+                            </button>
+                        </div>
+                        <div className="ts-mobile-save-bar">
+                            <div style={{ fontSize: 12, color: "#666" }}>
+                                Total: <strong>{grandTotal > 0 ? grandTotal.toFixed(1) : "0"}h</strong>
+                                {ctx.workflow_state && <span className={`indicator-pill ${workflowIndicatorClass}`} style={{ marginLeft: 10 }}>{ctx.workflow_state}</span>}
+                            </div>
+                            <button className="btn btn-primary" onClick={() => persistTimesheet(true)} disabled={manualSaving}>
+                                {manualSaving ? "Saving..." : "Save Timesheet"}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {!isMobile && <div className="ts-table-wrap">
                     <table className="ts-table">
                         <thead>
                             <tr className="ts-row-dayname">
@@ -677,7 +775,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>}
             </div>
         </>
     );

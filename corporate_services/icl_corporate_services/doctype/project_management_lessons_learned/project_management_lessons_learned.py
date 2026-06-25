@@ -6,6 +6,7 @@ import re
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils import get_url_to_form
 
 
 class ProjectManagementLessonsLearned(Document):
@@ -17,6 +18,13 @@ class ProjectManagementLessonsLearned(Document):
 
     def before_submit(self):
         self.validate_required_responses()
+
+    def on_update(self):
+        previous = self.get_doc_before_save()
+        prev_state = getattr(previous, "workflow_state", None) if previous else None
+        curr_state = self.workflow_state
+        if prev_state and prev_state != curr_state:
+            _send_workflow_notification(self, prev_state, curr_state)
 
     def set_default_question_template(self):
         if self.question_template:
@@ -122,3 +130,94 @@ def _normalize_question_key(text):
     key = re.sub(r"\s+", " ", key)
     key = re.sub(r"[\[\]\(\):;,.]", "", key)
     return key
+
+
+# ── Workflow notifications ────────────────────────────────────────────────────
+
+def _get_employee_email(employee_id):
+    if not employee_id:
+        return None
+    data = frappe.db.get_value(
+        "Employee", employee_id, ["company_email", "personal_email"], as_dict=True
+    )
+    if not data:
+        return None
+    return data.get("company_email") or data.get("personal_email")
+
+
+def _send_workflow_notification(doc, from_state, to_state):
+    doc_url = get_url_to_form("Project Management Lessons Learned", doc.name)
+    project = doc.project_title or doc.project or ""
+
+    if to_state == "Submitted to Supervisor":
+        _notify_supervisor(doc, doc_url, project, resubmit=(from_state == "Needs Clarification"))
+    elif to_state == "Approved":
+        _notify_reporter(doc, doc_url, project, state="Approved")
+    elif to_state == "Rejected":
+        _notify_reporter(doc, doc_url, project, state="Rejected")
+    elif to_state == "Needs Clarification":
+        _notify_reporter(doc, doc_url, project, state="Needs Clarification")
+
+
+def _notify_supervisor(doc, doc_url, project, resubmit=False):
+    supervisor_id = frappe.db.get_value("Employee", doc.employee, "reports_to")
+    if not supervisor_id:
+        return
+
+    supervisor_email = _get_employee_email(supervisor_id)
+    if not supervisor_email:
+        return
+
+    supervisor_name = frappe.db.get_value("Employee", supervisor_id, "employee_name") or supervisor_id
+    reporter = doc.reporter_name or doc.employee or "An employee"
+    action = "resubmitted" if resubmit else "submitted"
+
+    subject = f"Lessons Learned Report {doc.name} {action} for review"
+    message = f"""
+        Dear {supervisor_name},<br><br>
+        {reporter} has {action} a Lessons Learned report for your review.<br><br>
+        <b>Report:</b> {doc.name}<br>
+        <b>Project:</b> {project}<br><br>
+        Please review it here: <a href="{doc_url}">{doc_url}</a><br><br>
+        Regards,<br>
+        Project Management System
+    """
+    frappe.sendmail(recipients=[supervisor_email], subject=subject, message=message)
+
+
+def _notify_reporter(doc, doc_url, project, state):
+    reporter_email = _get_employee_email(doc.employee)
+    if not reporter_email:
+        return
+
+    reporter = doc.reporter_name or doc.employee or "Employee"
+
+    state_messages = {
+        "Approved": (
+            "Congratulations — your Lessons Learned report has been <b>approved</b>.",
+            "green",
+        ),
+        "Rejected": (
+            "Your Lessons Learned report has been <b>rejected</b>. "
+            "Please contact your supervisor for further guidance.",
+            "red",
+        ),
+        "Needs Clarification": (
+            "Your Lessons Learned report requires <b>clarification</b>. "
+            "Please open the report, address the comments, and resubmit.",
+            "orange",
+        ),
+    }
+
+    body, _ = state_messages.get(state, ("Your report status has been updated.", "blue"))
+    subject = f"Lessons Learned Report {doc.name} — {state}"
+    message = f"""
+        Dear {reporter},<br><br>
+        {body}<br><br>
+        <b>Report:</b> {doc.name}<br>
+        <b>Project:</b> {project}<br><br>
+        View your report here: <a href="{doc_url}">{doc_url}</a><br><br>
+        Regards,<br>
+        Project Management System
+    """
+    frappe.sendmail(recipients=[reporter_email], subject=subject, message=message)
