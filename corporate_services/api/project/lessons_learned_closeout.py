@@ -41,7 +41,7 @@ def _send_closeout_prompt(doc):
     form_url = get_url_to_form("Project Management Lessons Learned", "new-project-management-lessons-learned-1")
     project_title = doc.project_name or doc.name
 
-    subject = f"Action Required: Submit Lessons Learned for "{project_title}""
+    subject = f'Action Required: Submit Lessons Learned for "{project_title}"'
     message = f"""
         Dear Project Manager,<br><br>
         The project <b>{project_title}</b> has entered the <b>Closeout</b> phase.<br><br>
