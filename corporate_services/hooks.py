@@ -149,7 +149,8 @@ before_migrate = [
 ]
 
 after_migrate = [
-    "corporate_services.api.setup_utils.post_install"
+    "corporate_services.api.setup_utils.post_install",
+    "corporate_services.api.setup.add_connections",
 ]
 
 
@@ -193,6 +194,7 @@ has_permission = {
 override_doctype_class = {
     "Salary Slip": "corporate_services.overrides.salary_slip.CorporateServicesSalarySlip",
     # "Wiki Page": "corporate_services.overrides.wiki_page.CorporateServicesWikiPage",
+    "Customize Form": "corporate_services.overrides.customize_form.CorporateServicesCustomizeForm",
 }
 
 # Document Events

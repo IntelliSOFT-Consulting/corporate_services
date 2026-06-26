@@ -13,7 +13,7 @@
     "title": "Request For Quotation"
    }
   ],
-  "default_portal_home": "suppliers-portal-quote",
+  "default_portal_home": "index",
   "default_role": null,
   "docstatus": 0,
   "doctype": "Portal Settings",
@@ -174,7 +174,7 @@
     "title": "Material Request"
    }
   ],
-  "modified": "2026-06-25 09:39:52.900209",
+  "modified": "2026-06-26 13:20:13.087437",
   "name": "Portal Settings"
  }
 ]
