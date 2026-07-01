@@ -36,6 +36,20 @@
       },
       {
         "parent": "wikihomespace1",
+        "parent_label": "Time & Attendance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "timeoffappdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Time & Attendance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "workcontinuitydoc1"
+      },
+      {
+        "parent": "wikihomespace1",
         "parent_label": "Travel",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
@@ -57,10 +71,10 @@
       },
       {
         "parent": "wikihomespace1",
-        "parent_label": "Performance",
+        "parent_label": "General",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
-        "wiki_page": "perfappraisaldoc1"
+        "wiki_page": "genreqdoc1"
       },
       {
         "parent": "wikihomespace1",
@@ -68,76 +82,6 @@
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "employeekpidoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "projectmoduledoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "jiraintegrationdoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "projectmeetingsdoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "lessonslearneddoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "pmllworkflowdoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "hlworkplandoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Project Management",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "dworkplandoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Time & Attendance",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "timeoffappdoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "Time & Attendance",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "workcontinuitydoc1"
-      },
-      {
-        "parent": "wikihomespace1",
-        "parent_label": "General",
-        "parentfield": "wiki_sidebars",
-        "parenttype": "Wiki Space",
-        "wiki_page": "genreqdoc1"
       },
       {
         "parent": "wikihomespace1",
@@ -152,6 +96,13 @@
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "appraisaldoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "perfappraisaldoc1"
       },
       {
         "parent": "wikihomespace1",
@@ -222,6 +173,55 @@
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "assetreplacedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projectmoduledoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "jiraintegrationdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projectmeetingsdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "lessonslearneddoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "pmllworkflowdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "hlworkplandoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "dworkplandoc1"
       },
       {
         "parent": "wikihomespace1",
