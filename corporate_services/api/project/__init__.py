@@ -411,6 +411,27 @@ def get_project(name):
     return project
 
 
+@frappe.whitelist()
+def save_gantt_task_dates(parent, row_name, start_date, end_date):
+    if not parent or not row_name:
+        frappe.throw(_("parent and row_name are required."))
+    doc = frappe.get_doc("Detailed Work Plan", parent)
+    if not frappe.has_permission("Detailed Work Plan", ptype="write", doc=parent):
+        frappe.throw(_("Not permitted."), frappe.PermissionError)
+    updated = False
+    for row in doc.detailed_work_plan_table:
+        if row.name == row_name:
+            row.start_date = start_date or row.start_date
+            row.end_date = end_date or row.end_date
+            updated = True
+            break
+    if not updated:
+        frappe.throw(_("Row not found."))
+    doc.save(ignore_permissions=True)
+    frappe.db.commit()
+    return {"ok": True}
+
+
 def _is_report_overdue(project_name, reporting_frequency):
     if not reporting_frequency:
         return False

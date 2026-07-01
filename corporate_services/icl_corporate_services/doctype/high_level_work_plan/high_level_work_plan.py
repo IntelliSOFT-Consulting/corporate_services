@@ -357,7 +357,7 @@ def get_plans_for_project(project: str):
 				detailed_rows = frappe.get_all(
 					"Detailed Work Plan Table",
 					filters={"parent": detailed["name"]},
-					fields=["item", "activities", "resources", "duration_loe", "status", "start_date", "end_date"],
+					fields=["name", "item", "activities", "resources", "duration_loe", "status", "start_date", "end_date"],
 					order_by="idx",
 					limit_page_length=2000,
 				)

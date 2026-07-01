@@ -8,6 +8,7 @@ import { TasksTab } from "./tabs/TasksTab";
 import { TeamTab } from "./tabs/TeamTab";
 import { TimesheetsTab } from "./tabs/TimesheetsTab";
 import { DocumentsTab } from "./tabs/DocumentsTab";
+import { GanttTab } from "./tabs/GanttTab";
 import { frappeCall, showAlert } from "./utils/frappe";
 
 interface Props {
@@ -21,7 +22,8 @@ type TabKey =
   | "team"
   | "timesheets"
   | "documents"
-  | "work_plan";
+  | "work_plan"
+  | "gantt";
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "overview", label: "Overview" },
@@ -30,6 +32,7 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "timesheets", label: "Timesheets" },
   { key: "documents", label: "Documents" },
   { key: "work_plan", label: "Work Plan" },
+  { key: "gantt", label: "Gantt" },
 ];
 
 export function ProjectDetail({ projectId, onBack }: Props) {
@@ -154,6 +157,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
           {activeTab === "work_plan" && (
             <WorkPlanPage projectId={projectId} />
           )}
+          {activeTab === "gantt" && <GanttTab projectId={projectId} />}
         </>
       )}
     </div>
