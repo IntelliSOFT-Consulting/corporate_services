@@ -343,6 +343,7 @@ def get_plans_for_project(project: str):
 	else:
 		det_filters = None
 
+	detailed_rows = []
 	if det_filters:
 		try:
 			d = frappe.get_all(
@@ -353,7 +354,19 @@ def get_plans_for_project(project: str):
 			)
 			if d:
 				detailed = d[0]
+				detailed_rows = frappe.get_all(
+					"Detailed Work Plan Table",
+					filters={"parent": detailed["name"]},
+					fields=["item", "activities", "resources", "duration_loe", "status", "start_date", "end_date"],
+					order_by="idx",
+					limit_page_length=2000,
+				)
 		except Exception:
 			frappe.log_error(frappe.get_traceback(), "get_plans_for_project: Detailed Work Plan query failed")
 
-	return {"high": (high[0] if high else None), "high_rows": high_rows, "detailed": (detailed if detailed else None)}
+	return {
+		"high": (high[0] if high else None),
+		"high_rows": high_rows,
+		"detailed": (detailed if detailed else None),
+		"detailed_rows": detailed_rows,
+	}

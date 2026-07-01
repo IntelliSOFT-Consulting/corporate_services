@@ -14,6 +14,48 @@ interface Props {
 
 const PAGE_SIZE = 10;
 
+const CRITICAL_STATUSES = ["Overdue"];
+const IN_PROGRESS_STATUSES = ["Working", "In Progress", "Open"];
+
+function taskTone(task: ProjectTask): "red" | "amber" | null {
+  const status = task.status ?? "";
+  const priority = task.priority ?? "";
+  if (
+    CRITICAL_STATUSES.includes(status) ||
+    priority === "High" ||
+    priority === "Urgent"
+  )
+    return "red";
+  if (IN_PROGRESS_STATUSES.includes(status)) return "amber";
+  return null;
+}
+
+const TONE_STYLE: Record<"red" | "amber", React.CSSProperties> = {
+  red: {
+    display: "inline-block",
+    width: 10,
+    height: 10,
+    borderRadius: "50%",
+    background: "#e03131",
+    marginRight: 7,
+    flexShrink: 0,
+  },
+  amber: {
+    display: "inline-block",
+    width: 10,
+    height: 10,
+    borderRadius: "50%",
+    background: "#f08c00",
+    marginRight: 7,
+    flexShrink: 0,
+  },
+};
+
+const TONE_LABEL: Record<"red" | "amber", string> = {
+  red: "Critical issues / risks present",
+  amber: "In progress - no critical issues",
+};
+
 const columns: Column<ProjectTask>[] = [
   {
     header: "Subject",
@@ -31,7 +73,23 @@ const columns: Column<ProjectTask>[] = [
       </a>
     ),
   },
-  { header: "Status", render: (t) => t.status || "-" },
+  {
+    header: "Status",
+    render: (t) => {
+      const tone = taskTone(t);
+      return (
+        <span style={{ display: "flex", alignItems: "center" }}>
+          {tone && (
+            <span
+              style={TONE_STYLE[tone]}
+              title={TONE_LABEL[tone]}
+            />
+          )}
+          {t.status || "-"}
+        </span>
+      );
+    },
+  },
   { header: "Priority", render: (t) => t.priority || "-" },
   {
     header: "Source",
