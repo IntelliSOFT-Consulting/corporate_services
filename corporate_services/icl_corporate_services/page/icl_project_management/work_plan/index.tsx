@@ -61,6 +61,132 @@ type WorkRow = {
   comments?: string;
 };
 
+type DetailedRow = {
+  item?: string;
+  activities?: string;
+  resources?: string;
+  duration_loe?: number;
+  status?: string;
+  start_date?: string;
+  end_date?: string;
+};
+
+type LoeSummaryRow = { label: string; loe: number };
+
+function groupLoe(rows: DetailedRow[], key: keyof DetailedRow): LoeSummaryRow[] {
+  const map: Record<string, number> = {};
+  for (const r of rows) {
+    const k = (r[key] as string | undefined)?.trim() || "Unassigned";
+    map[k] = (map[k] || 0) + (r.duration_loe || 0);
+  }
+  return Object.entries(map)
+    .map(([label, loe]) => ({ label, loe }))
+    .sort((a, b) => b.loe - a.loe);
+}
+
+function workingDaysBetween(start?: string, end?: string): number | null {
+  if (!start || !end) return null;
+  const s = new Date(start);
+  const e = new Date(end);
+  if (isNaN(s.getTime()) || isNaN(e.getTime()) || e < s) return null;
+  let days = 0;
+  const cur = new Date(s);
+  while (cur <= e) {
+    const dow = cur.getDay();
+    if (dow !== 0 && dow !== 6) days++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return days;
+}
+
+function LoeSummary({ rows, plan }: { rows: DetailedRow[]; plan: any | null }) {
+  const totalLoe = rows.reduce((s, r) => s + (r.duration_loe || 0), 0);
+  const byPhase = groupLoe(rows, "item");
+  const byResource = groupLoe(rows, "resources");
+  const availDays = workingDaysBetween(plan?.project_start_date, plan?.project_end_date);
+
+  if (!rows.length) return null;
+
+  const pct = availDays ? Math.min(100, Math.round((totalLoe / availDays) * 100)) : null;
+  const overAllocated = availDays != null && totalLoe > availDays;
+
+  return (
+    <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+      <h6 className="pm-section-title">LOE Summary</h6>
+
+      <div style={{ display: "flex", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
+        <div style={{ minWidth: 120 }}>
+          <div className="pm-field-label">Total Planned LOE</div>
+          <div style={{ fontSize: 24, fontWeight: 700, color: overAllocated ? "#e03131" : "#2f9e44" }}>
+            {totalLoe} <span style={{ fontSize: 13, fontWeight: 400 }}>days</span>
+          </div>
+        </div>
+        {availDays != null && (
+          <div style={{ minWidth: 120 }}>
+            <div className="pm-field-label">Available Working Days</div>
+            <div style={{ fontSize: 24, fontWeight: 700 }}>{availDays}</div>
+          </div>
+        )}
+        {pct != null && (
+          <div style={{ flex: 1, minWidth: 180, alignSelf: "flex-end" }}>
+            <div className="pm-field-label" style={{ marginBottom: 4 }}>
+              LOE Utilisation ({pct}%){overAllocated ? " - Over-allocated" : ""}
+            </div>
+            <div className="pm-progress-bar-track">
+              <div
+                className="pm-progress-bar-fill"
+                style={{ width: `${Math.min(pct, 100)}%`, background: overAllocated ? "#e03131" : undefined }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div>
+          <div className="pm-field-label" style={{ marginBottom: 8 }}>By Phase / Item</div>
+          <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: "left", paddingBottom: 4, color: "var(--text-muted)", fontWeight: 500 }}>Phase</th>
+                <th style={{ textAlign: "right", paddingBottom: 4, color: "var(--text-muted)", fontWeight: 500 }}>LOE (days)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {byPhase.map(({ label, loe }) => (
+                <tr key={label} style={{ borderTop: "1px solid var(--border-color)" }}>
+                  <td style={{ padding: "4px 0" }}>{label}</td>
+                  <td style={{ textAlign: "right", fontWeight: 600, padding: "4px 0" }}>{loe}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div className="pm-field-label" style={{ marginBottom: 8 }}>By Resource</div>
+          <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: "left", paddingBottom: 4, color: "var(--text-muted)", fontWeight: 500 }}>Resource</th>
+                <th style={{ textAlign: "right", paddingBottom: 4, color: "var(--text-muted)", fontWeight: 500 }}>LOE (days)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {byResource.map(({ label, loe }) => (
+                <tr key={label} style={{ borderTop: "1px solid var(--border-color)" }}>
+                  <td style={{ padding: "4px 0" }}>{label}</td>
+                  <td style={{ textAlign: "right", fontWeight: 600, padding: "4px 0" }}>{loe}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const wrap = (text?: string) => (
   <span style={{ whiteSpace: "pre-wrap" }}>{text || "-"}</span>
 );
@@ -87,6 +213,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const [highPlan, setHighPlan] = useState<any | null>(null);
   const [highPlanRows, setHighPlanRows] = useState<WorkRow[]>([]);
   const [detailedPlan, setDetailedPlan] = useState<any | null>(null);
+  const [detailedRows, setDetailedRows] = useState<DetailedRow[]>([]);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -104,6 +231,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
         setHighPlan(resp?.message?.high ?? null);
         setDetailedPlan(resp?.message?.detailed ?? null);
         setHighPlanRows(resp?.message?.high_rows ?? []);
+        setDetailedRows(resp?.message?.detailed_rows ?? []);
       } catch (e) {
         setHighPlan(null);
         setDetailedPlan(null);
@@ -401,6 +529,9 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
           </button>
         </div>
       )}
+
+      {/* -- LOE Summary -- */}
+      <LoeSummary rows={detailedRows} plan={highPlan} />
 
       {/* -- Detailed Work Plan -- */}
       {detailedPlan ? (

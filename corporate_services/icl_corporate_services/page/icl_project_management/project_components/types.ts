@@ -112,6 +112,8 @@ export type ProjectDetail = ProjectRow & {
     status_reports_due_this_week: number;
     milestones_due_next_7_days: number;
   };
+  reporting_frequency?: string | null;
+  report_overdue?: boolean;
 };
 
 export type ProjectListResult = {

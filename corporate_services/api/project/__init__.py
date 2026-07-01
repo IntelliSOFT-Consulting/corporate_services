@@ -404,7 +404,26 @@ def get_project(name):
     }
     project["this_week"] = _get_this_week_glance({"name": name})
 
+    reporting_frequency = doc.get("custom_reporting_frequency") or None
+    project["reporting_frequency"] = reporting_frequency
+    project["report_overdue"] = _is_report_overdue(name, reporting_frequency)
+
     return project
+
+
+def _is_report_overdue(project_name, reporting_frequency):
+    if not reporting_frequency:
+        return False
+    freq_days = 14 if reporting_frequency == "Every 2 Weeks" else 7
+    last = frappe.db.get_value(
+        "Project Update",
+        {"project": project_name},
+        "date",
+        order_by="date desc",
+    )
+    if not last:
+        return True
+    return (getdate() - getdate(last)).days > freq_days
 
 
 @frappe.whitelist()
