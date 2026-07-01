@@ -46,10 +46,9 @@ def alert(doc, method):
                     pdf_content=pdf_content,
                     doc_name=doc.name
                 )
-                row.email_sent = 1
-        
-        doc._email_sent = True
-        doc.save()       
+                frappe.db.set_value(
+                    row.doctype, row.name, "email_sent", 1, update_modified=False
+                )
 
 doc_events = {
     "Project": {
