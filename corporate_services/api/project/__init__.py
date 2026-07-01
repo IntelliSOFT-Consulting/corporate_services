@@ -402,6 +402,7 @@ def get_project(name):
         "travel_request_workflow_breakdown": tr_breakdown,
         "task_status_breakdown": task_breakdown,
     }
+    project["this_week"] = _get_this_week_glance({"name": name})
 
     return project
 
