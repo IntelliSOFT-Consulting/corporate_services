@@ -2,112 +2,112 @@
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.621760",
+  "modified": "2026-07-01 06:44:35.186692",
   "name": "Save",
   "workflow_action_name": "Save"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.635035",
+  "modified": "2026-07-01 06:44:35.199573",
   "name": "Review",
   "workflow_action_name": "Review"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.643126",
+  "modified": "2026-07-01 06:44:35.209133",
   "name": "Submit to Finance",
   "workflow_action_name": "Submit to Finance"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.651324",
+  "modified": "2026-07-01 06:44:35.217034",
   "name": "Needs Clarification",
   "workflow_action_name": "Needs Clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.659219",
+  "modified": "2026-07-01 06:44:35.222239",
   "name": "NO/GO",
   "workflow_action_name": "NO/GO"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.667159",
+  "modified": "2026-07-01 06:44:35.228817",
   "name": "GO",
   "workflow_action_name": "GO"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.675006",
+  "modified": "2026-07-01 06:44:35.234889",
   "name": "Submit to Project Manager",
   "workflow_action_name": "Submit to Project Manager"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.682350",
+  "modified": "2026-07-01 06:44:35.243647",
   "name": "Submit to HR",
   "workflow_action_name": "Submit to HR"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.689148",
+  "modified": "2026-07-01 06:44:35.250109",
   "name": "Request Clarification",
   "workflow_action_name": "Request Clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.696228",
+  "modified": "2026-07-01 06:44:35.256729",
   "name": "submit",
   "workflow_action_name": "submit"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.703701",
+  "modified": "2026-07-01 06:44:35.261659",
   "name": "Submit To supervisor",
   "workflow_action_name": "Submit To supervisor"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.710840",
+  "modified": "2026-07-01 06:44:35.266848",
   "name": "Request for clarification",
   "workflow_action_name": "Request for clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.718205",
+  "modified": "2026-07-01 06:44:35.274883",
   "name": "Approve",
   "workflow_action_name": "Approve"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.726034",
+  "modified": "2026-07-01 06:44:35.283048",
   "name": "Reject",
   "workflow_action_name": "Reject"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.734264",
+  "modified": "2026-07-01 06:44:35.288856",
   "name": "Resubmit to HR",
   "workflow_action_name": "Resubmit to HR"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-06-26 13:20:18.742257",
+  "modified": "2026-07-01 06:44:35.293571",
   "name": "Resubmit",
   "workflow_action_name": "Resubmit"
  }

@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:MIN-{meeting_date}-{#####}",
- "creation": "2026-06-18 00:00:00.000000",
+ "creation": "2026-06-18 07:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -128,7 +128,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-06-18 00:00:00.000000",
+ "modified": "2026-06-18 07:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Meeting Minutes",
