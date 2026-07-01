@@ -20,7 +20,9 @@
   "entry_type_section",
   "google_drive_link",
   "section_break_cory",
-  "detailed_work_plan_table"
+  "detailed_work_plan_table",
+  "loe_tab",
+  "module_solution_development_loes"
  ],
  "fields": [
   {
@@ -106,12 +108,23 @@
   {
    "fieldname": "column_break_yeoa",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "loe_tab",
+   "fieldtype": "Tab Break",
+   "label": "LOE"
+  },
+  {
+   "fieldname": "module_solution_development_loes",
+   "fieldtype": "Table",
+   "label": "Module/Solution Development LOEs",
+   "options": "Solution Development LOEs"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-26 11:50:36.955438",
+ "modified": "2026-07-01 16:31:47.010586",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Detailed Work Plan",
