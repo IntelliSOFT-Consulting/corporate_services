@@ -10,18 +10,15 @@
  "fields": [
   {
    "fieldname": "kpi_template_instructions",
-   "fieldtype": "HTML",
-   "ignore_user_permissions": 1,
-   "label": "KPI Template Instructions",
-   "options": "",
-   "read_only": 1
+   "fieldtype": "Text Editor",
+   "label": "KPI Template Instructions"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-03-01 09:48:00.110003",
+ "modified": "2026-07-01 07:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "KPI Template Instructions",
@@ -36,6 +33,18 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
   }
  ],
  "row_format": "Dynamic",

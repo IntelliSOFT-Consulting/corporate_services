@@ -1,95 +1,116 @@
 [
- {
-  "docstatus": 0,
-  "doctype": "Wiki Space",
-  "modified": "2026-05-06 09:02:49.840685",
-  "name": "vr2o87gj2p",
-  "route": "/wiki/hr",
-  "wiki_sidebars": [
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "projectmoduledoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "to91i4vr14"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "perfappraisaldoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "jiraintegrationdoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "projectmeetingsdoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "lessonslearneddoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "hlworkplandoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "dworkplandoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "HR Processes",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "timesheetsubmissiondoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "Leave Process",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "leaveapplicationdoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "Travel",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "travelrequestdoc1"
-   },
-   {
-    "parent": "vr2o87gj2p",
-    "parent_label": "Travel",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "travelreconciliationdoc1"
-   }
-  ]
- }
+  {
+    "docstatus": 0,
+    "doctype": "Wiki Space",
+    "modified": "2026-05-06 09:02:49.840685",
+    "name": "vr2o87gj2p",
+    "route": "/wiki/hr",
+    "wiki_sidebars": [
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Employee",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "to91i4vr14"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Timesheet",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "timesheetsubmissiondoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Leave Process",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "leaveapplicationdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Travel",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "juagcoph8a"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Travel",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "travelrequestdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Travel",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "travelreconciliationdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "perfappraisaldoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "employeekpidoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projectmoduledoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "jiraintegrationdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projectmeetingsdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "lessonslearneddoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "pmllworkflowdoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "hlworkplandoc1"
+      },
+      {
+        "parent": "vr2o87gj2p",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "dworkplandoc1"
+      }
+    ]
+  }
 ]

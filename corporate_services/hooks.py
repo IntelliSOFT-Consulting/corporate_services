@@ -102,7 +102,7 @@ doctype_list_js = {
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+home_page = "login"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -149,7 +149,8 @@ before_migrate = [
 ]
 
 after_migrate = [
-    "corporate_services.api.setup_utils.post_install"
+    "corporate_services.api.setup_utils.post_install",
+    "corporate_services.api.setup.add_connections",
 ]
 
 
@@ -193,6 +194,7 @@ has_permission = {
 override_doctype_class = {
     "Salary Slip": "corporate_services.overrides.salary_slip.CorporateServicesSalarySlip",
     # "Wiki Page": "corporate_services.overrides.wiki_page.CorporateServicesWikiPage",
+    "Customize Form": "corporate_services.overrides.customize_form.CorporateServicesCustomizeForm",
 }
 
 # Document Events
@@ -225,6 +227,7 @@ on_update_map = {
     "Project": [
         "corporate_services.api.notification.project.project_manager.alert",
         "corporate_services.api.project.timesheet_submission_sync.sync_timesheet_submission_project_name",
+        "corporate_services.api.project.lessons_learned_closeout.notify_on_closeout",
     ],
     "Employee Grievance":"corporate_services.api.notification.grievance.grievance.alert",
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
