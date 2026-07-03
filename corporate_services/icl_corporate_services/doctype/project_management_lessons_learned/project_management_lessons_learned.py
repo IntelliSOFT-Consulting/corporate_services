@@ -194,7 +194,7 @@ def _notify_reporter(doc, doc_url, project, state):
 
     state_messages = {
         "Approved": (
-            "Congratulations — your Lessons Learned report has been <b>approved</b>.",
+            "Congratulations - your Lessons Learned report has been <b>approved</b>.",
             "green",
         ),
         "Rejected": (
@@ -210,7 +210,7 @@ def _notify_reporter(doc, doc_url, project, state):
     }
 
     body, _ = state_messages.get(state, ("Your report status has been updated.", "blue"))
-    subject = f"Lessons Learned Report {doc.name} — {state}"
+    subject = f"Lessons Learned Report {doc.name} - {state}"
     message = f"""
         Dear {reporter},<br><br>
         {body}<br><br>

@@ -1,13 +1,8 @@
 {
  "charts": [],
- "content": "[{\"id\":\"blmPuKXOXj\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"0Bt6t_MgbN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"cXzsMJLOv-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Requisition Form\",\"col\":3}},{\"id\":\"yxxMl-b6UW\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qrRiTXEhxs\",\"type\":\"paragraph\",\"data\":{\"text\":\"Employee Engagement and Development\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"s7uru5qw1R\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"jlC761E9G1\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\ude80 Travel Process\",\"col\":4}},{\"id\":\"XF3QdhW6ca\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"qRnKV0Lpp3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"u0a9ASTFeH\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"OiZMOsOXp8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hKzu7AOX8d\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\ud83d\udd10Asset Process\",\"col\":4}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"jZAainiwMN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"PeZzs3q2im\",\"type\":\"paragraph\",\"data\":{\"text\":\"\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc67 Staff Welfare\",\"col\":12}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"T6yr0xsTTT\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"OoJFCAAqn9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"xF0AZ0PG0Q\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"naV29WkOn6\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Internship Completion process</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
+ "content": "[{\"id\":\"hdr_qa_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u26a1 Quick Actions</b></span>\",\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"blm0000001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"cXzsMJLOv-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Requisition Form\",\"col\":3}},{\"id\":\"sp_001\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ta_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u23f0 Time &amp; Attendance</b></span>\",\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":3}},{\"id\":\"sp_002\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_tr_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2708\\ufe0f Travel</b></span>\",\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"sp_003\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_pd_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udcc8 Performance &amp; Development</b></span>\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"sc_ekpi_001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee KPI\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"sp_004\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_am_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udd10 Asset Management</b></span>\",\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udd10Asset Process\",\"col\":6}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":6}},{\"id\":\"sp_005\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ic_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83c\\udf93 Internship</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
  "creation": "2026-06-10 14:12:45.822570",
- "custom_blocks": [
-  {
-   "custom_block_name": "HR",
-   "label": "HR"
-  }
- ],
+ "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -21,7 +16,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\ude80 Travel Process",
+   "label": "🚀 Travel Process",
    "link_count": 2,
    "link_type": "DocType",
    "onboard": 0,
@@ -50,7 +45,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "\ud83d\udd10Asset Process",
+   "label": "🔐Asset Process",
    "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
@@ -136,7 +131,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-06-11 08:53:25.464468",
+ "modified": "2026-07-01 07:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Staff",
@@ -184,48 +179,24 @@
  "sequence_id": 16.0,
  "shortcuts": [
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "General Requisition Form",
-   "link_to": "General Requisition Form",
+   "color": "Blue",
+   "doc_view": "New",
+   "label": "Leave Application",
+   "link_to": "Leave Application",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Appraisal",
-   "link_to": "Appraisal",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Weekly Progress Report",
-   "link_to": "Weekly Progress Report",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
+   "color": "Blue",
+   "doc_view": "New",
    "label": "Timesheet Submission",
    "link_to": "Timesheet Submission",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Monthly Reflection",
-   "link_to": "Monthly Reflection",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
+   "color": "Orange",
+   "doc_view": "New",
    "label": "Travel Request",
    "link_to": "Travel Request",
    "stats_filter": "[]",
@@ -233,49 +204,81 @@
   },
   {
    "color": "Grey",
-   "doc_view": "List",
+   "doc_view": "New",
+   "label": "General Requisition Form",
+   "link_to": "General Requisition Form",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "New",
    "label": "Time Off Application",
    "link_to": "Consultant Time Off Application",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Leave Application",
-   "link_to": "Leave Application",
+   "color": "Blue",
+   "doc_view": "New",
+   "label": "Weekly Progress Report",
+   "link_to": "Weekly Progress Report",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Exit Interview",
-   "link_to": "Exit Interview",
+   "color": "Purple",
+   "doc_view": "New",
+   "label": "Monthly Reflection",
+   "link_to": "Monthly Reflection",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
+   "color": "Green",
    "doc_view": "List",
+   "label": "Appraisal",
+   "link_to": "Appraisal",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Employee KPI",
+   "link_to": "Employee KPI",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "New",
    "label": "Training Application Request",
    "link_to": "Training Application Request",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
+   "color": "Purple",
+   "doc_view": "New",
    "label": "Employee Training Feedback Form",
    "link_to": "Employee Training Feedback Form",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
-   "color": "Grey",
-   "doc_view": "List",
+   "color": "Red",
+   "doc_view": "New",
    "label": "Grievance",
    "link_to": "Employee Grievance",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "New",
+   "label": "Exit Interview",
+   "link_to": "Exit Interview",
    "stats_filter": "[]",
    "type": "DocType"
   }

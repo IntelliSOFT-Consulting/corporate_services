@@ -506,7 +506,7 @@ def save_web_timesheet(submission_name, sections):
     ]
     if reused_names:
         frappe.db.delete("Timesheet Detail", {"parent": ["in", reused_names]})
-
+        frappe.db.commit()
 
     # Save in-place timesheets; remove empty ones to avoid stale records.
     persisted_projects = {}

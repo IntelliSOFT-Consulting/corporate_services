@@ -9,6 +9,100 @@
   "filters": [],
   "is_standard": "Yes",
   "javascript": null,
+  "json": "{\"columns\":[{\"fieldtype\":\"Link\",\"options\":\"Employee\",\"width\":150,\"label\":\"Employee\",\"fieldname\":\"employee\",\"id\":\"employee\",\"name\":\"Employee\",\"editable\":false,\"compareValue\":null},{\"fieldtype\":\"\",\"width\":200,\"label\":\"Employee Name\",\"fieldname\":\"employee_name\",\"id\":\"employee_name\",\"name\":\"Employee Name\",\"editable\":false,\"compareValue\":null},{\"fieldtype\":\"Link\",\"options\":\"Department\",\"width\":150,\"label\":\"Department\",\"fieldname\":\"department\",\"id\":\"department\",\"name\":\"Department\",\"editable\":false,\"compareValue\":null},{\"fieldtype\":\"Float\",\"width\":160,\"label\":\"Annual Leave\",\"fieldname\":\"annual_leave\",\"id\":\"annual_leave\",\"name\":\"Annual Leave\",\"editable\":false,\"compareValue\":null}],\"filters\":{\"date\":\"2026-06-25\",\"company\":\"Intellisoft Consulting ltd\",\"employee_status\":\"Active\"}}",
+  "letter_head": "IntelliSOFT Consulting Limited",
+  "modified": "2026-06-25 07:05:23.561257",
+  "module": "ICL Corporate Services",
+  "name": "annual",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Employee",
+  "reference_report": "Employee Leave Balance Summary",
+  "report_name": "annual",
+  "report_script": null,
+  "report_type": "Custom Report",
+  "roles": [
+   {
+    "parent": "annual",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   },
+   {
+    "parent": "annual",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee"
+   },
+   {
+    "parent": "annual",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR User"
+   },
+   {
+    "parent": "annual",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2026-06-25 07:01:57.781847",
+  "module": "ICL Corporate Services",
+  "name": "Employee Annual Leave Balance",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Employee",
+  "reference_report": null,
+  "report_name": "Employee Annual Leave Balance",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Employee Annual Leave Balance",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR User"
+   },
+   {
+    "parent": "Employee Annual Leave Balance",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "Employee Annual Leave Balance",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
   "json": null,
   "letter_head": null,
   "modified": "2026-03-27 11:15:00",
