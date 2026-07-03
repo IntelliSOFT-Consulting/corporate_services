@@ -10,9 +10,53 @@ interface Props {
   projectId: string;
 }
 
+const GLANCE_CARDS: {
+  key: keyof NonNullable<ProjectDetail["this_week"]>;
+  label: string;
+  bg: string;
+  color: string;
+}[] = [
+  {
+    key: "status_reports_due_this_week",
+    label: "Status Reports Due This Week",
+    bg: "#fff3cd",
+    color: "#7d5a00",
+  },
+  {
+    key: "milestones_due_next_7_days",
+    label: "Milestones Due in Next 7 Days",
+    bg: "#d1e7dd",
+    color: "#0a3622",
+  },
+];
+
 export function OverviewTab({ doc, projectId }: Props) {
+  const tw = doc.this_week;
   return (
     <div>
+      {tw && (
+        <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+          {GLANCE_CARDS.map(({ key, label, bg, color }) => (
+            <div
+              key={key}
+              style={{
+                flex: 1,
+                background: bg,
+                borderRadius: 8,
+                padding: "14px 18px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+              }}
+            >
+              <span style={{ fontSize: 28, fontWeight: 700, lineHeight: 1, color }}>
+                {tw[key] ?? 0}
+              </span>
+              <span style={{ fontSize: 12, color, opacity: 0.85 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="pm-detail-cols">
         <div className="frappe-card" style={{ padding: "16px 20px" }}>
           <h6 className="pm-section-title">Overview</h6>

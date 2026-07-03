@@ -2,114 +2,233 @@
   {
     "docstatus": 0,
     "doctype": "Wiki Space",
-    "modified": "2026-05-06 09:02:49.840685",
-    "name": "vr2o87gj2p",
-    "route": "/wiki/hr",
+    "modified": "2026-07-01 00:00:00.000000",
+    "name": "wikihomespace1",
+    "route": "/wiki",
     "wiki_sidebars": [
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
+        "parent_label": "Home",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "wikihomepage1"
+      },
+      {
+        "parent": "wikihomespace1",
         "parent_label": "Employee",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "to91i4vr14"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Timesheet",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "timesheetsubmissiondoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Leave Process",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "leaveapplicationdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
+        "parent_label": "Time & Attendance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "timeoffappdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Time & Attendance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "workcontinuitydoc1"
+      },
+      {
+        "parent": "wikihomespace1",
         "parent_label": "Travel",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "juagcoph8a"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Travel",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "travelrequestdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Travel",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "travelreconciliationdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
-        "parent_label": "Performance",
+        "parent": "wikihomespace1",
+        "parent_label": "General",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
-        "wiki_page": "perfappraisaldoc1"
+        "wiki_page": "genreqdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Performance",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "employeekpidoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "monthlyreflectiondoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "appraisaldoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "perfappraisaldoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "weeklyprogressdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "trainingappdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "trainingfeedbackdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "grievancedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Performance",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "exitinterviewdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Asset Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "assetreqdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Asset Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "assetcustodydoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Asset Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "assethandoverdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Asset Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "assetdamagedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Asset Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "assetreplacedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "projectmoduledoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "jiraintegrationdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "projectmeetingsdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "lessonslearneddoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "pmllworkflowdoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "hlworkplandoc1"
       },
       {
-        "parent": "vr2o87gj2p",
+        "parent": "wikihomespace1",
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "dworkplandoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Internship",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "internshipcompletiondoc1"
       }
     ]
   }

@@ -108,6 +108,12 @@ export type ProjectDetail = ProjectRow & {
     travel_request_workflow_breakdown?: ProjectChartCount[];
     task_status_breakdown?: ProjectChartCount[];
   };
+  this_week?: {
+    status_reports_due_this_week: number;
+    milestones_due_next_7_days: number;
+  };
+  reporting_frequency?: string | null;
+  report_overdue?: boolean;
 };
 
 export type ProjectListResult = {

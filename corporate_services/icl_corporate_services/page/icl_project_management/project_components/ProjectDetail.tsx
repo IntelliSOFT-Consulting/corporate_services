@@ -87,6 +87,44 @@ export function ProjectDetail({ projectId, onBack }: Props) {
         <>
           <ProjectSummaryStrip doc={doc} />
 
+          {doc.report_overdue && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+                background: "#fff3cd",
+                border: "1px solid #ffc107",
+                borderRadius: 6,
+                padding: "10px 16px",
+                marginBottom: 12,
+              }}
+            >
+              <span style={{ fontSize: 13, color: "#664d03", fontWeight: 500 }}>
+                <strong>Status report overdue.</strong> No{" "}
+                {doc.reporting_frequency?.toLowerCase() ?? "regular"} update has
+                been submitted for this project.
+              </span>
+              <button
+                type="button"
+                className="btn btn-warning btn-sm"
+                style={{ whiteSpace: "nowrap" }}
+                onClick={() => {
+                  (globalThis as any).frappe?.set_route("Form", "Project Update", "new-project-update-1");
+                  setTimeout(() => {
+                    const f = (globalThis as any).cur_frm;
+                    if (f && f.doctype === "Project Update") {
+                      f.set_value("project", projectId);
+                    }
+                  }, 800);
+                }}
+              >
+                Create Report Now
+              </button>
+            </div>
+          )}
+
           <div className="pm-detail-tabs">
             {TABS.map((tab) => (
               <button
