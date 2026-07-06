@@ -29,10 +29,31 @@
       },
       {
         "parent": "wikihomespace1",
+        "parent_label": "Timesheet",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "financetimesheetratiosdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
         "parent_label": "Leave Process",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "leaveapplicationdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Leave Process",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "employeeleavebalancedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Leave Process",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "leaveallocationdoc1"
       },
       {
         "parent": "wikihomespace1",
@@ -179,6 +200,27 @@
         "parent_label": "Project Management",
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
+        "wiki_page": "hisprojectquickguidedoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projecttoolkittemplatesdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "projectnotificationsautomationdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
         "wiki_page": "projectmoduledoc1"
       },
       {
@@ -222,6 +264,20 @@
         "parentfield": "wiki_sidebars",
         "parenttype": "Wiki Space",
         "wiki_page": "dworkplandoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "riskassessmentdoc1"
+      },
+      {
+        "parent": "wikihomespace1",
+        "parent_label": "Project Management",
+        "parentfield": "wiki_sidebars",
+        "parenttype": "Wiki Space",
+        "wiki_page": "pmsettingsdoc1"
       },
       {
         "parent": "wikihomespace1",

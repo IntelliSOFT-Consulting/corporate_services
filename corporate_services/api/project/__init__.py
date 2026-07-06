@@ -404,9 +404,11 @@ def get_project(name):
     }
     project["this_week"] = _get_this_week_glance({"name": name})
 
-    reporting_frequency = doc.get("custom_reporting_frequency") or None
+    reporting_frequency = doc.get("custom_project_report_frequency") or None
+    freq_days = get_report_frequency_days(reporting_frequency)
     project["reporting_frequency"] = reporting_frequency
-    project["report_overdue"] = _is_report_overdue(name, reporting_frequency)
+    project["report_overdue"] = _is_report_overdue(name, freq_days)
+    project["open_risk_count"] = _get_open_risk_count(name)
 
     return project
 
@@ -432,19 +434,58 @@ def save_gantt_task_dates(parent, row_name, start_date, end_date):
     return {"ok": True}
 
 
-def _is_report_overdue(project_name, reporting_frequency):
-    if not reporting_frequency:
-        return False
-    freq_days = 14 if reporting_frequency == "Every 2 Weeks" else 7
-    last = frappe.db.get_value(
+def get_project_manager_employees(project_name):
+    project = frappe.get_doc("Project", project_name)
+    return [
+        row.employee
+        for row in (getattr(project, "custom_project_managers", []) or [])
+        if row.employee
+    ]
+
+
+def get_project_manager_users(project_name):
+    users = []
+    for employee in get_project_manager_employees(project_name):
+        user_id = frappe.db.get_value("Employee", employee, "user_id")
+        if user_id:
+            users.append(user_id)
+    return users
+
+
+def get_report_frequency_days(reporting_frequency_link):
+    if not reporting_frequency_link:
+        return None
+    return frappe.db.get_value("Reporting Frequency", reporting_frequency_link, "in_days")
+
+
+def get_last_report_date(project_name):
+    return frappe.db.get_value(
         "Project Update",
         {"project": project_name},
         "date",
         order_by="date desc",
     )
+
+
+def _is_report_overdue(project_name, freq_days):
+    if not freq_days:
+        return False
+    last = get_last_report_date(project_name)
     if not last:
         return True
     return (getdate() - getdate(last)).days > freq_days
+
+
+def _get_open_risk_count(project_name):
+    assessment_names = frappe.get_all(
+        "Project Risk Assessment", filters={"project": project_name}, pluck="name"
+    )
+    if not assessment_names:
+        return 0
+    return frappe.db.count(
+        "Risk Assessment List",
+        filters={"parent": ["in", assessment_names], "status": ["not in", ["Mitigated", "Closed"]]},
+    )
 
 
 @frappe.whitelist()
@@ -516,6 +557,59 @@ def get_project_template_targets(project_name):
         )
 
     return out
+
+
+@frappe.whitelist()
+def get_project_meetings(project_name):
+    if not project_name:
+        frappe.throw("Project is required.")
+
+    frappe.get_doc("Project", project_name).check_permission("read")
+
+    meetings = frappe.get_all(
+        "Project Meeting Minutes",
+        filters={"project": project_name},
+        fields=[
+            "name",
+            "meeting_title",
+            "meeting_date",
+            "location",
+            "call_recording",
+            "next_meeting_date",
+            "objective",
+            "docstatus",
+            "modified",
+        ],
+        order_by="meeting_date desc, creation desc",
+    )
+
+    for meeting in meetings:
+        meeting["attendee_count"] = frappe.db.count(
+            "Project Meeting Attendee", {"parent": meeting["name"]}
+        )
+        meeting["in_attendance_count"] = frappe.db.count(
+            "Project Meeting Attendee",
+            {"parent": meeting["name"], "attendance_status": "In Attendance"},
+        )
+        meeting["agenda_count"] = frappe.db.count(
+            "Project Meeting Agenda", {"parent": meeting["name"]}
+        )
+
+    today = getdate()
+    upcoming = [
+        m["next_meeting_date"]
+        for m in meetings
+        if m.get("next_meeting_date") and getdate(m["next_meeting_date"]) >= today
+    ]
+
+    counts = {
+        "total": len(meetings),
+        "submitted": sum(1 for m in meetings if m["docstatus"] == 1),
+        "draft": sum(1 for m in meetings if m["docstatus"] == 0),
+        "next_meeting_date": min(upcoming) if upcoming else None,
+    }
+
+    return {"meetings": meetings, "counts": counts}
 
 
 @frappe.whitelist()

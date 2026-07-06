@@ -1,10 +1,12 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2026-05-13 12:05:35.751850",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "project",
   "client",
   "developer",
@@ -14,16 +16,25 @@
   "project_start_date",
   "project_end_date",
   "risk_assessment_list_tab",
-  "table_okgd"
+  "table_okgd",
+  "assumptions_tab",
+  "assumptions_table",
+  "issues_tab",
+  "issues_table",
+  "dependencies_tab",
+  "dependencies_table"
  ],
  "fields": [
   {
    "fieldname": "project",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Project",
-   "options": "Project"
+   "options": "Project",
+   "reqd": 1
   },
   {
+   "fetch_from": "project.customer",
    "fieldname": "client",
    "fieldtype": "Link",
    "label": "Client",
@@ -45,11 +56,13 @@
    "label": "Project Timeline"
   },
   {
+   "fetch_from": "project.expected_start_date",
    "fieldname": "project_start_date",
    "fieldtype": "Date",
    "label": "Project Start Date"
   },
   {
+   "fetch_from": "project.expected_end_date",
    "fieldname": "project_end_date",
    "fieldtype": "Date",
    "label": "Project End Date"
@@ -67,15 +80,53 @@
    "fieldname": "table_okgd",
    "fieldtype": "Table",
    "options": "Risk Assessment List"
+  },
+  {
+   "fieldname": "assumptions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Assumptions"
+  },
+  {
+   "fieldname": "assumptions_table",
+   "fieldtype": "Table",
+   "options": "Project Assumption List"
+  },
+  {
+   "fieldname": "issues_tab",
+   "fieldtype": "Tab Break",
+   "label": "Issues"
+  },
+  {
+   "fieldname": "issues_table",
+   "fieldtype": "Table",
+   "options": "Project Issue List"
+  },
+  {
+   "fieldname": "dependencies_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dependencies"
+  },
+  {
+   "fieldname": "dependencies_table",
+   "fieldtype": "Table",
+   "options": "Project Dependency List"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PRM-.YYYY.-",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-13 12:10:42.869959",
+ "modified": "2026-07-02 12:11:11.784640",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Risk Assessment",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

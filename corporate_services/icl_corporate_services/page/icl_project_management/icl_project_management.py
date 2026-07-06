@@ -1,11 +1,12 @@
+import calendar
+
 import frappe
+from frappe.utils import flt
 
 from corporate_services.api.project.lifecycle_toolkit import (
     DEFAULT_INTRO_DESCRIPTION,
     DEFAULT_INTRO_TITLE,
     get_lifecycle_stages,
-    get_template_library_rows,
-    update_toolkit_template_file,
 )
 
 
@@ -38,19 +39,40 @@ def get_lifecycle_config():
 
 @frappe.whitelist()
 def get_template_library():
-    return get_template_library_rows()
+    rows = frappe.get_all(
+        "Project Toolkit Document Templates",
+        fields=[
+            "name",
+            "document_name",
+            "description",
+            "is_active",
+            "attachment",
+            "attach_doctype",
+            "target_doctype",
+        ],
+        order_by="document_name asc",
+    )
+    for row in rows:
+        row["requirement"] = row.pop("document_name")
+        row["template_file"] = row.pop("attachment")
+        target_doctype = row.pop("target_doctype")
+        row["doctype"] = target_doctype if row.pop("attach_doctype") else None
+    return rows
 
 
 @frappe.whitelist()
 def link_template_file(requirement=None, file_url=None, docname=None):
-    requirement = (requirement or "").strip()
-    docname = (docname or "").strip()
-    if not requirement and not docname:
+    docname = (docname or requirement or "").strip()
+    if not docname:
         frappe.throw("Requirement is required.")
     if not file_url:
         frappe.throw("Template file is required.")
 
-    return update_toolkit_template_file(requirement=requirement, file_url=file_url, docname=docname)
+    if not frappe.db.exists("Project Toolkit Document Templates", docname):
+        frappe.throw(f"Template '{docname}' was not found.")
+
+    frappe.db.set_value("Project Toolkit Document Templates", docname, "attachment", file_url)
+    return {"name": docname, "template_file": file_url}
 
 
 def _get_summary():
@@ -102,6 +124,81 @@ def _get_projects():
         """,
         as_dict=True,
     )
+
+
+def _format_month_year(month_year):
+    try:
+        month, year = month_year.split("-")
+        return f"{calendar.month_name[int(month)]} {year}"
+    except Exception:
+        return month_year
+
+
+@frappe.whitelist()
+def get_project_hours_summary(month_year=None):
+    month_year = (month_year or "").strip()
+
+    conditions = ["ts.docstatus != 2", "tpp.project is not null", "tpp.project != ''"]
+    params = {}
+    if month_year:
+        conditions.append("ts.month_year = %(month_year)s")
+        params["month_year"] = month_year
+    where = " and ".join(conditions)
+
+    project_rows = frappe.db.sql(
+        f"""
+        select
+            tpp.project as project,
+            coalesce(p.project_name, tpp.project_name, tpp.project) as project_title,
+            sum(tpp.total_hours) as total_hours,
+            count(distinct ts.employee) as employee_count
+        from `tabTimesheet Submission List` tpp
+        inner join `tabTimesheet Submission` ts on ts.name = tpp.parent
+        left join `tabProject` p on p.name = tpp.project
+        where {where}
+        group by tpp.project
+        order by total_hours desc
+        """,
+        params,
+        as_dict=True,
+    )
+
+    total_hours = sum(flt(row.total_hours) for row in project_rows)
+    for row in project_rows:
+        row["total_hours"] = flt(row.total_hours)
+        row["percentage"] = round((row["total_hours"] / total_hours) * 100, 1) if total_hours else 0
+
+    employee_count = frappe.db.sql(
+        f"""
+        select count(distinct ts.employee) as c
+        from `tabTimesheet Submission List` tpp
+        inner join `tabTimesheet Submission` ts on ts.name = tpp.parent
+        where {where}
+        """,
+        params,
+        as_dict=True,
+    )[0]["c"]
+
+    month_rows = frappe.db.sql(
+        """
+        select distinct month_year
+        from `tabTimesheet Submission`
+        where docstatus != 2 and ifnull(month_year, '') != ''
+        """,
+        as_dict=True,
+    )
+    months = sorted(
+        (m.month_year for m in month_rows),
+        key=lambda my: tuple(reversed([int(p) for p in my.split("-")])),
+        reverse=True,
+    )
+
+    return {
+        "total_hours": total_hours,
+        "employee_count": employee_count,
+        "projects": project_rows,
+        "months": [{"value": my, "label": _format_month_year(my)} for my in months],
+    }
 
 
 @frappe.whitelist()
@@ -388,13 +485,23 @@ def get_lessons_learned_trends():
 
 
 @frappe.whitelist()
-def search_lessons_learned_kb(q=None, area=None, priority=None):
+def search_lessons_learned_kb(q=None, area=None, priority=None, project_type=None):
     q = (q or "").strip()
     area = (area or "").strip()
     priority = (priority or "").strip()
+    project_type = (project_type or "").strip()
 
     conditions = ["ll.workflow_state = 'Approved'"]
     params = {}
+
+    if project_type:
+        conditions.append(
+            """exists (
+                select 1 from `tabProject` p
+                where p.name = ll.project and p.project_type = %(project_type)s
+            )"""
+        )
+        params["project_type"] = project_type
 
     if q:
         conditions.append(

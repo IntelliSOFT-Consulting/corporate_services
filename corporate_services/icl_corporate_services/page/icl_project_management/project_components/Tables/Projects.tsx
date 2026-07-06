@@ -84,6 +84,7 @@ export function ProjectsTable({
     statusFilter: hookStatusFilter,
     setPage: hookSetPage,
     handleSearch: hookHandleSearch,
+    handleStatusFilter: hookHandleStatusFilter,
   } = useProjects();
 
   const isControlled =
@@ -94,6 +95,14 @@ export function ProjectsTable({
     typeof controlledTotalPages === "number" &&
     typeof controlledSearchChange === "function" &&
     typeof controlledPageChange === "function";
+
+  // In uncontrolled mode, let a parent still drive the status filter
+  // (e.g. clicking a portfolio KPI card) without opting into full control.
+  React.useEffect(() => {
+    if (isControlled) return;
+    hookHandleStatusFilter(controlledStatusFilter ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isControlled, controlledStatusFilter]);
 
   const projects = isControlled ? controlledProjects : hookProjects;
   const loading = isControlled ? controlledLoading : hookLoading;
