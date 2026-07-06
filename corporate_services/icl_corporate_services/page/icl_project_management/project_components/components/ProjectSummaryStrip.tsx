@@ -39,6 +39,11 @@ export function ProjectSummaryStrip({ doc }: { doc: ProjectDetail }) {
       />
       <Kpi label="Team" value={team.length} sub="members" />
       <Kpi
+        label="Open Risks"
+        value={doc.open_risk_count ?? 0}
+        sub="feeds status report blockers"
+      />
+      <Kpi
         label="Budget"
         value={formatCurrency(doc.estimated_costing) ?? "-"}
         sub={margin != null ? `${margin}% margin` : undefined}

@@ -8,6 +8,9 @@ import { TasksTab } from "./tabs/TasksTab";
 import { TeamTab } from "./tabs/TeamTab";
 import { TimesheetsTab } from "./tabs/TimesheetsTab";
 import { DocumentsTab } from "./tabs/DocumentsTab";
+import { GanttTab } from "./tabs/GanttTab";
+import { RiskAssessmentLog } from "./tabs/RiskAssessmentLog";
+import { MeetingsTab } from "./tabs/MeetingsTab";
 import { frappeCall, showAlert } from "./utils/frappe";
 
 interface Props {
@@ -21,7 +24,10 @@ type TabKey =
   | "team"
   | "timesheets"
   | "documents"
-  | "work_plan";
+  | "work_plan"
+  | "gantt"
+  | "risk_assessment"
+  | "meetings";
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "overview", label: "Overview" },
@@ -30,6 +36,9 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "timesheets", label: "Timesheets" },
   { key: "documents", label: "Documents" },
   { key: "work_plan", label: "Work Plan" },
+  { key: "gantt", label: "Gantt" },
+  { key: "risk_assessment", label: "Risk Assessment Log" },
+  { key: "meetings", label: "Meetings" },
 ];
 
 export function ProjectDetail({ projectId, onBack }: Props) {
@@ -154,6 +163,11 @@ export function ProjectDetail({ projectId, onBack }: Props) {
           {activeTab === "work_plan" && (
             <WorkPlanPage projectId={projectId} />
           )}
+          {activeTab === "gantt" && <GanttTab projectId={projectId} />}
+          {activeTab === "risk_assessment" && (
+            <RiskAssessmentLog projectId={projectId} />
+          )}
+          {activeTab === "meetings" && <MeetingsTab projectId={projectId} />}
         </>
       )}
     </div>

@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-02 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dependency",
+  "depends_on",
+  "dependency_owner",
+  "due_date",
+  "status",
+  "impact_if_delayed"
+ ],
+ "fields": [
+  {
+   "fieldname": "dependency",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DEPENDENCY"
+  },
+  {
+   "fieldname": "depends_on",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "DEPENDS ON"
+  },
+  {
+   "fieldname": "dependency_owner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "OWNER",
+   "options": "User"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "DUE DATE"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "STATUS",
+   "options": "Pending\nOn Track\nAt Risk\nBlocked\nCompleted\nEscalated",
+   "default": "Pending"
+  },
+  {
+   "fieldname": "impact_if_delayed",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "IMPACT IF DELAYED"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-02 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Dependency List",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
