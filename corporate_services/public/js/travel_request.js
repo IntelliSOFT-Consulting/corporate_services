@@ -1,16 +1,18 @@
 frappe.ui.form.on("Travel Request", {
 	onload(frm) {
 		applyTravelTypeVisibility(frm);
-		if (frm.doc.travel_type === "Domestic" && frm.doc.custom_local_place_of_travel) {
+		if (
+			frm.is_new() &&
+			frm.doc.travel_type === "Domestic" &&
+			frm.doc.custom_local_place_of_travel &&
+			!(frm.doc.custom_icl_proposed_transport_matrix || []).length
+		) {
 			loadLocalTransportMatrix(frm);
 		}
 	},
 
 	refresh(frm) {
 		applyTravelTypeVisibility(frm);
-		if (frm.doc.travel_type === "Domestic" && frm.doc.custom_local_place_of_travel) {
-			loadLocalTransportMatrix(frm);
-		}
 
 		if (!should_show_reconcile_button(frm)) return;
 
