@@ -319,10 +319,10 @@ def get_project(name):
     ts_breakdown = []
     tr_breakdown = []
 
-    if _has_field("Timesheet", "project"):
+    if _has_field("Timesheet", "parent_project"):
         timesheets = frappe.get_all(
             "Timesheet",
-            filters={"project": name, "docstatus": ["<", 2]},
+            filters={"parent_project": name, "docstatus": ["<", 2]},
             fields=[
                 "name",
                 "employee",

@@ -7,7 +7,7 @@ import { OverviewTab } from "./tabs/OverviewTab";
 import { TasksTab } from "./tabs/TasksTab";
 import { TeamTab } from "./tabs/TeamTab";
 import { TimesheetsTab } from "./tabs/TimesheetsTab";
-import { DocumentsTab } from "./tabs/DocumentsTab";
+import { LifecycleTab } from "./tabs/LifecycleTab";
 import { GanttTab } from "./tabs/GanttTab";
 import { RiskAssessmentLog } from "./tabs/RiskAssessmentLog";
 import { MeetingsTab } from "./tabs/MeetingsTab";
@@ -23,7 +23,7 @@ type TabKey =
   | "tasks"
   | "team"
   | "timesheets"
-  | "documents"
+  | "lifecycle"
   | "work_plan"
   | "gantt"
   | "risk_assessment"
@@ -34,7 +34,7 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "tasks", label: "Tasks" },
   { key: "team", label: "Team" },
   { key: "timesheets", label: "Timesheets" },
-  { key: "documents", label: "Documents" },
+  { key: "lifecycle", label: "Lifecycle" },
   { key: "work_plan", label: "Work Plan" },
   { key: "gantt", label: "Gantt" },
   { key: "risk_assessment", label: "Risk Assessment Log" },
@@ -159,7 +159,7 @@ export function ProjectDetail({ projectId, onBack }: Props) {
           )}
           {activeTab === "team" && <TeamTab users={doc.linked_users ?? []} />}
           {activeTab === "timesheets" && <TimesheetsTab doc={doc} />}
-          {activeTab === "documents" && <DocumentsTab projectId={projectId} />}
+          {activeTab === "lifecycle" && <LifecycleTab projectId={projectId} />}
           {activeTab === "work_plan" && (
             <WorkPlanPage projectId={projectId} />
           )}
