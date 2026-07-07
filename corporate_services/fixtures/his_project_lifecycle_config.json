@@ -4,9 +4,128 @@
   "doctype": "HIS Project Lifecycle Config",
   "intro_description": "Use this lifecycle page as a checklist for all required processes and deliverables when creating and running a Health Information System project.",
   "intro_title": "Project Start-to-End Guide",
-  "modified": "2026-05-15 11:04:49.428495",
+  "modified": "2026-07-07 10:25:21.285480",
   "name": "HIS Project Lifecycle Config",
-  "project_toolkit_document_templates": [],
-  "project_toolkit_folders": []
+  "project_toolkit_document_templates": [
+   {
+    "attachment": "/private/files/Communication_Plan_Template_PM.docx",
+    "description": "Communication plan template\n",
+    "document_name": "Communication plan template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": "Deployment plan template\n",
+    "document_name": "Deployment plan template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/Detailed Work Plan_Template .xlsx",
+    "description": "Detailed work plan template",
+    "document_name": "Detailed work plan template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": null,
+    "document_name": "External status report template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": "Feedback document template\n",
+    "document_name": "Feedback document template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": "Final Project Report",
+    "document_name": "Final Project Report",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": "High level work plan ",
+    "document_name": "High level work plan",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   },
+   {
+    "attachment": "/private/files/High Level Work Plan_2024.xlsx",
+    "description": "Implementation plan template",
+    "document_name": "Implementation plan template",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_document_templates",
+    "parenttype": "HIS Project Lifecycle Config"
+   }
+  ],
+  "project_toolkit_folders": [
+   {
+    "description": "Prepare & Plan",
+    "folder_name": "Prepare & Plan",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_folders",
+    "parenttype": "HIS Project Lifecycle Config",
+    "project_phase": "Phase 1"
+   },
+   {
+    "description": "Closeout",
+    "folder_name": "Closeout",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_folders",
+    "parenttype": "HIS Project Lifecycle Config",
+    "project_phase": "Phase 5"
+   },
+   {
+    "description": "Design",
+    "folder_name": "Design",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_folders",
+    "parenttype": "HIS Project Lifecycle Config",
+    "project_phase": "Phase 2"
+   },
+   {
+    "description": "Implementation",
+    "folder_name": "Implementation",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_folders",
+    "parenttype": "HIS Project Lifecycle Config",
+    "project_phase": "Phase 4"
+   },
+   {
+    "description": "Dev & QA",
+    "folder_name": "Dev & QA",
+    "is_active": 1,
+    "parent": "HIS Project Lifecycle Config",
+    "parentfield": "project_toolkit_folders",
+    "parenttype": "HIS Project Lifecycle Config",
+    "project_phase": "Phase 3"
+   }
+  ]
  }
 ]

@@ -237,15 +237,6 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2026-07-07 09:04:16.449741",
-  "name": "Draft",
-  "style": "",
-  "workflow_state_name": "Draft"
- },
- {
-  "docstatus": 0,
-  "doctype": "Workflow State",
-  "icon": "",
   "modified": "2026-07-07 09:04:16.455896",
   "name": "Approved by HR",
   "style": "Success",
@@ -277,5 +268,14 @@
   "name": "Submitted to HR",
   "style": "",
   "workflow_state_name": "Submitted to HR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-07-07 09:04:16.449741",
+  "name": "Draft",
+  "style": "",
+  "workflow_state_name": "Draft"
  }
 ]

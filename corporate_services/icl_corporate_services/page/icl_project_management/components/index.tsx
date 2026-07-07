@@ -56,17 +56,24 @@ type ProjectHoursData = {
   months?: MonthOption[];
 };
 
-type LifecycleStage = {
-  stage_name?: string;
-  steps?: string[];
-  requirements?: string[];
-  deliverables?: string[];
+type LifecycleFolder = {
+  folder_id?: string;
+  folder_name?: string;
+  project_phase?: string;
+  is_child_folder?: boolean;
+  children?: LifecycleFolder[];
+};
+
+type LifecyclePhase = {
+  phase_name?: string;
+  folders?: LifecycleFolder[];
+  templates?: string[];
 };
 
 type LifecycleData = {
   intro_title?: string;
   intro_description?: string;
-  stages?: LifecycleStage[];
+  phases?: LifecyclePhase[];
 };
 
 type TemplateResource = {
@@ -487,6 +494,25 @@ function ProjectHoursDash({ onOpenProject }: { onOpenProject: (id: string) => vo
   );
 }
 
+function FolderNode({ folder }: { folder: LifecycleFolder }) {
+  const children = folder.children || [];
+  return (
+    <li>
+      {folder.folder_name || folder.folder_id}
+      {children.length > 0 && (
+        <ul>
+          {children.map((child, idx) => (
+            <FolderNode
+              key={`${child.folder_id || child.folder_name}-${idx}`}
+              folder={child}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 function LifecycleTab() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<LifecycleData>({});
@@ -528,7 +554,7 @@ function LifecycleTab() {
 
   const introTitle = data.intro_title || "Project Start-to-End Guide";
   const introDescription = data.intro_description || "";
-  const stages = data.stages || [];
+  const phases = data.phases || [];
   const toolkitUseSteps = [
     "Start with the stage cards to understand what the PM must prepare, plan, design, implement, and close out.",
     "Create or open the Project record, then use the manual folder actions to generate the File Manager folder tree or Google Drive folder when you need them.",
@@ -570,49 +596,48 @@ function LifecycleTab() {
         </div>
       </div>
 
-      {!stages.length ? (
+      {!phases.length ? (
         <div className="alert alert-info mb-0">
-          No lifecycle stages configured yet. Create records in HIS Project
-          Lifecycle Config.
+          No toolkit folders configured yet. Add Project Toolkit Folders and
+          Document Templates in HIS Project Lifecycle Config.
         </div>
       ) : (
         <div className="row">
-          {stages.map((stage, idx) => (
+          {phases.map((phase, idx) => (
             <div
               className="col-lg-6 mb-3"
-              key={`${stage.stage_name || "stage"}-${idx}`}
+              key={`${phase.phase_name || "phase"}-${idx}`}
             >
               <div className="card border h-100">
-                <div className="card-header bg-light d-flex justify-content-between align-items-start">
-                  <h6 className="mb-0">{stage.stage_name || ""}</h6>
-                  <div>
-                    {(stage.steps || []).map((step, sidx) => (
-                      <span
-                        key={`${step}-${sidx}`}
-                        className="badge bg-info text-dark mr-1 mb-1"
-                      >
-                        {step}
-                      </span>
-                    ))}
-                  </div>
+                <div className="card-header bg-light">
+                  <h6 className="mb-0">{phase.phase_name || ""}</h6>
                 </div>
                 <div className="card-body">
                   <div className="text-muted small text-uppercase mb-1">
-                    Requirements
+                    Folders
                   </div>
                   <ul className="mb-3">
-                    {(stage.requirements || []).map((item, ridx) => (
-                      <li key={`${item}-${ridx}`}>{item}</li>
+                    {(phase.folders || []).map((folder, fidx) => (
+                      <FolderNode
+                        key={`${folder.folder_id || folder.folder_name}-${fidx}`}
+                        folder={folder}
+                      />
                     ))}
                   </ul>
                   <div className="text-muted small text-uppercase mb-1">
-                    Deliverables / Templates
+                    Required Templates
                   </div>
-                  <ul className="mb-0">
-                    {(stage.deliverables || []).map((item, didx) => (
-                      <li key={`${item}-${didx}`}>{item}</li>
-                    ))}
-                  </ul>
+                  {(phase.templates || []).length ? (
+                    <ul className="mb-0">
+                      {(phase.templates || []).map((name, tidx) => (
+                        <li key={`${name}-${tidx}`}>{name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-muted" style={{ fontSize: 13 }}>
+                      No templates mapped to this phase yet.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
