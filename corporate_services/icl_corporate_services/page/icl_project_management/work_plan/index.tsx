@@ -64,6 +64,7 @@ type WorkRow = {
 type DetailedRow = {
   item?: string;
   activities?: string;
+  expected_outcomes_deliverables?: string;
   resources?: string;
   duration_loe?: number;
   status?: string;
@@ -202,6 +203,23 @@ const columns: Column<WorkRow>[] = [
   { header: "Comments", render: (r) => wrap(r.comments) },
 ];
 
+const detailedColumns: Column<DetailedRow>[] = [
+  { header: "Item", render: (r) => r.item || "-" },
+  { header: "Activities", render: (r) => wrap(r.activities) },
+  {
+    header: "Expected Outcomes & Deliverables",
+    render: (r) => wrap(r.expected_outcomes_deliverables),
+  },
+  { header: "Start", render: (r) => formatDateOrDash(r.start_date) },
+  { header: "End", render: (r) => formatDateOrDash(r.end_date) },
+  {
+    header: "Duration LOE",
+    render: (r) => (r.duration_loe != null ? r.duration_loe : "-"),
+  },
+  { header: "Status", render: (r) => <WorkStatusBadge status={r.status} /> },
+  { header: "Resources", render: (r) => wrap(r.resources) },
+];
+
 const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const projectId =
     propProjectId ||
@@ -217,6 +235,9 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [detailedPage, setDetailedPage] = useState(1);
+  const [detailedQuery, setDetailedQuery] = useState("");
+  const [detailedStatusFilter, setDetailedStatusFilter] = useState("");
 
   useEffect(() => {
     if (!projectId) return;
@@ -282,6 +303,53 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
   const currentPage = Math.min(page, totalPages);
   const start = (currentPage - 1) * ROWS_PER_PAGE;
   const pagedRows = filtered.slice(start, start + ROWS_PER_PAGE);
+
+  const detailedStatuses = useMemo(() => {
+    const set = new Set<string>();
+    detailedRows.forEach((r) => r.status && set.add(r.status));
+    return Array.from(set);
+  }, [detailedRows]);
+
+  const detailedStatusBreakdown = useMemo(() => {
+    const grouped: Record<string, number> = {};
+    detailedRows.forEach((r) => {
+      const key = r.status || "Not Set";
+      grouped[key] = (grouped[key] || 0) + 1;
+    });
+    return Object.entries(grouped).map(([label, value]) => ({ label, value }));
+  }, [detailedRows]);
+
+  const detailedCompletedPct = useMemo(() => {
+    if (!detailedRows.length) return 0;
+    const done = detailedRows.filter((r) =>
+      DONE.has((r.status || "").toLowerCase()),
+    ).length;
+    return Math.round((done / detailedRows.length) * 100);
+  }, [detailedRows]);
+
+  const detailedFiltered = useMemo(() => {
+    const q = detailedQuery.trim().toLowerCase();
+    return detailedRows.filter((r) => {
+      if (detailedStatusFilter && r.status !== detailedStatusFilter) return false;
+      if (!q) return true;
+      return [r.item, r.activities, r.expected_outcomes_deliverables, r.resources]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [detailedRows, detailedQuery, detailedStatusFilter]);
+
+  const detailedTotalPages = Math.max(
+    1,
+    Math.ceil(detailedFiltered.length / ROWS_PER_PAGE),
+  );
+  const detailedCurrentPage = Math.min(detailedPage, detailedTotalPages);
+  const detailedStart = (detailedCurrentPage - 1) * ROWS_PER_PAGE;
+  const detailedPagedRows = detailedFiltered.slice(
+    detailedStart,
+    detailedStart + ROWS_PER_PAGE,
+  );
 
   const downloadHighLevelTemplate = async () => {
     if (!projectId) {
@@ -535,20 +603,132 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
 
       {/* -- Detailed Work Plan -- */}
       {detailedPlan ? (
-        <SectionCard
-          title="Detailed Work Plan"
-          right={
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-              onClick={() => openForm("Detailed Work Plan", detailedPlan.name)}
-            >
-              Open Plan
-            </button>
-          }
-        >
-          <div className="pm-field-value">{detailedPlan.name}</div>
-        </SectionCard>
+        <>
+          <SectionCard
+            title="Detailed Work Plan"
+            right={
+              <button
+                type="button"
+                className="btn btn-sm btn-primary"
+                onClick={() => openForm("Detailed Work Plan", detailedPlan.name)}
+              >
+                Open Plan
+              </button>
+            }
+          >
+            <div className="pm-field-label" style={{ marginBottom: 4 }}>
+              Overall Completion
+            </div>
+            <div className="pm-progress-bar-track">
+              <div
+                className="pm-progress-bar-fill"
+                style={{ width: `${detailedCompletedPct}%` }}
+              />
+            </div>
+          </SectionCard>
+
+          {detailedStatusBreakdown.length > 0 && (
+            <div className="pm-charts-grid" style={{ marginBottom: 16 }}>
+              <ProjectChartCard
+                title="Detailed Work Plan Items by Status"
+                items={detailedStatusBreakdown}
+                emptyText="No detailed work plan items yet."
+              />
+            </div>
+          )}
+
+          <SectionCard
+            title="Detailed Work Plan Items"
+            count={detailedFiltered.length}
+            countLabel="item"
+            right={
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input
+                  type="text"
+                  className="form-control input-sm"
+                  placeholder="Search items…"
+                  value={detailedQuery}
+                  onChange={(e) => {
+                    setDetailedQuery(e.target.value);
+                    setDetailedPage(1);
+                  }}
+                  style={{ width: 180, height: 28, fontSize: 13 }}
+                />
+                <select
+                  className="form-control input-sm"
+                  aria-label="Filter detailed work plan items by status"
+                  value={detailedStatusFilter}
+                  onChange={(e) => {
+                    setDetailedStatusFilter(e.target.value);
+                    setDetailedPage(1);
+                  }}
+                  style={{ width: 150, height: 28, fontSize: 13 }}
+                >
+                  <option value="">All statuses</option>
+                  {detailedStatuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            }
+          >
+            <RelatedTable
+              columns={detailedColumns}
+              rows={detailedPagedRows}
+              getKey={(_, idx) => String(detailedStart + idx)}
+              emptyText={
+                detailedQuery || detailedStatusFilter
+                  ? "No items match your filters."
+                  : "No detailed work plan items found."
+              }
+            />
+
+            {detailedFiltered.length > ROWS_PER_PAGE && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginTop: 12,
+                }}
+              >
+                <span className="text-muted" style={{ fontSize: 12 }}>
+                  Showing {detailedStart + 1}–
+                  {Math.min(
+                    detailedStart + ROWS_PER_PAGE,
+                    detailedFiltered.length,
+                  )}{" "}
+                  of {detailedFiltered.length}
+                </span>
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm"
+                    disabled={detailedCurrentPage <= 1}
+                    onClick={() => setDetailedPage((p) => Math.max(1, p - 1))}
+                  >
+                    Previous
+                  </button>
+                  <span className="text-muted" style={{ fontSize: 12 }}>
+                    Page {detailedCurrentPage} of {detailedTotalPages}
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm"
+                    disabled={detailedCurrentPage >= detailedTotalPages}
+                    onClick={() =>
+                      setDetailedPage((p) => Math.min(detailedTotalPages, p + 1))
+                    }
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
+          </SectionCard>
+        </>
       ) : (
         <div
           className="frappe-card"

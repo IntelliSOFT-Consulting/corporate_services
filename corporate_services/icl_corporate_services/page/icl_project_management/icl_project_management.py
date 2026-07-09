@@ -6,7 +6,8 @@ from frappe.utils import flt
 from corporate_services.api.project.lifecycle_toolkit import (
     DEFAULT_INTRO_DESCRIPTION,
     DEFAULT_INTRO_TITLE,
-    get_lifecycle_stages,
+    get_project_toolkit_document_template_targets,
+    get_project_toolkit_folder_blueprint,
 )
 
 
@@ -30,10 +31,23 @@ def _split_lines(value):
 
 @frappe.whitelist()
 def get_lifecycle_config():
+    phases = get_project_toolkit_folder_blueprint()
+
+    templates_by_phase = {}
+    for template in get_project_toolkit_document_template_targets():
+        for placement in template.get("placements") or []:
+            phase_name = placement.get("project_phase") or "General"
+            names = templates_by_phase.setdefault(phase_name, [])
+            if template["document_name"] not in names:
+                names.append(template["document_name"])
+
+    for phase in phases:
+        phase["templates"] = templates_by_phase.get(phase.get("phase_name"), [])
+
     return {
         "intro_title": _get_intro_title(),
         "intro_description": _get_intro_description(),
-        "stages": get_lifecycle_stages(),
+        "phases": phases,
     }
 
 

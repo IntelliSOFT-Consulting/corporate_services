@@ -18,6 +18,7 @@ from corporate_services.api.project.lifecycle_toolkit import (
     get_project_toolkit_document_template_targets,
     get_project_toolkit_folder_blueprint,
     get_or_create_project_lifecycle_doc,
+    get_project_lifecycle_doc,
 )
 
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
@@ -277,6 +278,59 @@ def check_project_google_drive_connection(project_name=None):
             "message": "Google Drive token refresh failed. Please reconnect your Google account.",
             "auth_url": auth_url,
         }
+
+
+@frappe.whitelist()
+def get_project_lifecycle_checklist(project_name):
+    """Merge the configured toolkit document requirements with whatever this
+    project's HIS PM Project LifeCycle record has actually tracked, so the UI
+    can show every required template plus its Drive sync status - including
+    templates added to the config after the record was first created."""
+    _ensure_project_access(project_name)
+
+    lifecycle_doc = get_project_lifecycle_doc(project=project_name)
+    tracked_by_name = {}
+    if lifecycle_doc:
+        for row in list(getattr(lifecycle_doc, "drive_documents", None) or []):
+            tracked_by_name[(getattr(row, "template_name", None) or "").strip()] = row
+
+    def _row_to_dict(name, row):
+        if not row:
+            return {
+                "template_name": name,
+                "sync_status": "Not tracked yet",
+                "drive_file_link": None,
+                "drive_modified_at": None,
+                "drive_modified_by": None,
+                "last_synced_at": None,
+            }
+        return {
+            "template_name": name,
+            "sync_status": getattr(row, "sync_status", None) or "Missing",
+            "drive_file_link": getattr(row, "drive_file_link", None),
+            "drive_modified_at": getattr(row, "drive_modified_at", None),
+            "drive_modified_by": getattr(row, "drive_modified_by", None),
+            "last_synced_at": getattr(row, "last_synced_at", None),
+        }
+
+    documents = []
+    for target in get_project_toolkit_document_template_targets():
+        name = (target.get("document_name") or "").strip()
+        if not name:
+            continue
+        documents.append(_row_to_dict(name, tracked_by_name.pop(name, None)))
+
+    # Anything still tracked but no longer part of the active template config -
+    # keep it visible rather than silently dropping it from the checklist.
+    for name, row in tracked_by_name.items():
+        documents.append(_row_to_dict(name, row))
+
+    return {
+        "docname": lifecycle_doc.name if lifecycle_doc else None,
+        "drive_root_folder_link": getattr(lifecycle_doc, "drive_root_folder_link", None) if lifecycle_doc else None,
+        "last_drive_sync_at": getattr(lifecycle_doc, "last_drive_sync_at", None) if lifecycle_doc else None,
+        "documents": documents,
+    }
 
 
 @frappe.whitelist()
