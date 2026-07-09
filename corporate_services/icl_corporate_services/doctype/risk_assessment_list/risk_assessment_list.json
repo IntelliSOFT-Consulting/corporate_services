@@ -10,7 +10,10 @@
   "areas_affected",
   "severity",
   "likelihood",
+  "risk_score",
   "risk_impact",
+  "risk_owner",
+  "status",
   "recommended_actions"
  ],
  "fields": [
@@ -28,21 +31,47 @@
   },
   {
    "fieldname": "severity",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "SEVERITY"
+   "label": "SEVERITY",
+   "options": "Low\nMedium\nHigh"
   },
   {
    "fieldname": "likelihood",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "LIKELIHOOD"
+   "label": "LIKELIHOOD",
+   "options": "Low\nMedium\nHigh"
+  },
+  {
+   "fieldname": "risk_score",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "SCORE",
+   "read_only": 1
   },
   {
    "fieldname": "risk_impact",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "RISK IMPACT"
+   "label": "RISK IMPACT",
+   "options": "Low\nMedium\nHigh",
+   "read_only": 1
+  },
+  {
+   "fieldname": "risk_owner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "OWNER",
+   "options": "User"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "STATUS",
+   "options": "Open\nMitigated\nEscalated\nClosed",
+   "default": "Open"
   },
   {
    "fieldname": "recommended_actions",

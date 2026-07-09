@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-02 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "issue",
+  "areas_affected",
+  "severity",
+  "issue_owner",
+  "status",
+  "raised_date",
+  "resolution"
+ ],
+ "fields": [
+  {
+   "fieldname": "issue",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "ISSUE"
+  },
+  {
+   "fieldname": "areas_affected",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "AREAS AFFECTED"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "SEVERITY",
+   "options": "Low\nMedium\nHigh"
+  },
+  {
+   "fieldname": "issue_owner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "OWNER",
+   "options": "User"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "STATUS",
+   "options": "Open\nIn Progress\nResolved\nEscalated",
+   "default": "Open"
+  },
+  {
+   "fieldname": "raised_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "RAISED DATE"
+  },
+  {
+   "fieldname": "resolution",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "RESOLUTION"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-02 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Issue List",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

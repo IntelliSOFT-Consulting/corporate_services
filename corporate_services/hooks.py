@@ -84,7 +84,7 @@ doctype_js = {
     "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
-    "Project": "public/js/project_google_drive.js",
+    "Project": ["public/js/project_google_drive.js", "public/js/project_lessons_learned_kb.js"],
 }
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
@@ -228,6 +228,7 @@ on_update_map = {
         "corporate_services.api.notification.project.project_manager.alert",
         "corporate_services.api.project.timesheet_submission_sync.sync_timesheet_submission_project_name",
         "corporate_services.api.project.lessons_learned_closeout.notify_on_closeout",
+        "corporate_services.api.notification.project.closure_checklist.generate_closure_checklist",
     ],
     "Employee Grievance":"corporate_services.api.notification.grievance.grievance.alert",
     "Supplier Quote Submission": "corporate_services.api.supplier.vat_calc.calc",
@@ -332,7 +333,6 @@ scheduler_events = {
 	# ],
 	"daily": [
 		# "corporate_services.tasks.daily"
-        "corporate_services.api.notification.project.scheduled_tasks.send_deliverable_notifications",
         "corporate_services.api.notification.onboarding.onboarding_.send_30day_onboarding_surveys",
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
@@ -340,6 +340,8 @@ scheduler_events = {
         "corporate_services.api.notification.weekly_progress_report.send_weekly_progress_report_reminders_if_due",
         "corporate_services.api.notification.opportunity.v1.send_almost_due_opportunity_reminders",
         # "corporate_services.api.notification.onboarding.onboarding_notifications.send_policy_comprehension_quiz"
+        "corporate_services.api.notification.project.scheduled_tasks.send_status_report_reminders",
+        "corporate_services.api.notification.project.scheduled_tasks.send_milestone_alerts",
 	],
 	# "hourly": [
 	# 	"corporate_services.tasks.hourly"
@@ -354,6 +356,12 @@ scheduler_events = {
     "cron": {
         "0 8,10,12,14,16,17 * * *": [
             "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders"
+        ],
+        "0 7 * * 1": [
+            "corporate_services.api.notification.project.scheduled_tasks.send_weekly_pm_digest"
+        ],
+        "0 8 * * 1": [
+            "corporate_services.api.notification.project.scheduled_tasks.send_overdue_invoice_escalations"
         ]
     }
 }

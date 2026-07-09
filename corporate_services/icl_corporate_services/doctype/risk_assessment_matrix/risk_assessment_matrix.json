@@ -6,12 +6,39 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "section_break_rztz"
+  "likelihood",
+  "acceptable",
+  "tolerable",
+  "generally_unacceptable"
  ],
  "fields": [
   {
-   "fieldname": "section_break_rztz",
-   "fieldtype": "Section Break"
+   "fieldname": "likelihood",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Likelihood",
+   "options": "Not Likely\nPossible\nProbable"
+  },
+  {
+   "fieldname": "acceptable",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Acceptable",
+   "options": "Low\nMedium\nHigh"
+  },
+  {
+   "fieldname": "tolerable",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tolerable",
+   "options": "Low\nMedium\nHigh"
+  },
+  {
+   "fieldname": "generally_unacceptable",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Generally Unacceptable",
+   "options": "Low\nMedium\nHigh"
   }
  ],
  "grid_page_length": 100,

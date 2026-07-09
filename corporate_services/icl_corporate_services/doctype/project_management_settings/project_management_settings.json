@@ -7,7 +7,9 @@
  "field_order": [
   "lead_project_manager",
   "project_managers_tab",
-  "project_managers"
+  "project_managers",
+  "automation_tab",
+  "finance_escalation_contact"
  ],
  "fields": [
   {
@@ -30,6 +32,18 @@
    "fieldname": "project_managers_tab",
    "fieldtype": "Tab Break",
    "label": "Project Managers"
+  },
+  {
+   "fieldname": "automation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Automation"
+  },
+  {
+   "description": "Notified alongside the Project Manager when a project invoice is 7+ days overdue. Leave blank to skip this recipient.",
+   "fieldname": "finance_escalation_contact",
+   "fieldtype": "Link",
+   "label": "Finance Escalation Contact",
+   "options": "User"
   }
  ],
  "grid_page_length": 50,

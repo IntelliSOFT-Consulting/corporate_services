@@ -114,6 +114,7 @@ export type ProjectDetail = ProjectRow & {
   };
   reporting_frequency?: string | null;
   report_overdue?: boolean;
+  open_risk_count?: number;
 };
 
 export type ProjectListResult = {

@@ -6,8 +6,6 @@ import { GlobalStyles } from "../project_components/ui/GlobalStyles";
 import { Project } from "../project_components/Index";
 import { ProjectDetail } from "../project_components/ProjectDetail";
 import { ProjectsTable } from "../project_components/Tables/Projects";
-import Guide from "./Guide";
-import WorkPlanPage from "../work_plan";
 
 declare global {
   interface Window {
@@ -41,27 +39,53 @@ type DashboardData = {
   projects?: ProjectRow[];
 };
 
-type LifecycleStage = {
-  stage_name?: string;
-  steps?: string[];
-  requirements?: string[];
-  deliverables?: string[];
+type ProjectHoursRow = {
+  project: string;
+  project_title: string;
+  total_hours: number;
+  employee_count: number;
+  percentage: number;
+};
+
+type MonthOption = { value: string; label: string };
+
+type ProjectHoursData = {
+  total_hours?: number;
+  employee_count?: number;
+  projects?: ProjectHoursRow[];
+  months?: MonthOption[];
+};
+
+type LifecycleFolder = {
+  folder_id?: string;
+  folder_name?: string;
+  project_phase?: string;
+  is_child_folder?: boolean;
+  children?: LifecycleFolder[];
+};
+
+type LifecyclePhase = {
+  phase_name?: string;
+  folders?: LifecycleFolder[];
+  templates?: string[];
 };
 
 type LifecycleData = {
   intro_title?: string;
   intro_description?: string;
-  stages?: LifecycleStage[];
+  phases?: LifecyclePhase[];
 };
 
 type TemplateResource = {
+  name?: string;
   requirement?: string;
   description?: string;
   doctype?: string;
   template_file?: string;
+  is_active?: number;
 };
 
-type Tab = "dashboard" | "projects" | "lifecycle" | "templates";
+type Tab = "dashboard" | "projects" | "lifecycle" | "templates" | "lessons_learned";
 const TAB_KEY = "icl_project_management_tab";
 
 function isTab(value: string | null): value is Tab {
@@ -69,7 +93,8 @@ function isTab(value: string | null): value is Tab {
     value === "dashboard" ||
     value === "projects" ||
     value === "lifecycle" ||
-    value === "templates"
+    value === "templates" ||
+    value === "lessons_learned"
   );
 }
 
@@ -174,12 +199,44 @@ const LOCAL_STYLES = `
 .ipm-content {
   padding: 0 10px;
 }
+.ipm-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted, #6c757d);
+  margin: 4px 0 8px;
+}
+.ipm-hours-row {
+  cursor: pointer;
+}
+.ipm-hours-row:hover td {
+  background: var(--fg-hover-color, #f8f9fa);
+}
 `;
 
-function Metric({ label, value }: { label: string; value: string | number }) {
+function Metric({
+  label,
+  value,
+  onClick,
+  active,
+}: {
+  label: string;
+  value: string | number;
+  onClick?: () => void;
+  active?: boolean;
+}) {
   return (
     <div className="col-md-3 mb-3">
-      <div className="card border h-100">
+      <div
+        className="card border h-100"
+        onClick={onClick}
+        style={{
+          cursor: onClick ? "pointer" : undefined,
+          borderColor: active ? "var(--primary, #5e64ff)" : undefined,
+          boxShadow: active ? "0 0 0 1px var(--primary, #5e64ff)" : undefined,
+        }}
+      >
         <div className="card-body">
           <div className="text-muted" style={{ fontSize: 12 }}>
             {label}
@@ -201,6 +258,7 @@ function DashboardTab({
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<DashboardData>({});
   const [error, setError] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -262,20 +320,36 @@ function DashboardTab({
 
       {subTab === "overview" && (
         <div className="container-fluid p-3">
-          <div className="row mb-3">
-            <div className="col-12">
-              <Guide />
-            </div>
-          </div>
+          <div className="ipm-section-label">Portfolio Snapshot</div>
           <div className="row mb-2">
-            <Metric label="Total Projects" value={summary.total_projects || 0} />
-            <Metric label="Active Projects" value={summary.active_projects || 0} />
-            <Metric label="Completed Projects" value={summary.completed_projects || 0} />
+            <Metric
+              label="Total Projects"
+              value={summary.total_projects || 0}
+              active={statusFilter === ""}
+              onClick={() => setStatusFilter("")}
+            />
+            <Metric
+              label="Active Projects"
+              value={summary.active_projects || 0}
+              active={statusFilter === "Open"}
+              onClick={() => setStatusFilter((f) => (f === "Open" ? "" : "Open"))}
+            />
+            <Metric
+              label="Completed Projects"
+              value={summary.completed_projects || 0}
+              active={statusFilter === "Completed"}
+              onClick={() => setStatusFilter((f) => (f === "Completed" ? "" : "Completed"))}
+            />
             <Metric label="Avg Progress" value={`${Math.round(summary.average_progress || 0)}%`} />
           </div>
+
+          <div className="ipm-section-label">Charts</div>
           <div className="card border mb-3">
             <div className="card-header bg-light">
               <strong style={{ fontSize: 13 }}>Projects by Status</strong>
+              <span className="text-muted" style={{ fontSize: 12, marginLeft: 8 }}>
+                Click a Portfolio Snapshot card above to filter the table below.
+              </span>
             </div>
             <div className="card-body">
               {statusBreakdown.length ? (
@@ -285,8 +359,14 @@ function DashboardTab({
               )}
             </div>
           </div>
-          <ProjectsTable onOpen={onOpenProject} title="All Projects" />
-          <WorkPlanPage />
+          <ProjectHoursDash onOpenProject={onOpenProject} />
+
+          <div className="ipm-section-label">All Projects</div>
+          <ProjectsTable
+            onOpen={onOpenProject}
+            title={statusFilter ? `All Projects - ${statusFilter}` : "All Projects"}
+            statusFilter={statusFilter}
+          />
         </div>
       )}
 
@@ -297,6 +377,139 @@ function DashboardTab({
       {subTab === "trends" && <LessonsLearnedTrendsDash />}
       {subTab === "kb" && <KnowledgeBaseDash />}
     </div>
+  );
+}
+
+function ProjectHoursDash({ onOpenProject }: { onOpenProject: (id: string) => void }) {
+  const [month, setMonth] = useState("");
+  const [data, setData] = useState<ProjectHoursData>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    globalThis.frappe
+      .call({
+        method:
+          "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.get_project_hours_summary",
+        args: { month_year: month },
+      })
+      .then((r: any) => {
+        setData((r && r.message) || {});
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        setError(e?.message || "Failed to load timesheet hours.");
+        setLoading(false);
+      });
+  }, [month]);
+
+  useEffect(() => {
+    if (loading) return;
+    const rows = data.projects || [];
+    const target = document.getElementById("icl-project-hours-chart");
+    if (!target) return;
+    target.innerHTML = "";
+    if (!rows.length) return;
+    new globalThis.frappe.Chart("#icl-project-hours-chart", {
+      data: {
+        labels: rows.map((row) => row.project_title),
+        datasets: [{ values: rows.map((row) => row.percentage) }],
+      },
+      type: "bar",
+      height: 260,
+      barOptions: { spaceRatio: 0.5 },
+    });
+  }, [loading, data.projects]);
+
+  const projects = data.projects || [];
+  const topProject = projects[0];
+
+  return (
+    <div className="card border mb-3">
+      <div className="card-header bg-light d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <strong style={{ fontSize: 13 }}>Timesheet Hours by Project</strong>
+        <select
+          className="form-control form-control-sm"
+          style={{ width: 180 }}
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+        >
+          <option value="">All Time</option>
+          {(data.months || []).map((m) => (
+            <option key={m.value} value={m.value}>{m.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="card-body">
+        {loading ? (
+          <div className="text-muted" style={{ fontSize: 13 }}>Loading timesheet hours...</div>
+        ) : error ? (
+          <div className="alert alert-danger mb-0">{error}</div>
+        ) : !projects.length ? (
+          <div className="text-muted" style={{ fontSize: 13 }}>No timesheet hours logged against projects yet.</div>
+        ) : (
+          <>
+            <div className="row mb-3">
+              <div className="col-md-4 col-6 mb-2">
+                <div className="text-muted" style={{ fontSize: 12 }}>Total Hours Worked</div>
+                <div style={{ fontSize: 24, fontWeight: 600 }}>{(data.total_hours || 0).toFixed(1)}h</div>
+              </div>
+              <div className="col-md-4 col-6 mb-2">
+                <div className="text-muted" style={{ fontSize: 12 }}>Employees Logging Time</div>
+                <div style={{ fontSize: 24, fontWeight: 600 }}>{data.employee_count || 0}</div>
+              </div>
+              <div className="col-md-4 col-6 mb-2">
+                <div className="text-muted" style={{ fontSize: 12 }}>Highest Share of Hours</div>
+                <div style={{ fontSize: 16, fontWeight: 600 }}>
+                  {topProject ? `${topProject.project_title} - ${topProject.percentage}%` : "-"}
+                </div>
+              </div>
+            </div>
+            <div id="icl-project-hours-chart" className="mb-3" />
+            <table className="table table-sm mb-0" style={{ fontSize: 12 }}>
+              <thead>
+                <tr><th>Project</th><th>Hours</th><th>% of Total</th></tr>
+              </thead>
+              <tbody>
+                {projects.map((p) => (
+                  <tr
+                    key={p.project}
+                    className="ipm-hours-row"
+                    onClick={() => onOpenProject(p.project)}
+                    title="Open project"
+                  >
+                    <td>{p.project_title}</td>
+                    <td>{p.total_hours.toFixed(1)}</td>
+                    <td>{p.percentage}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function FolderNode({ folder }: { folder: LifecycleFolder }) {
+  const children = folder.children || [];
+  return (
+    <li>
+      {folder.folder_name || folder.folder_id}
+      {children.length > 0 && (
+        <ul>
+          {children.map((child, idx) => (
+            <FolderNode
+              key={`${child.folder_id || child.folder_name}-${idx}`}
+              folder={child}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
   );
 }
 
@@ -341,7 +554,7 @@ function LifecycleTab() {
 
   const introTitle = data.intro_title || "Project Start-to-End Guide";
   const introDescription = data.intro_description || "";
-  const stages = data.stages || [];
+  const phases = data.phases || [];
   const toolkitUseSteps = [
     "Start with the stage cards to understand what the PM must prepare, plan, design, implement, and close out.",
     "Create or open the Project record, then use the manual folder actions to generate the File Manager folder tree or Google Drive folder when you need them.",
@@ -383,49 +596,48 @@ function LifecycleTab() {
         </div>
       </div>
 
-      {!stages.length ? (
+      {!phases.length ? (
         <div className="alert alert-info mb-0">
-          No lifecycle stages configured yet. Create records in HIS Project
-          Lifecycle Config.
+          No toolkit folders configured yet. Add Project Toolkit Folders and
+          Document Templates in HIS Project Lifecycle Config.
         </div>
       ) : (
         <div className="row">
-          {stages.map((stage, idx) => (
+          {phases.map((phase, idx) => (
             <div
               className="col-lg-6 mb-3"
-              key={`${stage.stage_name || "stage"}-${idx}`}
+              key={`${phase.phase_name || "phase"}-${idx}`}
             >
               <div className="card border h-100">
-                <div className="card-header bg-light d-flex justify-content-between align-items-start">
-                  <h6 className="mb-0">{stage.stage_name || ""}</h6>
-                  <div>
-                    {(stage.steps || []).map((step, sidx) => (
-                      <span
-                        key={`${step}-${sidx}`}
-                        className="badge bg-info text-dark mr-1 mb-1"
-                      >
-                        {step}
-                      </span>
-                    ))}
-                  </div>
+                <div className="card-header bg-light">
+                  <h6 className="mb-0">{phase.phase_name || ""}</h6>
                 </div>
                 <div className="card-body">
                   <div className="text-muted small text-uppercase mb-1">
-                    Requirements
+                    Folders
                   </div>
                   <ul className="mb-3">
-                    {(stage.requirements || []).map((item, ridx) => (
-                      <li key={`${item}-${ridx}`}>{item}</li>
+                    {(phase.folders || []).map((folder, fidx) => (
+                      <FolderNode
+                        key={`${folder.folder_id || folder.folder_name}-${fidx}`}
+                        folder={folder}
+                      />
                     ))}
                   </ul>
                   <div className="text-muted small text-uppercase mb-1">
-                    Deliverables / Templates
+                    Required Templates
                   </div>
-                  <ul className="mb-0">
-                    {(stage.deliverables || []).map((item, didx) => (
-                      <li key={`${item}-${didx}`}>{item}</li>
-                    ))}
-                  </ul>
+                  {(phase.templates || []).length ? (
+                    <ul className="mb-0">
+                      {(phase.templates || []).map((name, tidx) => (
+                        <li key={`${name}-${tidx}`}>{name}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-muted" style={{ fontSize: 13 }}>
+                      No templates mapped to this phase yet.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -508,9 +720,9 @@ function TemplatesTab() {
   return (
     <div className="container-fluid p-3">
       <div className="alert alert-info mb-3" role="alert">
-        Upload one default Word template per requirement. Users can download,
-        edit offline, and upload the completed file to the target project
-        document.
+        Standard templates from the Project Toolkit Document Templates
+        library. Download a template, fill it in, and upload the completed
+        version here to keep the shared copy current.
       </div>
       <div className="row">
         {resources.map((item, idx) => (
@@ -520,11 +732,18 @@ function TemplatesTab() {
           >
             <div className="card border h-100">
               <div className="card-body">
-                <h6 className="mb-2">{item.requirement || ""}</h6>
+                <h6 className="mb-2 d-flex align-items-center" style={{ gap: 8 }}>
+                  {item.requirement || ""}
+                  {!item.is_active && (
+                    <span className="badge badge-secondary" style={{ fontSize: 10 }}>Inactive</span>
+                  )}
+                </h6>
                 <p className="text-muted mb-2">{item.description || ""}</p>
-                <div className="small text-muted mb-2">
-                  Target: {item.doctype || ""}
-                </div>
+                {item.doctype && (
+                  <div className="small text-muted mb-2">
+                    Target: {item.doctype}
+                  </div>
+                )}
                 <div className="small mb-3">
                   {item.template_file ? (
                     <span className="text-success">Template uploaded</span>
@@ -533,14 +752,16 @@ function TemplatesTab() {
                   )}
                 </div>
                 <div className="d-flex flex-wrap" style={{ gap: 8 }}>
-                  <button
-                    className="btn btn-sm btn-default"
-                    onClick={() =>
-                      globalThis.frappe?.set_route("List", item.doctype)
-                    }
-                  >
-                    View List
-                  </button>
+                  {item.doctype && (
+                    <button
+                      className="btn btn-sm btn-default"
+                      onClick={() =>
+                        globalThis.frappe?.set_route("List", item.doctype)
+                      }
+                    >
+                      View List
+                    </button>
+                  )}
                   <button
                     className="btn btn-sm btn-default"
                     onClick={() =>
@@ -570,6 +791,101 @@ function TemplatesTab() {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+type LessonsLearnedRow = {
+  name: string;
+  project_title?: string;
+  reporter_name?: string;
+  workflow_state?: string;
+  date_of_report?: string;
+};
+
+function LessonsLearnedTab() {
+  const [rows, setRows] = useState<LessonsLearnedRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  function load() {
+    setLoading(true);
+    setError(null);
+    globalThis.frappe
+      .call({
+        method: "frappe.client.get_list",
+        args: {
+          doctype: "Project Management Lessons Learned",
+          fields: ["name", "project_title", "reporter_name", "workflow_state", "date_of_report"],
+          order_by: "date_of_report desc",
+          limit_page_length: 0,
+        },
+      })
+      .then((r: any) => {
+        setRows((r && r.message) || []);
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        setError(e?.message || "Could not load Lessons Learned reports.");
+        setLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  function openReport(name: string) {
+    globalThis.frappe?.set_route("Form", "Project Management Lessons Learned", name);
+  }
+
+  if (loading) {
+    return <div className="container-fluid p-3 text-muted">Loading Lessons Learned reports...</div>;
+  }
+  if (error) {
+    return (
+      <div className="container-fluid p-3">
+        <div className="alert alert-danger mb-0">{error}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container-fluid p-3">
+      <div className="d-flex justify-content-end mb-3">
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={() => globalThis.frappe?.new_doc("Project Management Lessons Learned")}
+        >
+          New Lessons Learned Report
+        </button>
+      </div>
+      <FilterableTable
+        title="Lessons Learned Reports"
+        rows={rows}
+        filterKeys={["name", "project_title", "reporter_name", "workflow_state"]}
+        columns={[
+          {
+            label: "Report",
+            key: "name",
+            render: (v: string) => (
+              <a href="#" onClick={(e) => { e.preventDefault(); openReport(v); }}>{v}</a>
+            ),
+          },
+          { label: "Project", key: "project_title" },
+          { label: "Reporter", key: "reporter_name" },
+          {
+            label: "Status",
+            key: "workflow_state",
+            render: (v: string) => (
+              <span className="badge" style={{ background: STATE_COLOR[v] ?? "#adb5bd", color: "#fff" }}>
+                {v || "Draft"}
+              </span>
+            ),
+          },
+          { label: "Date", key: "date_of_report" },
+        ]}
+      />
     </div>
   );
 }
@@ -1192,18 +1508,29 @@ function KnowledgeBaseDash() {
   const [query, setQuery] = useState("");
   const [area, setArea] = useState("");
   const [priority, setPriority] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [projectTypes, setProjectTypes] = useState<string[]>([]);
   const [results, setResults] = useState<KbResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [exporting, setExporting] = useState<string | null>(null);
 
+  useEffect(() => {
+    globalThis.frappe.call({
+      method: "frappe.client.get_list",
+      args: { doctype: "Project Type", fields: ["name"], limit_page_length: 0 },
+    }).then((r: any) => {
+      setProjectTypes(((r && r.message) || []).map((row: any) => row.name));
+    }).catch(() => {});
+  }, []);
+
   function search() {
     setLoading(true);
     setSearched(true);
     globalThis.frappe.call({
       method: "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.search_lessons_learned_kb",
-      args: { q: query.trim(), area: area.trim(), priority: priority.trim() },
+      args: { q: query.trim(), area: area.trim(), priority: priority.trim(), project_type: projectType.trim() },
     }).then((r: any) => {
       setResults((r && r.message) || []);
       setLoading(false);
@@ -1236,7 +1563,7 @@ function KnowledgeBaseDash() {
         </div>
         <div className="card-body">
           <div className="row g-2 align-items-end">
-            <div className="col-md-5">
+            <div className="col-md-4">
               <label className="form-label" style={{ fontSize: 12 }}>Keyword</label>
               <input
                 className="form-control form-control-sm"
@@ -1246,7 +1573,14 @@ function KnowledgeBaseDash() {
                 onKeyDown={(e) => e.key === "Enter" && search()}
               />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
+              <label className="form-label" style={{ fontSize: 12 }}>Project Type</label>
+              <select className="form-control form-control-sm" value={projectType} onChange={(e) => setProjectType(e.target.value)}>
+                <option value="">All Types</option>
+                {projectTypes.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div className="col-md-2">
               <label className="form-label" style={{ fontSize: 12 }}>Area</label>
               <select className="form-control form-control-sm" value={area} onChange={(e) => setArea(e.target.value)}>
                 <option value="">All Areas</option>
@@ -1412,13 +1746,8 @@ function SidebarTabs({
           Project Requirements Templates
         </div>
         <div
-          className="ipm-sidebar-item"
-          onClick={() =>
-            globalThis.frappe?.set_route(
-              "List",
-              "Project Management Lessons Learned",
-            )
-          }
+          className={`ipm-sidebar-item${tab === "lessons_learned" ? " active" : ""}`}
+          onClick={() => onChange("lessons_learned")}
         >
           Lessons Learned
         </div>
@@ -1491,6 +1820,7 @@ function ProjectManagementApp({ page }: { page: any }) {
         )}
         {tab === "lifecycle" && <LifecycleTab />}
         {tab === "templates" && <TemplatesTab />}
+        {tab === "lessons_learned" && <LessonsLearnedTab />}
       </div>
     </>
   );

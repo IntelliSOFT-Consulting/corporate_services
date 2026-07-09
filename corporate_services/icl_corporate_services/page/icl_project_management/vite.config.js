@@ -22,5 +22,6 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "components"),
     },
+    conditions: ["import", "default"],
   },
 });
