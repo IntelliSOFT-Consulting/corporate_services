@@ -78,6 +78,7 @@
   {
    "fieldname": "from_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "From Date"
   },
   {
@@ -87,11 +88,13 @@
   {
    "fieldname": "to_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "To Date"
   },
   {
    "fieldname": "report_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "REPORT DATE",
    "reqd": 1
   },
@@ -118,9 +121,13 @@
    "label": "PURPOSE"
   },
   {
+   "allow_on_submit": 1,
+   "description": "Ensure this is setup during the Project Creation stage",
+   "fetch_from": "project.custom_project_report_frequency",
    "fieldname": "frequency",
    "fieldtype": "Data",
    "label": "Frequency",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -168,6 +175,7 @@
    "fetch_from": "project.project_name",
    "fieldname": "project_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Project Name",
    "read_only": 1,
    "reqd": 1
@@ -266,7 +274,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-10 10:18:12.208665",
+ "modified": "2026-07-10 13:03:22.694485",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Status Report",
