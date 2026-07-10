@@ -1,0 +1,50 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-10 10:15:22.553161",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "milestone",
+  "overall_status",
+  "sub_activities_and_comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "milestone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Key Activity/Milestone/Deliverable",
+   "reqd": 1
+  },
+  {
+   "fieldname": "overall_status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Overall Status",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sub_activities_and_comments",
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "label": "Sub-activities and Comments",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-10 10:16:54.156466",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Progress Summary",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
