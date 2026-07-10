@@ -333,7 +333,7 @@ scheduler_events = {
 	# ],
 	"daily": [
 		# "corporate_services.tasks.daily"
-        "corporate_services.api.notification.onboarding.onboarding_.send_30day_onboarding_surveys",
+        "corporate_services.api.notification.onboarding.onboarding_schedule.send_30day_onboarding_surveys",
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_overdue_reminders_if_due",
@@ -355,7 +355,8 @@ scheduler_events = {
 	],
     "cron": {
         "0 8,10,12,14,16,17 * * *": [
-            "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders"
+            "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders",
+            "corporate_services.api.notification.reminder_engine.check_overdue_documents"
         ],
         "0 7 * * 1": [
             "corporate_services.api.notification.project.scheduled_tasks.send_weekly_pm_digest"

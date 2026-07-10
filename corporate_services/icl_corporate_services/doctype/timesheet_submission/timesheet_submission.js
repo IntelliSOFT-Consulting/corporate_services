@@ -13,6 +13,7 @@ frappe.ui.form.on("Timesheet Submission", {
 		toggle_finance_tab(frm);
 		add_insert_tasks_action(frm);
 		add_download_excel_action(frm);
+		add_nudge_supervisor_action(frm);
 
 		if (can_view_finance) {
 			compute_finance(frm);
@@ -50,23 +51,56 @@ function add_insert_tasks_action(frm) {
 }
 
 function add_download_excel_action(frm) {
-	frm.remove_custom_button(__("Download Excel (Project Ratios)"));
-
 	if (frm.is_new()) return;
 
-	frm.add_custom_button(__("Download Excel (Project Ratios)"), function () {
-		frappe.call({
-			method: "corporate_services.api.timesheet.timesheet_generation_export.timesheet_submission_data_export",
-			args: { docname: frm.doc.name },
-			freeze: true,
-			freeze_message: __("Generating Excel..."),
-			callback: function (r) {
-				if (!r.message || r.message === "error") {
-					frappe.msgprint(__("Failed to generate the timesheet Excel."));
-					return;
-				}
-				window.open(r.message, "_blank");
-			},
+	// See add_nudge_supervisor_action for why this hooks onto get_transitions
+	// instead of frm.add_custom_button.
+	frappe.workflow.get_transitions(frm.doc).then(() => {
+		frm.page.add_action_item(__("Download Excel (Project Ratios)"), function () {
+			frappe.call({
+				method: "corporate_services.api.timesheet.timesheet_generation_export.timesheet_submission_data_export",
+				args: { docname: frm.doc.name },
+				freeze: true,
+				freeze_message: __("Generating Excel..."),
+				callback: function (r) {
+					if (!r.message || r.message === "error") {
+						frappe.msgprint(__("Failed to generate the timesheet Excel."));
+						return;
+					}
+					window.open(r.message, "_blank");
+				},
+			});
+		});
+	});
+}
+
+function add_nudge_supervisor_action(frm) {
+	const can_show = !frm.is_new() && frm.doc.workflow_state === "Submitted to Supervisor";
+	if (!can_show) return;
+
+	// The workflow engine (frappe/public/js/frappe/form/workflow.js) rebuilds the
+	// Actions dropdown asynchronously on every refresh via the same get_transitions
+	// call, wiping any item added earlier. Hooking onto that same call means we add
+	// ours after that rebuild instead of racing it.
+	frappe.workflow.get_transitions(frm.doc).then(() => {
+		frm.page.add_action_item(__("Nudge Supervisor"), function () {
+			frappe.call({
+				method: "corporate_services.api.notification.reminder_engine.nudge_approver",
+				args: {
+					reference_doctype: frm.doc.doctype,
+					reference_name: frm.doc.name,
+				},
+				freeze: true,
+				freeze_message: __("Sending reminder..."),
+				callback: function (r) {
+					if (!r.message) return;
+					if (r.message.success) {
+						frappe.show_alert({ message: r.message.message, indicator: "green" });
+					} else {
+						frappe.msgprint(r.message.message);
+					}
+				},
+			});
 		});
 	});
 }
