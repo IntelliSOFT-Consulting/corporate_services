@@ -53,8 +53,6 @@ function add_insert_tasks_action(frm) {
 function add_download_excel_action(frm) {
 	if (frm.is_new()) return;
 
-	// See add_nudge_supervisor_action for why this hooks onto get_transitions
-	// instead of frm.add_custom_button.
 	frappe.workflow.get_transitions(frm.doc).then(() => {
 		frm.page.add_action_item(__("Download Excel (Project Ratios)"), function () {
 			frappe.call({
@@ -78,10 +76,6 @@ function add_nudge_supervisor_action(frm) {
 	const can_show = !frm.is_new() && frm.doc.workflow_state === "Submitted to Supervisor";
 	if (!can_show) return;
 
-	// The workflow engine (frappe/public/js/frappe/form/workflow.js) rebuilds the
-	// Actions dropdown asynchronously on every refresh via the same get_transitions
-	// call, wiping any item added earlier. Hooking onto that same call means we add
-	// ours after that rebuild instead of racing it.
 	frappe.workflow.get_transitions(frm.doc).then(() => {
 		frm.page.add_action_item(__("Nudge Supervisor"), function () {
 			frappe.call({
