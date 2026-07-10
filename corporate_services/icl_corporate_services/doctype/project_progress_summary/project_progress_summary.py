@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ProjectProgressReport(Document):
+class ProjectProgressSummary(Document):
 	pass

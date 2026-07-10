@@ -89,6 +89,7 @@ doctype_js = {
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
     "Travel Request": "public/js/travel_request_list.js",
+    "SMT Members": "public/js/smt_members_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -253,6 +254,7 @@ on_update_map = {
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
     "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
     "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
+    "Project Status Report":"corporate_services.api.notification.project.status_report.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
