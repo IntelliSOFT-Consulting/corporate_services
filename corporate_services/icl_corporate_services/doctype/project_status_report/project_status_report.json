@@ -21,6 +21,7 @@
   "section_break_qmow",
   "report_type",
   "frequency",
+  "external_report_template",
   "reporting_period_section",
   "from_date",
   "column_break_gssx",
@@ -143,18 +144,21 @@
    "label": "Summary"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "A brief overview of the project, its goals, and the overall purpose. This section should be concise enough to inform new readers about the project's context. Please avoid jargon and project lingo.",
    "fieldname": "project_summary",
    "fieldtype": "Text Editor",
    "label": "Project Summary"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "Key achievements, milestones reached, and significant issues during the reporting week. Here, provide a quick overview of the week's most important points. The finer details will be covered in the Progress Summary section.",
    "fieldname": "key_highlights",
    "fieldtype": "Text Editor",
    "label": "Key Highlights"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "List the key activities planned for the upcoming week, which should be specific and measurable.]",
    "fieldname": "key_activities_for_the_week",
    "fieldtype": "Text Editor",
@@ -185,11 +189,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "definitions",
    "fieldtype": "Section Break",
    "label": "Definitions, Acronyms and abbreviations:"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "table_monj",
    "fieldtype": "Table",
    "options": "Term Definition Table"
@@ -205,6 +211,7 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "THIS SECTION IS FOR INTERNAL USE ONLY",
    "fieldname": "project_status_section",
    "fieldtype": "Section Break",
@@ -216,11 +223,13 @@
    "label": "Scope status"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "timeline_status",
    "fieldtype": "Text Editor",
    "label": "Timeline status"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "budget_and_burn_rate",
    "fieldtype": "Text Editor",
    "label": "Budget and Burn Rate"
@@ -230,16 +239,19 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "section_break_buva",
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "Any significant issues or roadblocks that arose during the reporting period or that\u2019s ongoing.",
    "fieldname": "blockers",
    "fieldtype": "Text Editor",
    "label": "Highlights, Blockers/Challenges and Observations"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "description": "Any support needed from leadership.",
    "fieldname": "support_needs",
    "fieldtype": "Text Editor",
@@ -255,6 +267,7 @@
    "label": "PAYMENT SCHEDULE "
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "table_kkub",
    "fieldtype": "Table",
    "options": "Project Payment Schedule"
@@ -265,16 +278,24 @@
    "label": "Progress Summary"
   },
   {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
    "fieldname": "table_gdtc",
    "fieldtype": "Table",
    "options": "Project Progress Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"External Report\";",
+   "description": "Use this template for external reports, to enable sharing with external members.",
+   "fieldname": "external_report_template",
+   "fieldtype": "Data",
+   "label": "External Report Template"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-10 13:03:22.694485",
+ "modified": "2026-07-10 13:55:04.861280",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Status Report",
