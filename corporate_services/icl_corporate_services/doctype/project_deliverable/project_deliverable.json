@@ -1,13 +1,14 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:deliverable_name",
  "creation": "2026-05-12 09:26:20.599999",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "scope_baseline_section",
   "project",
-  "data_wfin",
+  "deliverable_name",
   "customer",
   "phase",
   "description"
@@ -18,11 +19,6 @@
    "fieldtype": "Link",
    "label": "Project",
    "options": "Project"
-  },
-  {
-   "fieldname": "data_wfin",
-   "fieldtype": "Data",
-   "label": "Deliverable Name"
   },
   {
    "fieldname": "customer",
@@ -44,15 +40,22 @@
    "fieldname": "scope_baseline_section",
    "fieldtype": "Section Break",
    "label": "Scope Baseline"
+  },
+  {
+   "fieldname": "deliverable_name",
+   "fieldtype": "Data",
+   "label": "Deliverable Name",
+   "unique": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-25 09:31:54.636723",
+ "modified": "2026-07-10 13:42:24.990722",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Deliverable",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
