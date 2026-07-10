@@ -31,7 +31,9 @@
   "contract_settings_tab",
   "column_break_extr",
   "consultant_contract",
-  "table_bvpi"
+  "table_bvpi",
+  "reminder_rules_tab",
+  "reminder_rules"
  ],
  "fields": [
   {
@@ -180,13 +182,25 @@
    "fieldname": "reflection_settings_tab",
    "fieldtype": "Tab Break",
    "label": "Reflection Settings"
+  },
+  {
+   "fieldname": "reminder_rules_tab",
+   "fieldtype": "Tab Break",
+   "label": "Reminder Rules"
+  },
+  {
+   "description": "Per-doctype SLA reminder rules: notify the submitter and/or approver when a document has been pending too long, and control whether the submitter can manually nudge the approver.",
+   "fieldname": "reminder_rules",
+   "fieldtype": "Table",
+   "label": "Reminder Rules",
+   "options": "Reminder Rule"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-13 14:32:28.771563",
+ "modified": "2026-07-10 07:36:27.379372",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "HR Config",
