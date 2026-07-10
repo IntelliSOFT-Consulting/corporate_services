@@ -1211,7 +1211,7 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"pmWelcome\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"pmSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmDivider1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"pmQAHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚡ Quick Actions</b></span>\",\"col\":12}},{\"id\":\"pmSC1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Project\",\"col\":3}},{\"id\":\"pmSC2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"pmSC3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Risk Assessment\",\"col\":3}},{\"id\":\"pmSC4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Progress Report\",\"col\":3}},{\"id\":\"pmSC5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Timesheet Hours Dashboard\",\"col\":3}},{\"id\":\"pmSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmOverviewHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📊 Overview</b></span>\",\"col\":12}},{\"id\":\"pmChart1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":4}},{\"id\":\"pmChart2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Status\",\"col\":4}},{\"id\":\"pmChart3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Priority\",\"col\":4}},{\"id\":\"pmSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmProjectQL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"pmSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚀 Initiation</b></span>\",\"col\":12}},{\"id\":\"pmCard0\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Initiation\",\"col\":12}},{\"id\":\"pmCardSpacer0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📋 Planning</b></span>\",\"col\":12}},{\"id\":\"pmCard1\",\"type\":\"card\",\"data\":{\"card_name\":\"📋 Planning\",\"col\":12}},{\"id\":\"pmCardSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚧 Execution &amp; Monitoring</b></span>\",\"col\":12}},{\"id\":\"pmCard2\",\"type\":\"card\",\"data\":{\"card_name\":\"🚧 Execution & Monitoring\",\"col\":12}},{\"id\":\"pmCardSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>✅ Closure</b></span>\",\"col\":12}},{\"id\":\"pmCard3\",\"type\":\"card\",\"data\":{\"card_name\":\"✅ Closure\",\"col\":12}},{\"id\":\"pmCardSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr4\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚙️ Reference &amp; Settings</b></span>\",\"col\":12}},{\"id\":\"pmCard4\",\"type\":\"card\",\"data\":{\"card_name\":\"⚙️ Reference & Settings\",\"col\":12}},{\"id\":\"pmCardSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmTimesheetCard\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}}]",
+  "content": "[{\"id\":\"pmWelcome\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"pmSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmDivider1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"pmQAHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚡ Quick Actions</b></span>\",\"col\":12}},{\"id\":\"pmSC1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Project\",\"col\":3}},{\"id\":\"pmSC2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"pmSC3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Risk Assessment\",\"col\":3}},{\"id\":\"pmSC4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Status Report\",\"col\":3}},{\"id\":\"pmSC5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Timesheet Hours Dashboard\",\"col\":3}},{\"id\":\"pmSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmOverviewHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📊 Overview</b></span>\",\"col\":12}},{\"id\":\"pmChart1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":4}},{\"id\":\"pmChart2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Status\",\"col\":4}},{\"id\":\"pmChart3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Priority\",\"col\":4}},{\"id\":\"pmSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmProjectQL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"pmSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚀 Initiation</b></span>\",\"col\":12}},{\"id\":\"pmCard0\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Initiation\",\"col\":12}},{\"id\":\"pmCardSpacer0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📋 Planning</b></span>\",\"col\":12}},{\"id\":\"pmCard1\",\"type\":\"card\",\"data\":{\"card_name\":\"📋 Planning\",\"col\":12}},{\"id\":\"pmCardSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚧 Execution &amp; Monitoring</b></span>\",\"col\":12}},{\"id\":\"pmCard2\",\"type\":\"card\",\"data\":{\"card_name\":\"🚧 Execution & Monitoring\",\"col\":12}},{\"id\":\"pmCardSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>✅ Closure</b></span>\",\"col\":12}},{\"id\":\"pmCard3\",\"type\":\"card\",\"data\":{\"card_name\":\"✅ Closure\",\"col\":12}},{\"id\":\"pmCardSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr4\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚙️ Reference &amp; Settings</b></span>\",\"col\":12}},{\"id\":\"pmCard4\",\"type\":\"card\",\"data\":{\"card_name\":\"⚙️ Reference & Settings\",\"col\":12}},{\"id\":\"pmCardSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmTimesheetCard\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}}]",
   "custom_blocks": [
    {
     "custom_block_name": "Project manager Welcome",
@@ -1652,7 +1652,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:48.825333",
+  "modified": "2026-07-10 13:37:14.832239",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -1697,6 +1697,23 @@
     "url": null
    },
    {
+    "color": "Blue",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Project Status Report",
+    "link_to": "Project Status Report",
+    "parent": "ICL Project Manager",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
     "color": null,
     "doc_view": "",
     "format": null,
@@ -1721,23 +1738,6 @@
     "kanban_board": null,
     "label": "Project Risk Assessment",
     "link_to": "Project Risk Assessment",
-    "parent": "ICL Project Manager",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Blue",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Project Progress Report",
-    "link_to": "Project Progress Report",
     "parent": "ICL Project Manager",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",

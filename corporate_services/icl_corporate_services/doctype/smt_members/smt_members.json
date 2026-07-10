@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:employee_name",
  "creation": "2026-07-10 11:36:20.822283",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -16,7 +17,8 @@
    "in_list_view": 1,
    "label": "Employee",
    "options": "Employee",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fetch_from": "employee.employee_name",
@@ -25,10 +27,11 @@
    "in_list_view": 1,
    "label": "Employee Name",
    "read_only": 1,
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
-   "fetch_from": "employee.prefered_contact_email",
+   "fetch_from": "employee.prefered_email",
    "fetch_if_empty": 1,
    "fieldname": "email",
    "fieldtype": "Data",
@@ -41,10 +44,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-10 11:38:10.599543",
+ "modified": "2026-07-10 13:13:21.494741",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "SMT Members",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
