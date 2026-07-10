@@ -14,8 +14,11 @@
   "date",
   "section_break_sovp",
   "request_justification",
+  "currency",
+  "exchange_rate",
   "table_pegz",
   "total",
+  "total_in_local_currency",
   "section_break_hgmh",
   "table_kkvi"
  ],
@@ -54,6 +57,21 @@
    "label": "Request Justification"
   },
   {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate (to Local Currency)",
+   "precision": "9",
+   "reqd": 1
+  },
+  {
    "fieldname": "table_pegz",
    "fieldtype": "Table",
    "label": "General requisition description",
@@ -64,6 +82,13 @@
    "fieldname": "total",
    "fieldtype": "Currency",
    "label": "Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_in_local_currency",
+   "fieldtype": "Currency",
+   "label": "Total in Local Currency",
    "read_only": 1
   },
   {
