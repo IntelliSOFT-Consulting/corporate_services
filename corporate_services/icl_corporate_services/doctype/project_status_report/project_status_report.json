@@ -20,7 +20,9 @@
   "purpose",
   "section_break_qmow",
   "report_type",
+  "column_break_qwxb",
   "frequency",
+  "external_report_template_section",
   "external_report_template",
   "reporting_period_section",
   "from_date",
@@ -285,9 +287,18 @@
   },
   {
    "depends_on": "eval:doc.report_type ==\"External Report\";",
-   "description": "Use this template for external reports, to enable sharing with external members.",
+   "description": "Use this template for external reports, to enable sharing with external members. - It is linked to the google drive folder for this project.",
    "fieldname": "external_report_template",
    "fieldtype": "Data",
+   "label": "External Report Template"
+  },
+  {
+   "fieldname": "column_break_qwxb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "external_report_template_section",
+   "fieldtype": "Section Break",
    "label": "External Report Template"
   }
  ],
@@ -295,7 +306,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-10 13:55:04.861280",
+ "modified": "2026-07-10 13:59:50.285791",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Project Status Report",

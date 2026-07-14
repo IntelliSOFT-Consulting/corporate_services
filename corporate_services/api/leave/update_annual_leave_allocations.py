@@ -4,6 +4,7 @@ from datetime import timedelta
 import traceback
 import csv
 from io import StringIO
+from hrms.hr.utils import create_additional_leave_ledger_entry
 
 
 def _get_accrual_period_key(date_obj):
@@ -306,11 +307,12 @@ def update_annual_leave_allocations():
                     allocation_doc = frappe.get_doc("Leave Allocation", allocation_name)
                     old_new_leaves = allocation_doc.new_leaves_allocated
                     old_total_leaves = allocation_doc.total_leaves_allocated
-                    
-                    allocation_doc.new_leaves_allocated = old_new_leaves + leave_days
-                    allocation_doc.total_leaves_allocated = old_total_leaves + leave_days
 
-                    allocation_doc.db_update()
+                    allocation_doc.db_set("new_leaves_allocated", old_new_leaves + leave_days, update_modified=False)
+                    allocation_doc.db_set("total_leaves_allocated", old_total_leaves + leave_days, update_modified=False)
+                    # writes the corresponding Leave Ledger Entry so the ledger balance stays in sync
+                    create_additional_leave_ledger_entry(allocation_doc, leave_days, today)
+
                     _create_monthly_accrual_marker(allocation_doc.name, accrual_period_key, leave_days)
                     frappe.db.commit()
                     update_count += 1
