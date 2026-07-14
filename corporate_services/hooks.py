@@ -81,6 +81,7 @@ doctype_js = {
     "Job Opening": "public/js/job_opening.js",
     "Opportunity": "public/js/opportunity.js",
     "Employee": "public/js/employee_leave_balance.js",
+    "HR Settings": "public/js/hr_settings_leave_ledger_backfill.js",
     "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
