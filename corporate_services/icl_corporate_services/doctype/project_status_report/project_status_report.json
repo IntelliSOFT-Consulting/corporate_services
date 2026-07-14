@@ -1,0 +1,336 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-07-10 09:22:36.760813",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_oh68",
+  "amended_from",
+  "naming_series",
+  "report_date",
+  "prepared_by",
+  "recipients",
+  "section_break_nnlx",
+  "project",
+  "project_name",
+  "section_break_kbui",
+  "purpose",
+  "section_break_qmow",
+  "report_type",
+  "column_break_qwxb",
+  "frequency",
+  "external_report_template_section",
+  "external_report_template",
+  "reporting_period_section",
+  "from_date",
+  "column_break_gssx",
+  "to_date",
+  "section_break_bsdx",
+  "project_summary",
+  "key_activities_for_the_week",
+  "column_break_nykb",
+  "key_highlights",
+  "project_status_section",
+  "scope_status",
+  "timeline_status",
+  "column_break_rmmi",
+  "budget_and_burn_rate",
+  "definitions",
+  "table_monj",
+  "section_break_buva",
+  "blockers",
+  "column_break_avag",
+  "support_needs",
+  "progress_summary_section",
+  "table_gdtc",
+  "payment_schedule_section",
+  "table_kkub"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_oh68",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Project Status Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "report_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Report Type",
+   "options": "Internal Report\nExternal Report",
+   "reqd": 1
+  },
+  {
+   "description": "State the specific timeframe the report is covering",
+   "fieldname": "reporting_period_section",
+   "fieldtype": "Section Break",
+   "label": "Reporting Period"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date"
+  },
+  {
+   "fieldname": "column_break_gssx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date"
+  },
+  {
+   "fieldname": "report_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "REPORT DATE",
+   "reqd": 1
+  },
+  {
+   "fieldname": "prepared_by",
+   "fieldtype": "Data",
+   "label": "PREPARED BY",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Small Text",
+   "label": "RECIPIENTS",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_kbui",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "To provide a summary of project progress for a given week.",
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "label": "PURPOSE"
+  },
+  {
+   "allow_on_submit": 1,
+   "description": "Ensure this is setup during the Project Creation stage",
+   "fetch_from": "project.custom_project_report_frequency",
+   "fieldname": "frequency",
+   "fieldtype": "Data",
+   "label": "Frequency",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_bsdx",
+   "fieldtype": "Section Break",
+   "label": "Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "A brief overview of the project, its goals, and the overall purpose. This section should be concise enough to inform new readers about the project's context. Please avoid jargon and project lingo.",
+   "fieldname": "project_summary",
+   "fieldtype": "Text Editor",
+   "label": "Project Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "Key achievements, milestones reached, and significant issues during the reporting week. Here, provide a quick overview of the week's most important points. The finer details will be covered in the Progress Summary section.",
+   "fieldname": "key_highlights",
+   "fieldtype": "Text Editor",
+   "label": "Key Highlights"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "List the key activities planned for the upcoming week, which should be specific and measurable.]",
+   "fieldname": "key_activities_for_the_week",
+   "fieldtype": "Text Editor",
+   "label": "Key Activities for the Week (insert date range)"
+  },
+  {
+   "fieldname": "section_break_qmow",
+   "fieldtype": "Section Break",
+   "label": "Report Information"
+  },
+  {
+   "fieldname": "section_break_nnlx",
+   "fieldtype": "Section Break",
+   "label": "Project Information"
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "project.project_name",
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Project Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nykb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "definitions",
+   "fieldtype": "Section Break",
+   "label": "Definitions, Acronyms and abbreviations:"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "table_monj",
+   "fieldtype": "Table",
+   "options": "Term Definition Table"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "PSR-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PSR-.YYYY.-.MM.-",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "THIS SECTION IS FOR INTERNAL USE ONLY",
+   "fieldname": "project_status_section",
+   "fieldtype": "Section Break",
+   "label": "PROJECT STATUS"
+  },
+  {
+   "fieldname": "scope_status",
+   "fieldtype": "Text Editor",
+   "label": "Scope status"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "timeline_status",
+   "fieldtype": "Text Editor",
+   "label": "Timeline status"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "budget_and_burn_rate",
+   "fieldtype": "Text Editor",
+   "label": "Budget and Burn Rate"
+  },
+  {
+   "fieldname": "column_break_rmmi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "section_break_buva",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "Any significant issues or roadblocks that arose during the reporting period or that\u2019s ongoing.",
+   "fieldname": "blockers",
+   "fieldtype": "Text Editor",
+   "label": "Highlights, Blockers/Challenges and Observations"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "description": "Any support needed from leadership.",
+   "fieldname": "support_needs",
+   "fieldtype": "Text Editor",
+   "label": "Highlights of Requirements or Support Needs from Leadership"
+  },
+  {
+   "fieldname": "column_break_avag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_schedule_section",
+   "fieldtype": "Section Break",
+   "label": "PAYMENT SCHEDULE "
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "table_kkub",
+   "fieldtype": "Table",
+   "options": "Project Payment Schedule"
+  },
+  {
+   "fieldname": "progress_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Progress Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"Internal Report\";",
+   "fieldname": "table_gdtc",
+   "fieldtype": "Table",
+   "options": "Project Progress Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type ==\"External Report\";",
+   "description": "Use this template for external reports, to enable sharing with external members. - It is linked to the google drive folder for this project.",
+   "fieldname": "external_report_template",
+   "fieldtype": "Data",
+   "label": "External Report Template"
+  },
+  {
+   "fieldname": "column_break_qwxb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "external_report_template_section",
+   "fieldtype": "Section Break",
+   "label": "External Report Template"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-10 13:59:50.285791",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Project Status Report",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_views": 1
+}

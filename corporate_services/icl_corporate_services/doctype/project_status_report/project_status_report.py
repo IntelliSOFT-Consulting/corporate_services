@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ProjectExternalStatusReport(Document):
+class ProjectStatusReport(Document):
 	pass

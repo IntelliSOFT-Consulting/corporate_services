@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-07-09 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "reference_doctype",
+  "pending_workflow_state",
+  "sla_hours",
+  "column_break_1",
+  "notify_submitter_on_breach",
+  "auto_remind_approver",
+  "allow_submitter_nudge",
+  "nudge_cooldown_hours"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "description": "The reference doctype must have a resolver registered in reminder_engine.py before rules for it take effect.",
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Reference Doctype",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "description": "The workflow_state that means \"awaiting the approver's action\".",
+   "fieldname": "pending_workflow_state",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Pending Workflow State",
+   "options": "Workflow State",
+   "reqd": 1
+  },
+  {
+   "default": "24",
+   "fieldname": "sla_hours",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "SLA (Hours)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Notify the submitter once the SLA is breached that their document has not yet been reviewed.",
+   "fieldname": "notify_submitter_on_breach",
+   "fieldtype": "Check",
+   "label": "Notify Submitter on Breach"
+  },
+  {
+   "default": "0",
+   "description": "Automatically remind the approver once the SLA is breached, without waiting for the submitter to nudge.",
+   "fieldname": "auto_remind_approver",
+   "fieldtype": "Check",
+   "label": "Auto-Remind Approver on Breach"
+  },
+  {
+   "default": "1",
+   "description": "Let the submitter manually nudge the approver while the document is pending.",
+   "fieldname": "allow_submitter_nudge",
+   "fieldtype": "Check",
+   "label": "Allow Submitter to Nudge Approver"
+  },
+  {
+   "default": "4",
+   "depends_on": "allow_submitter_nudge",
+   "fieldname": "nudge_cooldown_hours",
+   "fieldtype": "Int",
+   "label": "Nudge Cooldown (Hours)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-09 00:10:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Reminder Rule",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

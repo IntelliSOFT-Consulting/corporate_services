@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestProjectExternalStatusReport(FrappeTestCase):
+class TestSMTMembers(FrappeTestCase):
 	pass

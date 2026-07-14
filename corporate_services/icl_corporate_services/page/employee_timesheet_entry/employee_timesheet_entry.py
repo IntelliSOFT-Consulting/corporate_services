@@ -312,7 +312,9 @@ def create_activity_type(name):
             return {"name": cleaned, "created": False}
         if not is_private:
             return {"name": cleaned, "created": False}
-        frappe.throw("This activity type name already exists as another user's private type.")
+        frappe.db.set_value("Activity Type", existing_any["name"], "custom_is_private", 0)
+        frappe.db.commit()
+        return {"name": existing_any["name"], "created": False}
 
     existing = frappe.db.exists(
         "Activity Type",

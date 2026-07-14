@@ -81,6 +81,7 @@ doctype_js = {
     "Job Opening": "public/js/job_opening.js",
     "Opportunity": "public/js/opportunity.js",
     "Employee": "public/js/employee_leave_balance.js",
+    "HR Settings": "public/js/hr_settings_leave_ledger_backfill.js",
     "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
@@ -89,6 +90,7 @@ doctype_js = {
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
     "Travel Request": "public/js/travel_request_list.js",
+    "SMT Members": "public/js/smt_members_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -253,6 +255,7 @@ on_update_map = {
     "Exit Interview":"corporate_services.api.notification.exit_interview.exit_interview.alert",
     "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
     "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
+    "Project Status Report":"corporate_services.api.notification.project.status_report.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -333,7 +336,7 @@ scheduler_events = {
 	# ],
 	"daily": [
 		# "corporate_services.tasks.daily"
-        "corporate_services.api.notification.onboarding.onboarding_.send_30day_onboarding_surveys",
+        "corporate_services.api.notification.onboarding.onboarding_schedule.send_30day_onboarding_surveys",
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_overdue_reminders_if_due",
@@ -355,7 +358,8 @@ scheduler_events = {
 	],
     "cron": {
         "0 8,10,12,14,16,17 * * *": [
-            "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders"
+            "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders",
+            "corporate_services.api.notification.reminder_engine.check_overdue_documents"
         ],
         "0 7 * * 1": [
             "corporate_services.api.notification.project.scheduled_tasks.send_weekly_pm_digest"
