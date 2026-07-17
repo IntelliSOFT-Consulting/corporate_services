@@ -11,7 +11,11 @@
   "employee_name",
   "requisition_date",
   "urgency",
-  "asset_requisition_table"
+  "currency",
+  "exchange_rate",
+  "asset_requisition_table",
+  "total",
+  "total_in_local_currency"
  ],
  "fields": [
   {
@@ -27,6 +31,34 @@
    "fieldtype": "Table",
    "label": "Asset Requisition Table",
    "options": "Asset Requisition Table"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate (to Local Currency)",
+   "precision": "9",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_in_local_currency",
+   "fieldtype": "Currency",
+   "label": "Total in Local Currency",
+   "read_only": 1
   },
   {
    "fetch_from": "requested_by.employee_name",
@@ -61,7 +93,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-29 10:21:56.418041",
+ "modified": "2026-07-16 13:19:21.873833",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Asset Requisition",

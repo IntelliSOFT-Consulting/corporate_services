@@ -313,6 +313,27 @@
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",
     "wiki_page": "internshipcompletiondoc1"
+   },
+   {
+    "parent": "wikihomespace1",
+    "parent_label": "Business Development",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "bizdevmoduledoc1"
+   },
+   {
+    "parent": "wikihomespace1",
+    "parent_label": "Business Development",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "biddevtemplatesdoc1"
+   },
+   {
+    "parent": "wikihomespace1",
+    "parent_label": "Business Development",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "opportunitybudgettemplatedoc1"
    }
   ]
  }

@@ -2,120 +2,134 @@
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.909695",
+  "modified": "2026-07-16 13:40:10.900233",
   "name": "Save",
   "workflow_action_name": "Save"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.922136",
+  "modified": "2026-07-16 13:40:10.917151",
   "name": "Review",
   "workflow_action_name": "Review"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.931480",
+  "modified": "2026-07-16 13:40:10.926533",
   "name": "Submit to Finance",
   "workflow_action_name": "Submit to Finance"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.939686",
+  "modified": "2026-07-16 13:40:10.936011",
   "name": "Needs Clarification",
   "workflow_action_name": "Needs Clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.950043",
+  "modified": "2026-07-16 13:40:10.946702",
   "name": "NO/GO",
   "workflow_action_name": "NO/GO"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.958283",
+  "modified": "2026-07-16 13:40:10.956875",
   "name": "GO",
   "workflow_action_name": "GO"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.966890",
+  "modified": "2026-07-16 13:40:10.964903",
   "name": "Submit to Project Manager",
   "workflow_action_name": "Submit to Project Manager"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.973808",
+  "modified": "2026-07-16 13:40:10.972658",
   "name": "Submit to HR",
   "workflow_action_name": "Submit to HR"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.982959",
+  "modified": "2026-07-16 13:40:10.980705",
   "name": "Request Clarification",
   "workflow_action_name": "Request Clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.988640",
+  "modified": "2026-07-16 13:40:10.988716",
   "name": "submit",
   "workflow_action_name": "submit"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:02.996662",
+  "modified": "2026-07-16 13:40:10.997092",
   "name": "Submit To supervisor",
   "workflow_action_name": "Submit To supervisor"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.005920",
+  "modified": "2026-07-16 13:40:11.009568",
   "name": "Request for clarification",
   "workflow_action_name": "Request for clarification"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.015940",
+  "modified": "2026-07-16 13:40:11.021005",
   "name": "Approve",
   "workflow_action_name": "Approve"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.025207",
+  "modified": "2026-07-16 13:40:11.031455",
   "name": "Reject",
   "workflow_action_name": "Reject"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.035337",
+  "modified": "2026-07-16 13:40:11.040330",
   "name": "Resubmit to HR",
   "workflow_action_name": "Resubmit to HR"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.044366",
+  "modified": "2026-07-16 13:40:11.049444",
   "name": "Resubmit",
   "workflow_action_name": "Resubmit"
  },
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
-  "modified": "2026-07-14 08:29:03.052169",
+  "modified": "2026-07-16 13:40:11.059318",
   "name": "Submit to SMT",
   "workflow_action_name": "Submit to SMT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2026-07-16 13:40:11.068663",
+  "name": "Awarded",
+  "workflow_action_name": "Awarded"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2026-07-16 13:40:11.077413",
+  "name": "Lost",
+  "workflow_action_name": "Lost"
  }
 ]

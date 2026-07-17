@@ -33,6 +33,16 @@ def get_hr_manager_emails() -> list[str]:
     )
 
 
+def get_procurement_team_emails() -> list[str]:
+    users = frappe.get_all(
+        "Has Role",
+        filters={"role": ["in", ["Purchase Manager", "Purchase User"]], "parenttype": "User"},
+        pluck="parent",
+    )
+    emails = [frappe.db.get_value("User", user, "email") for user in set(users)]
+    return list(dict.fromkeys(email for email in emails if email))
+
+
 def get_supervisor_contact(employee):
     if not getattr(employee, "reports_to", None):
         return None
