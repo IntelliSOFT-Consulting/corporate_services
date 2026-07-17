@@ -1,7 +1,24 @@
 {
- "charts": [],
- "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Development Management\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"kdhJF3jAb0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"tgFIeCDSb0\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Bidding\",\"col\":4}},{\"id\":\"OGCHj8PGpk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}}]",
- "creation": "2026-06-08 07:48:12.092751",
+ "charts": [
+  {
+   "chart_name": "Opportunity Trends",
+   "label": "Opportunity Trends"
+  },
+  {
+   "chart_name": "Bid Status Breakdown",
+   "label": "Bid Status Breakdown"
+  },
+  {
+   "chart_name": "Incoming Leads",
+   "label": "Incoming Leads"
+  },
+  {
+   "chart_name": "Lead Source",
+   "label": "Lead Source"
+  }
+ ],
+ "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Development Management\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"bR4oS9wMlU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Key Metrics</b></span>\",\"col\":12}},{\"id\":\"cS5pT0xNmV\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"New Lead (Last 1 Month)\",\"col\":3}},{\"id\":\"dT6qU1yOnW\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"New Opportunity (Last 1 Month)\",\"col\":3}},{\"id\":\"eU7rV2zPoX\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Bids In Progress\",\"col\":3}},{\"id\":\"fV8sW3aQpY\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Awarded Bids (This Year)\",\"col\":3}},{\"id\":\"gW9tX4bRqZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hX0uY5cSr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Pipeline &amp; Bid Analytics</b></span>\",\"col\":12}},{\"id\":\"iY1vZ6dTs2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Opportunity Trends\",\"col\":6}},{\"id\":\"jZ2wA7eUt3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Bid Status Breakdown\",\"col\":6}},{\"id\":\"kA3xB8fVu4\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Incoming Leads\",\"col\":6}},{\"id\":\"lB4yC9gWv5\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Lead Source\",\"col\":6}},{\"id\":\"jfhDoPbib-\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}}]",
+ "creation": "2026-07-15 09:43:14.734292",
  "custom_blocks": [
   {
    "custom_block_name": "HR",
@@ -87,11 +104,28 @@
    "type": "Link"
   }
  ],
- "modified": "2026-06-08 07:54:45.088244",
+ "modified": "2026-07-15 09:47:11.550270",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Business Development",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "New Lead (Last 1 Month)",
+   "number_card_name": "New Lead (Last 1 Month)"
+  },
+  {
+   "label": "New Opportunity (Last 1 Month)",
+   "number_card_name": "New Opportunity (Last 1 Month)"
+  },
+  {
+   "label": "Bids In Progress",
+   "number_card_name": "Bids In Progress"
+  },
+  {
+   "label": "Awarded Bids (This Year)",
+   "number_card_name": "Awarded Bids (This Year)"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
@@ -99,11 +133,6 @@
   {
    "document_type": "Lead",
    "label": "Lead",
-   "quick_list_filter": "[]"
-  },
-  {
-   "document_type": "Opportunity",
-   "label": "Bidding",
    "quick_list_filter": "[]"
   },
   {

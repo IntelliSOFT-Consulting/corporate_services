@@ -299,7 +299,10 @@ event_maps = {
     #     "Project": "corporate_services.api.project.payment_entry.fetch_payments"
     # },
     "after_insert": {
-        "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
+        "Opportunity": [
+            "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
+            "corporate_services.api.opportunity_handlers.trigger_google_drive_folder_creation",
+        ],
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
     },
@@ -456,9 +459,9 @@ override_doctype_dashboards = {
 # }
 
 fixtures = [
-    "Workflow",
     "Workflow State",
     "Workflow Action Master",
+    "Workflow",
     "Role",
 	"Role Profile",
     "Report",

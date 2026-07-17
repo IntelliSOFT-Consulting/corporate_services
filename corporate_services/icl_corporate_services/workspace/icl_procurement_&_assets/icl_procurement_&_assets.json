@@ -1,0 +1,349 @@
+{
+ "charts": [
+  {
+   "chart_name": "Purchase Order Status",
+   "label": "Purchase Order Status"
+  }
+ ],
+ "content": "[{\"id\":\"u8jzPde0Ig\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Procurement &amp; Assets</span>\",\"col\":12}},{\"id\":\"xLd6GncfBA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"epfJBd0Kh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request for Quotation\",\"col\":3}},{\"id\":\"oOOL8dKLzd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"ocJ2isAjIh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"KtJ0RlgLKO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Analysis\",\"col\":3}},{\"id\":\"mxgJTeKdNn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Register\",\"col\":3}},{\"id\":\"FRIBXuDL7D\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xtpYlSXpfK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Key Metrics</b></span>\",\"col\":12}},{\"id\":\"tHF4vUCsMe\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Suppliers\",\"col\":3}},{\"id\":\"hGAkWvj7FA\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending RFQs\",\"col\":3}},{\"id\":\"c9QeWJKY40\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Receive\",\"col\":3}},{\"id\":\"uvSwMFLZDe\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Bill\",\"col\":3}},{\"id\":\"1f8rESQedU\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Assets\",\"col\":3}},{\"id\":\"StPKR0CsTy\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"4Qwb8DwkNh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Purchase Analytics</b></span>\",\"col\":12}},{\"id\":\"FdnXsiVpzz\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Purchase Order Status\",\"col\":12}},{\"id\":\"63FfkCzJr4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"i0B3JrTAwR\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Suppliers &amp; Purchasing</b></span>\",\"col\":12}},{\"id\":\"4y9ojfljoQ\",\"type\":\"card\",\"data\":{\"card_name\":\"Suppliers\",\"col\":3}},{\"id\":\"oaF1Llqsaj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Request for Quotation\",\"col\":4}},{\"id\":\"AIxNKu8iS2\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Supplier Quote Submission\",\"col\":4}},{\"id\":\"G8NPRVdD53\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"X83RZJzzzz\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Orders\",\"col\":3}},{\"id\":\"gEOzdmenCk\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order\",\"col\":4}},{\"id\":\"hvMdgaKjIg\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"8xNbe3nNyj\",\"type\":\"card\",\"data\":{\"card_name\":\"Materials & Items\",\"col\":3}},{\"id\":\"Oq9wMxEhh2\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Material Request\",\"col\":4}},{\"id\":\"FDEEtfjgVv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"VqE1SkHbn8\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Asset Management</b></span>\",\"col\":12}},{\"id\":\"8HxjSI6bWH\",\"type\":\"card\",\"data\":{\"card_name\":\"Assets\",\"col\":3}},{\"id\":\"tP3fS2qHx6\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"kwXoIIXGvO\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}}]",
+ "creation": "2026-07-16 13:19:21.873833",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "buying",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "ICL Procurement & Assets",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Suppliers",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier",
+   "link_count": 0,
+   "link_to": "Supplier",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Request for Quotation",
+   "link_count": 0,
+   "link_to": "Request for Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier Quotation",
+   "link_count": 0,
+   "link_to": "Supplier Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier Quote Submission",
+   "link_count": 0,
+   "link_to": "Supplier Quote Submission",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Orders",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Order",
+   "link_count": 0,
+   "link_to": "Purchase Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Receipt",
+   "link_count": 0,
+   "link_to": "Purchase Receipt",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Invoice",
+   "link_count": 0,
+   "link_to": "Purchase Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Materials & Items",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Material Request",
+   "link_count": 0,
+   "link_to": "Material Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Price List",
+   "link_count": 0,
+   "link_to": "Price List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Assets",
+   "link_count": 7,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset List",
+   "link_count": 0,
+   "link_to": "Asset",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset Requisition",
+   "link_count": 0,
+   "link_to": "Asset Requisition",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset Custodianship Requisition",
+   "link_count": 0,
+   "link_to": "Asset Custodianship Requisition",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset Handover",
+   "link_count": 0,
+   "link_to": "Asset Movement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset Damage Loss Theft Report Form",
+   "link_count": 0,
+   "link_to": "Asset Damage Loss Theft Report Form",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset replacement request",
+   "link_count": 0,
+   "link_to": "Asset replacement request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Asset Repair",
+   "link_count": 0,
+   "link_to": "Asset Repair",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-16 13:19:21.873833",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "ICL Procurement & Assets",
+ "number_cards": [
+  {
+   "label": "Active Suppliers",
+   "number_card_name": "Active Suppliers"
+  },
+  {
+   "label": "Pending RFQs",
+   "number_card_name": "Pending RFQs"
+  },
+  {
+   "label": "Purchase Orders to Receive",
+   "number_card_name": "Purchase Orders to Receive"
+  },
+  {
+   "label": "Purchase Orders to Bill",
+   "number_card_name": "Purchase Orders to Bill"
+  },
+  {
+   "label": "Total Assets",
+   "number_card_name": "Total Assets"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Request for Quotation",
+   "label": "Request for Quotation",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Supplier Quote Submission",
+   "label": "Supplier Quote Submission",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Purchase Order",
+   "label": "Purchase Order",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Material Request",
+   "label": "Material Request",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Asset Requisition",
+   "label": "Asset Requisition",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Asset Movement",
+   "label": "Asset Movement",
+   "quick_list_filter": "[]"
+  }
+ ],
+ "roles": [
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Purchase User"
+  }
+ ],
+ "sequence_id": 32.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Supplier",
+   "link_to": "Supplier",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Request for Quotation",
+   "link_to": "Request for Quotation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Purchase Order",
+   "link_to": "Purchase Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Asset Requisition",
+   "link_to": "Asset Requisition",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Order Analysis",
+   "link_to": "Purchase Order Analysis",
+   "report_ref_doctype": "Purchase Order",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Register",
+   "link_to": "Purchase Register",
+   "report_ref_doctype": "Purchase Invoice",
+   "type": "Report"
+  }
+ ],
+ "title": "ICL Procurement & Assets"
+}
