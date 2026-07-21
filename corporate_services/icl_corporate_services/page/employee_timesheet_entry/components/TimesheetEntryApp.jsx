@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
+import PageHeaderActions from "./PageHeaderActions";
+import SidebarContent from "./SidebarContent";
+import { formatMonthYearLabel } from "./utils";
 
 let _rowIdCounter = 1;
 function makeRowId() {
@@ -24,15 +27,6 @@ function hydrateSections(rawSections) {
     }));
 }
 
-function formatMonthYearLabel(monthYear) {
-    if (!monthYear || typeof monthYear !== "string") return "";
-    const [mm, yyyy] = monthYear.split("-");
-    const monthNum = parseInt(mm, 10);
-    const yearNum = parseInt(yyyy, 10);
-    if (!monthNum || monthNum < 1 || monthNum > 12 || !yearNum) return monthYear;
-    const dt = new Date(yearNum, monthNum - 1, 1);
-    return `${dt.toLocaleString("en-US", { month: "long" })} ${yearNum}`;
-}
 
 export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const AUTO_SAVE_ENABLED = true;
@@ -437,97 +431,26 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
     const contextRoot = document.getElementById("timesheet-entry-context-root");
     const actionsRoot = document.getElementById("timesheet-entry-actions-root");
     const sidebarContent = (
-        <div className="frappe-card" style={{ padding: 10, height: "fit-content" }}>
-            <div style={{ fontWeight: 600, marginBottom: 8 }}>Available Months</div>
-            {visibleSubmissions.map((s) => (
-                <button
-                    key={s.name}
-                    className={`btn btn-xs ${s.name === activeSubmission ? "btn-primary" : "btn-default"}`}
-                    style={{ width: "100%", marginBottom: 6, textAlign: "left" }}
-                    onClick={() => loadContext(s.name)}
-                >
-                    {formatMonthYearLabel(s.month_year)}
-                </button>
-            ))}
-        </div>
+        <SidebarContent
+            visibleSubmissions={visibleSubmissions}
+            activeSubmission={activeSubmission}
+            loadContext={loadContext}
+        />
     );
     const pageHeaderActions = (
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <button
-                className="btn btn-default btn-sm"
-                onClick={() => activeSubmission && frappe.set_route("Form", "Timesheet Submission", activeSubmission)}
-                disabled={!activeSubmission}
-            >
-                Open Submission
-            </button>
-            <button
-                className="btn btn-default btn-sm"
-                onClick={() =>
-                    activeSubmission &&
-                    ctx?.employee &&
-                    frappe.set_route("timesheet_workflow", "employee", ctx.employee, "submission", activeSubmission)
-                }
-                disabled={!activeSubmission || !ctx?.employee}
-            >
-                Review
-            </button>
-            <div className="btn-group">
-                <button className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" disabled={workflowBusy}>
-                    {workflowBusy ? __("Working...") : __("Actions")}
-                </button>
-                <ul className="dropdown-menu dropdown-menu-right ts-actions-menu">
-                    <li>
-                        <a
-                            className="ts-actions-link"
-                            href="#"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setAddActivityOpen(false);
-                                setAddProjectOpen((v) => !v);
-                                setProjectSearch("");
-                            }}
-                        >
-                            <i className="fa fa-folder-open ts-actions-icon" aria-hidden="true"></i>
-                            <span>{__("Add Project")}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="ts-actions-link"
-                            href="#"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setAddProjectOpen(false);
-                                setAddActivityOpen((v) => !v);
-                                setActivitySearch("");
-                            }}
-                        >
-                            <i className="fa fa-plus-circle ts-actions-icon" aria-hidden="true"></i>
-                            <span>{__("Add Activity")}</span>
-                        </a>
-                    </li>
-                    {workflowActions.length > 0 && <li className="divider"></li>}
-                    {workflowActions.map((action) => (
-                        <li key={action}>
-                            <a
-                                className="ts-actions-link"
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    runWorkflowAction(action);
-                                }}
-                            >
-                                <i className="fa fa-random ts-actions-icon" aria-hidden="true"></i>
-                                <span>{action}</span>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <button className="btn btn-primary btn-sm" onClick={() => persistTimesheet(true)} disabled={manualSaving}>
-                {manualSaving ? "Saving..." : "Save"}
-            </button>
-        </div>
+        <PageHeaderActions
+            activeSubmission={activeSubmission}
+            ctx={ctx}
+            workflowBusy={workflowBusy}
+            workflowActions={workflowActions}
+            manualSaving={manualSaving}
+            setAddActivityOpen={setAddActivityOpen}
+            setAddProjectOpen={setAddProjectOpen}
+            setProjectSearch={setProjectSearch}
+            setActivitySearch={setActivitySearch}
+            runWorkflowAction={runWorkflowAction}
+            persistTimesheet={persistTimesheet}
+        />
     );
     const pageHeaderContext = (
         <div style={{ display: "inline-flex", alignItems: "center" }}>
