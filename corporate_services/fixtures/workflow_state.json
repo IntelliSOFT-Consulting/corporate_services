@@ -3,6 +3,42 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "New",
+  "style": "",
+  "workflow_state_name": "New"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Under Investigation",
+  "style": "Warning",
+  "workflow_state_name": "Under Investigation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Resolved",
+  "style": "Success",
+  "workflow_state_name": "Resolved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Dismissed",
+  "style": "Danger",
+  "workflow_state_name": "Dismissed"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
   "modified": "2026-07-16 13:40:10.463295",
   "name": "Submit to HR",
   "style": "",

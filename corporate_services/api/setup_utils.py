@@ -134,59 +134,9 @@ def clear_doctype_customizations(doctypes: list):
             frappe.db.rollback()
 
 
-def clear_submission_queue():
-    """Purge runtime queue records directly from the DB during migrate."""
-    try:
-        deleted = frappe.db.count("Submission Queue")
-        if not deleted:
-            frappe.logger().info("No Submission Queue records found to delete.")
-            return
-
-        frappe.db.delete("Submission Queue")
-        frappe.db.commit()
-        frappe.logger().info(f"Deleted {deleted} Submission Queue record(s).")
-    except Exception as e:
-        frappe.logger().error(f"Error clearing Submission Queue: {str(e)}")
-        frappe.db.rollback()
-
-
-def sanitize_travel_request_currency_fields():
-    """Strip comma-formatted strings from columns that switch Data -> Currency so
-    the schema change doesn't fail with 'Data truncated'."""
-    targets = {
-        "Travel Request": ["custom_expected_support", "custom_amount_in_local_currency"],
-        "Travel Request Reconciliation": ["total_spent", "total_balance", "total_advance"],
-    }
-
-    for doctype, columns in targets.items():
-        if not frappe.db.table_exists(doctype):
-            continue
-        for column in columns:
-            if not frappe.db.has_column(doctype, column):
-                continue
-            try:
-                frappe.db.sql(
-                    """
-                    UPDATE `tab{dt}`
-                    SET `{col}` = CASE
-                        WHEN TRIM(REPLACE(`{col}`, ',', '')) REGEXP '^-?[0-9]+(\\.[0-9]+)?$'
-                        THEN REPLACE(`{col}`, ',', '')
-                        ELSE 0
-                    END
-                    """.format(dt=doctype, col=column)
-                )
-                frappe.db.commit()
-                frappe.logger().info(f"Sanitized {doctype}.{column}")
-            except Exception as e:
-                frappe.logger().error(f"Error sanitizing {doctype}.{column}: {str(e)}")
-                frappe.db.rollback()
-
-
 def before_migrate_cleanup():
     clear_doctype_customizations([
     ])
-    sanitize_travel_request_currency_fields()
-    # clear_submission_queue()
 
 
 def post_install():
@@ -194,4 +144,3 @@ def post_install():
     ])
     force_sync_fixtures()
     clear_workspaces()
-    # clear_submission_queue()

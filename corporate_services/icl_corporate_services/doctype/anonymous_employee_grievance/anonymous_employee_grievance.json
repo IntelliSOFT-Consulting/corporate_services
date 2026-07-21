@@ -1,0 +1,254 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-07-18 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "tracking_token",
+  "grievance_details_section",
+  "grievance_type",
+  "severity",
+  "column_break_details",
+  "date",
+  "date_of_occurrence",
+  "description_section",
+  "description",
+  "cause_of_grievance",
+  "party_section",
+  "grievance_against_party",
+  "grievance_against",
+  "column_break_party",
+  "associated_document_type",
+  "associated_document",
+  "witnesses",
+  "status_section",
+  "workflow_state",
+  "source_channel",
+  "column_break_status",
+  "resolution_detail",
+  "resolution_date",
+  "disciplinary_measure_taken",
+  "correspondence_section",
+  "correspondence"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "AEG-.YYYY.-.MM.-.####",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "description": "Secret token given to the reporter for status lookup/reply. Not the same as the record name above — knowing this record's name does not grant access to the guest status/reply endpoints.",
+   "fieldname": "tracking_token",
+   "fieldtype": "Data",
+   "label": "Tracking Token",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "grievance_details_section",
+   "fieldtype": "Section Break",
+   "label": "Grievance Details"
+  },
+  {
+   "fieldname": "grievance_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Grievance Type",
+   "options": "Grievance Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Severity",
+   "options": "Low\nMedium\nHigh\nCritical"
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date Filed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date_of_occurrence",
+   "fieldtype": "Date",
+   "label": "Date of Occurrence"
+  },
+  {
+   "fieldname": "description_section",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cause_of_grievance",
+   "fieldtype": "Text",
+   "label": "Cause of Grievance"
+  },
+  {
+   "fieldname": "party_section",
+   "fieldtype": "Section Break",
+   "label": "Party Involved"
+  },
+  {
+   "fieldname": "grievance_against_party",
+   "fieldtype": "Link",
+   "label": "Grievance Against Party",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "grievance_against",
+   "fieldtype": "Dynamic Link",
+   "label": "Grievance Against",
+   "options": "grievance_against_party"
+  },
+  {
+   "fieldname": "column_break_party",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "associated_document_type",
+   "fieldtype": "Link",
+   "label": "Associated Document Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "associated_document",
+   "fieldtype": "Dynamic Link",
+   "label": "Associated Document",
+   "options": "associated_document_type"
+  },
+  {
+   "fieldname": "witnesses",
+   "fieldtype": "Small Text",
+   "label": "Witnesses (optional, free text)"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "New",
+   "fieldname": "workflow_state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Workflow State",
+   "options": "New\nUnder Investigation\nResolved\nDismissed",
+   "read_only": 1
+  },
+  {
+   "default": "Employee Desk",
+   "fieldname": "source_channel",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Source Channel",
+   "options": "Public Guest Form\nEmployee Desk",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "resolution_detail",
+   "fieldtype": "Small Text",
+   "label": "Resolution Detail"
+  },
+  {
+   "fieldname": "resolution_date",
+   "fieldtype": "Date",
+   "label": "Resolution Date"
+  },
+  {
+   "fieldname": "disciplinary_measure_taken",
+   "fieldtype": "Select",
+   "label": "Disciplinary Measure Taken",
+   "options": "\nWarning\nSuspension\nTermination\nOther"
+  },
+  {
+   "fieldname": "correspondence_section",
+   "fieldtype": "Section Break",
+   "label": "Correspondence"
+  },
+  {
+   "fieldname": "correspondence",
+   "fieldtype": "Table",
+   "options": "Anonymous Grievance Message"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-18 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Anonymous Employee Grievance",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Head of Corporate Services",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 0,
+   "export": 0,
+   "if_owner": 1,
+   "print": 0,
+   "read": 1,
+   "report": 0,
+   "role": "Employee Self Service",
+   "select": 0,
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -33,6 +33,11 @@ def get_hr_manager_emails() -> list[str]:
     )
 
 
+def get_corporate_services_head_email() -> list[str]:
+    email = frappe.db.get_single_value("HR Config", "head_of_corporate_services_email")
+    return [email.strip()] if email else []
+
+
 def get_procurement_team_emails() -> list[str]:
     users = frappe.get_all(
         "Has Role",

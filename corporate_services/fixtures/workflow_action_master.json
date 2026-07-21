@@ -2,6 +2,27 @@
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Start Investigation",
+  "workflow_action_name": "Start Investigation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Resolve",
+  "workflow_action_name": "Resolve"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2026-07-18 00:00:00.000000",
+  "name": "Dismiss",
+  "workflow_action_name": "Dismiss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
   "modified": "2026-07-16 13:40:10.900233",
   "name": "Save",
   "workflow_action_name": "Save"

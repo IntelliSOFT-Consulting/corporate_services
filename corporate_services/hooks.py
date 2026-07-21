@@ -65,6 +65,9 @@ page = [
 web_include_js = [
     # React public survey page bundle (built to public/js)
     "/assets/corporate_services/js/survey_public.js",
+    # React public anonymous grievance pages (built to public/js)
+    "/assets/corporate_services/js/report_grievance.js",
+    "/assets/corporate_services/js/grievance_status.js",
 ]
 
 # include custom scss in every website theme (without file extension ".scss")
@@ -305,6 +308,7 @@ event_maps = {
         ],
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
+        "Anonymous Employee Grievance": "corporate_services.api.grievance.anonymous_grievance.alert",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
