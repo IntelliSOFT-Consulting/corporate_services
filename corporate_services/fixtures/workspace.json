@@ -1,435 +1,5 @@
 [
  {
-  "charts": [
-   {
-    "chart_name": "Purchase Order Status",
-    "label": "Purchase Order Status",
-    "parent": "ICL Procurement",
-    "parentfield": "charts",
-    "parenttype": "Workspace"
-   }
-  ],
-  "content": "[{\"id\":\"OhbVrpoiVg\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Procurement</span>\",\"col\":12}},{\"id\":\"RV5IfLBcbf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"noGMbJmTPS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request for Quotation\",\"col\":3}},{\"id\":\"IAoCLrZ3aW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"ZkSBvrjn9W\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Analysis\",\"col\":3}},{\"id\":\"vgfygw2wMq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Register\",\"col\":3}},{\"id\":\"ZcUDIh7yfJ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"s1ON43xKmT\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Key Metrics</b></span>\",\"col\":12}},{\"id\":\"ecQoXsf2o3\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Suppliers\",\"col\":3}},{\"id\":\"gyrDO1xkxw\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending RFQs\",\"col\":3}},{\"id\":\"nQrS7RPeMO\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Receive\",\"col\":3}},{\"id\":\"kIUpkDyr7O\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Bill\",\"col\":3}},{\"id\":\"SJoRu1XXdo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0cZuzren68\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Purchase Analytics</b></span>\",\"col\":12}},{\"id\":\"K4TunPFz46\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Purchase Order Status\",\"col\":12}},{\"id\":\"PDjqipVJIq\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"VLB5LzxoiG\",\"type\":\"card\",\"data\":{\"card_name\":\"Suppliers\",\"col\":3}},{\"id\":\"FfWd3hjOkY\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Request for Quotation\",\"col\":4}},{\"id\":\"RBMeyyMDHq\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Supplier Quote Submission\",\"col\":4}},{\"id\":\"J38aRUhR4I\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"WrXPvhsBkD\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Orders\",\"col\":3}},{\"id\":\"a9U4UqGWlG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order\",\"col\":4}},{\"id\":\"6g3Ot1OGMm\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"jxWkI9X7H6\",\"type\":\"card\",\"data\":{\"card_name\":\"Materials & Items\",\"col\":3}},{\"id\":\"aMuFbh7x41\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Material Request\",\"col\":4}}]",
-  "custom_blocks": [],
-  "docstatus": 0,
-  "doctype": "Workspace",
-  "for_user": "",
-  "hide_custom": 0,
-  "icon": "buying",
-  "indicator_color": "blue",
-  "is_hidden": 0,
-  "label": "ICL Procurement",
-  "links": [
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Suppliers",
-    "link_count": 4,
-    "link_to": null,
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Card Break"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Supplier",
-    "link_count": 0,
-    "link_to": "Supplier",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Request for Quotation",
-    "link_count": 0,
-    "link_to": "Request for Quotation",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Supplier Quotation",
-    "link_count": 0,
-    "link_to": "Supplier Quotation",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Supplier Quote Submission",
-    "link_count": 0,
-    "link_to": "Supplier Quote Submission",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Purchase Orders",
-    "link_count": 3,
-    "link_to": null,
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Card Break"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Purchase Order",
-    "link_count": 0,
-    "link_to": "Purchase Order",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Purchase Receipt",
-    "link_count": 0,
-    "link_to": "Purchase Receipt",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Purchase Invoice",
-    "link_count": 0,
-    "link_to": "Purchase Invoice",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Materials & Items",
-    "link_count": 3,
-    "link_to": null,
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Card Break"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Material Request",
-    "link_count": 0,
-    "link_to": "Material Request",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Item",
-    "link_count": 0,
-    "link_to": "Item",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   },
-   {
-    "dependencies": null,
-    "description": null,
-    "hidden": 0,
-    "icon": null,
-    "is_query_report": 0,
-    "label": "Price List",
-    "link_count": 0,
-    "link_to": "Price List",
-    "link_type": "DocType",
-    "onboard": 0,
-    "only_for": null,
-    "parent": "ICL Procurement",
-    "parentfield": "links",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "type": "Link"
-   }
-  ],
-  "modified": "2026-07-16 13:25:00.663520",
-  "module": "ICL Corporate Services",
-  "name": "ICL Procurement",
-  "number_cards": [
-   {
-    "label": "Active Suppliers",
-    "number_card_name": "Active Suppliers",
-    "parent": "ICL Procurement",
-    "parentfield": "number_cards",
-    "parenttype": "Workspace"
-   },
-   {
-    "label": "Pending RFQs",
-    "number_card_name": "Pending RFQs",
-    "parent": "ICL Procurement",
-    "parentfield": "number_cards",
-    "parenttype": "Workspace"
-   },
-   {
-    "label": "Purchase Orders to Receive",
-    "number_card_name": "Purchase Orders to Receive",
-    "parent": "ICL Procurement",
-    "parentfield": "number_cards",
-    "parenttype": "Workspace"
-   },
-   {
-    "label": "Purchase Orders to Bill",
-    "number_card_name": "Purchase Orders to Bill",
-    "parent": "ICL Procurement",
-    "parentfield": "number_cards",
-    "parenttype": "Workspace"
-   }
-  ],
-  "parent_page": "",
-  "public": 1,
-  "quick_lists": [
-   {
-    "document_type": "Request for Quotation",
-    "label": "Request for Quotation",
-    "parent": "ICL Procurement",
-    "parentfield": "quick_lists",
-    "parenttype": "Workspace",
-    "quick_list_filter": "[]"
-   },
-   {
-    "document_type": "Supplier Quote Submission",
-    "label": "Supplier Quote Submission",
-    "parent": "ICL Procurement",
-    "parentfield": "quick_lists",
-    "parenttype": "Workspace",
-    "quick_list_filter": "[]"
-   },
-   {
-    "document_type": "Purchase Order",
-    "label": "Purchase Order",
-    "parent": "ICL Procurement",
-    "parentfield": "quick_lists",
-    "parenttype": "Workspace",
-    "quick_list_filter": "[]"
-   },
-   {
-    "document_type": "Material Request",
-    "label": "Material Request",
-    "parent": "ICL Procurement",
-    "parentfield": "quick_lists",
-    "parenttype": "Workspace",
-    "quick_list_filter": "[]"
-   }
-  ],
-  "restrict_to_domain": null,
-  "roles": [
-   {
-    "parent": "ICL Procurement",
-    "parentfield": "roles",
-    "parenttype": "Workspace",
-    "role": "Purchase Manager"
-   },
-   {
-    "parent": "ICL Procurement",
-    "parentfield": "roles",
-    "parenttype": "Workspace",
-    "role": "Purchase User"
-   }
-  ],
-  "sequence_id": 32.0,
-  "shortcuts": [
-   {
-    "color": "Blue",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Supplier",
-    "link_to": "Supplier",
-    "parent": "ICL Procurement",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Request for Quotation",
-    "link_to": "Request for Quotation",
-    "parent": "ICL Procurement",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Green",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Purchase Order",
-    "link_to": "Purchase Order",
-    "parent": "ICL Procurement",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Purchase Order Analysis",
-    "link_to": "Purchase Order Analysis",
-    "parent": "ICL Procurement",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": "Purchase Order",
-    "restrict_to_domain": null,
-    "stats_filter": null,
-    "type": "Report",
-    "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Purchase Register",
-    "link_to": "Purchase Register",
-    "parent": "ICL Procurement",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": "Purchase Invoice",
-    "restrict_to_domain": null,
-    "stats_filter": null,
-    "type": "Report",
-    "url": null
-   }
-  ],
-  "title": "ICL Procurement"
- },
- {
   "charts": [],
   "content": "[{\"id\":\"hdr_qa_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u26a1 Quick Actions</b></span>\",\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"blm0000001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"cXzsMJLOv-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Requisition Form\",\"col\":3}},{\"id\":\"sp_001\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ta_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u23f0 Time &amp; Attendance</b></span>\",\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":3}},{\"id\":\"sp_002\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_tr_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2708\\ufe0f Travel</b></span>\",\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"sp_003\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_pd_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udcc8 Performance &amp; Development</b></span>\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"sc_ekpi_001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee KPI\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"sp_004\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_am_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udd10 Asset Management</b></span>\",\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udd10Asset Process\",\"col\":6}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":6}},{\"id\":\"sp_005\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ic_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83c\\udf93 Internship</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
   "custom_blocks": [],
@@ -659,7 +229,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:17.373973",
+  "modified": "2026-07-18 08:38:52.508613",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -963,7 +533,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-07-16 13:40:17.563909",
+  "modified": "2026-07-18 08:38:52.653357",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -1430,7 +1000,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:17.687452",
+  "modified": "2026-07-18 08:38:52.788955",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -2335,7 +1905,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:18.243894",
+  "modified": "2026-07-18 08:38:53.253206",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -2562,7 +2132,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-07-16 13:40:18.344676",
+  "modified": "2026-07-18 08:38:53.401661",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -2960,7 +2530,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:18.595824",
+  "modified": "2026-07-18 08:38:53.614638",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -3595,7 +3165,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-07-16 13:40:18.863427",
+  "modified": "2026-07-18 08:38:53.837275",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -4214,7 +3784,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:19.063795",
+  "modified": "2026-07-18 08:38:54.010733",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -4830,7 +4400,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:19.281735",
+  "modified": "2026-07-18 08:38:54.313720",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -5188,7 +4758,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:19.507501",
+  "modified": "2026-07-18 08:38:54.490871",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -5595,7 +5165,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:19.675650",
+  "modified": "2026-07-18 08:38:54.639279",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -6678,7 +6248,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:19.935899",
+  "modified": "2026-07-18 08:38:54.843382",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -7146,7 +6716,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:20.253682",
+  "modified": "2026-07-18 08:38:55.113270",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7880,7 +7450,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:20.469878",
+  "modified": "2026-07-18 08:38:55.266033",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -8064,7 +7634,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:20.661565",
+  "modified": "2026-07-18 08:38:55.426009",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -8296,7 +7866,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:20.776923",
+  "modified": "2026-07-18 08:38:55.512612",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [
@@ -8426,7 +7996,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-07-16 13:40:20.893787",
+  "modified": "2026-07-18 08:38:55.589988",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -8648,7 +8218,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-07-16 13:40:21.047531",
+  "modified": "2026-07-18 08:38:55.676013",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -8709,7 +8279,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-07-16 13:40:21.122286",
+  "modified": "2026-07-18 08:38:55.718931",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
@@ -9225,7 +8795,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-16 13:40:21.280492",
+  "modified": "2026-07-18 08:38:55.819819",
   "module": "ICL Corporate Services",
   "name": "ICL Procurement & Assets",
   "number_cards": [
