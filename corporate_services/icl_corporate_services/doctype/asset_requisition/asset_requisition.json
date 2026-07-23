@@ -6,12 +6,23 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "employee_details_section",
   "naming_series",
   "requested_by",
   "employee_name",
+  "column_break_lyot",
   "requisition_date",
+  "needed_by_date",
   "urgency",
-  "asset_requisition_table"
+  "section_break_rdnm",
+  "currency",
+  "exchange_rate",
+  "section_break_lycc",
+  "asset_requisition_table",
+  "total",
+  "total_in_local_currency",
+  "section_break_konf",
+  "purpose"
  ],
  "fields": [
   {
@@ -29,6 +40,34 @@
    "options": "Asset Requisition Table"
   },
   {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "exchange_rate",
+   "fieldtype": "Float",
+   "label": "Exchange Rate (to Local Currency)",
+   "precision": "9",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_in_local_currency",
+   "fieldtype": "Currency",
+   "label": "Total in Local Currency",
+   "read_only": 1
+  },
+  {
    "fetch_from": "requested_by.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
@@ -38,8 +77,10 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "ignore_user_permissions": 1,
    "label": "Series",
    "options": "AR-.YYYY.-",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -57,11 +98,45 @@
    "label": "Urgency",
    "options": "High\nMedium\nLow",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lyot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_rdnm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_lycc",
+   "fieldtype": "Section Break",
+   "label": "Asset(s) requisition details"
+  },
+  {
+   "fieldname": "employee_details_section",
+   "fieldtype": "Section Break",
+   "label": "Employee details"
+  },
+  {
+   "fieldname": "section_break_konf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Text Editor",
+   "label": "Purpose"
+  },
+  {
+   "fieldname": "needed_by_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Needed by Date",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-29 10:21:56.418041",
+ "modified": "2026-07-22 11:33:47.917259",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Asset Requisition",

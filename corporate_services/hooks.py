@@ -65,6 +65,9 @@ page = [
 web_include_js = [
     # React public survey page bundle (built to public/js)
     "/assets/corporate_services/js/survey_public.js",
+    # React public anonymous grievance pages (built to public/js)
+    "/assets/corporate_services/js/report_grievance.js",
+    "/assets/corporate_services/js/grievance_status.js",
 ]
 
 # include custom scss in every website theme (without file extension ".scss")
@@ -91,6 +94,7 @@ doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
     "Travel Request": "public/js/travel_request_list.js",
     "SMT Members": "public/js/smt_members_list.js",
+    "Employee KPI": "public/js/employee_kpi_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -183,10 +187,12 @@ after_migrate = [
 # }
 permission_query_conditions = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.get_permission_query_conditions",
+    "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.get_permission_query_conditions",
 }
 
 has_permission = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.has_permission",
+    "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.has_permission",
 }
 
 # DocType Class
@@ -256,6 +262,7 @@ on_update_map = {
     "Weekly Progress Report":"corporate_services.api.notification.weekly_progress_report.alert",
     "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
     "Project Status Report":"corporate_services.api.notification.project.status_report.alert",
+    "Employee KPI":"corporate_services.api.notification.employee_kpi.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -295,9 +302,13 @@ event_maps = {
     #     "Project": "corporate_services.api.project.payment_entry.fetch_payments"
     # },
     "after_insert": {
-        "Opportunity": "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
+        "Opportunity": [
+            "corporate_services.api.opportunity_handlers.create_folder_for_opportunity",
+            "corporate_services.api.opportunity_handlers.trigger_google_drive_folder_creation",
+        ],
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
+        "Anonymous Employee Grievance": "corporate_services.api.grievance.anonymous_grievance.alert",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
@@ -452,9 +463,9 @@ override_doctype_dashboards = {
 # }
 
 fixtures = [
-    "Workflow",
     "Workflow State",
     "Workflow Action Master",
+    "Workflow",
     "Role",
 	"Role Profile",
     "Report",

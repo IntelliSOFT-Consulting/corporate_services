@@ -229,7 +229,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:48.316085",
+  "modified": "2026-07-18 08:38:52.508613",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -533,7 +533,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-07-10 09:11:48.444081",
+  "modified": "2026-07-18 08:38:52.653357",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -1000,7 +1000,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:48.554671",
+  "modified": "2026-07-18 08:38:52.788955",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -1905,7 +1905,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:48.975275",
+  "modified": "2026-07-18 08:38:53.253206",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -2132,7 +2132,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-07-10 09:11:49.056349",
+  "modified": "2026-07-18 08:38:53.401661",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -2530,7 +2530,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:49.183968",
+  "modified": "2026-07-18 08:38:53.614638",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -3165,7 +3165,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-07-10 09:11:49.347792",
+  "modified": "2026-07-18 08:38:53.837275",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -3784,7 +3784,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:49.429001",
+  "modified": "2026-07-18 08:38:54.010733",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -4400,7 +4400,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:49.580888",
+  "modified": "2026-07-18 08:38:54.313720",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4758,7 +4758,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:49.724265",
+  "modified": "2026-07-18 08:38:54.490871",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -5165,7 +5165,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:49.853077",
+  "modified": "2026-07-18 08:38:54.639279",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -6248,7 +6248,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:50.045530",
+  "modified": "2026-07-18 08:38:54.843382",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6716,7 +6716,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:50.255848",
+  "modified": "2026-07-18 08:38:55.113270",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7450,7 +7450,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:50.360852",
+  "modified": "2026-07-18 08:38:55.266033",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7634,7 +7634,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:50.460691",
+  "modified": "2026-07-18 08:38:55.426009",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7690,8 +7690,37 @@
   "title": "Payroll"
  },
  {
-  "charts": [],
-  "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Development Management\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"kdhJF3jAb0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"tgFIeCDSb0\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Bidding\",\"col\":4}},{\"id\":\"OGCHj8PGpk\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}}]",
+  "charts": [
+   {
+    "chart_name": "Opportunity Trends",
+    "label": "Opportunity Trends",
+    "parent": "ICL Business Development",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   },
+   {
+    "chart_name": "Bid Status Breakdown",
+    "label": "Bid Status Breakdown",
+    "parent": "ICL Business Development",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   },
+   {
+    "chart_name": "Incoming Leads",
+    "label": "Incoming Leads",
+    "parent": "ICL Business Development",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   },
+   {
+    "chart_name": "Lead Source",
+    "label": "Lead Source",
+    "parent": "ICL Business Development",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   }
+  ],
+  "content": "[{\"id\":\"pfu6zgZBHE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Business Development</span>\",\"col\":12}},{\"id\":\"N8BssVRuAn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opportunity Settings\",\"col\":3}},{\"id\":\"lJVSt4GG4l\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Business Development Management\",\"col\":3}},{\"id\":\"7ajf2XazYg\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"keZGpQWkGv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"bR4oS9wMlU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Key Metrics</b></span>\",\"col\":12}},{\"id\":\"cS5pT0xNmV\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"New Lead (Last 1 Month)\",\"col\":3}},{\"id\":\"dT6qU1yOnW\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"New Opportunity (Last 1 Month)\",\"col\":3}},{\"id\":\"eU7rV2zPoX\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Bids In Progress\",\"col\":3}},{\"id\":\"fV8sW3aQpY\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Awarded Bids (This Year)\",\"col\":3}},{\"id\":\"gW9tX4bRqZ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hX0uY5cSr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Pipeline &amp; Bid Analytics</b></span>\",\"col\":12}},{\"id\":\"iY1vZ6dTs2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Opportunity Trends\",\"col\":6}},{\"id\":\"jZ2wA7eUt3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Bid Status Breakdown\",\"col\":6}},{\"id\":\"kA3xB8fVu4\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Incoming Leads\",\"col\":6}},{\"id\":\"lB4yC9gWv5\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Lead Source\",\"col\":6}},{\"id\":\"jfhDoPbib-\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"1h06nZ73qk\",\"type\":\"card\",\"data\":{\"card_name\":\"Bidding\",\"col\":4}},{\"id\":\"HN5ZS0OZGu\",\"type\":\"card\",\"data\":{\"card_name\":\"Bid Preparation\",\"col\":4}},{\"id\":\"PS8BEIh9IC\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Customer\",\"col\":4}},{\"id\":\"7BDu29GoNI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Lead\",\"col\":4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -7837,24 +7866,45 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 09:11:50.517517",
+  "modified": "2026-07-18 08:38:55.512612",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
-  "number_cards": [],
+  "number_cards": [
+   {
+    "label": "New Lead (Last 1 Month)",
+    "number_card_name": "New Lead (Last 1 Month)",
+    "parent": "ICL Business Development",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "New Opportunity (Last 1 Month)",
+    "number_card_name": "New Opportunity (Last 1 Month)",
+    "parent": "ICL Business Development",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Bids In Progress",
+    "number_card_name": "Bids In Progress",
+    "parent": "ICL Business Development",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Awarded Bids (This Year)",
+    "number_card_name": "Awarded Bids (This Year)",
+    "parent": "ICL Business Development",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   }
+  ],
   "parent_page": "",
   "public": 1,
   "quick_lists": [
    {
     "document_type": "Lead",
     "label": "Lead",
-    "parent": "ICL Business Development",
-    "parentfield": "quick_lists",
-    "parenttype": "Workspace",
-    "quick_list_filter": "[]"
-   },
-   {
-    "document_type": "Opportunity",
-    "label": "Bidding",
     "parent": "ICL Business Development",
     "parentfield": "quick_lists",
     "parenttype": "Workspace",
@@ -7946,7 +7996,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-07-10 09:11:50.566072",
+  "modified": "2026-07-18 08:38:55.589988",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -8168,7 +8218,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-07-10 09:11:50.656882",
+  "modified": "2026-07-18 08:38:55.676013",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -8229,7 +8279,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-07-10 09:11:50.691456",
+  "modified": "2026-07-18 08:38:55.718931",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
@@ -8344,5 +8394,619 @@
    }
   ],
   "title": "Employee Management"
+ },
+ {
+  "charts": [
+   {
+    "chart_name": "Purchase Order Status",
+    "label": "Purchase Order Status",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   }
+  ],
+  "content": "[{\"id\":\"u8jzPde0Ig\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Procurement &amp; Assets</span>\",\"col\":12}},{\"id\":\"xLd6GncfBA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"epfJBd0Kh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request for Quotation\",\"col\":3}},{\"id\":\"oOOL8dKLzd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"ocJ2isAjIh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"KtJ0RlgLKO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order Analysis\",\"col\":3}},{\"id\":\"mxgJTeKdNn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Register\",\"col\":3}},{\"id\":\"FRIBXuDL7D\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xtpYlSXpfK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Key Metrics</b></span>\",\"col\":12}},{\"id\":\"tHF4vUCsMe\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Suppliers\",\"col\":3}},{\"id\":\"hGAkWvj7FA\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending RFQs\",\"col\":3}},{\"id\":\"c9QeWJKY40\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Receive\",\"col\":3}},{\"id\":\"uvSwMFLZDe\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Purchase Orders to Bill\",\"col\":3}},{\"id\":\"1f8rESQedU\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Assets\",\"col\":3}},{\"id\":\"StPKR0CsTy\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"4Qwb8DwkNh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Purchase Analytics</b></span>\",\"col\":12}},{\"id\":\"FdnXsiVpzz\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Purchase Order Status\",\"col\":12}},{\"id\":\"63FfkCzJr4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"i0B3JrTAwR\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Suppliers &amp; Purchasing</b></span>\",\"col\":12}},{\"id\":\"4y9ojfljoQ\",\"type\":\"card\",\"data\":{\"card_name\":\"Suppliers\",\"col\":3}},{\"id\":\"oaF1Llqsaj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Request for Quotation\",\"col\":4}},{\"id\":\"AIxNKu8iS2\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Supplier Quote Submission\",\"col\":4}},{\"id\":\"G8NPRVdD53\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"X83RZJzzzz\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Orders\",\"col\":3}},{\"id\":\"gEOzdmenCk\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Purchase Order\",\"col\":4}},{\"id\":\"hvMdgaKjIg\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"8xNbe3nNyj\",\"type\":\"card\",\"data\":{\"card_name\":\"Materials & Items\",\"col\":3}},{\"id\":\"Oq9wMxEhh2\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Material Request\",\"col\":4}},{\"id\":\"FDEEtfjgVv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"VqE1SkHbn8\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Asset Management</b></span>\",\"col\":12}},{\"id\":\"8HxjSI6bWH\",\"type\":\"card\",\"data\":{\"card_name\":\"Assets\",\"col\":3}},{\"id\":\"tP3fS2qHx6\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":4}},{\"id\":\"kwXoIIXGvO\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Movement\",\"col\":4}}]",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "buying",
+  "indicator_color": "blue",
+  "is_hidden": 0,
+  "label": "ICL Procurement & Assets",
+  "links": [
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Suppliers",
+    "link_count": 4,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Supplier",
+    "link_count": 0,
+    "link_to": "Supplier",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Request for Quotation",
+    "link_count": 0,
+    "link_to": "Request for Quotation",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Supplier Quotation",
+    "link_count": 0,
+    "link_to": "Supplier Quotation",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Supplier Quote Submission",
+    "link_count": 0,
+    "link_to": "Supplier Quote Submission",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Purchase Orders",
+    "link_count": 3,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Purchase Order",
+    "link_count": 0,
+    "link_to": "Purchase Order",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Purchase Receipt",
+    "link_count": 0,
+    "link_to": "Purchase Receipt",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Purchase Invoice",
+    "link_count": 0,
+    "link_to": "Purchase Invoice",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Materials & Items",
+    "link_count": 3,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Material Request",
+    "link_count": 0,
+    "link_to": "Material Request",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Item",
+    "link_count": 0,
+    "link_to": "Item",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Price List",
+    "link_count": 0,
+    "link_to": "Price List",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Assets",
+    "link_count": 7,
+    "link_to": null,
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Card Break"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset List",
+    "link_count": 0,
+    "link_to": "Asset",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset Requisition",
+    "link_count": 0,
+    "link_to": "Asset Requisition",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset Custodianship Requisition",
+    "link_count": 0,
+    "link_to": "Asset Custodianship Requisition",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset Handover",
+    "link_count": 0,
+    "link_to": "Asset Movement",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset Damage Loss Theft Report Form",
+    "link_count": 0,
+    "link_to": "Asset Damage Loss Theft Report Form",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset replacement request",
+    "link_count": 0,
+    "link_to": "Asset replacement request",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   },
+   {
+    "dependencies": null,
+    "description": null,
+    "hidden": 0,
+    "icon": null,
+    "is_query_report": 0,
+    "label": "Asset Repair",
+    "link_count": 0,
+    "link_to": "Asset Repair",
+    "link_type": "DocType",
+    "onboard": 0,
+    "only_for": null,
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "links",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "type": "Link"
+   }
+  ],
+  "modified": "2026-07-18 08:38:55.819819",
+  "module": "ICL Corporate Services",
+  "name": "ICL Procurement & Assets",
+  "number_cards": [
+   {
+    "label": "Active Suppliers",
+    "number_card_name": "Active Suppliers",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Pending RFQs",
+    "number_card_name": "Pending RFQs",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Purchase Orders to Receive",
+    "number_card_name": "Purchase Orders to Receive",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Purchase Orders to Bill",
+    "number_card_name": "Purchase Orders to Bill",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   },
+   {
+    "label": "Total Assets",
+    "number_card_name": "Total Assets",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "number_cards",
+    "parenttype": "Workspace"
+   }
+  ],
+  "parent_page": "",
+  "public": 1,
+  "quick_lists": [
+   {
+    "document_type": "Request for Quotation",
+    "label": "Request for Quotation",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Supplier Quote Submission",
+    "label": "Supplier Quote Submission",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Purchase Order",
+    "label": "Purchase Order",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Material Request",
+    "label": "Material Request",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Asset Requisition",
+    "label": "Asset Requisition",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Asset Movement",
+    "label": "Asset Movement",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   }
+  ],
+  "restrict_to_domain": null,
+  "roles": [
+   {
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "Purchase Manager"
+   },
+   {
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "Purchase User"
+   }
+  ],
+  "sequence_id": 32.0,
+  "shortcuts": [
+   {
+    "color": "Blue",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Supplier",
+    "link_to": "Supplier",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Request for Quotation",
+    "link_to": "Request for Quotation",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Green",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Purchase Order",
+    "link_to": "Purchase Order",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Orange",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Asset Requisition",
+    "link_to": "Asset Requisition",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Purchase Order Analysis",
+    "link_to": "Purchase Order Analysis",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": "Purchase Order",
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Report",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Purchase Register",
+    "link_to": "Purchase Register",
+    "parent": "ICL Procurement & Assets",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": "Purchase Invoice",
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Report",
+    "url": null
+   }
+  ],
+  "title": "ICL Procurement & Assets"
  }
 ]

@@ -6,17 +6,20 @@
  "engine": "InnoDB",
  "field_order": [
   "travel_request",
-  "travelers_name",
-  "actual_departure_time",
-  "actual_arrival_time",
-  "date_advance_taken",
-  "date_of_reconciliation",
   "employee",
+  "travelers_name",
   "column_break_pfyo",
+  "date_of_reconciliation",
   "project_budget_codes",
+  "reconciliation_information_section",
   "activity_description",
+  "travel_information_section",
   "trip_dates_from",
   "trip_datesto",
+  "column_break_iduv",
+  "date_advance_taken",
+  "actual_departure_time",
+  "actual_arrival_time",
   "section_break_rmbi",
   "currency",
   "activity_participants_reconciliation",
@@ -27,6 +30,7 @@
   "allocated_amount_differs",
   "actual_allocated_amount",
   "spendings_section_section",
+  "allocated_currency_column",
   "total_spent",
   "total_balance",
   "column_break_owsz",
@@ -101,9 +105,11 @@
   },
   {
    "fieldname": "section_break_rmbi",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Expense Information"
   },
   {
+   "description": "This is the total spent in the allocated Currency",
    "fieldname": "total_spent",
    "fieldtype": "Currency",
    "label": "Total Spent",
@@ -111,6 +117,7 @@
    "read_only": 1
   },
   {
+   "description": "Total Balance in the allocated currency",
    "fieldname": "total_balance",
    "fieldtype": "Currency",
    "label": "Total Balance",
@@ -165,9 +172,10 @@
    "label": "Advanced Section"
   },
   {
+   "description": "This is the total spent amount in the local currency",
    "fieldname": "total_local_amount",
    "fieldtype": "Currency",
-   "label": "Total Local Amount spent",
+   "label": "Total Spent ",
    "read_only": 1
   },
   {
@@ -221,13 +229,33 @@
   },
   {
    "fieldname": "column_break_owsz",
+   "fieldtype": "Column Break",
+   "label": "Local Currency"
+  },
+  {
+   "fieldname": "allocated_currency_column",
+   "fieldtype": "Column Break",
+   "label": "Allocated Currency"
+  },
+  {
+   "fieldname": "reconciliation_information_section",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation Information"
+  },
+  {
+   "fieldname": "travel_information_section",
+   "fieldtype": "Section Break",
+   "label": "Travel Information"
+  },
+  {
+   "fieldname": "column_break_iduv",
    "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-06-19 09:16:36.079260",
+ "modified": "2026-07-23 11:24:58.873599",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Travel Request Reconciliation",

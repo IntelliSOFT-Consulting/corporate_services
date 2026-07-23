@@ -31,8 +31,9 @@ def generate_message(doc, approver_employee_name, employee_name, email_type):
             <h2 style="color: #0066cc;">Feedback from Opportunity Owner</h2>
             <p>Dear {approver_employee_name},</p>
             <p>
-                <strong>{employee_name}</strong> has reviewed the Opportunity <strong>{doc.name}</strong> 
-                and shared feedback for the same. You can view the details 
+                <strong>{employee_name}</strong> has reviewed the Opportunity <strong>{doc.name}</strong>
+                and recommends: <strong>{doc.custom_gono_go or "No recommendation set"}</strong>.
+                Please make the final Go/No Go call. You can view the details
                 <a href="{doctype_url}" style="color: #0066cc; text-decoration: none;">here</a>.
             </p>
             <p style="margin-top: 20px;">Best regards,<br>ERP Next, Opportunity Module</p>
@@ -104,27 +105,25 @@ def alert(doc, method):
             employee_email = None
             employee = None
 
-        approver_email = doc.custom_opportunity_approver
-        approver_user = frappe.get_doc("User", approver_email)
-
-        linked_approver_employee = frappe.get_all(
-            "Employee",
-            filters={"user_id": approver_user.name},
-            fields=["name", "employee_name", "company_email", "personal_email"]
-        )
-
-        if linked_approver_employee:
-            approver_employee = linked_approver_employee[0]
-            approver_employee_name = approver_employee.get("employee_name")
-        else:
-            approver_employee_name = None
+        approver_employee_name = None
+        approver_email = None
+        if doc.custom_opportunity_approver:
+            approver_employee = frappe.db.get_value(
+                "Employee",
+                doc.custom_opportunity_approver,
+                ["employee_name", "company_email", "personal_email"],
+                as_dict=True,
+            )
+            if approver_employee:
+                approver_employee_name = approver_employee.employee_name
+                approver_email = approver_employee.company_email or approver_employee.personal_email
 
         pdf_content = frappe.get_print(
             doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
         )
 
         if doc.workflow_state == "Submitted to CEO":
-            if employee:
+            if employee and approver_email:
                 message_to_employee = generate_message(
                     doc, approver_employee_name, employee.get("employee_name"), "feedback_from_opp_owner"
                 )

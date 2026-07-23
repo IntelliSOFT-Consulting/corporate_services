@@ -9,6 +9,7 @@
   "hr_settings_details_tab",
   "hr_settings_section",
   "hr_email",
+  "head_of_corporate_services_email",
   "hr_team_members_section",
   "table_xqbd",
   "reflection_settings_tab",
@@ -45,6 +46,12 @@
    "fieldname": "hr_email",
    "fieldtype": "Data",
    "label": "HR Email"
+  },
+  {
+   "description": "Recipient for Employee Grievance notifications.",
+   "fieldname": "head_of_corporate_services_email",
+   "fieldtype": "Data",
+   "label": "Head of Corporate Services Email"
   },
   {
    "fieldname": "monthly_reflection_notification_section",
@@ -223,6 +230,16 @@
    "print": 1,
    "read": 1,
    "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Head of Corporate Services",
    "share": 1,
    "write": 1
   }
