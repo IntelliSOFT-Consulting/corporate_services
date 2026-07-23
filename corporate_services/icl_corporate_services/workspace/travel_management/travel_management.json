@@ -1,0 +1,53 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"MRMsBFaaJo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Travel Management</span>\",\"col\":12}},{\"id\":\"-Knmynkl57\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"gK4-InzmCj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request Reconciliation\",\"col\":3}},{\"id\":\"s1D5-tX1d3\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2026-07-23 11:28:07.133961",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "number-card",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Travel Management",
+ "links": [],
+ "modified": "2026-07-23 11:31:28.982549",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Travel Management",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "ICL Finance",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Finance"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 33.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Travel Request",
+   "link_to": "Travel Request",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Travel Request Reconciliation",
+   "link_to": "Travel Request Reconciliation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Travel Management"
+}
