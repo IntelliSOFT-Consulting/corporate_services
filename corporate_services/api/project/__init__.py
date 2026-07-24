@@ -131,16 +131,20 @@ def _get_project_visibility_filters():
     if user == "Administrator":
         return {}
 
+    from corporate_services.api.project.permissions import get_bypass_roles
+
     roles = set(frappe.get_roles(user))
-    if "SMT" in roles or "System Manager" in roles:
+    if roles & get_bypass_roles():
         return {}
 
-    meta = frappe.get_meta("Project")
-    for fieldname in ["project_manager", "custom_project_manager", "project_lead", "custom_project_lead"]:
-        if meta.has_field(fieldname):
-            return {fieldname: user}
+    assigned_names = frappe.get_all(
+        "Project User",
+        filters={"parenttype": "Project", "user": user},
+        pluck="parent",
+    )
+    owned_names = frappe.get_all("Project", filters={"owner": user}, pluck="name")
 
-    return {"owner": user}
+    return {"name": ["in", list(set(assigned_names) | set(owned_names))]}
 
 
 def _get_next_milestones(project_names):

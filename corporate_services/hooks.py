@@ -188,11 +188,13 @@ after_migrate = [
 permission_query_conditions = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.get_permission_query_conditions",
     "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.get_permission_query_conditions",
+    "Project": "corporate_services.api.project.permissions.get_permission_query_conditions",
 }
 
 has_permission = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.has_permission",
     "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.has_permission",
+    "Project": "corporate_services.api.project.permissions.has_permission",
 }
 
 # DocType Class
