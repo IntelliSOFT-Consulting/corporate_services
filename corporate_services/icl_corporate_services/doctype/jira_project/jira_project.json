@@ -71,6 +71,11 @@
    "group": "Reference",
    "link_doctype": "Project",
    "link_fieldname": "custom_jira_project"
+  },
+  {
+   "group": "Reference",
+   "link_doctype": "Jira Sprint",
+   "link_fieldname": "jira_project"
   }
  ],
  "modified": "2026-06-10 07:00:00.000000",

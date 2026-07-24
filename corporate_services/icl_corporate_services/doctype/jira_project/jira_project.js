@@ -7,7 +7,7 @@ frappe.ui.form.on("Jira Project", {
 
 		frm.add_custom_button(__("Pull Issues from Jira"), () => {
 			frappe.call({
-				method: "corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings.pull_issues",
+				method: "corporate_services.api.jira.issues.pull_issues",
 				args: { project_key: frm.doc.project_key },
 				freeze: true,
 				freeze_message: __("Pulling issues from Jira..."),

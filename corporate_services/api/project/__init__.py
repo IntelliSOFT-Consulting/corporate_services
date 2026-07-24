@@ -498,9 +498,7 @@ def pull_project_jira_tasks(project_name):
     if not jira_key:
         frappe.throw(_("This project is not linked to a Jira Project."))
 
-    from corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings import (
-        pull_issues,
-    )
+    from corporate_services.api.jira.issues import pull_issues
 
     return pull_issues(jira_key)
 
