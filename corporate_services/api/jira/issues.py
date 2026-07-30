@@ -261,3 +261,57 @@ def _sync_issues_to_tasks(project_key, mapped):
 			errors += 1
 
 	return {"created": created, "updated": updated, "errors": errors, "linked_project": project}
+
+
+@frappe.whitelist()
+def get_project_jira_sprints(project):
+	"""List Jira Sprints available for the Jira project linked to this ERPNext Project."""
+	jira_project = frappe.db.get_value("Project", project, "custom_jira_project")
+	if not jira_project:
+		return []
+
+	return frappe.get_all(
+		"Jira Sprint",
+		filters={"jira_project": jira_project},
+		fields=["name", "sprint_name", "state"],
+		order_by="start_date desc",
+	)
+
+
+@frappe.whitelist()
+def get_assigned_jira_tasks(project=None, sprint=None, start_date=None, end_date=None):
+	"""Return the current user's Jira-sourced Tasks, optionally filtered by project/sprint/date range."""
+	employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "name")
+	if not employee:
+		return []
+
+	filters = {
+		"custom_task_source": "Jira",
+		"custom_allocate_to": employee,
+	}
+	if project:
+		filters["project"] = project
+	if sprint:
+		filters["custom_jira_sprint"] = sprint
+	if start_date:
+		filters["exp_end_date"] = [">=", start_date]
+	if end_date:
+		filters.setdefault("exp_start_date", ["<=", end_date])
+
+	return frappe.get_all(
+		"Task",
+		filters=filters,
+		fields=[
+			"name",
+			"subject",
+			"project",
+			"status",
+			"custom_jira_issue_key",
+			"custom_jira_issue_url",
+			"custom_jira_sprint",
+			"exp_start_date",
+			"exp_end_date",
+		],
+		order_by="exp_start_date asc",
+		limit_page_length=500,
+	)

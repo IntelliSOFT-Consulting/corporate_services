@@ -1,7 +1,103 @@
 [
  {
+  "charts": [
+   {
+    "chart_name": "Travel Request Trend",
+    "label": "Travel Request Trend",
+    "parent": "Travel Management",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   },
+   {
+    "chart_name": "Travel Request Reconciliation Trend",
+    "label": "Travel Request Reconciliation Trend",
+    "parent": "Travel Management",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   },
+   {
+    "chart_name": "Travel Request by Travel Type",
+    "label": "Travel Request by Travel Type",
+    "parent": "Travel Management",
+    "parentfield": "charts",
+    "parenttype": "Workspace"
+   }
+  ],
+  "content": "[{\"id\":\"MRMsBFaaJo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Travel Management</span>\",\"col\":12}},{\"id\":\"-Knmynkl57\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"gK4-InzmCj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request Reconciliation\",\"col\":3}},{\"id\":\"s1D5-tX1d3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hFwCQjrvsm\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request Trend\",\"col\":6}},{\"id\":\"i84gKxGyni\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request Reconciliation Trend\",\"col\":6}},{\"id\":\"nhLMCeyDNh\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request by Travel Type\",\"col\":6}}]",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "number-card",
+  "indicator_color": "green",
+  "is_hidden": 0,
+  "label": "Travel Management",
+  "links": [],
+  "modified": "2026-07-23 11:41:57.408034",
+  "module": "ICL Corporate Services",
+  "name": "Travel Management",
+  "number_cards": [],
+  "parent_page": "ICL Finance",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": null,
+  "roles": [
+   {
+    "parent": "Travel Management",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "Finance"
+   },
+   {
+    "parent": "Travel Management",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "System Manager"
+   }
+  ],
+  "sequence_id": 33.0,
+  "shortcuts": [
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Travel Request",
+    "link_to": "Travel Request",
+    "parent": "Travel Management",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Travel Request Reconciliation",
+    "link_to": "Travel Request Reconciliation",
+    "parent": "Travel Management",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   }
+  ],
+  "title": "Travel Management"
+ },
+ {
   "charts": [],
-  "content": "[{\"id\":\"hdr_qa_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u26a1 Quick Actions</b></span>\",\"col\":12}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"blm0000001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"cXzsMJLOv-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Requisition Form\",\"col\":3}},{\"id\":\"sp_001\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ta_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u23f0 Time &amp; Attendance</b></span>\",\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":3}},{\"id\":\"sp_002\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_tr_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2708\\ufe0f Travel</b></span>\",\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"sp_003\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_pd_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udcc8 Performance &amp; Development</b></span>\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"sc_ekpi_001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee KPI\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"sp_004\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_am_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udd10 Asset Management</b></span>\",\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udd10Asset Process\",\"col\":6}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":6}},{\"id\":\"sp_005\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ic_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83c\\udf93 Internship</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
+  "content": "[{\"id\":\"hdr_qa_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u26a1 Quick Actions</b></span>\",\"col\":12}},{\"id\":\"devWsQA01\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dev Workspace\",\"col\":3}},{\"id\":\"suh0W0_Lim\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"blm0000001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"sz6WcFgbem\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"cXzsMJLOv-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Requisition Form\",\"col\":3}},{\"id\":\"sp_001\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ta_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u23f0 Time &amp; Attendance</b></span>\",\"col\":12}},{\"id\":\"AbNCgR3yN4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Leave Application\",\"col\":6}},{\"id\":\"GSaqkLBT1V\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Time Off Application\",\"col\":6}},{\"id\":\"j0gSy6gqSj\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Work Continuity Plan\",\"col\":6}},{\"id\":\"UYCSQ3zRwz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Time Off Application\",\"col\":3}},{\"id\":\"sp_002\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_tr_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2708\\ufe0f Travel</b></span>\",\"col\":12}},{\"id\":\"YjedovsRpa\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request\",\"col\":6}},{\"id\":\"2p52vbjbuG\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Travel Request Reconciliation\",\"col\":6}},{\"id\":\"sp_003\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_pd_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udcc8 Performance &amp; Development</b></span>\",\"col\":12}},{\"id\":\"RrAL5eEly_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Weekly Progress Report\",\"col\":3}},{\"id\":\"X1u9VkOT7r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection\",\"col\":3}},{\"id\":\"Ymp0VFX7lb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"sc_ekpi_001\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee KPI\",\"col\":3}},{\"id\":\"VzNB3U18N0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Application Request\",\"col\":3}},{\"id\":\"2MBpqa7hii\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Training Feedback Form\",\"col\":3}},{\"id\":\"4DF69seFh8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Grievance\",\"col\":3}},{\"id\":\"bUnRJNpfmG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Exit Interview\",\"col\":3}},{\"id\":\"sp_004\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_am_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udd10 Asset Management</b></span>\",\"col\":12}},{\"id\":\"piJXzBIDwm\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udd10Asset Process\",\"col\":6}},{\"id\":\"jOEeg8OMqP\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Asset Requisition\",\"col\":6}},{\"id\":\"sp_005\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdr_ic_001\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83c\\udf93 Internship</b></span>\",\"col\":12}},{\"id\":\"cK6WD5VPTB\",\"type\":\"card\",\"data\":{\"card_name\":\"Internship Completion process\",\"col\":4}}]",
   "custom_blocks": [],
   "docstatus": 0,
   "doctype": "Workspace",
@@ -229,7 +325,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:52.508613",
+  "modified": "2026-07-24 15:13:26.919620",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -296,6 +392,23 @@
   ],
   "sequence_id": 16.0,
   "shortcuts": [
+   {
+    "color": null,
+    "doc_view": "",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Dev Workspace",
+    "link_to": "dev-workspace",
+    "parent": "ICL Staff",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
+    "url": null
+   },
    {
     "color": "Blue",
     "doc_view": "New",
@@ -533,7 +646,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-07-18 08:38:52.653357",
+  "modified": "2026-07-24 15:13:27.071753",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -1000,7 +1113,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:52.788955",
+  "modified": "2026-07-24 15:13:27.154265",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -1211,7 +1324,7 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"pmWelcome\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"pmSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmDivider1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"pmQAHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚡ Quick Actions</b></span>\",\"col\":12}},{\"id\":\"pmSC1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Project\",\"col\":3}},{\"id\":\"pmSC2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"pmSC3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Risk Assessment\",\"col\":3}},{\"id\":\"pmSC4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Status Report\",\"col\":3}},{\"id\":\"pmSC5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Timesheet Hours Dashboard\",\"col\":3}},{\"id\":\"pmSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmOverviewHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📊 Overview</b></span>\",\"col\":12}},{\"id\":\"pmChart1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":4}},{\"id\":\"pmChart2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Status\",\"col\":4}},{\"id\":\"pmChart3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Priority\",\"col\":4}},{\"id\":\"pmSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmProjectQL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"pmSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚀 Initiation</b></span>\",\"col\":12}},{\"id\":\"pmCard0\",\"type\":\"card\",\"data\":{\"card_name\":\"🚀 Initiation\",\"col\":12}},{\"id\":\"pmCardSpacer0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>📋 Planning</b></span>\",\"col\":12}},{\"id\":\"pmCard1\",\"type\":\"card\",\"data\":{\"card_name\":\"📋 Planning\",\"col\":12}},{\"id\":\"pmCardSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>🚧 Execution &amp; Monitoring</b></span>\",\"col\":12}},{\"id\":\"pmCard2\",\"type\":\"card\",\"data\":{\"card_name\":\"🚧 Execution & Monitoring\",\"col\":12}},{\"id\":\"pmCardSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>✅ Closure</b></span>\",\"col\":12}},{\"id\":\"pmCard3\",\"type\":\"card\",\"data\":{\"card_name\":\"✅ Closure\",\"col\":12}},{\"id\":\"pmCardSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr4\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>⚙️ Reference &amp; Settings</b></span>\",\"col\":12}},{\"id\":\"pmCard4\",\"type\":\"card\",\"data\":{\"card_name\":\"⚙️ Reference & Settings\",\"col\":12}},{\"id\":\"pmCardSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmTimesheetCard\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}}]",
+  "content": "[{\"id\":\"pmWelcome\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"pmSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmDivider1\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"pmQAHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u26a1 Quick Actions</b></span>\",\"col\":12}},{\"id\":\"pmSC1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Project\",\"col\":3}},{\"id\":\"pmSC2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Icl Project Management\",\"col\":3}},{\"id\":\"pmSC3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Risk Assessment\",\"col\":3}},{\"id\":\"pmSC4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Status Report\",\"col\":3}},{\"id\":\"pmSC5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Timesheet Hours Dashboard\",\"col\":3}},{\"id\":\"pmSC6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"My Projects\",\"col\":3}},{\"id\":\"pmSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmOverviewHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udcca Overview</b></span>\",\"col\":12}},{\"id\":\"pmChart1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":4}},{\"id\":\"pmChart2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Status\",\"col\":4}},{\"id\":\"pmChart3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Priority\",\"col\":4}},{\"id\":\"pmSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmProjectQL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":6}},{\"id\":\"pmSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\ude80 Initiation</b></span>\",\"col\":12}},{\"id\":\"pmCard0\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\ude80 Initiation\",\"col\":12}},{\"id\":\"pmCardSpacer0\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udccb Planning</b></span>\",\"col\":12}},{\"id\":\"pmCard1\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udccb Planning\",\"col\":12}},{\"id\":\"pmCardSpacer1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\ud83d\\udea7 Execution &amp; Monitoring</b></span>\",\"col\":12}},{\"id\":\"pmCard2\",\"type\":\"card\",\"data\":{\"card_name\":\"\\ud83d\\udea7 Execution & Monitoring\",\"col\":12}},{\"id\":\"pmCardSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2705 Closure</b></span>\",\"col\":12}},{\"id\":\"pmCard3\",\"type\":\"card\",\"data\":{\"card_name\":\"\\u2705 Closure\",\"col\":12}},{\"id\":\"pmCardSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmCardHdr4\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\\u2699\\ufe0f Reference &amp; Settings</b></span>\",\"col\":12}},{\"id\":\"pmCard4\",\"type\":\"card\",\"data\":{\"card_name\":\"\\u2699\\ufe0f Reference & Settings\",\"col\":12}},{\"id\":\"pmCardSpacer4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmTimesheetCard\",\"type\":\"card\",\"data\":{\"card_name\":\"Timesheet\",\"col\":6}}]",
   "custom_blocks": [
    {
     "custom_block_name": "Project manager Welcome",
@@ -1652,7 +1765,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-10 13:37:14.832239",
+  "modified": "2026-07-24 15:13:27.383916",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -1763,6 +1876,23 @@
     "stats_filter": null,
     "type": "Page",
     "url": null
+   },
+   {
+    "color": null,
+    "doc_view": "",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "My Projects",
+    "link_to": "dev-workspace",
+    "parent": "ICL Project Manager",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
+    "url": null
    }
   ],
   "title": "ICL Project Manager"
@@ -1777,7 +1907,7 @@
     "parenttype": "Workspace"
    }
   ],
-  "content": "[{\"id\":\"_fAakpizW-\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Supervisor</span>\",\"col\":12}},{\"id\":\"xgQ6DJyzH1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"X09-cinACw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"x1h1Ul3A8u\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qCo5R2ywCS\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission\",\"col\":12}},{\"id\":\"n9u0Kb2NFK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"WMSAue7aAI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"AUj1ODbnWi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"L28Sh8mRWo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet\",\"col\":3}},{\"id\":\"vjNIfPb5yf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Needs Analysis\",\"col\":3}},{\"id\":\"U1HsGLmj4Q\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"y42TImV7Y2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"fgojuvCfaM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Requisition\",\"col\":3}},{\"id\":\"_qXuOaoVTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"aOUgkPt68W\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"wPvi7UXZ0-\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Monthly Reflection\",\"col\":4}},{\"id\":\"Bsj3inT5au\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"2WnuQrX1JQ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"DAiamyzyRa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Timesheet processes</b></span>\",\"col\":12}},{\"id\":\"E_BW9Eulut\",\"type\":\"card\",\"data\":{\"card_name\":\"Timeasheet submissions/Reports\",\"col\":4}},{\"id\":\"e3K9NqVqgn\",\"type\":\"card\",\"data\":{\"card_name\":\"Offboarding Process\",\"col\":4}}]",
+  "content": "[{\"id\":\"_fAakpizW-\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Supervisor</span>\",\"col\":12}},{\"id\":\"xgQ6DJyzH1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"X09-cinACw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"x1h1Ul3A8u\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qCo5R2ywCS\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission\",\"col\":12}},{\"id\":\"n9u0Kb2NFK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"WMSAue7aAI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"AUj1ODbnWi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"L28Sh8mRWo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet\",\"col\":3}},{\"id\":\"vjNIfPb5yf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Needs Analysis\",\"col\":3}},{\"id\":\"U1HsGLmj4Q\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"y42TImV7Y2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"fgojuvCfaM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Requisition\",\"col\":3}},{\"id\":\"_qXuOaoVTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"aOUgkPt68W\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"wPvi7UXZ0-\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Monthly Reflection\",\"col\":4}},{\"id\":\"wprSupQL01\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Weekly Progress Report\",\"col\":4}},{\"id\":\"Bsj3inT5au\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"2WnuQrX1JQ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"DAiamyzyRa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Timesheet processes</b></span>\",\"col\":12}},{\"id\":\"E_BW9Eulut\",\"type\":\"card\",\"data\":{\"card_name\":\"Timeasheet submissions/Reports\",\"col\":4}},{\"id\":\"e3K9NqVqgn\",\"type\":\"card\",\"data\":{\"card_name\":\"Offboarding Process\",\"col\":4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -1905,7 +2035,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:53.253206",
+  "modified": "2026-07-24 15:13:27.546694",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1931,6 +2061,14 @@
    {
     "document_type": "Monthly Reflection",
     "label": "Monthly Reflection",
+    "parent": "ICL Supervisor",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   },
+   {
+    "document_type": "Weekly Progress Report",
+    "label": "Weekly Progress Report",
     "parent": "ICL Supervisor",
     "parentfield": "quick_lists",
     "parenttype": "Workspace",
@@ -2132,7 +2270,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-07-18 08:38:53.401661",
+  "modified": "2026-07-24 15:13:27.617166",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -2530,7 +2668,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:53.614638",
+  "modified": "2026-07-24 15:13:27.746865",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -3165,7 +3303,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-07-18 08:38:53.837275",
+  "modified": "2026-07-24 15:13:27.917467",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -3784,7 +3922,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:54.010733",
+  "modified": "2026-07-24 15:13:28.014486",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -4400,7 +4538,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:54.313720",
+  "modified": "2026-07-24 15:13:28.175479",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4758,7 +4896,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:54.490871",
+  "modified": "2026-07-24 15:13:28.302661",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -5165,7 +5303,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:54.639279",
+  "modified": "2026-07-24 15:13:28.410103",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -6248,7 +6386,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:54.843382",
+  "modified": "2026-07-24 15:13:28.583743",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6716,7 +6854,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:55.113270",
+  "modified": "2026-07-24 15:13:28.782682",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7450,7 +7588,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:55.266033",
+  "modified": "2026-07-24 15:13:28.903429",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7634,7 +7772,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:55.426009",
+  "modified": "2026-07-24 15:13:29.012277",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7866,7 +8004,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:55.512612",
+  "modified": "2026-07-24 15:13:29.097216",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [
@@ -7996,7 +8134,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-07-18 08:38:55.589988",
+  "modified": "2026-07-24 15:13:29.170896",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -8218,7 +8356,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-07-18 08:38:55.676013",
+  "modified": "2026-07-24 15:13:29.298819",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -8279,7 +8417,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-07-18 08:38:55.718931",
+  "modified": "2026-07-24 15:13:29.363347",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
@@ -8795,7 +8933,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-07-18 08:38:55.819819",
+  "modified": "2026-07-24 15:13:29.482942",
   "module": "ICL Corporate Services",
   "name": "ICL Procurement & Assets",
   "number_cards": [

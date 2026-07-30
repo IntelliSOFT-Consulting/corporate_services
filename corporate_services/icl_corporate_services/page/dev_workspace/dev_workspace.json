@@ -1,0 +1,28 @@
+{
+ "content": null,
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "module": "ICL Corporate Services",
+ "name": "dev-workspace",
+ "page_name": "dev-workspace",
+ "roles": [
+  {
+   "role": "Employee"
+  },
+  {
+   "role": "Projects User"
+  },
+  {
+   "role": "Projects Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Dev Workspace"
+}

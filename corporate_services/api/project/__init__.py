@@ -493,6 +493,24 @@ def _get_open_risk_count(project_name):
 
 
 @frappe.whitelist()
+def link_project_to_jira(project_name, jira_project):
+    """Connect an ERPNext Project to a Jira Project (sets Project.custom_jira_project)."""
+    if not project_name or not jira_project:
+        frappe.throw(_("Project and Jira Project are both required."))
+
+    if not frappe.db.exists("Jira Project", jira_project):
+        frappe.throw(_("Jira Project '{0}' not found.").format(jira_project))
+
+    doc = frappe.get_doc("Project", project_name)
+    doc.check_permission("write")
+    doc.custom_jira_project = jira_project
+    doc.save()
+    frappe.db.commit()
+
+    return {"project": project_name, "jira_project": jira_project}
+
+
+@frappe.whitelist()
 def pull_project_jira_tasks(project_name):
     """Pull Jira issues for the project's linked Jira Project and sync them into Tasks."""
     if not project_name:

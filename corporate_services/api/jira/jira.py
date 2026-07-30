@@ -88,3 +88,48 @@ def pull_projects():
 		start += len(values)
 	frappe.db.commit()
 	return {"count": created + updated, "created": created, "updated": updated}
+
+
+@frappe.whitelist()
+def sync_and_notify_new_projects():
+	"""Pull Jira projects and notify configured users about any that have no matching ERPNext Project."""
+	pull_result = pull_projects()
+	notified = notify_missing_erp_projects()
+	pull_result["notified"] = notified
+	return pull_result
+
+
+@frappe.whitelist()
+def notify_missing_erp_projects():
+	"""Notify configured recipients about Jira Projects with no linked ERPNext Project."""
+	from corporate_services.api.notification.project.common import notify
+
+	settings = frappe.get_single("Jira Settings")
+	recipients = [row.user for row in (settings.notify_users or []) if row.user]
+	if not recipients:
+		return 0
+
+	unlinked = frappe.get_all(
+		"Jira Project",
+		filters={"missing_erp_project_notified": 0},
+		fields=["name", "project_key", "project_name"],
+	)
+
+	notified_count = 0
+	for jp in unlinked:
+		if frappe.db.exists("Project", {"custom_jira_project": jp["name"]}):
+			continue
+
+		title = jp.get("project_name") or jp["project_key"]
+		subject = _("New Jira project '{0}' has no matching ERPNext Project").format(title)
+		message = _(
+			"The Jira project <strong>{0}</strong> ({1}) does not have a matching ERPNext Project.<br><br>"
+			"Create a Project and link it via the Jira Project field to start syncing tasks."
+		).format(title, jp["project_key"])
+		notify(recipients, subject, message, "Jira Project", jp["name"])
+
+		frappe.db.set_value("Jira Project", jp["name"], "missing_erp_project_notified", 1)
+		notified_count += 1
+
+	frappe.db.commit()
+	return notified_count

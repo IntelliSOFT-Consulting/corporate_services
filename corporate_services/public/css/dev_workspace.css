@@ -1,0 +1,224 @@
+.dw-wrap {
+    padding: 16px;
+}
+
+.dw-projects-section {
+    margin-bottom: 20px;
+}
+
+.dw-project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.dw-project-card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.dw-project-card:hover {
+    border-color: #adb5bd;
+}
+
+.dw-project-card-active {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 1px #0d6efd;
+}
+
+.dw-project-card-all {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #f8f9fa;
+}
+
+.dw-project-card-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.dw-project-card-meta {
+    color: #6c757d;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.dw-progress {
+    height: 6px;
+    border-radius: 3px;
+    background: #e9ecef;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.dw-progress-bar {
+    height: 100%;
+    background: #0d6efd;
+}
+
+.dw-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #e7f5ff;
+    color: #1971c2;
+    font-size: 11px;
+}
+
+.dw-badge-warning {
+    background: #fff3cd;
+    color: #997404;
+}
+
+.dw-jira-warning {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.dw-connect-btn {
+    padding: 1px 8px;
+    font-size: 11px;
+}
+
+.dw-tasks-card {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #fff;
+    padding: 14px;
+}
+
+.dw-tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dw-tasks-title {
+    font-weight: 600;
+}
+
+.dw-empty {
+    color: #6c757d;
+    padding: 8px 0;
+}
+
+.dw-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.dw-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dw-pagination-page {
+    font-size: 12px;
+}
+
+.dw-sprint-header-row td {
+    background: #f1f3f5;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 6px 10px;
+}
+
+.dw-sprint-count {
+    margin-left: 8px;
+    font-weight: 400;
+    text-transform: none;
+    color: #6c757d;
+}
+
+.dw-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dw-chart-panel {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #fff;
+    padding: 14px;
+}
+
+.dw-chart-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.dw-chart-subtitle {
+    font-weight: 400;
+    color: #6c757d;
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+.dw-row-overdue td {
+    background: #fff5f5;
+}
+
+.dw-overdue-badge {
+    margin-top: 0;
+    margin-left: 8px;
+}
+
+.dw-sprint-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dw-sprint-progress-label {
+    font-weight: 400;
+    text-transform: none;
+    color: #6c757d;
+}
+
+.dw-sprint-goal {
+    font-weight: 400;
+    text-transform: none;
+    color: #495057;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.dw-sprint-progress {
+    margin-top: 6px;
+    margin-bottom: 0;
+    max-width: 260px;
+}
+
+.dw-unmapped-panel {
+    border: 1px solid #ffe08a;
+    background: #fffbeb;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-top: 20px;
+}
+
+.dw-unmapped-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #997404;
+}
