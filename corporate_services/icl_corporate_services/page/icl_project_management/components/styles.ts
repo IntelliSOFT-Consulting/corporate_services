@@ -159,4 +159,43 @@ export const LOCAL_STYLES = `
 .ipm-hours-row:hover td {
   background: var(--fg-hover-color, #f8f9fa);
 }
+.ipm-stat-tile {
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+  background: var(--fg-color, #fff);
+}
+.ipm-stat-tile-danger {
+  border-color: #f2b8bd;
+  background: #fdf1f2;
+}
+.ipm-stat-tile-val {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-color, #333);
+  line-height: 1.1;
+}
+.ipm-stat-tile-danger .ipm-stat-tile-val {
+  color: #dc3545;
+}
+.ipm-stat-tile-label {
+  font-size: 11px;
+  color: var(--text-muted, #6c757d);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+.ipm-health-pill {
+  display: inline-block;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.ipm-workload-row-danger td {
+  background: #fdf1f2;
+}
 `;

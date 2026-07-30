@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { useApiData } from "./useApiData";
-import { LoadingBox, ErrorBox } from "./common";
-import { PortfolioData } from "./types";
+import { LoadingBox, ErrorBox, RAG_COLOR, RAG_LABEL, RAG_SUMMARY_KEY, RAG_ORDER } from "./common";
+import { PortfolioData, RagStatus } from "./types";
 
-const RAG_COLOR: Record<string, string> = { Red: "#dc3545", Amber: "#e2a336", Green: "#2e9e5b", Blue: "#3b6fd1" };
-const RAG_LABEL: Record<string, string> = { Red: "At Risk", Amber: "Needs Attention", Green: "On Track", Blue: "Not Started" };
-
-function RagPill({ rag, count }: { rag: string; count: number }) {
+function RagPill({ rag, count }: { rag: RagStatus; count: number }) {
   const color = RAG_COLOR[rag];
   return (
     <span
@@ -58,8 +55,8 @@ export function PortfolioHealthDash({ onOpenProject }: { onOpenProject: (id: str
       )}
 
       <div className="d-flex flex-wrap gap-2 mb-2">
-        {(["Red", "Amber", "Green", "Blue"] as const).map((rag) => (
-          <RagPill key={rag} rag={rag} count={summary[rag.toLowerCase()] ?? 0} />
+        {RAG_ORDER.map((rag) => (
+          <RagPill key={rag} rag={rag} count={summary[RAG_SUMMARY_KEY[rag]] ?? 0} />
         ))}
       </div>
       <div className="ipm-portfolio-hint mb-3">

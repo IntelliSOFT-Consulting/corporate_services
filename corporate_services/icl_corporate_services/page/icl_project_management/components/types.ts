@@ -79,11 +79,15 @@ export type LessonsLearnedRow = {
   date_of_report?: string;
 };
 
+// RAG health status. Not to be confused with the display colors each maps to (see RAG_COLOR) -
+// "NotStarted" is shown in blue, but the status name itself isn't a color.
+export type RagStatus = "Red" | "Amber" | "Green" | "NotStarted";
+
 export type PortfolioBadge = { type: "risk" | "report_overdue" | "no_report"; text: string };
 export type PortfolioProject = {
   name: string; project_name: string; status: string; percent_complete: number;
   expected_end_date: string | null; customer: string | null; pm_names: string | null;
-  rag: "Red" | "Amber" | "Green" | "Blue"; phase: string | null; badge: PortfolioBadge | null;
+  rag: RagStatus; phase: string | null; badge: PortfolioBadge | null;
   next_milestone: string | null; next_milestone_date: string | null;
   days_remaining: number | null; hours_logged: number;
 };
@@ -105,9 +109,20 @@ export type OverdueTask = {
   customer: string | null; pm_names: string | null;
 };
 
-export type PmRow = {
-  employee: string; employee_name: string; active_projects: number;
-  open_tasks: number; overdue_tasks: number;
+export type PmBreakdownProject = {
+  project: string; project_name: string; phase: string | null;
+  open_tasks: number; overdue_tasks: number; next_milestone: string | null; rag: RagStatus;
+};
+export type PmBreakdown = {
+  projects: PmBreakdownProject[]; active_projects: number; open_tasks: number; overdue_reports: number;
+};
+export type PmComparisonRow = {
+  employee: string; employee_name: string; active_projects: number; open_tasks: number;
+  overdue_tasks: number; overdue_reports: number; health: RagStatus;
+};
+export type PmWorkloadData = {
+  is_smt: boolean; employee: string | null; employee_name: string | null;
+  pms: PmRow2[]; my_view: PmBreakdown | null; smt_view: PmComparisonRow[] | null;
 };
 
 export type WorkflowStateRow = { state: string; count: number };

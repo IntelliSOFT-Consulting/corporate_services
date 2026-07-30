@@ -1,4 +1,12 @@
 import React, { useState } from "react";
+import { RagStatus } from "./types";
+
+// Health status names, kept distinct from the colors used to display them -
+// e.g. "NotStarted" renders in blue, but the status itself isn't called "Blue".
+export const RAG_COLOR: Record<RagStatus, string> = { Red: "#dc3545", Amber: "#e2a336", Green: "#2e9e5b", NotStarted: "#3b6fd1" };
+export const RAG_LABEL: Record<RagStatus, string> = { Red: "At Risk", Amber: "Needs Attention", Green: "On Track", NotStarted: "Not Started" };
+export const RAG_SUMMARY_KEY: Record<RagStatus, string> = { Red: "red", Amber: "amber", Green: "green", NotStarted: "not_started" };
+export const RAG_ORDER: RagStatus[] = ["Red", "Amber", "Green", "NotStarted"];
 
 export function Metric({
   label,
