@@ -2,7 +2,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.820533",
+  "modified": "2026-07-30 07:05:52.479087",
   "name": "Inventory",
   "role_profile": "Inventory",
   "roles": [
@@ -29,7 +29,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.849962",
+  "modified": "2026-07-30 07:05:52.509109",
   "name": "Manufacturing",
   "role_profile": "Manufacturing",
   "roles": [
@@ -56,7 +56,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.873933",
+  "modified": "2026-07-30 07:05:52.536330",
   "name": "Accounts",
   "role_profile": "Accounts",
   "roles": [
@@ -77,7 +77,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.891926",
+  "modified": "2026-07-30 07:05:52.564755",
   "name": "Purchase",
   "role_profile": "Purchase",
   "roles": [
@@ -110,7 +110,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.919620",
+  "modified": "2026-07-30 07:05:52.589325",
   "name": "HR",
   "role_profile": "HR",
   "roles": [
@@ -155,7 +155,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.944558",
+  "modified": "2026-07-30 07:05:52.620773",
   "name": "Supervisor",
   "role_profile": "Supervisor",
   "roles": [
@@ -188,7 +188,7 @@
  {
   "docstatus": 0,
   "doctype": "Role Profile",
-  "modified": "2026-07-24 15:13:24.962867",
+  "modified": "2026-07-30 07:05:52.644396",
   "name": "Sales",
   "role_profile": "Sales",
   "roles": [

@@ -43,7 +43,7 @@
    "reqd": 1
   },
   {
-   "description": "Secret token given to the reporter for status lookup/reply. Not the same as the record name above — knowing this record's name does not grant access to the guest status/reply endpoints.",
+   "description": "Secret token given to the reporter for status lookup/reply. Not the same as the record name above - knowing this record's name does not grant access to the guest status/reply endpoints.",
    "fieldname": "tracking_token",
    "fieldtype": "Data",
    "label": "Tracking Token",

@@ -253,6 +253,6 @@ def nudge_approver(reference_doctype, reference_name):
 			sent_to.append(approver.name)
 
 	if not sent_to:
-		frappe.throw(_("Could not reach the approver — no email on file."))
+		frappe.throw(_("Could not reach the approver - no email on file."))
 
 	return {"success": True, "message": _("Reminder sent to {0}.").format(", ".join(sent_to))}

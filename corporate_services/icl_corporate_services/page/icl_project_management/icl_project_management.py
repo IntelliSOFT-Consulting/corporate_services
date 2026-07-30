@@ -1,14 +1,29 @@
 import calendar
 
 import frappe
-from frappe.utils import flt
+from frappe.utils import flt, getdate
 
+from corporate_services.api.project import (
+    _get_next_milestones,
+    get_last_report_date,
+    get_report_frequency_days,
+)
 from corporate_services.api.project.lifecycle_toolkit import (
     DEFAULT_INTRO_DESCRIPTION,
     DEFAULT_INTRO_TITLE,
     get_project_toolkit_document_template_targets,
     get_project_toolkit_folder_blueprint,
 )
+from corporate_services.api.project.permissions import get_bypass_roles
+
+PROJECT_PHASE_ORDER = [
+    "Initiation",
+    "Planning",
+    "Execution",
+    "Monitoring & Control",
+    "Post-Implementation Closeout",
+    "Closed",
+]
 
 
 @frappe.whitelist()
@@ -215,10 +230,111 @@ def get_project_hours_summary(month_year=None):
     }
 
 
-@frappe.whitelist()
-def get_portfolio_health():
+def _user_is_smt(user):
+    if user == "Administrator":
+        return True
+    return bool(set(frappe.get_roles(user)) & get_bypass_roles())
+
+
+def _user_employee(user):
+    return frappe.db.get_value("Employee", {"user_id": user}, "name")
+
+
+def _format_phase(phase):
+    if not phase:
+        return None
+    if phase not in PROJECT_PHASE_ORDER:
+        return phase
+    return f"Phase {PROJECT_PHASE_ORDER.index(phase) + 1} - {phase}"
+
+
+def _get_open_high_risk_counts(project_names):
+    if not project_names:
+        return {}
+    assessments = frappe.get_all(
+        "Project Risk Assessment", filters={"project": ["in", project_names]}, fields=["name", "project"]
+    )
+    if not assessments:
+        return {}
+    project_by_assessment = {a.name: a.project for a in assessments}
+    risk_rows = frappe.get_all(
+        "Risk Assessment List",
+        filters={
+            "parent": ["in", list(project_by_assessment.keys())],
+            "risk_impact": "High",
+            "status": ["not in", ["Mitigated", "Closed"]],
+        },
+        fields=["parent"],
+    )
+    counts = {}
+    for row in risk_rows:
+        project = project_by_assessment.get(row.parent)
+        if project:
+            counts[project] = counts.get(project, 0) + 1
+    return counts
+
+
+def _get_hours_logged(project_names):
+    if not project_names:
+        return {}
     rows = frappe.db.sql(
         """
+        select tpp.project as project, sum(tpp.total_hours) as hours
+        from `tabTimesheet Submission List` tpp
+        inner join `tabTimesheet Submission` ts on ts.name = tpp.parent
+        where ts.docstatus != 2 and tpp.project in %(projects)s
+        group by tpp.project
+        """,
+        {"projects": project_names},
+        as_dict=True,
+    )
+    return {row.project: flt(row.hours) for row in rows}
+
+
+@frappe.whitelist()
+def get_portfolio_health(pm=None):
+    user = frappe.session.user
+    is_smt = _user_is_smt(user)
+
+    pm_rows = frappe.db.sql(
+        """
+        select distinct pm.employee, pm.employee_name
+        from `tabProject Manager` pm
+        inner join `tabProject` p on p.name = pm.parent
+        where p.status not in ('Cancelled', 'Completed') and pm.employee is not null
+        order by pm.employee_name asc
+        """,
+        as_dict=True,
+    )
+
+    conditions = ["p.status not in ('Cancelled', 'Completed')"]
+    params = {}
+
+    if is_smt:
+        if pm:
+            conditions.append(
+                "exists (select 1 from `tabProject Manager` pmf where pmf.parent = p.name and pmf.employee = %(pm)s)"
+            )
+            params["pm"] = pm
+    else:
+        employee = _user_employee(user)
+        if not employee:
+            return {
+                "projects": [],
+                "summary": {"red": 0, "amber": 0, "green": 0, "blue": 0},
+                "is_smt": False,
+                "pms": [],
+                "selected_pm": None,
+            }
+        conditions.append(
+            "exists (select 1 from `tabProject Manager` pmf where pmf.parent = p.name and pmf.employee = %(employee)s)"
+        )
+        params["employee"] = employee
+
+    where = " and ".join(conditions)
+
+    rows = frappe.db.sql(
+        f"""
         select
             p.name,
             p.project_name,
@@ -227,38 +343,83 @@ def get_portfolio_health():
             p.expected_start_date,
             p.expected_end_date,
             p.customer,
-            p.priority,
-            group_concat(pm.employee_name separator ', ') as pm_names,
-            case
-                when p.expected_end_date < curdate()
-                     and p.status not in ('Completed') then 'Red'
-                when p.expected_end_date between curdate()
-                     and date_add(curdate(), interval 14 day) then 'Amber'
-                when p.expected_end_date is not null
-                     and p.expected_start_date is not null
-                     and datediff(curdate(), p.expected_start_date) >
-                         datediff(p.expected_end_date, p.expected_start_date) * 0.6
-                     and coalesce(p.percent_complete, 0) < 50 then 'Amber'
-                else 'Green'
-            end as rag
+            p.custom_project_phase as phase,
+            p.custom_project_report_frequency as report_frequency,
+            group_concat(distinct pm.employee_name separator ', ') as pm_names
         from `tabProject` p
         left join `tabProject Manager` pm on pm.parent = p.name
-        where p.status not in ('Cancelled', 'Completed')
+        where {where}
         group by p.name
-        order by
-            case
-                when p.expected_end_date < curdate() and p.status not in ('Completed') then 1
-                when p.expected_end_date between curdate() and date_add(curdate(), interval 14 day) then 2
-                else 3
-            end,
-            p.expected_end_date asc
+        order by p.expected_end_date asc
         """,
+        params,
         as_dict=True,
     )
-    red = sum(1 for r in rows if r.get("rag") == "Red")
-    amber = sum(1 for r in rows if r.get("rag") == "Amber")
-    green = sum(1 for r in rows if r.get("rag") == "Green")
-    return {"projects": rows, "summary": {"red": red, "amber": amber, "green": green}}
+
+    project_names = [r.name for r in rows]
+    milestones = _get_next_milestones(project_names)
+    risk_counts = _get_open_high_risk_counts(project_names)
+    hours_by_project = _get_hours_logged(project_names)
+
+    today = getdate()
+    summary = {"red": 0, "amber": 0, "green": 0, "blue": 0}
+
+    for p in rows:
+        pct = flt(p.percent_complete)
+        end_date = getdate(p.expected_end_date) if p.expected_end_date else None
+
+        freq_days = get_report_frequency_days(p.report_frequency)
+        report_badge = None
+        if freq_days:
+            last_report = get_last_report_date(p.name)
+            if not last_report:
+                report_badge = {"type": "no_report", "text": "No status report yet"}
+            else:
+                overdue_days = (today - getdate(last_report)).days - freq_days
+                if overdue_days > 0:
+                    report_badge = {
+                        "type": "report_overdue",
+                        "text": f"Report {overdue_days} day{'s' if overdue_days != 1 else ''} overdue",
+                    }
+
+        risk_count = risk_counts.get(p.name, 0)
+
+        if pct <= 0:
+            rag = "Blue"
+        elif risk_count > 0 or (end_date and end_date < today):
+            rag = "Red"
+        elif report_badge or (end_date and 0 <= (end_date - today).days <= 14):
+            rag = "Amber"
+        else:
+            rag = "Green"
+
+        badge = None
+        if risk_count > 0:
+            badge = {"type": "risk", "text": f"{risk_count} High risk{'s' if risk_count != 1 else ''}"}
+        elif report_badge:
+            badge = report_badge
+
+        milestone = milestones.get(p.name)
+
+        summary[rag.lower()] += 1
+
+        p["percent_complete"] = pct
+        p["rag"] = rag
+        p["phase"] = _format_phase(p.get("phase"))
+        p["badge"] = badge
+        p["next_milestone"] = (milestone or {}).get("subject")
+        p["next_milestone_date"] = (milestone or {}).get("exp_end_date")
+        p["days_remaining"] = (end_date - today).days if end_date else None
+        p["hours_logged"] = hours_by_project.get(p.name, 0)
+        p.pop("report_frequency", None)
+
+    return {
+        "projects": rows,
+        "summary": summary,
+        "is_smt": is_smt,
+        "pms": pm_rows,
+        "selected_pm": pm if is_smt else None,
+    }
 
 
 @frappe.whitelist()
