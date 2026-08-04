@@ -15,6 +15,7 @@
   "reflection_settings_tab",
   "monthly_reflection_notification_section",
   "enable_monthly_reflection_reminder",
+  "monthly_reflection_contract_type",
   "column_break_cguv",
   "monthly_reflection_reminder_day",
   "monthly_reflection_last_sent_period",
@@ -64,6 +65,13 @@
    "fieldname": "enable_monthly_reflection_reminder",
    "fieldtype": "Check",
    "label": "Enable Monthly Reflection Reminder"
+  },
+  {
+   "description": "Only active employees with this contract type will be included. Leave blank to include all active employees.",
+   "fieldname": "monthly_reflection_contract_type",
+   "fieldtype": "Link",
+   "label": "Monthly Reflection Contract Type",
+   "options": "Contract Type"
   },
   {
    "default": "1",

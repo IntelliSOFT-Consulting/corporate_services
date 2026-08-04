@@ -10,11 +10,10 @@ from frappe.utils import get_url_to_form, nowdate, getdate
 # ---------------------------------------------------------------------------
 
 def is_weekly_reminder_due(config) -> bool:
-    """
-    Returns True if today is the configured reminder day and the reminder
-    has not already been sent this week.
-    """
-    reminder_day = getattr(config, "weekly_progress_reminder_day", "Friday")
+    if not getattr(config, "enable_weekly_progress_reminder", 0):
+        return False
+
+    reminder_day = getattr(config, "weekly_progress_reminder_weekday", "Friday")
     day_map = {
         "Monday": 0, "Tuesday": 1, "Wednesday": 2,
         "Thursday": 3, "Friday": 4, "Saturday": 5, "Sunday": 6,
