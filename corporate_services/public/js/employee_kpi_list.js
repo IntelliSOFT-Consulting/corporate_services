@@ -15,11 +15,24 @@ function show_start_kpi_cycle_dialog(listview) {
         title: __("Start KPI Cycle"),
         fields: [
             {
-                fieldname: "review_period",
+                fieldname: "review_period_start",
                 fieldtype: "Date",
-                label: __("Review Period"),
+                label: __("Review Period Start"),
                 reqd: 1,
                 default: frappe.datetime.get_today(),
+            },
+            {
+                fieldname: "review_period_end",
+                fieldtype: "Date",
+                label: __("Review Period End"),
+                reqd: 1,
+            },
+            {
+                fieldname: "submission_deadline",
+                fieldtype: "Date",
+                label: __("Submission Deadline"),
+                reqd: 1,
+                default: frappe.datetime.add_days(frappe.datetime.get_today(), 7),
             },
             {
                 fieldname: "department",
@@ -48,7 +61,9 @@ function show_start_kpi_cycle_dialog(listview) {
             frappe.call({
                 method: "corporate_services.api.kpi.start_kpi_cycle.start_kpi_cycle",
                 args: {
-                    review_period: values.review_period,
+                    review_period_start: values.review_period_start,
+                    review_period_end: values.review_period_end,
+                    submission_deadline: values.submission_deadline,
                     department: values.department,
                     contract_type: values.contract_type,
                     employees: values.employees,

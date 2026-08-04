@@ -316,6 +316,7 @@ event_maps = {
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
         "Anonymous Employee Grievance": "corporate_services.api.grievance.anonymous_grievance.alert",
+        "Employee KPI": "corporate_services.api.notification.employee_kpi.send_creation_reminder",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
