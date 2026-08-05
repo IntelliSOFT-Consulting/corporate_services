@@ -15,7 +15,7 @@ function add_nudge_supervisor_action(frm) {
 
 	if (!can_show) return;
 
-	frm.page.add_action_item(__("Nudge Supervisor"), function () {
+	frm.add_custom_button(__("Nudge Supervisor"), function () {
 		frappe.call({
 			method: "corporate_services.api.notification.reminder_engine.nudge_approver",
 			args: {
