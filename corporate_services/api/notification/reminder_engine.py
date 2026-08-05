@@ -25,6 +25,12 @@ def _timesheet_approver_contacts(doc):
 	return [contact] if contact and contact.email else []
 
 
+def _performance_appraisal_approver_contacts(doc):
+	employee = frappe.get_doc("Employee", doc.employee)
+	contact = get_supervisor_contact(employee)
+	return [contact] if contact and contact.email else []
+
+
 # Doctype-specific contact resolvers. To extend reminders to another doctype,
 # register its submitter/approver resolvers here and add a matching Reminder
 # Rule row on HR Config.
@@ -33,6 +39,7 @@ SUBMITTER_RESOLVERS = {
 }
 APPROVER_RESOLVERS = {
 	"Timesheet Submission": _timesheet_approver_contacts,
+	"Performance Appraisal": _performance_appraisal_approver_contacts,
 }
 
 

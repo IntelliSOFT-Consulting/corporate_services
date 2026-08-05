@@ -9,6 +9,13 @@
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
+  "modified": "2026-08-05 09:24:00.000000",
+  "name": "Submit to Employee",
+  "workflow_action_name": "Submit to Employee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
   "modified": "2026-07-30 07:05:50.360732",
   "name": "Resolve",
   "workflow_action_name": "Resolve"

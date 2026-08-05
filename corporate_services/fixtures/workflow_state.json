@@ -12,6 +12,15 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
+  "modified": "2026-08-05 09:24:00.000000",
+  "name": "Submitted to Employee",
+  "style": "",
+  "workflow_state_name": "Submitted to Employee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
   "modified": "2026-07-30 07:05:50.051435",
   "name": "Under Investigation",
   "style": "Warning",
