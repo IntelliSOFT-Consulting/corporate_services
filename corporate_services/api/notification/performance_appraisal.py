@@ -63,6 +63,14 @@ def generate_message(doc, recipient_name, employee_name, email_type):
             Kind regards,<br>
             HR Department
         """.format(employee_name, doc.doctype, doctype_url),
+
+        "employee_submitted": """
+            Dear {},<br><br>
+            Your {} has been finalized by HR and is ready for your review.
+            You can view it <a href="{}">here</a>.<br><br>
+            Kind regards,<br>
+            HR Department
+        """.format(employee_name, doc.doctype, doctype_url),
     }
 
     return messages[email_type]
@@ -77,6 +85,7 @@ def alert(doc, method):
         "Needs Clarification",
         "Approved by HR",
         "Rejected By HR",
+        "Submitted to Employee",
     ]
     if getattr(doc, "workflow_state", None) not in notify_states:
         return
@@ -145,5 +154,19 @@ def alert(doc, method):
             doc,
             recipients=[employee_email],
             subject=frappe._("Your Performance Appraisal has been Rejected"),
+            message=message,
+        )
+
+    elif doc.workflow_state == "Submitted to Employee":
+        if not employee_email:
+            return
+
+        message = generate_message(
+            doc, employee.employee_name, employee.employee_name, "employee_submitted"
+        )
+        send_email(
+            doc,
+            recipients=[employee_email],
+            subject=frappe._("Your Performance Appraisal is ready for review"),
             message=message,
         )
