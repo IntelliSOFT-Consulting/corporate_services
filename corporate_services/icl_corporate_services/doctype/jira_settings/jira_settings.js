@@ -6,7 +6,7 @@ frappe.ui.form.on("Jira Settings", {
 		frm.add_custom_button(__("Test Connection"), () => {
 			const run = () => {
 				frappe.call({
-					method: "corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings.test_connection",
+					method: "corporate_services.api.jira.jira.test_connection",
 					freeze: true,
 					freeze_message: __("Testing connection..."),
 					callback: (r) => {
@@ -32,7 +32,7 @@ frappe.ui.form.on("Jira Settings", {
 				{ fieldname: "key", label: __("Project Key"), fieldtype: "Data", reqd: 1 },
 				(v) => {
 					frappe.call({
-						method: "corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings.pull_project",
+						method: "corporate_services.api.jira.jira.pull_project",
 						args: { key: v.key },
 						freeze: true,
 						freeze_message: __("Fetching project..."),
@@ -57,7 +57,7 @@ frappe.ui.form.on("Jira Settings", {
 
 		frm.add_custom_button(__("Pull Projects"), () => {
 			frappe.call({
-				method: "corporate_services.icl_corporate_services.doctype.jira_settings.jira_settings.pull_projects",
+				method: "corporate_services.api.jira.jira.pull_projects",
 				freeze: true,
 				freeze_message: __("Pulling projects from Jira..."),
 				callback: (r) => {

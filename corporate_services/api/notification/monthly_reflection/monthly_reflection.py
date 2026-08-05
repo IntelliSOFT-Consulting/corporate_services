@@ -253,7 +253,9 @@ def send_monthly_reflection_reminder_if_due():
     if config.monthly_reflection_last_sent_period == review_period:
         return
 
-    sent_count = _send_monthly_reflection_reminders(review_period)
+    sent_count = _send_monthly_reflection_reminders(
+        review_period, getattr(config, "monthly_reflection_contract_type", None)
+    )
 
     frappe.db.set_value(
         "HR Config",
@@ -271,10 +273,14 @@ def send_monthly_reflection_reminder_if_due():
     )
 
 
-def _send_monthly_reflection_reminders(review_period):
+def _send_monthly_reflection_reminders(review_period, contract_type=None):
+    filters = {"status": "Active"}
+    if contract_type:
+        filters["employment_type"] = contract_type
+
     employees = frappe.get_all(
         "Employee",
-        filters={"status": "Active"},
+        filters=filters,
         fields=["name", "employee_name", "company_email", "personal_email"],
         limit_page_length=1000,
         order_by="employee_name asc",
@@ -345,7 +351,8 @@ def send_monthly_reflection_overdue_reminders_if_due():
         return
 
     review_period = today.strftime("%B %Y")
-    for employee in _get_missing_monthly_reflection_employees(review_period):
+    contract_type = getattr(config, "monthly_reflection_contract_type", None)
+    for employee in _get_missing_monthly_reflection_employees(review_period, contract_type):
         _send_overdue_reminder_for_employee(employee, review_period)
 
 
@@ -447,10 +454,14 @@ def get_monthly_reflection_period_status(review_period):
     return rows
 
 
-def _get_missing_monthly_reflection_employees(review_period):
+def _get_missing_monthly_reflection_employees(review_period, contract_type=None):
+    filters = {"status": "Active"}
+    if contract_type:
+        filters["employment_type"] = contract_type
+
     employees = frappe.get_all(
         "Employee",
-        filters={"status": "Active"},
+        filters=filters,
         fields=["name", "employee_name", "company_email", "personal_email", "reports_to", "user_id"],
         limit_page_length=1000,
         order_by="employee_name asc",

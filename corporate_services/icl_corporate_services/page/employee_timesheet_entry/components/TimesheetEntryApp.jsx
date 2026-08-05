@@ -313,6 +313,39 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
         setProjectSearch("");
     }, [markDirty]);
 
+    const pullJiraTasks = useCallback((projectName, tasks) => {
+        markDirty();
+        setSections((prev) => {
+            const secIdx = prev.findIndex((sec) => sec.type === "project" && sec.name === projectName);
+            const existingLabels = secIdx >= 0
+                ? new Set(prev[secIdx].tasks.map((t) => t.task))
+                : new Set();
+
+            const newRows = tasks
+                .map((t) => {
+                    const label = t.custom_jira_issue_key ? `${t.custom_jira_issue_key}: ${t.subject}` : t.subject;
+                    return { id: makeRowId(), task: label, hours: {} };
+                })
+                .filter((row) => row.task && !existingLabels.has(row.task));
+
+            if (!newRows.length) {
+                frappe.show_alert({ message: __("Those Jira tasks are already in the timesheet."), indicator: "orange" });
+                return prev;
+            }
+
+            if (secIdx >= 0) {
+                return prev.map((sec, si) => {
+                    if (si !== secIdx) return sec;
+                    const keptTasks = sec.tasks.filter((t) => t.task.trim() !== "");
+                    return { ...sec, tasks: [...keptTasks, ...newRows] };
+                });
+            }
+
+            return [...prev, { type: "project", name: projectName, tasks: newRows }];
+        });
+        frappe.show_alert({ message: __("Pulled Jira tasks into {0}.", [projectName]), indicator: "green" }, 5);
+    }, [markDirty]);
+
     const addActivity = useCallback((activityName) => {
         markDirty();
         setSections((prev) => [...prev, makeSection("activity", activityName)]);
@@ -450,6 +483,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
             setActivitySearch={setActivitySearch}
             runWorkflowAction={runWorkflowAction}
             persistTimesheet={persistTimesheet}
+            onPullJiraTasks={pullJiraTasks}
         />
     );
     const pageHeaderContext = (

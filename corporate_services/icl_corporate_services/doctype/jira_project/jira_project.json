@@ -12,6 +12,7 @@
   "project_id",
   "project_type",
   "lead",
+  "missing_erp_project_notified",
   "issues_section",
   "issues"
  ],
@@ -53,6 +54,13 @@
    "label": "Lead"
   },
   {
+   "description": "Set once ERP users have been notified that this Jira project has no matching ERPNext Project.",
+   "fieldname": "missing_erp_project_notified",
+   "fieldtype": "Check",
+   "label": "Missing ERP Project Notified",
+   "read_only": 1
+  },
+  {
    "fieldname": "issues_section",
    "fieldtype": "Section Break",
    "label": "Tasks / Issues"
@@ -71,6 +79,11 @@
    "group": "Reference",
    "link_doctype": "Project",
    "link_fieldname": "custom_jira_project"
+  },
+  {
+   "group": "Reference",
+   "link_doctype": "Jira Sprint",
+   "link_fieldname": "jira_project"
   }
  ],
  "modified": "2026-06-10 07:00:00.000000",
