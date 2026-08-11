@@ -65,11 +65,9 @@ def generate_message(doc, recipient_name, employee_name, email_type):
         """.format(employee_name, doc.doctype, doctype_url),
 
         "employee_submitted": """
-            Dear {},<br><br>
-            Your {} has been finalized by HR and is ready for your review.
-            You can view it <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            HR Department
+            Dear {},<br><br>,
+            Your {}  has been completed. Kindly use the link provided <a href="{}">here</a> to view your appraisal and feedback.<br>
+            Should you have any questions or require clarification, please feel free to reach out to the HR or your supervisor.
         """.format(employee_name, doc.doctype, doctype_url),
     }
 
