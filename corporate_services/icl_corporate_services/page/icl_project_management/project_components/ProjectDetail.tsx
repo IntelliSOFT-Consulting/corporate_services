@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useProjectDetail } from "./hooks/useProjectDetail";
 import WorkPlanPage from "../work_plan";
-import { ProjectHeader } from "./components/ProjectHeader";
-import { ProjectSummaryStrip } from "./components/ProjectSummaryStrip";
+import { ProjectDetailHeader } from "./components/ProjectDetailHeader";
 import { OverviewTab } from "./tabs/OverviewTab";
+import { StatusReportsTab } from "./tabs/StatusReportsTab";
 import { TasksTab } from "./tabs/TasksTab";
 import { TeamTab } from "./tabs/TeamTab";
 import { TimesheetsTab } from "./tabs/TimesheetsTab";
@@ -16,10 +16,12 @@ import { frappeCall, showAlert } from "./utils/frappe";
 interface Props {
   projectId: string;
   onBack: () => void;
+  onGoToDashboard: () => void;
 }
 
 type TabKey =
   | "overview"
+  | "status_reports"
   | "tasks"
   | "team"
   | "timesheets"
@@ -31,6 +33,7 @@ type TabKey =
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "overview", label: "Overview" },
+  { key: "status_reports", label: "Status Reports" },
   { key: "tasks", label: "Tasks" },
   { key: "team", label: "Team" },
   { key: "timesheets", label: "Timesheets" },
@@ -41,7 +44,7 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "meetings", label: "Meetings" },
 ];
 
-export function ProjectDetail({ projectId, onBack }: Props) {
+export function ProjectDetail({ projectId, onBack, onGoToDashboard }: Props) {
   const { doc, loading, error, refetch } = useProjectDetail(projectId);
   const [activeTab, setActiveTab] = useState<TabKey>("overview");
   const [pullingJira, setPullingJira] = useState(false);
@@ -71,12 +74,12 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
   return (
     <div className="pm-fade-in">
-      <ProjectHeader
+      <ProjectDetailHeader
         projectId={projectId}
-        title={doc?.project_name || projectId}
-        status={doc?.status}
+        doc={doc}
         loading={loading}
         onBack={onBack}
+        onGoToDashboard={onGoToDashboard}
       />
 
       {loading && (
@@ -94,8 +97,6 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
       {doc && !loading && (
         <>
-          <ProjectSummaryStrip doc={doc} />
-
           {doc.report_overdue && (
             <div
               style={{
@@ -149,6 +150,9 @@ export function ProjectDetail({ projectId, onBack }: Props) {
 
           {activeTab === "overview" && (
             <OverviewTab doc={doc} projectId={projectId} />
+          )}
+          {activeTab === "status_reports" && (
+            <StatusReportsTab projectId={projectId} />
           )}
           {activeTab === "tasks" && (
             <TasksTab

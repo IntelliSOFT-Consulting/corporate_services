@@ -198,4 +198,98 @@ export const LOCAL_STYLES = `
 .ipm-workload-row-danger td {
   background: #fdf1f2;
 }
+.ipm-report-alert {
+  border-left: 4px solid #e2a336;
+  background: #fff8e6;
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.ipm-report-alert-text {
+  font-size: 13px;
+  color: #7a5b16;
+}
+.ipm-report-alert-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ipm-report-alert-btn:hover {
+  background: #c62836;
+}
+.ipm-risk-tile {
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+}
+.ipm-risk-tile-green { background: #eaf7ef; }
+.ipm-risk-tile-amber { background: #fff8e6; }
+.ipm-risk-tile-red { background: #fdecee; }
+.ipm-risk-tile-val {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.ipm-risk-tile-green .ipm-risk-tile-val { color: #2e9e5b; }
+.ipm-risk-tile-amber .ipm-risk-tile-val { color: #b8860b; }
+.ipm-risk-tile-red .ipm-risk-tile-val { color: #dc3545; }
+.ipm-risk-tile-label {
+  font-size: 11px;
+  color: var(--text-muted, #6c757d);
+  margin-top: 4px;
+}
+.ipm-quickstat-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ipm-quickstat-card {
+  flex: 1;
+  min-width: 200px;
+  background: var(--fg-color, #fff);
+  border: 1px solid var(--border-color, #dee2e6);
+  border-left: 4px solid var(--primary, #5e64ff);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+.ipm-quickstat-val {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-color, #333);
+}
+.ipm-quickstat-label {
+  font-size: 12px;
+  color: var(--text-muted, #6c757d);
+  margin-top: 2px;
+}
+.ipm-quickstat-link {
+  font-size: 11px;
+  margin-top: 8px;
+  display: inline-block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--primary, #5e64ff);
+}
+.ipm-badge-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-weight: 700;
+}
 `;

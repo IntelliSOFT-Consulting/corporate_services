@@ -6,6 +6,7 @@ from frappe.utils import flt, getdate
 from corporate_services.api.project import (
     _get_next_milestones,
     get_last_report_date,
+    get_project_phase_order,
     get_report_frequency_days,
 )
 from corporate_services.api.project.lifecycle_toolkit import (
@@ -16,26 +17,108 @@ from corporate_services.api.project.lifecycle_toolkit import (
 )
 from corporate_services.api.project.permissions import get_bypass_roles
 
-PROJECT_PHASE_ORDER = [
-    "Initiation",
-    "Planning",
-    "Execution",
-    "Monitoring & Control",
-    "Post-Implementation Closeout",
-    "Closed",
-]
-
 
 @frappe.whitelist()
 def get_dashboard_data():
     summary = _get_summary()
     status_breakdown = _get_status_breakdown()
     projects = _get_projects()
+    risk_summary, overdue_reports = _get_risk_and_overdue_reports()
+    milestones_due_soon = _get_milestones_due_soon()
+    payment_schedule = _get_payment_schedule_overview()
+
+    today = getdate()
+    payments_approaching = [
+        row
+        for row in payment_schedule
+        if row["payment_status"] == "Pending"
+        and row["due_date"]
+        and 0 <= (getdate(row["due_date"]) - today).days <= 30
+    ]
+
     return {
         "summary": summary,
         "status_breakdown": status_breakdown,
         "projects": projects,
+        "risk_summary": risk_summary,
+        "overdue_reports": overdue_reports,
+        "milestones_due_soon": milestones_due_soon,
+        "payment_schedule": payment_schedule,
+        "payments_approaching": payments_approaching,
     }
+
+
+def _get_risk_and_overdue_reports():
+    rows = frappe.db.sql(
+        """
+        select
+            p.name,
+            p.project_name,
+            coalesce(p.percent_complete, 0) as percent_complete,
+            p.expected_end_date,
+            p.custom_project_phase as phase,
+            p.custom_project_report_frequency as report_frequency
+        from `tabProject` p
+        where p.status not in ('Cancelled', 'Completed')
+        """,
+        as_dict=True,
+    )
+    summary = _score_projects(rows)
+    risk_summary = {
+        "on_track": summary["green"],
+        "needs_attention": summary["amber"],
+        "at_risk": summary["red"],
+        "not_started": summary["not_started"],
+    }
+    overdue_reports = [
+        {"project": r["name"], "project_name": r["project_name"]}
+        for r in rows
+        if r.get("badge") and r["badge"]["type"] in ("report_overdue", "no_report")
+    ]
+    return risk_summary, overdue_reports
+
+
+def _get_milestones_due_soon():
+    return frappe.db.sql(
+        """
+        select
+            t.project,
+            p.project_name,
+            t.subject,
+            t.exp_end_date
+        from `tabTask` t
+        join `tabProject` p on p.name = t.project
+        where p.status not in ('Cancelled', 'Completed')
+          and t.is_milestone = 1
+          and t.status not in ('Completed', 'Cancelled', 'Closed')
+          and t.exp_end_date between curdate() and date_add(curdate(), interval 7 day)
+        order by t.exp_end_date asc
+        """,
+        as_dict=True,
+    )
+
+
+def _get_payment_schedule_overview():
+    return frappe.db.sql(
+        """
+        select
+            p.name as project,
+            p.project_name,
+            c.customer_name as client,
+            pd.deliverable_name as deliverable,
+            pps.percentage,
+            pps.anticipated_completion_date as due_date,
+            pps.status,
+            pps.payment_status
+        from `tabProject Payment Schedule` pps
+        join `tabProject` p on p.name = pps.parent
+        left join `tabProject Deliverable` pd on pd.name = pps.deliverable
+        left join `tabCustomer` c on c.name = pd.customer
+        where p.status not in ('Cancelled', 'Completed')
+        order by pps.anticipated_completion_date asc
+        """,
+        as_dict=True,
+    )
 
 
 def _split_lines(value):
@@ -257,9 +340,10 @@ _RAG_SUMMARY_KEY = {"Red": "red", "Amber": "amber", "Green": "green", "NotStarte
 def _format_phase(phase, short=False):
     if not phase:
         return None
-    if phase not in PROJECT_PHASE_ORDER:
+    phase_order = get_project_phase_order()
+    if phase not in phase_order:
         return phase
-    idx = PROJECT_PHASE_ORDER.index(phase) + 1
+    idx = phase_order.index(phase) + 1
     if short:
         return f"P{idx} {PROJECT_PHASE_SHORT.get(phase, phase)}"
     return f"Phase {idx} - {phase}"
@@ -619,36 +703,196 @@ def get_delivery_pipeline():
 
 
 @frappe.whitelist()
-def get_overdue_deliverables():
-    rows = frappe.db.sql(
-        """
+def get_overdue_deliverables(pm=None):
+    user = frappe.session.user
+    is_smt = _user_is_smt(user)
+    pm_rows = _get_active_pms()
+
+    conditions = ["p.status not in ('Cancelled', 'Completed')"]
+    params = {}
+    if is_smt:
+        if pm:
+            conditions.append(
+                "exists (select 1 from `tabProject Manager` pmf where pmf.parent = p.name and pmf.employee = %(pm)s)"
+            )
+            params["pm"] = pm
+    else:
+        employee = _user_employee(user)
+        if not employee:
+            return {
+                "is_smt": False,
+                "pms": [],
+                "selected_pm": None,
+                "overdue_reports": [],
+                "milestones": [],
+                "payment_alerts": [],
+                "summary": {"overdue_reports": 0, "overdue_milestones": 0, "overdue_payments": 0, "approaching_payments": 0},
+            }
+        conditions.append(
+            "exists (select 1 from `tabProject Manager` pmf where pmf.parent = p.name and pmf.employee = %(employee)s)"
+        )
+        params["employee"] = employee
+
+    where = " and ".join(conditions)
+    today = getdate()
+
+    overdue_reports = _get_overdue_status_reports(where, params, today)
+    milestones = _get_milestone_alerts(where, params, today)
+    payment_alerts = _get_payment_alerts(where, params, today)
+
+    return {
+        "is_smt": is_smt,
+        "pms": pm_rows,
+        "selected_pm": pm if is_smt else None,
+        "overdue_reports": overdue_reports,
+        "milestones": milestones,
+        "payment_alerts": payment_alerts,
+        "summary": {
+            "overdue_reports": len(overdue_reports),
+            "overdue_milestones": sum(1 for m in milestones if m["overdue"]),
+            "overdue_payments": sum(1 for r in payment_alerts if r["overdue"]),
+            "approaching_payments": sum(1 for r in payment_alerts if not r["overdue"]),
+        },
+    }
+
+
+def _get_overdue_status_reports(where, params, today):
+    projects = frappe.db.sql(
+        f"""
         select
-            t.name,
-            t.subject,
-            t.project,
-            t.exp_end_date,
-            t.status,
-            datediff(curdate(), t.exp_end_date) as days_overdue,
+            p.name,
             p.project_name,
             p.customer,
-            group_concat(pm.employee_name separator ', ') as pm_names
+            p.creation,
+            p.custom_project_report_frequency as report_frequency
+        from `tabProject` p
+        where {where}
+        """,
+        params,
+        as_dict=True,
+    )
+
+    rows = []
+    for p in projects:
+        freq_days = get_report_frequency_days(p.get("report_frequency"))
+        if not freq_days:
+            continue
+
+        frequency_label = frappe.db.get_value("Reporting Frequency", p.report_frequency, "reporting_frequency")
+        last = get_last_report_date(p.name)
+        baseline = getdate(last) if last else getdate(p.creation)
+        due_date = frappe.utils.add_days(baseline, freq_days)
+        days_over = (today - due_date).days
+        if days_over <= 0:
+            continue
+
+        rows.append({
+            "project": p.name,
+            "project_name": p.project_name,
+            "client": p.customer,
+            "report_type": f"{frequency_label} Status Report" if frequency_label else "Status Report",
+            "frequency": frequency_label,
+            "due_date": due_date,
+            "days_over": days_over,
+        })
+
+    rows.sort(key=lambda r: -r["days_over"])
+    return rows
+
+
+def _get_milestone_alerts(where, params, today):
+    tasks = frappe.db.sql(
+        f"""
+        select
+            t.name,
+            t.project,
+            p.project_name,
+            p.custom_project_phase as phase,
+            t.subject,
+            t.exp_end_date,
+            t.status,
+            group_concat(distinct pm.employee_name separator ', ') as pm_names
         from `tabTask` t
         join `tabProject` p on p.name = t.project
         left join `tabProject Manager` pm on pm.parent = t.project
-        where t.project is not null
-          and t.status not in ('Completed', 'Cancelled', 'Closed')
-          and (
-              t.status = 'Overdue'
-              or (t.exp_end_date is not null and t.exp_end_date < curdate())
-          )
-          and p.status not in ('Cancelled', 'Completed')
+        where {where}
+          and t.is_milestone = 1
+          and t.status not in ('Completed', 'Cancelled')
+          and t.exp_end_date is not null
         group by t.name
-        order by days_overdue desc
-        limit 100
         """,
+        params,
         as_dict=True,
     )
-    return {"tasks": rows, "total": len(rows)}
+
+    overdue, upcoming_by_project = [], {}
+    for t in tasks:
+        due = getdate(t.exp_end_date)
+        row = {
+            "project": t.project,
+            "project_name": t.project_name,
+            "phase": _format_phase(t.phase, short=True),
+            "milestone": t.subject,
+            "due_date": t.exp_end_date,
+            "assigned": t.pm_names,
+            "status": t.status,
+        }
+        if due < today:
+            row["overdue"] = True
+            row["days"] = (today - due).days
+            overdue.append(row)
+        else:
+            row["overdue"] = False
+            row["days"] = (due - today).days
+            existing = upcoming_by_project.get(t.project)
+            if not existing or due < getdate(existing["due_date"]):
+                upcoming_by_project[t.project] = row
+
+    overdue.sort(key=lambda r: -r["days"])
+    upcoming = sorted(upcoming_by_project.values(), key=lambda r: r["days"])
+    return overdue + upcoming
+
+
+def _get_payment_alerts(where, params, today):
+    rows = frappe.db.sql(
+        f"""
+        select
+            p.name as project,
+            p.project_name,
+            p.customer as client,
+            pd.deliverable_name as deliverable,
+            pps.anticipated_completion_date as due_date,
+            pps.payment_status
+        from `tabProject Payment Schedule` pps
+        join `tabProject` p on p.name = pps.parent
+        left join `tabProject Deliverable` pd on pd.name = pps.deliverable
+        where {where}
+          and pps.payment_status = 'Pending'
+          and pps.anticipated_completion_date is not null
+        """,
+        params,
+        as_dict=True,
+    )
+
+    alerts = []
+    for r in rows:
+        due = getdate(r.due_date)
+        days = (today - due).days
+        if days < 0 and abs(days) > 7:
+            continue
+        alerts.append({
+            "project": r.project,
+            "project_name": r.project_name,
+            "client": r.client,
+            "deliverable": r.deliverable,
+            "due_date": r.due_date,
+            "payment_status": r.payment_status,
+            "overdue": days > 0,
+            "days": abs(days),
+        })
+
+    alerts.sort(key=lambda r: (not r["overdue"], -r["days"] if r["overdue"] else r["days"]))
+    return alerts
 
 
 @frappe.whitelist()

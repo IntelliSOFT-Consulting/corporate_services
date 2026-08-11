@@ -1,9 +1,6 @@
 import React from "react";
 import { useProjectLifecycle } from "../hooks/useProjectLifecycle";
 import { SectionCard } from "../components/SectionCard";
-import { RelatedTable, Column } from "../components/RelatedTable";
-import { formatDateOrDash } from "../utils/format";
-import { LifecycleDocument } from "../hooks/useProjectLifecycle";
 
 const SYNC_STATUS_COLOR: Record<string, string> = {
   Synced: "green",
@@ -28,36 +25,6 @@ export function LifecycleTab({ projectId }: { projectId: string }) {
   const documents = checklist?.documents ?? [];
   const syncedCount = documents.filter((d) => d.sync_status === "Synced").length;
 
-  const columns: Column<LifecycleDocument>[] = [
-    { header: "Required Template", render: (row) => row.template_name },
-    {
-      header: "Status",
-      width: 140,
-      render: (row) => <SyncStatusBadge status={row.sync_status} />,
-    },
-    {
-      header: "Drive File",
-      render: (row) =>
-        row.drive_file_link ? (
-          <a
-            className="pm-proj-link"
-            href={row.drive_file_link}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open
-          </a>
-        ) : (
-          "-"
-        ),
-    },
-    {
-      header: "Last Synced",
-      width: 120,
-      render: (row) => formatDateOrDash(row.last_synced_at || undefined),
-    },
-  ];
-
   return (
     <div>
       <SectionCard
@@ -81,7 +48,7 @@ export function LifecycleTab({ projectId }: { projectId: string }) {
         >
           <button
             type="button"
-            className="btn btn-sm btn-primary"
+            className="btn btn-sm btn-dark"
             onClick={() => void handleCreateOrSyncRecord()}
             disabled={tabLoading || syncing}
           >
@@ -106,19 +73,51 @@ export function LifecycleTab({ projectId }: { projectId: string }) {
         <div className="text-muted" style={{ fontSize: 13, marginBottom: 12 }}>
           Every template configured in the Project Toolkit is listed below.
           Create or sync the record to check off the ones already uploaded to
-          this project's Google Drive folder and add any newly-required
-          templates to the checklist.
+          this project's Google Drive folder.
         </div>
 
         {tabLoading ? (
           <div className="text-muted">Loading lifecycle checklist…</div>
+        ) : documents.length === 0 ? (
+          <div className="pm-empty-inline">No toolkit templates are configured yet.</div>
         ) : (
-          <RelatedTable
-            columns={columns}
-            rows={documents}
-            getKey={(row) => row.template_name}
-            emptyText="No toolkit templates are configured yet."
-          />
+          <div>
+            {documents.map((doc) => {
+              const isSynced = doc.sync_status === "Synced";
+              return (
+                <div className="pm-lifecycle-row" key={doc.template_name}>
+                  <div className="pm-lifecycle-name">
+                    <span className={`pm-lifecycle-check ${isSynced ? "synced" : "unsynced"}`}>
+                      {isSynced ? "✓" : ""}
+                    </span>
+                    {doc.template_name}
+                  </div>
+                  <div className="pm-lifecycle-actions">
+                    <SyncStatusBadge status={doc.sync_status} />
+                    {isSynced && doc.drive_file_link ? (
+                      <a
+                        className="btn btn-sm btn-outline-secondary"
+                        href={doc.drive_file_link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        View
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary"
+                        onClick={() => void handleCreateOrSyncRecord()}
+                        disabled={tabLoading || syncing}
+                      >
+                        Sync
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </SectionCard>
     </div>
