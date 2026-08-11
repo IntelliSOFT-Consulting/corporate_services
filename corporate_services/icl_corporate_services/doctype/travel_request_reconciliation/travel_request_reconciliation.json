@@ -37,6 +37,9 @@
   "total_local_amount",
   "section_break_oxho",
   "trip_report",
+  "column_break_cpql",
+  "trip_report_link",
+  "section_break_imiu",
   "amended_from"
  ],
  "fields": [
@@ -250,12 +253,26 @@
   {
    "fieldname": "column_break_iduv",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cpql",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trip_report_link",
+   "fieldtype": "Link",
+   "label": "Trip Report Link",
+   "options": "Trip Report"
+  },
+  {
+   "fieldname": "section_break_imiu",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-23 11:24:58.873599",
+ "modified": "2026-08-11 11:28:06.467360",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Travel Request Reconciliation",
