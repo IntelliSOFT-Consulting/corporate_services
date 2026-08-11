@@ -15,9 +15,12 @@
   "column_break_qjkz",
   "department",
   "supervisor",
-  "review_period",
+  "review_period_start",
+  "review_period_end",
+  "submission_deadline",
   "contract_type",
   "clarification_required",
+  "kpi_reminder_sent",
   "section_break_aagp",
   "table_ngcr"
  ],
@@ -64,10 +67,22 @@
    "read_only": 1
   },
   {
-   "fieldname": "review_period",
+   "fieldname": "review_period_start",
    "fieldtype": "Date",
-   "label": "Review Period",
+   "label": "Review Period Start",
    "reqd": 1
+  },
+  {
+   "fieldname": "review_period_end",
+   "fieldtype": "Date",
+   "label": "Review Period End",
+   "reqd": 1
+  },
+  {
+   "fieldname": "submission_deadline",
+   "fieldtype": "Date",
+   "label": "Submission Deadline",
+   "read_only": 1
   },
   {
    "fetch_from": "employee.custom_contract_type",
@@ -123,6 +138,14 @@
    "fieldname": "clarification_required",
    "fieldtype": "Small Text",
    "label": "Clarification Required",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "kpi_reminder_sent",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "KPI Reminder Sent",
    "read_only": 1
   }
  ],

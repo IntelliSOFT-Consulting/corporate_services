@@ -204,6 +204,13 @@
    },
    {
     "parent": "wikihomespace1",
+    "parent_label": "Asset Management",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "assetregistrationdoc1"
+   },
+   {
+    "parent": "wikihomespace1",
     "parent_label": "Project Management - Initiation",
     "parentfield": "wiki_sidebars",
     "parenttype": "Wiki Space",

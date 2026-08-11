@@ -4,13 +4,26 @@ from frappe.utils import getdate
 
 
 @frappe.whitelist()
-def start_kpi_cycle(review_period, employees=None, department=None, contract_type=None):
+def start_kpi_cycle(
+    review_period_start,
+    review_period_end,
+    submission_deadline=None,
+    employees=None,
+    department=None,
+    contract_type=None,
+):
     frappe.only_for(["HR Manager", "System Manager"])
 
-    if not review_period:
-        frappe.throw(_("Review Period is required"))
+    if not review_period_start or not review_period_end:
+        frappe.throw(_("Review Period Start and End are required"))
 
-    review_period = getdate(review_period)
+    review_period_start = getdate(review_period_start)
+    review_period_end = getdate(review_period_end)
+
+    if review_period_end < review_period_start:
+        frappe.throw(_("Review Period End cannot be before Review Period Start"))
+
+    submission_deadline = getdate(submission_deadline) if submission_deadline else None
 
     if isinstance(employees, str):
         employees = frappe.parse_json(employees)
@@ -35,7 +48,14 @@ def start_kpi_cycle(review_period, employees=None, department=None, contract_typ
     created, skipped = [], []
 
     for emp in target_employees:
-        if frappe.db.exists("Employee KPI", {"employee": emp.name, "review_period": review_period}):
+        if frappe.db.exists(
+            "Employee KPI",
+            {
+                "employee": emp.name,
+                "review_period_start": review_period_start,
+                "review_period_end": review_period_end,
+            },
+        ):
             skipped.append(emp.employee_name or emp.name)
             continue
 
@@ -43,7 +63,9 @@ def start_kpi_cycle(review_period, employees=None, department=None, contract_typ
             {
                 "doctype": "Employee KPI",
                 "employee": emp.name,
-                "review_period": review_period,
+                "review_period_start": review_period_start,
+                "review_period_end": review_period_end,
+                "submission_deadline": submission_deadline,
                 "workflow_state": "Draft",
             }
         )

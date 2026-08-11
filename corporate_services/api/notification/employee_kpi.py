@@ -1,7 +1,7 @@
 import frappe
 from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
-from frappe.utils import get_url_to_form
+from frappe.utils import format_date, get_url_to_form
 
 
 def _get_supervisor_email(employee):
@@ -29,6 +29,43 @@ def _send_workflow_email(doc, recipients, subject, message):
         message=message,
         header=("Employee KPI", "text/html"),
     )
+
+
+def send_creation_reminder(doc, method):
+    if doc.kpi_reminder_sent:
+        return
+
+    employee = frappe.get_doc("Employee", doc.employee)
+    employee_name = employee.employee_name or employee.name
+    employee_email = employee.company_email or employee.personal_email
+
+    if not employee_email:
+        return
+
+    supervisor_email = _get_supervisor_email(employee)
+    doc_link = get_url_to_form(doc.doctype, doc.name)
+    deadline_text = format_date(doc.submission_deadline) if doc.submission_deadline else None
+    period_text = f"{format_date(doc.review_period_start, 'MMM yyyy')} - {format_date(doc.review_period_end, 'MMM yyyy')}"
+
+    recipients = [employee_email]
+    cc = [supervisor_email] if supervisor_email else []
+
+    frappe.sendmail(
+        recipients=recipients,
+        cc=cc,
+        subject=f"Action Required: Fill in your KPI for {period_text}",
+        message=f"""
+            <p>Dear {frappe.utils.escape_html(employee_name)},</p>
+            <p>A new KPI cycle has been started for the review period <strong>{period_text}</strong>.</p>
+            <p>Please fill in your KPIs and submit them to your supervisor for review
+            {f"by <strong>{deadline_text}</strong>" if deadline_text else ""}.</p>
+            <p><a href="{doc_link}">Open Employee KPI</a></p>
+            <p>Kind regards,<br><strong>HR Department</strong></p>
+        """,
+        header=("Employee KPI", "text/html"),
+    )
+
+    doc.db_set("kpi_reminder_sent", 1, update_modified=False)
 
 
 def alert(doc, method):

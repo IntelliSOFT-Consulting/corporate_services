@@ -5,22 +5,25 @@ from corporate_services.api.helpers.print_formats import get_default_print_forma
 from corporate_services.api.notification.notification_contacts import (
     get_procurement_team_emails,
     get_hr_manager_emails,
+    get_finance_team_emails,
     get_supervisor_contact,
 )
 from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
+def send_email(doc, recipients, subject, message, pdf_content, doc_name, cc=None):
     recipients = filter_recipients(doc, recipients)
     if not recipients:
         return
+    attachments = [{
+        'fname': '{}.pdf'.format(doc_name),
+        'fcontent': pdf_content
+    }] if pdf_content else []
     frappe.sendmail(
         recipients=recipients,
+        cc=cc,
         subject=subject,
         message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
+        attachments=attachments,
         header=("Asset Requisition", "text/html")
     )
 
@@ -149,9 +152,10 @@ def alert(doc, method):
             send_email(
                 doc,
                 recipients=[employee_email],
+                cc=get_hr_manager_emails() + get_finance_team_emails(),
                 subject=frappe._('Your Asset Requisition has been Approved by Procurement'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
+                pdf_content=None,
                 doc_name=doc.name
             )
 
@@ -160,6 +164,7 @@ def alert(doc, method):
             send_email(
                 doc,
                 recipients=[employee_email],
+                cc=get_hr_manager_emails(),
                 subject=frappe._('Your Asset Requisition has been Rejected by Procurement'),
                 message=message_to_employee,
                 pdf_content=pdf_content,

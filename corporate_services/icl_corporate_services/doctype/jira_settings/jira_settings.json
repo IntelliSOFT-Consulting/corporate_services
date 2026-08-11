@@ -11,7 +11,9 @@
   "column_break_conn",
   "api_token",
   "last_tested",
-  "last_status"
+  "last_status",
+  "notifications_section",
+  "notify_users"
  ],
  "fields": [
   {
@@ -56,6 +58,18 @@
    "fieldtype": "Small Text",
    "label": "Last Status",
    "read_only": 1
+  },
+  {
+   "fieldname": "notifications_section",
+   "fieldtype": "Section Break",
+   "label": "Notifications"
+  },
+  {
+   "description": "Notified when a Jira project is found that has no matching ERPNext Project (linked via Project's Jira Project field).",
+   "fieldname": "notify_users",
+   "fieldtype": "Table MultiSelect",
+   "label": "Notify Users (Unlinked Jira Projects)",
+   "options": "Jira Notify User"
   }
  ],
  "grid_page_length": 50,

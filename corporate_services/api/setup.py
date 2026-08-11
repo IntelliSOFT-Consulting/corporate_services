@@ -1,13 +1,6 @@
 import frappe
 
-DOCTYPE_LINKS = [
-	{
-		"parent": "Project",
-		"link_doctype": "Project Meeting Minutes",
-		"link_fieldname": "project",
-		"group": "Reports",
-	},
-]
+DOCTYPE_LINKS = []
 
 
 def add_connections():

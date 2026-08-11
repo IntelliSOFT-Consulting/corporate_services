@@ -88,13 +88,18 @@ doctype_js = {
     "Travel Request": "public/js/travel_request.js",
     "Payment Entry": "public/js/payment_entry_budget_defaults.js",
     "Payment Entry Budget Line": "public/js/payment_entry_budget_defaults.js",
-    "Project": ["public/js/project_google_drive.js", "public/js/project_lessons_learned_kb.js"],
+    "Project": [
+        "public/js/project_google_drive.js",
+        "public/js/project_lessons_learned_kb.js",
+        "public/js/project_pull_jira_tasks.js",
+    ],
 }
 doctype_list_js = {
     "Timesheet Submission": "public/js/timesheet_submission_list.js",
     "Travel Request": "public/js/travel_request_list.js",
     "SMT Members": "public/js/smt_members_list.js",
     "Employee KPI": "public/js/employee_kpi_list.js",
+    "Jira Project": "public/js/jira_project_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -188,11 +193,13 @@ after_migrate = [
 permission_query_conditions = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.get_permission_query_conditions",
     "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.get_permission_query_conditions",
+    "Project": "corporate_services.api.project.permissions.get_permission_query_conditions",
 }
 
 has_permission = {
     "Weekly Progress Report": "corporate_services.icl_corporate_services.doctype.weekly_progress_report.weekly_progress_report.has_permission",
     "Employee KPI": "corporate_services.icl_corporate_services.doctype.employee_kpi.employee_kpi.has_permission",
+    "Project": "corporate_services.api.project.permissions.has_permission",
 }
 
 # DocType Class
@@ -230,7 +237,7 @@ on_update_map = {
     "Leave Application": "corporate_services.api.notification.leave_application.alert",
     "Work Continuity Plan": "corporate_services.api.notification.work_continuity_plan.alert",
     "Asset Custodianship Requisition": "corporate_services.api.notification.asset_custotianship_requisition.alert",
-    "Asset Requisition": "corporate_services.api.notification.asset_requisition.alert",
+    "Asset Requisition": "corporate_services.api.notification.asset.asset_requisition.alert",
     "Timesheet Submission":"corporate_services.api.timesheet.finance_timesheet_submission.finance_timesheet_submission",
     "Project": [
         "corporate_services.api.notification.project.project_manager.alert",
@@ -309,6 +316,7 @@ event_maps = {
         "Survey Response": "corporate_services.api.survey.on_survey_response_insert",
         "Opportunity Task Checklist": "corporate_services.api.opportunity_checklist_handlers.sync_checklist_to_opportunity",
         "Anonymous Employee Grievance": "corporate_services.api.grievance.anonymous_grievance.alert",
+        "Employee KPI": "corporate_services.api.notification.employee_kpi.send_creation_reminder",
     },
     "on_trash": {
         "Survey Response": "corporate_services.api.survey.on_survey_response_delete",
@@ -356,6 +364,8 @@ scheduler_events = {
         # "corporate_services.api.notification.onboarding.onboarding_notifications.send_policy_comprehension_quiz"
         "corporate_services.api.notification.project.scheduled_tasks.send_status_report_reminders",
         "corporate_services.api.notification.project.scheduled_tasks.send_milestone_alerts",
+        "corporate_services.api.notification.project.scheduled_tasks.send_my_tasks_due_soon_digest",
+        "corporate_services.api.jira.jira.sync_and_notify_new_projects",
 	],
 	# "hourly": [
 	# 	"corporate_services.tasks.hourly"

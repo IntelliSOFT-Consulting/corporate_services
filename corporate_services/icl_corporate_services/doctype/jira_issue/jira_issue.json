@@ -17,10 +17,12 @@
   "parent_key",
   "labels",
   "resolution",
+  "sprint",
   "dates_section",
   "created",
   "updated",
   "column_break_dates",
+  "start_date",
   "due_date",
   "url"
  ],
@@ -103,6 +105,13 @@
    "read_only": 1
   },
   {
+   "fieldname": "sprint",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sprint",
+   "read_only": 1
+  },
+  {
    "fieldname": "dates_section",
    "fieldtype": "Section Break",
    "label": "Dates"
@@ -122,6 +131,12 @@
   {
    "fieldname": "column_break_dates",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "read_only": 1
   },
   {
    "fieldname": "due_date",

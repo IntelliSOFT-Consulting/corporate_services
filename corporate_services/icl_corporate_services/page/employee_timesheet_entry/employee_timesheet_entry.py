@@ -1,5 +1,7 @@
 import frappe
 import json
+from frappe import _
+from frappe.utils import getdate
 from datetime import datetime, timedelta
 from collections import OrderedDict
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
@@ -221,9 +223,11 @@ def get_timesheet_context(submission_name):
                 continue
             project_name = frappe.db.get_value("Project", project_docname, "project_name")
             if project_name:
+                custom_jira_project = frappe.db.get_value("Project", project_docname, "custom_jira_project")
                 assigned_project_map[project_docname] = {
                     "name": project_docname,
                     "project_name": project_name,
+                    "custom_jira_project": custom_jira_project,
                 }
 
     assigned_project_names = list(assigned_project_map.values())
@@ -381,6 +385,11 @@ def save_web_timesheet(submission_name, sections):
 
     activity_field_mapping = get_activity_field_mapping()
 
+    # A task saved with no hours entered anywhere yet still needs one placeholder
+    # row (0 hours) so it isn't silently dropped - anchor it to the period start.
+    period_month, period_year = (int(p) for p in doc.month_year.split("-"))
+    period_start_date, _period_end_date = get_timesheet_period(period_month, period_year)
+
     project_timesheets = {}
     activity_timesheets = {}
     total_hours = 0.0
@@ -418,10 +427,14 @@ def save_web_timesheet(submission_name, sections):
 
             for task_row in tasks:
                 task_desc = task_row.get("task", "")
-                hours_map = task_row.get("hours", {})
+                if not task_desc.strip():
+                    continue
+                hours_map = task_row.get("hours") or {}
+                if not hours_map:
+                    hours_map = {period_start_date.isoformat(): 0}
                 for date_str, hours in hours_map.items():
-                    hours = float(hours)
-                    if hours <= 0:
+                    hours = float(hours or 0)
+                    if hours < 0:
                         continue
                     date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                     if date_str not in day_time_cursor:
@@ -468,10 +481,14 @@ def save_web_timesheet(submission_name, sections):
 
             for task_row in tasks:
                 task_desc = task_row.get("task", "")
-                hours_map = task_row.get("hours", {})
+                if not task_desc.strip():
+                    continue
+                hours_map = task_row.get("hours") or {}
+                if not hours_map:
+                    hours_map = {period_start_date.isoformat(): 0}
                 for date_str, hours in hours_map.items():
-                    hours = float(hours)
-                    if hours <= 0:
+                    hours = float(hours or 0)
+                    if hours < 0:
                         continue
                     date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                     if date_str not in day_time_cursor:
@@ -548,3 +565,98 @@ def save_web_timesheet(submission_name, sections):
     frappe.db.commit()
 
     return {"status": "success", "total_hours": total_hours}
+
+
+@frappe.whitelist()
+def add_task_to_timesheet(task_name, month_year):
+    """Add a Task to the given month's Timesheet Submission (creating the submission if needed).
+
+    The task is inserted at 0 hours so it shows up in the grid ready for the
+    employee to fill in hours later, rather than requiring hours up front.
+    """
+    from corporate_services.api.project.permissions import get_bypass_roles
+
+    task = frappe.get_doc("Task", task_name)
+    employee = task.custom_allocate_to
+    if not employee:
+        frappe.throw(_("This task has no allocated employee."))
+
+    session_employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "name")
+    is_bypass = bool(set(frappe.get_roles(frappe.session.user)) & get_bypass_roles())
+    if not is_bypass and session_employee != employee:
+        frappe.throw(_("You can only add tasks allocated to you."), frappe.PermissionError)
+
+    if not task.project:
+        frappe.throw(_("This task has no linked Project, so it can't be added to a project timesheet."))
+
+    submission_name = frappe.db.get_value(
+        "Timesheet Submission",
+        {"employee": employee, "month_year": month_year, "docstatus": ["!=", 2]},
+        "name",
+    )
+    created_submission = False
+    if submission_name:
+        submission = frappe.get_doc("Timesheet Submission", submission_name)
+    else:
+        submission = frappe.new_doc("Timesheet Submission")
+        submission.employee = employee
+        submission.month_year = month_year
+        submission.insert(ignore_permissions=True)
+        frappe.db.commit()
+        submission_name = submission.name
+        created_submission = True
+
+    project_name = frappe.db.get_value("Project", task.project, "project_name") or task.project
+    task_label = f"{task.custom_jira_issue_key}: {task.subject}" if task.custom_jira_issue_key else (task.subject or task.name)
+
+    month, year = (int(p) for p in month_year.split("-"))
+    period_start_date, period_end_date = get_timesheet_period(month, year)
+    anchor_date = period_start_date
+    if task.exp_end_date and period_start_date <= getdate(task.exp_end_date) <= period_end_date:
+        anchor_date = getdate(task.exp_end_date)
+
+    existing_ts_name = frappe.db.get_value(
+        "Timesheet",
+        {"custom_timesheet_submission": submission_name, "parent_project": task.project, "docstatus": ["!=", 2]},
+        "name",
+    )
+
+    duplicate = False
+    if existing_ts_name:
+        ts = frappe.get_doc("Timesheet", existing_ts_name)
+        duplicate = any((row.custom_tasks or "").strip() == task_label.strip() for row in ts.time_logs)
+    else:
+        ts = create_timesheet(submission, project=task.project, month_name=month_year)
+
+    if not duplicate:
+        activity_field_mapping = get_activity_field_mapping()
+        anchor_time = datetime.combine(anchor_date, datetime.min.time()).replace(hour=8)
+        create_timesheet_detail_entry(
+            ts,
+            from_time=anchor_time,
+            to_time=anchor_time,
+            activity_type="Projects",
+            task=task_label,
+            day=anchor_date.isoformat(),
+            hours=0,
+            project=project_name,
+            activity_field_mapping=activity_field_mapping,
+        )
+        if ts.name:
+            ts.save(ignore_permissions=True)
+        else:
+            ts.insert(ignore_permissions=True)
+
+        already_listed = any(row.timesheet == ts.name for row in submission.timesheet_per_project)
+        if not already_listed:
+            _append_submission_row(submission, ts)
+            submission.save(ignore_permissions=True)
+
+        frappe.db.commit()
+
+    return {
+        "submission_name": submission_name,
+        "created_submission": created_submission,
+        "duplicate": duplicate,
+        "month_year": month_year,
+    }

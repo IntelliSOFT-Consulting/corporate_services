@@ -111,7 +111,7 @@ def _render_digest_html(projects, milestones, overdue_tasks, high_risks, action_
 	html.append(
 		_list_or_none(
 			projects,
-			lambda p: f"{p.get('project_name') or p['name']} &mdash; {p.get('status') or '-'}",
+			lambda p: f"{p.get('project_name') or p['name']} &ndash; {p.get('status') or '-'}",
 		)
 	)
 
@@ -119,7 +119,7 @@ def _render_digest_html(projects, milestones, overdue_tasks, high_risks, action_
 	html.append(
 		_list_or_none(
 			milestones,
-			lambda m: f"{m.get('subject') or m['name']} &mdash; due {m.get('exp_end_date')}",
+			lambda m: f"{m.get('subject') or m['name']} &ndash; due {m.get('exp_end_date')}",
 		)
 	)
 
@@ -127,7 +127,7 @@ def _render_digest_html(projects, milestones, overdue_tasks, high_risks, action_
 	html.append(
 		_list_or_none(
 			overdue_tasks,
-			lambda t: f"{t.get('subject') or t['name']} &mdash; was due {t.get('exp_end_date')}",
+			lambda t: f"{t.get('subject') or t['name']} &ndash; was due {t.get('exp_end_date')}",
 		)
 	)
 
@@ -207,6 +207,77 @@ def send_weekly_pm_digest():
 		)
 		subject = _("Your Weekly PM Digest - {0}").format(today.strftime("%d %b %Y"))
 		notify([pm_user], subject, message)
+
+
+def _render_my_tasks_digest_html(due_soon, overdue, today, week_end):
+	def _list_or_none(items, render):
+		if not items:
+			return "<p><em>None.</em></p>"
+		return "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
+
+	def _render_task(t):
+		title = t.get("subject") or t["name"]
+		project_title = t.get("project_name") or t.get("project") or "-"
+		jira = f" ({t['custom_jira_issue_key']})" if t.get("custom_jira_issue_key") else ""
+		return f"{title}{jira} &ndash; {project_title}, due {t.get('exp_end_date')}"
+
+	html = [f"<h3>Your Tasks Due Soon &ndash; {today.strftime('%d %b %Y')}</h3>"]
+	html.append(f"<h4>Overdue</h4>")
+	html.append(_list_or_none(overdue, _render_task))
+	html.append(f"<h4>Due This Week ({today} &ndash; {week_end})</h4>")
+	html.append(_list_or_none(due_soon, _render_task))
+
+	return "".join(html)
+
+
+@frappe.whitelist()
+def send_my_tasks_due_soon_digest():
+	"""Daily per-developer digest of their overdue and soon-due tasks (ERPNext + Jira-synced)."""
+	today = getdate()
+	week_end = add_days(today, 7)
+
+	tasks = frappe.get_all(
+		"Task",
+		filters={
+			"custom_allocate_to": ["is", "set"],
+			"status": ["not in", ["Completed", "Cancelled"]],
+			"exp_end_date": ["<", week_end],
+		},
+		fields=["name", "subject", "project", "exp_end_date", "custom_allocate_to", "custom_jira_issue_key"],
+	)
+	if not tasks:
+		return
+
+	project_names = {t["project"] for t in tasks if t.get("project")}
+	project_labels = {}
+	if project_names:
+		for p in frappe.get_all("Project", filters={"name": ["in", list(project_names)]}, fields=["name", "project_name"]):
+			project_labels[p["name"]] = p.get("project_name") or p["name"]
+	for t in tasks:
+		t["project_name"] = project_labels.get(t.get("project"))
+
+	employee_names = {t["custom_allocate_to"] for t in tasks}
+	employee_users = {
+		e["name"]: e["user_id"]
+		for e in frappe.get_all("Employee", filters={"name": ["in", list(employee_names)]}, fields=["name", "user_id"])
+		if e.get("user_id")
+	}
+
+	tasks_by_employee = {}
+	for t in tasks:
+		tasks_by_employee.setdefault(t["custom_allocate_to"], []).append(t)
+
+	for employee, employee_tasks in tasks_by_employee.items():
+		user = employee_users.get(employee)
+		if not user:
+			continue
+
+		overdue = [t for t in employee_tasks if getdate(t["exp_end_date"]) < today]
+		due_soon = [t for t in employee_tasks if getdate(t["exp_end_date"]) >= today]
+
+		message = _render_my_tasks_digest_html(due_soon, overdue, today, week_end)
+		subject = _("Your Tasks Due Soon - {0}").format(today.strftime("%d %b %Y"))
+		notify([user], subject, message)
 
 
 @frappe.whitelist()
