@@ -115,6 +115,9 @@ export type ProjectDetail = ProjectRow & {
   reporting_frequency?: string | null;
   report_overdue?: boolean;
   open_risk_count?: number;
+  phase?: string | null;
+  pm_names?: string | null;
+  rag?: "Red" | "Amber" | "Green" | "NotStarted";
 };
 
 export type ProjectListResult = {

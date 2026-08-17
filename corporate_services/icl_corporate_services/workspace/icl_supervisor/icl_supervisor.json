@@ -5,8 +5,8 @@
    "label": "Timesheet Submission"
   }
  ],
- "content": "[{\"id\":\"_fAakpizW-\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Supervisor</span>\",\"col\":12}},{\"id\":\"xgQ6DJyzH1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"X09-cinACw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"x1h1Ul3A8u\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qCo5R2ywCS\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission\",\"col\":12}},{\"id\":\"n9u0Kb2NFK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"WMSAue7aAI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"AUj1ODbnWi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"L28Sh8mRWo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet\",\"col\":3}},{\"id\":\"vjNIfPb5yf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Needs Analysis\",\"col\":3}},{\"id\":\"U1HsGLmj4Q\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"y42TImV7Y2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"fgojuvCfaM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Requisition\",\"col\":3}},{\"id\":\"_qXuOaoVTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"aOUgkPt68W\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"wPvi7UXZ0-\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Monthly Reflection\",\"col\":4}},{\"id\":\"wprSupQL01\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Weekly Progress Report\",\"col\":4}},{\"id\":\"Bsj3inT5au\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"2WnuQrX1JQ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"DAiamyzyRa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Timesheet processes</b></span>\",\"col\":12}},{\"id\":\"E_BW9Eulut\",\"type\":\"card\",\"data\":{\"card_name\":\"Timeasheet submissions/Reports\",\"col\":4}},{\"id\":\"e3K9NqVqgn\",\"type\":\"card\",\"data\":{\"card_name\":\"Offboarding Process\",\"col\":4}}]",
- "creation": "2026-03-26 08:12:18.050593",
+ "content": "[{\"id\":\"_fAakpizW-\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Supervisor</span>\",\"col\":12}},{\"id\":\"xgQ6DJyzH1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet Submission\",\"col\":3}},{\"id\":\"X09-cinACw\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff Requisition\",\"col\":3}},{\"id\":\"x1h1Ul3A8u\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"qCo5R2ywCS\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Timesheet Submission\",\"col\":12}},{\"id\":\"n9u0Kb2NFK\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"WMSAue7aAI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Appraisal\",\"col\":3}},{\"id\":\"AUj1ODbnWi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Leave Application\",\"col\":3}},{\"id\":\"L28Sh8mRWo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Timesheet\",\"col\":3}},{\"id\":\"vjNIfPb5yf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Training Needs Analysis\",\"col\":3}},{\"id\":\"U1HsGLmj4Q\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"y42TImV7Y2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Asset Requisition\",\"col\":3}},{\"id\":\"fgojuvCfaM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Job Requisition\",\"col\":3}},{\"id\":\"_qXuOaoVTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"aOUgkPt68W\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Staff Requisition\",\"col\":4}},{\"id\":\"wPvi7UXZ0-\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Monthly Reflection\",\"col\":4}},{\"id\":\"wprSupQL01\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Weekly Progress Report\",\"col\":4}},{\"id\":\"Bsj3inT5au\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Timesheet Submission\",\"col\":4}},{\"id\":\"Du92BskI_N\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"General Requisition Form\",\"col\":4}},{\"id\":\"2WnuQrX1JQ\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"DAiamyzyRa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Timesheet processes</b></span>\",\"col\":12}},{\"id\":\"E_BW9Eulut\",\"type\":\"card\",\"data\":{\"card_name\":\"Timeasheet submissions/Reports\",\"col\":4}},{\"id\":\"e3K9NqVqgn\",\"type\":\"card\",\"data\":{\"card_name\":\"Offboarding Process\",\"col\":4}}]",
+ "creation": "2026-08-05 09:44:02.562061",
  "custom_blocks": [
   {
    "custom_block_name": "HR",
@@ -82,7 +82,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-26 08:17:25.664843",
+ "modified": "2026-08-06 10:23:25.291206",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Supervisor",
@@ -94,6 +94,11 @@
   {
    "document_type": "Timesheet Submission",
    "label": "Timesheet Submission",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "General Requisition Form",
+   "label": "General Requisition Form",
    "quick_list_filter": "[]"
   },
   {

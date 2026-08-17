@@ -107,7 +107,10 @@ export function ProjectManagementApp({ page }: { page: any }) {
           />
         )}
         {tab === "projects" && (
-          <ProjectsTab initialProjectId={initialRouteProject} />
+          <ProjectsTab
+            initialProjectId={initialRouteProject}
+            onGoToDashboard={() => setTab("dashboard")}
+          />
         )}
         {tab === "lifecycle" && <LifecycleTab />}
         {tab === "templates" && <TemplatesTab />}

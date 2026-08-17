@@ -1,9 +1,25 @@
 import frappe
 from frappe import _
 import re
-from frappe.utils import add_to_date, get_first_day, get_last_day, getdate
+from frappe.utils import add_to_date, flt, get_first_day, get_last_day, getdate
 
 from corporate_services.api.project.lifecycle_toolkit import get_project_lifecycle_rows, get_toolkit_items
+
+def get_project_phase_order():
+    field = frappe.get_meta("Project").get_field("custom_project_phase")
+    if not field or not field.options:
+        return []
+    return [line.strip() for line in field.options.splitlines() if line.strip()]
+
+
+def _format_project_phase(phase):
+    if not phase:
+        return None
+    phase_order = get_project_phase_order()
+    if phase not in phase_order:
+        return phase
+    idx = phase_order.index(phase) + 1
+    return f"Phase {idx} - {phase}"
 
 
 def _as_int(value, default):
@@ -414,6 +430,26 @@ def get_project(name):
     project["report_overdue"] = _is_report_overdue(name, freq_days)
     project["open_risk_count"] = _get_open_risk_count(name)
 
+    project["phase"] = _format_project_phase(doc.get("custom_project_phase"))
+    project["pm_names"] = ", ".join(
+        row.employee_name
+        for row in (doc.get("custom_project_managers") or [])
+        if row.get("employee_name")
+    ) or None
+
+    today = getdate()
+    end_date = getdate(doc.expected_end_date) if doc.expected_end_date else None
+    pct = flt(doc.percent_complete or 0)
+    if pct <= 0:
+        rag = "NotStarted"
+    elif project["open_risk_count"] > 0 or (end_date and end_date < today):
+        rag = "Red"
+    elif project["report_overdue"] or (end_date and 0 <= (end_date - today).days <= 14):
+        rag = "Amber"
+    else:
+        rag = "Green"
+    project["rag"] = rag
+
     return project
 
 
@@ -630,6 +666,29 @@ def get_project_meetings(project_name):
     }
 
     return {"meetings": meetings, "counts": counts}
+
+
+@frappe.whitelist()
+def get_project_status_reports(project_name):
+    if not project_name:
+        frappe.throw("Project is required.")
+
+    frappe.get_doc("Project", project_name).check_permission("read")
+
+    return frappe.get_all(
+        "Project Status Report",
+        filters={"project": project_name},
+        fields=[
+            "name",
+            "from_date",
+            "to_date",
+            "report_type",
+            "report_date",
+            "workflow_state",
+            "docstatus",
+        ],
+        order_by="report_date desc, creation desc",
+    )
 
 
 @frappe.whitelist()

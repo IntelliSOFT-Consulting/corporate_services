@@ -1,0 +1,175 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-11 11:02:33.240021",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_gujl",
+  "naming_series",
+  "employee",
+  "submitted_by",
+  "travel_request",
+  "date_submitted",
+  "designation_of_reporter",
+  "participants",
+  "column_break_wyrf",
+  "purpose",
+  "activity_date",
+  "department",
+  "report_section",
+  "overview_of_the_trip",
+  "key_learnings",
+  "recommendations",
+  "accommodation_and_transport",
+  "next_steps_follow_up",
+  "conclusion"
+ ],
+ "fields": [
+  {
+   "description": "This travel report should be filled out by ICL staff upon their return from work travel and submitted for approval to their supervisor. Once approved, it becomes an official record of the trip.",
+   "fieldname": "section_break_gujl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fetch_if_empty": 1,
+   "fieldname": "submitted_by",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Submitted By",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_submitted",
+   "fieldtype": "Date",
+   "label": "Date Submitted"
+  },
+  {
+   "fieldname": "designation_of_reporter",
+   "fieldtype": "Data",
+   "label": "Designation of Reporter",
+   "read_only": 1
+  },
+  {
+   "fieldname": "participants",
+   "fieldtype": "Small Text",
+   "label": "Participants"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "label": "Purpose/Objective of trip: "
+  },
+  {
+   "fieldname": "column_break_wyrf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "activity_date",
+   "fieldtype": "Date",
+   "label": "Activity Date"
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "report_section",
+   "fieldtype": "Section Break",
+   "label": "REPORT"
+  },
+  {
+   "description": "Goals, objectives and overall purpose of the trip",
+   "fieldname": "overview_of_the_trip",
+   "fieldtype": "Text Editor",
+   "label": "Overview of the trip"
+  },
+  {
+   "description": "Performance against trip goals and objectives, insights gained, challenges overcome, or new perspectives acquired beneficial to ICL",
+   "fieldname": "key_learnings",
+   "fieldtype": "Text Editor",
+   "label": "Key Learnings"
+  },
+  {
+   "description": "provide recommendations for improvements or adjustments that could enhance future travel experiences",
+   "fieldname": "recommendations",
+   "fieldtype": "Text Editor",
+   "label": "Recommendations"
+  },
+  {
+   "description": "Outline the accommodation used and modes of transportation utilized throughout the trip. Your experiential recommendations will help improve future logistics planning",
+   "fieldname": "accommodation_and_transport",
+   "fieldtype": "Text Editor",
+   "label": "Accommodation and transport"
+  },
+  {
+   "fieldname": "next_steps_follow_up",
+   "fieldtype": "Text Editor",
+   "label": "Next Steps/Follow up"
+  },
+  {
+   "fieldname": "conclusion",
+   "fieldtype": "Text Editor",
+   "label": "Conclusion"
+  },
+  {
+   "default": "TR-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "TR-.YYYY.-.MM.-",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "travel_request",
+   "fieldtype": "Link",
+   "label": "Travel Request",
+   "options": "Travel Request",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-11 11:20:23.094791",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Trip Report",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -17,10 +17,23 @@ export type ProjectRow = {
   expected_end_date?: string;
 };
 
+export type RiskSummary = { on_track: number; needs_attention: number; at_risk: number; not_started: number };
+export type OverdueReportRow = { project: string; project_name: string };
+export type MilestoneRow = { project: string; project_name: string; subject: string; exp_end_date: string };
+export type PaymentScheduleRow = {
+  project: string; project_name: string; client: string | null; deliverable: string | null;
+  percentage: number; due_date: string | null; status: string; payment_status: string;
+};
+
 export type DashboardData = {
   summary?: Summary;
   status_breakdown?: StatusRow[];
   projects?: ProjectRow[];
+  risk_summary?: RiskSummary;
+  overdue_reports?: OverdueReportRow[];
+  milestones_due_soon?: MilestoneRow[];
+  payment_schedule?: PaymentScheduleRow[];
+  payments_approaching?: PaymentScheduleRow[];
 };
 
 export type ProjectHoursRow = {
@@ -107,6 +120,26 @@ export type OverdueTask = {
   name: string; subject: string; project: string; project_name: string;
   exp_end_date: string | null; days_overdue: number; status: string;
   customer: string | null; pm_names: string | null;
+};
+
+export type OverdueStatusReportRow = {
+  project: string; project_name: string; client: string | null;
+  report_type: string; frequency: string | null; due_date: string; days_over: number;
+};
+export type MilestoneAlertRow = {
+  project: string; project_name: string; phase: string | null; milestone: string;
+  due_date: string; assigned: string | null; status: string; overdue: boolean; days: number;
+};
+export type PaymentAlertRow = {
+  project: string; project_name: string; client: string | null; deliverable: string | null;
+  due_date: string; payment_status: string; overdue: boolean; days: number;
+};
+export type OverdueDeliverablesData = {
+  is_smt: boolean; pms: PmRow2[]; selected_pm: string | null;
+  overdue_reports: OverdueStatusReportRow[];
+  milestones: MilestoneAlertRow[];
+  payment_alerts: PaymentAlertRow[];
+  summary: { overdue_reports: number; overdue_milestones: number; overdue_payments: number; approaching_payments: number };
 };
 
 export type PmBreakdownProject = {

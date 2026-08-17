@@ -279,16 +279,23 @@ def get_project_jira_sprints(project):
 
 
 @frappe.whitelist()
-def get_assigned_jira_tasks(project=None, sprint=None, start_date=None, end_date=None):
+def get_assigned_jira_tasks(project=None, sprint=None, start_date=None, end_date=None, employee=None):
 	"""Return the current user's Jira-sourced Tasks, optionally filtered by project/sprint/date range."""
-	employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "name")
+	if employee:
+		employee_email = frappe.db.get_value("Employee", employee, "user_id")
+	else:
+		employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "name")
+		employee_email = frappe.session.user
+
 	if not employee:
 		return []
 
-	filters = {
-		"custom_task_source": "Jira",
+	or_filters = {
 		"custom_allocate_to": employee,
+		"custom_jira_assignee_email": employee_email,
 	}
+
+	filters = {"custom_task_source": "Jira"}
 	if project:
 		filters["project"] = project
 	if sprint:
@@ -301,6 +308,7 @@ def get_assigned_jira_tasks(project=None, sprint=None, start_date=None, end_date
 	return frappe.get_all(
 		"Task",
 		filters=filters,
+		or_filters=or_filters,
 		fields=[
 			"name",
 			"subject",

@@ -547,7 +547,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                 }}
               >
                 <span className="text-muted" style={{ fontSize: 12 }}>
-                  Showing {start + 1}–
+                  Showing {start + 1}-
                   {Math.min(start + ROWS_PER_PAGE, filtered.length)} of{" "}
                   {filtered.length}
                 </span>
@@ -695,7 +695,7 @@ const WorkPlanPage: React.FC<Props> = ({ projectId: propProjectId }) => {
                 }}
               >
                 <span className="text-muted" style={{ fontSize: 12 }}>
-                  Showing {detailedStart + 1}–
+                  Showing {detailedStart + 1}-
                   {Math.min(
                     detailedStart + ROWS_PER_PAGE,
                     detailedFiltered.length,

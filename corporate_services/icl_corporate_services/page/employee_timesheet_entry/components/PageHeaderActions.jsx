@@ -1,9 +1,9 @@
 import React from "react";
 
 function openPullJiraDialog(ctx, onPullJiraTasks) {
-    const jiraProjects = (ctx?.projects || []).filter((p) => p.custom_jira_project);
-    if (!jiraProjects.length) {
-        frappe.msgprint(__("None of your assigned projects are linked to a Jira project."));
+    const assignedProjects = ctx?.projects || [];
+    if (!assignedProjects.length) {
+        frappe.msgprint(__("You are not assigned to any project."));
         return;
     }
 
@@ -19,7 +19,7 @@ function openPullJiraDialog(ctx, onPullJiraTasks) {
                 label: __("Project"),
                 fieldtype: "Select",
                 reqd: 1,
-                options: jiraProjects.map((p) => ({ label: p.project_name, value: p.name })),
+                options: assignedProjects.map((p) => ({ label: p.project_name, value: p.name })),
             },
             {
                 fieldname: "sprint",
@@ -30,22 +30,39 @@ function openPullJiraDialog(ctx, onPullJiraTasks) {
             { fieldname: "column_break_pull_jira", fieldtype: "Column Break" },
             { fieldname: "start_date", label: __("Due On/After"), fieldtype: "Date", default: defaultStart },
             { fieldname: "end_date", label: __("Due On/Before"), fieldtype: "Date", default: defaultEnd },
+            { fieldname: "section_break_pull_jira", fieldtype: "Section Break" },
+            {
+                fieldname: "all_tasks",
+                label: __("Pull all tasks allocated to me (overrides due date range)"),
+                fieldtype: "Check",
+                default: 0,
+                change() {
+                    const allTasks = !!dialog.get_value("all_tasks");
+                    dialog.set_df_property("start_date", "read_only", allTasks);
+                    dialog.set_df_property("end_date", "read_only", allTasks);
+                },
+            },
         ],
         primary_action_label: __("Pull Tasks"),
         primary_action(values) {
+            const projectRow = assignedProjects.find((p) => p.name === values.project);
+            if (!projectRow?.custom_jira_project) {
+                frappe.msgprint(__("This project is not linked to a Jira project."));
+                return;
+            }
             dialog.set_df_property("project", "read_only", 1);
             frappe.call({
                 method: "corporate_services.api.jira.issues.get_assigned_jira_tasks",
                 args: {
                     project: values.project,
                     sprint: values.sprint || null,
-                    start_date: values.start_date || null,
-                    end_date: values.end_date || null,
+                    start_date: values.all_tasks ? null : values.start_date || null,
+                    end_date: values.all_tasks ? null : values.end_date || null,
+                    employee: ctx?.employee || null,
                 },
                 freeze: true,
                 callback(r) {
                     const tasks = r.message || [];
-                    const projectRow = jiraProjects.find((p) => p.name === values.project);
                     dialog.hide();
                     if (!tasks.length) {
                         frappe.show_alert({ message: __("No assigned Jira tasks matched those filters."), indicator: "orange" });
@@ -60,6 +77,15 @@ function openPullJiraDialog(ctx, onPullJiraTasks) {
     dialog.fields_dict.project.df.change = () => {
         const project = dialog.get_value("project");
         if (!project) return;
+
+        const projectRow = assignedProjects.find((p) => p.name === project);
+        if (!projectRow?.custom_jira_project) {
+            frappe.msgprint(__("This project is not linked to a Jira project."));
+            dialog.set_df_property("sprint", "options", [{ label: __("All Sprints"), value: "" }]);
+            dialog.set_value("sprint", "");
+            return;
+        }
+
         frappe.call({
             method: "corporate_services.api.jira.issues.get_project_jira_sprints",
             args: { project },
