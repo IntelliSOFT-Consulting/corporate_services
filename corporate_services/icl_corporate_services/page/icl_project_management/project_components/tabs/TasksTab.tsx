@@ -209,7 +209,7 @@ export function TasksTab({ doc, pullingJira, onPullJira }: Props) {
             }}
           >
             <span className="text-muted" style={{ fontSize: 12 }}>
-              Showing {start + 1}–{Math.min(start + PAGE_SIZE, filtered.length)}{" "}
+              Showing {start + 1}-{Math.min(start + PAGE_SIZE, filtered.length)}{" "}
               of {filtered.length}
             </span>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>

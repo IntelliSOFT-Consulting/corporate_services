@@ -93,7 +93,7 @@ export function StatusReportsTab({ projectId }: { projectId: string }) {
       header: "Period",
       render: (r) =>
         r.from_date || r.to_date
-          ? `${formatDateOrDash(r.from_date)} – ${formatDateOrDash(r.to_date)}`
+          ? `${formatDateOrDash(r.from_date)} - ${formatDateOrDash(r.to_date)}`
           : "-",
     },
     { header: "Type", render: (r) => r.report_type || "-" },
