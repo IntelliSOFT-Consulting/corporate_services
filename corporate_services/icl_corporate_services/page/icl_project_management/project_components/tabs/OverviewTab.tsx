@@ -13,50 +13,15 @@ interface Props {
 const GLANCE_CARDS: {
   key: keyof NonNullable<ProjectDetail["this_week"]>;
   label: string;
-  bg: string;
-  color: string;
 }[] = [
-  {
-    key: "status_reports_due_this_week",
-    label: "Status Reports Due This Week",
-    bg: "#fff3cd",
-    color: "#7d5a00",
-  },
-  {
-    key: "milestones_due_next_7_days",
-    label: "Milestones Due in Next 7 Days",
-    bg: "#d1e7dd",
-    color: "#0a3622",
-  },
+  { key: "status_reports_due_this_week", label: "Status Reports Due This Week" },
+  { key: "milestones_due_next_7_days", label: "Milestones Due Next 7 Days" },
 ];
 
 export function OverviewTab({ doc, projectId }: Props) {
   const tw = doc.this_week;
   return (
     <div>
-      {tw && (
-        <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
-          {GLANCE_CARDS.map(({ key, label, bg, color }) => (
-            <div
-              key={key}
-              style={{
-                flex: 1,
-                background: bg,
-                borderRadius: 8,
-                padding: "14px 18px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-              }}
-            >
-              <span style={{ fontSize: 28, fontWeight: 700, lineHeight: 1, color }}>
-                {tw[key] ?? 0}
-              </span>
-              <span style={{ fontSize: 12, color, opacity: 0.85 }}>{label}</span>
-            </div>
-          ))}
-        </div>
-      )}
       <div className="pm-detail-cols">
         <div className="frappe-card" style={{ padding: "16px 20px" }}>
           <h6 className="pm-section-title">Overview</h6>
@@ -122,6 +87,41 @@ export function OverviewTab({ doc, projectId }: Props) {
           </div>
         </div>
       </div>
+
+      <div className="pm-detail-cols">
+        <div className="frappe-card" style={{ padding: "16px 20px" }}>
+          <h6 className="pm-section-title">Budget</h6>
+          <div style={{ fontSize: 26, fontWeight: 700 }}>
+            {formatCurrency(doc.estimated_costing) ?? "-"}
+          </div>
+          {doc.per_gross_margin != null && (
+            <div className="text-muted" style={{ fontSize: 12, marginTop: 2 }}>
+              {doc.per_gross_margin}% margin
+            </div>
+          )}
+        </div>
+
+        <div className="frappe-card" style={{ padding: "16px 20px" }}>
+          <h6 className="pm-section-title">End Date</h6>
+          <div style={{ fontSize: 22, fontWeight: 700 }}>
+            {formatDate(doc.expected_end_date) ?? "-"}
+          </div>
+        </div>
+      </div>
+
+      {tw && (
+        <div className="frappe-card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+          <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 14 }}>This Week at a Glance</div>
+          <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+            {GLANCE_CARDS.map(({ key, label }) => (
+              <div key={key} style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                <span style={{ fontSize: 28, fontWeight: 700, lineHeight: 1 }}>{tw[key] ?? 0}</span>
+                <span className="text-muted" style={{ fontSize: 13 }}>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="pm-detail-cols">
         <div className="frappe-card" style={{ padding: "16px 20px" }}>

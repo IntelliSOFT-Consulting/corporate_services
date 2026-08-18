@@ -4,8 +4,10 @@ import { ProjectDetail } from "../project_components/ProjectDetail";
 
 export function ProjectsTab({
   initialProjectId,
+  onGoToDashboard,
 }: {
   initialProjectId: string | null;
+  onGoToDashboard: () => void;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(initialProjectId);
 
@@ -26,7 +28,7 @@ export function ProjectsTab({
   return (
     <div className="pm-app-wrap">
       {selectedId ? (
-        <ProjectDetail projectId={selectedId} onBack={handleBack} />
+        <ProjectDetail projectId={selectedId} onBack={handleBack} onGoToDashboard={onGoToDashboard} />
       ) : (
         <>
           <Project onOpen={openProject} />

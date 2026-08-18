@@ -323,8 +323,7 @@ export default function TimesheetEntryApp({ submissionName, onContextChange }) {
 
             const newRows = tasks
                 .map((t) => {
-                    const label = t.custom_jira_issue_key ? `${t.custom_jira_issue_key}: ${t.subject}` : t.subject;
-                    return { id: makeRowId(), task: label, hours: {} };
+                    return { id: makeRowId(), task: t.subject, hours: {} };
                 })
                 .filter((row) => row.task && !existingLabels.has(row.task));
 
