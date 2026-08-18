@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\": \"46siqXefvc\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">ICL Onboarding Process</span>\", \"col\": 12}}, {\"id\": \"ErXMIHcHqM\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Month 1 Hr Check In\", \"col\": 3}}, {\"id\": \"05764a85b2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Mid-Probation Check-In\", \"col\": 3}}, {\"id\": \"ed46dddaa9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"End of Probation Assessment\", \"col\": 3}}, {\"id\": \"7fTWvP2DV3\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Month 1 HR Check-In\", \"col\": 4}}, {\"id\": \"9ff918f153\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Mid-Probation Check-In\", \"col\": 4}}, {\"id\": \"f218c643ed\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"End of Probation Assessment\", \"col\": 4}}]",
- "creation": "2026-08-18 13:01:48.134403",
+ "content": "[{\"id\": \"46siqXefvc\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">ICL Onboarding Process</span>\", \"col\": 12}}, {\"id\": \"ErXMIHcHqM\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Month 1 Hr Check In\", \"col\": 3}}, {\"id\": \"05764a85b2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Mid-Probation Check-In\", \"col\": 3}}, {\"id\": \"ed46dddaa9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"End of Probation Assessment\", \"col\": 3}}, {\"id\": \"4123c4cc7e\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Onboarding Guide\", \"col\": 3}}, {\"id\": \"7fTWvP2DV3\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Month 1 HR Check-In\", \"col\": 4}}, {\"id\": \"9ff918f153\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Mid-Probation Check-In\", \"col\": 4}}, {\"id\": \"f218c643ed\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"End of Probation Assessment\", \"col\": 4}}, {\"id\": \"7fa84b2fd0\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Employee Onboarding Guide\", \"col\": 4}}]",
+ "creation": "2026-08-18 13:59:37.124451",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "ICL Onboarding Process",
  "links": [],
- "modified": "2026-08-18 13:16:13.729455",
+ "modified": "2026-08-18 14:09:48.117885",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Onboarding Process",
@@ -25,6 +25,11 @@
   {
    "document_type": "Month 1 HR Check-In",
    "label": "Month 1 HR Check-In",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Employee Onboarding Guide",
+   "label": "Employee Onboarding Guide",
    "quick_list_filter": "[]"
   },
   {
@@ -53,6 +58,14 @@
    "doc_view": "List",
    "label": "Month 1 Hr Check In",
    "link_to": "Month 1 HR Check-In",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Onboarding Guide",
+   "link_to": "Employee Onboarding Guide",
    "stats_filter": "[]",
    "type": "DocType"
   },

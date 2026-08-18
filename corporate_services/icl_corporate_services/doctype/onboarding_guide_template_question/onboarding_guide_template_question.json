@@ -6,24 +6,40 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "assessment_area",
-  "guidance",
+  "stage",
+  "milestone",
+  "owner",
+  "timing",
   "display_order",
   "is_active"
  ],
  "fields": [
   {
-   "fieldname": "assessment_area",
-   "fieldtype": "Small Text",
+   "fieldname": "stage",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Assessment Area",
+   "label": "Stage",
+   "options": "Preboarding\nDay 1\nWeek 1\nMonth 1\nMid-probation\nEnd of probation",
    "reqd": 1
   },
   {
-   "fieldname": "guidance",
+   "fieldname": "milestone",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Guidance"
+   "label": "Milestone",
+   "reqd": 1
+  },
+  {
+   "fieldname": "owner",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner"
+  },
+  {
+   "fieldname": "timing",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Timing"
   },
   {
    "fieldname": "display_order",
@@ -46,7 +62,7 @@
  "modified": "2026-08-18 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
- "name": "Probation Assessment Template Question",
+ "name": "Onboarding Guide Template Question",
  "owner": "Administrator",
  "permissions": [],
  "row_format": "Dynamic",

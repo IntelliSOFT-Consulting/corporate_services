@@ -6,38 +6,41 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "assessment_area",
-  "guidance",
-  "evidence_comments",
-  "rating"
+  "milestone",
+  "owner",
+  "timing",
+  "status"
  ],
  "fields": [
   {
-   "fieldname": "assessment_area",
+   "fieldname": "milestone",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Assessment Area",
+   "label": "Milestone",
    "read_only": 1,
    "reqd": 1
   },
   {
-   "fieldname": "guidance",
-   "fieldtype": "Small Text",
-   "label": "Guidance",
+   "fieldname": "owner",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner",
    "read_only": 1
   },
   {
-   "fieldname": "evidence_comments",
-   "fieldtype": "Small Text",
+   "fieldname": "timing",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Evidence / Comments"
+   "label": "Timing",
+   "read_only": 1
   },
   {
-   "fieldname": "rating",
+   "default": "🔴 Not Started",
+   "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Rating",
-   "options": "\n1\n2\n3\n4\n5"
+   "label": "Status",
+   "options": "🔴 Not Started\n🟡 In Progress\n🟢 Completed\n⚪ Not Applicable"
   }
  ],
  "grid_page_length": 50,
@@ -47,7 +50,7 @@
  "modified": "2026-08-18 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
- "name": "Probation Assessment Rating",
+ "name": "Onboarding Guide Milestone",
  "owner": "Administrator",
  "permissions": [],
  "row_format": "Dynamic",

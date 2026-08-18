@@ -29,13 +29,13 @@
   {
    "fieldname": "questions_section",
    "fieldtype": "Section Break",
-   "label": "Assessment Areas"
+   "label": "Milestones"
   },
   {
    "fieldname": "questions",
    "fieldtype": "Table",
-   "label": "Assessment Areas",
-   "options": "Probation Assessment Template Question",
+   "label": "Milestones",
+   "options": "Onboarding Guide Template Question",
    "reqd": 1
   }
  ],
@@ -45,7 +45,7 @@
  "modified": "2026-08-18 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
- "name": "Probation Assessment Template",
+ "name": "Onboarding Guide Template",
  "owner": "Administrator",
  "permissions": [
   {
