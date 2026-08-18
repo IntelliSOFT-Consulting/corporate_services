@@ -14,16 +14,11 @@ def send_email(doc, recipients, subject, message, pdf_content, doc_name, cc=None
     recipients = filter_recipients(doc, recipients)
     if not recipients:
         return
-    attachments = [{
-        'fname': '{}.pdf'.format(doc_name),
-        'fcontent': pdf_content
-    }] if pdf_content else []
     frappe.sendmail(
         recipients=recipients,
         cc=cc,
         subject=subject,
         message=message,
-        attachments=attachments,
         header=("Asset Requisition", "text/html")
     )
 
