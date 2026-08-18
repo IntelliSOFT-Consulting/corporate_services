@@ -98,7 +98,7 @@ const OnboardingReports = {
 			<div class="mb-3">
 				<h5 class="mb-1">Onboarding Reports</h5>
 				<div class="text-muted" style="font-size:13px;">
-					Progress, cohort completion, department completion, 30-day survey completion, and probation review status.
+					Progress, cohort completion, department completion, and probation review status.
 				</div>
 			</div>
 
@@ -142,14 +142,6 @@ const OnboardingReports = {
 				</div>
 			</div>
 
-			<div class="card border mb-4">
-				<div class="card-body">
-					<div class="fw-semibold mb-1">30-Day Feedback Survey Completion</div>
-					<div class="text-muted mb-3" style="font-size:12px;">Based on actual feedback survey submissions and due dates.</div>
-					${this.render_survey_table(data.surveys || [])}
-				</div>
-			</div>
-
 			<div class="card border">
 				<div class="card-body">
 					<div class="fw-semibold mb-1">Probation Review Completion Report</div>
@@ -182,7 +174,6 @@ const OnboardingReports = {
 							<th>Joining Date</th>
 							<th>Completion</th>
 							<th>Overdue Tasks</th>
-							<th>Survey</th>
 							<th>Probation</th>
 							<th style="width:120px;">Action</th>
 						</tr>
@@ -208,12 +199,6 @@ const OnboardingReports = {
 											<div>${row.overdue_task_count}</div>
 											<div class="text-muted" style="font-size:12px;">${frappe.utils.escape_html((row.overdue_tasks || []).slice(0, 2).join(", ") || "None")}</div>
 										</td>
-										<td>${this.status_badge(row.survey_status, {
-											Completed: "success",
-											"Sent / Awaiting Response": "warning",
-											Due: "danger",
-											"Not Due": "secondary",
-										})}</td>
 										<td>${this.status_badge(row.probation_supervisor_complete ? "Supervisor Complete" : (row.probation_due ? "Due" : "Not Due"), {
 											"Supervisor Complete": "success",
 											Due: "danger",
@@ -258,47 +243,6 @@ const OnboardingReports = {
 										<td>${row.average_completion_pct}%</td>
 										<td>${row.completed_onboarding}</td>
 										<td>${row.employees_with_overdue_tasks}</td>
-									</tr>
-								`
-							)
-							.join("")}
-					</tbody>
-				</table>
-			</div>
-		`;
-	},
-
-	render_survey_table(rows) {
-		return `
-			<div class="table-responsive">
-				<table class="table table-bordered table-sm align-middle">
-					<thead>
-						<tr>
-							<th>Employee</th>
-							<th>Department</th>
-							<th>Joining Date</th>
-							<th>Status</th>
-							<th>Survey Record</th>
-						</tr>
-					</thead>
-					<tbody>
-						${rows
-							.map(
-								(row) => `
-									<tr>
-										<td>
-											<div class="fw-semibold">${frappe.utils.escape_html(row.employee_name)}</div>
-											<div class="text-muted" style="font-size:12px;">${frappe.utils.escape_html(row.employee)}</div>
-										</td>
-										<td>${frappe.utils.escape_html(row.department || "")}</td>
-										<td>${frappe.utils.escape_html(row.date_of_joining || "-")}</td>
-										<td>${this.status_badge(row.survey_status, {
-											Completed: "success",
-											"Sent / Awaiting Response": "warning",
-											Due: "danger",
-											"Not Due": "secondary",
-										})}</td>
-										<td>${row.survey_document ? frappe.utils.escape_html(row.survey_document) : "-"}</td>
 									</tr>
 								`
 							)

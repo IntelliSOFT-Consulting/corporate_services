@@ -40,7 +40,6 @@ const EmployeeOnboarding = {
 
 	render(data) {
 		const new_employees = data.new_employees || [];
-		const surveys = data.surveys || [];
 		const schedules = data.onboarding_schedules || [];
 		const internships = data.internship_commencements || [];
 
@@ -48,7 +47,7 @@ const EmployeeOnboarding = {
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<div>
 					<h5 class="mb-1">Employee Onboarding Process</h5>
-					<div class="text-muted" style="font-size:13px;">Overview of new hires, feedback surveys, onboarding schedules, and internship commencements.</div>
+					<div class="text-muted" style="font-size:13px;">Overview of new hires, onboarding schedules, and internship commencements.</div>
 				</div>
 				<a href="/app/onboarding-reports" class="btn btn-outline-primary btn-sm">
 					View Full Onboarding Reports
@@ -58,7 +57,6 @@ const EmployeeOnboarding = {
 			<div class="row g-3 mb-4">
 				${this.metric("New Employees (3 months)", new_employees.length)}
 				${this.metric("Onboarding Schedules", schedules.length)}
-				${this.metric("Surveys Submitted", surveys.length)}
 				${this.metric("Internship Commencements", internships.length)}
 			</div>
 
@@ -67,14 +65,6 @@ const EmployeeOnboarding = {
 					<div class="fw-semibold mb-1">New Employees - Last 3 Months</div>
 					<div class="text-muted mb-3" style="font-size:12px;">Employees who joined in the past 3 months.</div>
 					${this.employees_table(new_employees)}
-				</div>
-			</div>
-
-			<div class="card border mb-4">
-				<div class="card-body">
-					<div class="fw-semibold mb-1">New Hire Feedback Survey - 30 Day</div>
-					<div class="text-muted mb-3" style="font-size:12px;">Submitted 30-day feedback survey records.</div>
-					${this.surveys_table(surveys)}
 				</div>
 			</div>
 
@@ -148,42 +138,6 @@ const EmployeeOnboarding = {
 		`;
 	},
 
-	surveys_table(rows) {
-		if (!rows.length) return `<div class="text-muted">No survey submissions found.</div>`;
-		const status_colors = { Completed: "success", Draft: "secondary", Submitted: "success" };
-		return `
-			<div class="table-responsive">
-				<table class="table table-bordered table-sm align-middle">
-					<thead>
-						<tr>
-							<th>Employee</th>
-							<th>Joining Date</th>
-							<th>Status</th>
-							<th>Survey Record</th>
-						</tr>
-					</thead>
-					<tbody>
-						${rows.map((r) => `
-							<tr>
-								<td>
-									<div class="fw-semibold">${frappe.utils.escape_html(r.employee_name)}</div>
-									<div class="text-muted" style="font-size:12px;">${frappe.utils.escape_html(r.employee)}</div>
-								</td>
-								<td>${frappe.utils.escape_html(r.date_of_joining || "-")}</td>
-								<td><span class="badge bg-${status_colors[r.status] || "secondary"}">${frappe.utils.escape_html(r.status || "-")}</span></td>
-								<td>
-									<a href="/app/new-hire-feedback-survey-30-day/${encodeURIComponent(r.name)}" target="_blank">
-										${frappe.utils.escape_html(r.name)}
-									</a>
-								</td>
-							</tr>
-						`).join("")}
-					</tbody>
-				</table>
-			</div>
-		`;
-	},
-
 	schedules_table(rows) {
 		if (!rows.length) return `<div class="text-muted">No onboarding schedules found.</div>`;
 		return `
@@ -194,7 +148,6 @@ const EmployeeOnboarding = {
 							<th>Employee</th>
 							<th>Department</th>
 							<th>Joining Date</th>
-							<th>Survey Sent</th>
 							<th>Probation Review</th>
 							<th>Schedule</th>
 						</tr>
@@ -208,7 +161,6 @@ const EmployeeOnboarding = {
 								</td>
 								<td>${frappe.utils.escape_html(r.department)}</td>
 								<td>${frappe.utils.escape_html(r.date_of_joining || "-")}</td>
-								<td><span class="badge bg-${r.survey_sent ? "success" : "secondary"}">${r.survey_sent ? "Yes" : "No"}</span></td>
 								<td><span class="badge bg-${r.probation_review ? "success" : "secondary"}">${r.probation_review ? "Done" : "Pending"}</span></td>
 								<td>
 									<a href="/app/onboarding-schedule/${encodeURIComponent(r.name)}" target="_blank">

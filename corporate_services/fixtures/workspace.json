@@ -12,7 +12,7 @@
   "is_hidden": 0,
   "label": "ICL Onboarding Process",
   "links": [],
-  "modified": "2026-08-18 13:16:13.729455",
+  "modified": "2026-08-18 13:27:58.183414",
   "module": "ICL Corporate Services",
   "name": "ICL Onboarding Process",
   "number_cards": [],
@@ -150,7 +150,7 @@
   "is_hidden": 0,
   "label": "Travel Management",
   "links": [],
-  "modified": "2026-08-18 13:02:19.766371",
+  "modified": "2026-08-18 13:27:58.278706",
   "module": "ICL Corporate Services",
   "name": "Travel Management",
   "number_cards": [],
@@ -387,7 +387,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:19.867171",
+  "modified": "2026-08-18 13:27:58.447708",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -708,7 +708,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-08-18 13:02:19.988197",
+  "modified": "2026-08-18 13:27:58.600517",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -1175,7 +1175,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:20.162805",
+  "modified": "2026-08-18 13:27:58.734712",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -1460,7 +1460,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:20.444297",
+  "modified": "2026-08-18 13:27:58.945850",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -1627,7 +1627,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:20.561310",
+  "modified": "2026-08-18 13:27:59.064249",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1870,7 +1870,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-08-18 13:02:20.661342",
+  "modified": "2026-08-18 13:27:59.154010",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -2268,7 +2268,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:20.880956",
+  "modified": "2026-08-18 13:27:59.425764",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2903,7 +2903,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-08-18 13:02:21.166532",
+  "modified": "2026-08-18 13:27:59.693786",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -3522,7 +3522,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:21.283273",
+  "modified": "2026-08-18 13:27:59.874592",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -4138,7 +4138,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:21.452667",
+  "modified": "2026-08-18 13:28:00.077222",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4496,7 +4496,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:21.592509",
+  "modified": "2026-08-18 13:28:00.218996",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4903,7 +4903,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:21.767422",
+  "modified": "2026-08-18 13:28:00.368112",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5986,7 +5986,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:22.055553",
+  "modified": "2026-08-18 13:28:00.565122",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6454,7 +6454,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:22.345234",
+  "modified": "2026-08-18 13:28:00.779105",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7188,7 +7188,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:22.496471",
+  "modified": "2026-08-18 13:28:00.906092",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7372,7 +7372,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:22.657788",
+  "modified": "2026-08-18 13:28:01.036891",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7604,7 +7604,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:22.767379",
+  "modified": "2026-08-18 13:28:01.133377",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [
@@ -7734,7 +7734,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-08-18 13:02:22.870216",
+  "modified": "2026-08-18 13:28:01.218902",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7956,7 +7956,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-08-18 13:02:22.996467",
+  "modified": "2026-08-18 13:28:01.367708",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7998,7 +7998,7 @@
  },
  {
   "charts": [],
-  "content": "[{\"id\":\"UINlqBwn4M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Management</span>\",\"col\":12}},{\"id\":\"kEnd6sRLkF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Schedule\",\"col\":3}},{\"id\":\"nxlTpvlAA9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Hire Feedback Survey 30 Day\",\"col\":3}},{\"id\":\"Jrvf2Xs832\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Internship Commencement\",\"col\":3}},{\"id\":\"iR8IJOEKet\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"piDkNhiPu5\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"BPDW4ISUZK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Onboarding Reports\",\"col\":3}},{\"id\":\"2lwoCr9uoe\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"bdpvE4KWaE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Uxr4MyIgEn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Employees\",\"col\":4}},{\"id\":\"fpu4zuXvMc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-ADHG5Kmyo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CCwFaXnWwc\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Onboarding Schedule\",\"col\":4}}]",
+  "content": "[{\"id\": \"UINlqBwn4M\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">Employee Management</span>\", \"col\": 12}}, {\"id\": \"kEnd6sRLkF\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Onboarding Schedule\", \"col\": 3}}, {\"id\": \"Jrvf2Xs832\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Internship Commencement\", \"col\": 3}}, {\"id\": \"2EnCCATsWW\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Offboarding Schedule\", \"col\": 3}}, {\"id\": \"piDkNhiPu5\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"HR\", \"col\": 12}}, {\"id\": \"BPDW4ISUZK\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Onboarding Reports\", \"col\": 3}}, {\"id\": \"bTzSNC_yrR\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"HR Management\", \"col\": 3}}, {\"id\": \"5xNxfxT7dN\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Turnover\", \"col\": 3}}, {\"id\": \"qBxU2ynFMa\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Monthly Reflection Dashboard\", \"col\": 3}}, {\"id\": \"2lwoCr9uoe\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"HR\", \"col\": 12}}, {\"id\": \"bdpvE4KWaE\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"Uxr4MyIgEn\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Employees\", \"col\": 4}}, {\"id\": \"fpu4zuXvMc\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"-ADHG5Kmyo\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"CCwFaXnWwc\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Onboarding Schedule\", \"col\": 4}}]",
   "custom_blocks": [
    {
     "custom_block_name": "HR",
@@ -8017,7 +8017,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-08-18 13:02:23.062133",
+  "modified": "2026-08-18 13:46:01.287103",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
@@ -8051,8 +8051,8 @@
     "format": null,
     "icon": null,
     "kanban_board": null,
-    "label": "New Hire Feedback Survey 30 Day",
-    "link_to": "New Hire Feedback Survey 30-Day",
+    "label": "Offboarding Schedule",
+    "link_to": "OffBoarding Schedule",
     "parent": "Employee Management",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",
@@ -8060,6 +8060,40 @@
     "restrict_to_domain": null,
     "stats_filter": "[]",
     "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "HR Management",
+    "link_to": "hr-management",
+    "parent": "Employee Management",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Employee Turnover",
+    "link_to": "employee-turnover",
+    "parent": "Employee Management",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Page",
     "url": null
    },
    {
@@ -8087,23 +8121,6 @@
     "kanban_board": null,
     "label": "Internship Commencement",
     "link_to": "Internship Commencement",
-    "parent": "Employee Management",
-    "parentfield": "shortcuts",
-    "parenttype": "Workspace",
-    "report_ref_doctype": null,
-    "restrict_to_domain": null,
-    "stats_filter": "[]",
-    "type": "DocType",
-    "url": null
-   },
-   {
-    "color": "Grey",
-    "doc_view": "List",
-    "format": null,
-    "icon": null,
-    "kanban_board": null,
-    "label": "Employee",
-    "link_to": "Employee",
     "parent": "Employee Management",
     "parentfield": "shortcuts",
     "parenttype": "Workspace",
@@ -8533,7 +8550,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-18 13:02:23.188906",
+  "modified": "2026-08-18 13:28:01.530829",
   "module": "ICL Corporate Services",
   "name": "ICL Procurement & Assets",
   "number_cards": [

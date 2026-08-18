@@ -437,7 +437,6 @@ def schedule_30day_notifications():
     
     for emp in employees:
         try:
-            send_30day_feedback_survey(emp.name)
             send_policy_comprehension_quiz(emp.name)
         except Exception as e:
             frappe.log_error(
