@@ -6633,7 +6633,7 @@
   "doctype": "Workflow",
   "document_type": "End of Probation Assessment",
   "is_active": 1,
-  "modified": "2026-08-18 13:02:45.476572",
+  "modified": "2026-08-18 13:08:42.039396",
   "name": "End of Probation Assessment Workflow",
   "override_status": 0,
   "send_email_alert": 0,
@@ -6652,7 +6652,7 @@
     "state": "Draft",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": null
+    "workflow_builder_id": "1"
    },
    {
     "allow_edit": "HR Manager",
@@ -6668,7 +6668,7 @@
     "state": "Submitted to HR",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": null
+    "workflow_builder_id": "2"
    },
    {
     "allow_edit": "Supervisor",
@@ -6684,7 +6684,7 @@
     "state": "Needs Clarification",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": null
+    "workflow_builder_id": "3"
    },
    {
     "allow_edit": "All",
@@ -6700,7 +6700,7 @@
     "state": "Approved by HR",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": null
+    "workflow_builder_id": "4"
    },
    {
     "allow_edit": "All",
@@ -6716,7 +6716,7 @@
     "state": "Rejected By HR",
     "update_field": null,
     "update_value": null,
-    "workflow_builder_id": null
+    "workflow_builder_id": "5"
    }
   ],
   "transitions": [
@@ -6731,7 +6731,7 @@
     "parenttype": "Workflow",
     "send_email_to_creator": 0,
     "state": "Draft",
-    "workflow_builder_id": null
+    "workflow_builder_id": "action-1"
    },
    {
     "action": "Approve",
@@ -6744,7 +6744,7 @@
     "parenttype": "Workflow",
     "send_email_to_creator": 0,
     "state": "Submitted to HR",
-    "workflow_builder_id": null
+    "workflow_builder_id": "action-2"
    },
    {
     "action": "Reject",
@@ -6757,7 +6757,7 @@
     "parenttype": "Workflow",
     "send_email_to_creator": 0,
     "state": "Submitted to HR",
-    "workflow_builder_id": null
+    "workflow_builder_id": "action-3"
    },
    {
     "action": "Request Clarification",
@@ -6770,7 +6770,7 @@
     "parenttype": "Workflow",
     "send_email_to_creator": 0,
     "state": "Submitted to HR",
-    "workflow_builder_id": null
+    "workflow_builder_id": "action-4"
    },
    {
     "action": "Resubmit to HR",
@@ -6783,10 +6783,10 @@
     "parenttype": "Workflow",
     "send_email_to_creator": 0,
     "state": "Needs Clarification",
-    "workflow_builder_id": null
+    "workflow_builder_id": "action-5"
    }
   ],
-  "workflow_data": null,
+  "workflow_data": "[{\"type\":\"state\",\"dimensions\":{\"width\":85,\"height\":53},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":38.8778076171875,\"y\":-11.079544067382812,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":88.835205078125,\"y\":22.911941528320312,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":38.8778076171875,\"y\":56.91761779785156,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11.07958984375,\"y\":22.911941528320312,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":546,\"y\":82,\"z\":0},\"id\":\"1\",\"position\":{\"x\":546,\"y\":82}},{\"type\":\"state\",\"dimensions\":{\"width\":161,\"height\":53},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":76.8182373046875,\"y\":-11.079544067382812,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":164.7159423828125,\"y\":22.911941528320312,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":76.8182373046875,\"y\":56.91761779785156,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11.0794677734375,\"y\":22.911941528320312,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":988,\"y\":76,\"z\":0},\"id\":\"2\",\"position\":{\"x\":988,\"y\":76}},{\"type\":\"state\",\"dimensions\":{\"width\":162,\"height\":74},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.414794921875,\"y\":-11.079544067382812,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":165.9091796875,\"y\":33.423309326171875,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.414794921875,\"y\":77.92613220214844,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11.0794677734375,\"y\":33.423309326171875,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1403,\"y\":259,\"z\":0},\"id\":\"3\",\"position\":{\"x\":1403,\"y\":259}},{\"type\":\"state\",\"dimensions\":{\"width\":160,\"height\":53},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":76.605224609375,\"y\":-11.079544067382812,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":164.289794921875,\"y\":22.911941528320312,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":76.605224609375,\"y\":56.91761779785156,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11.07958984375,\"y\":22.911941528320312,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1427,\"y\":78,\"z\":0},\"id\":\"4\",\"position\":{\"x\":1427,\"y\":78}},{\"type\":\"state\",\"dimensions\":{\"width\":155,\"height\":53},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":73.948974609375,\"y\":-11.079544067382812,\"width\":7,\"height\":7},{\"id\":\"right\",\"position\":\"right\",\"x\":158.991455078125,\"y\":22.911941528320312,\"width\":7,\"height\":7},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":73.948974609375,\"y\":56.91761779785156,\"width\":7,\"height\":7},{\"id\":\"left\",\"position\":\"left\",\"x\":-11.07958984375,\"y\":22.911941528320312,\"width\":7,\"height\":7}]},\"computedPosition\":{\"x\":1360,\"y\":-57,\"z\":0},\"id\":\"5\",\"position\":{\"x\":1360,\"y\":-57}},{\"type\":\"action\",\"dimensions\":{\"width\":109,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":51.7470703125,\"y\":-2.0880584716796875,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":105.582275390625,\"y\":13.409103393554688,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":51.7470703125,\"y\":28.920455932617188,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2.088134765625,\"y\":13.409103393554688,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":776,\"y\":86,\"z\":0},\"id\":\"action-1\",\"position\":{\"x\":776,\"y\":86},\"data\":{\"from_id\":\"1\",\"to_id\":\"2\"}},{\"type\":\"action\",\"dimensions\":{\"width\":78,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":36.0228271484375,\"y\":-2.0880584716796875,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":74.133544921875,\"y\":13.409103393554688,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":36.0228271484375,\"y\":28.920455932617188,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2.0880126953125,\"y\":13.409103393554688,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1228,\"y\":89,\"z\":0},\"id\":\"action-2\",\"position\":{\"x\":1228,\"y\":89},\"data\":{\"from_id\":\"2\",\"to_id\":\"4\"}},{\"type\":\"action\",\"dimensions\":{\"width\":64,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":28.8494873046875,\"y\":-2.0880584716796875,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":59.8011474609375,\"y\":13.409103393554688,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":28.8494873046875,\"y\":28.920455932617188,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2.0880126953125,\"y\":13.409103393554688,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1159,\"y\":-47,\"z\":0},\"id\":\"action-3\",\"position\":{\"x\":1159,\"y\":-47},\"data\":{\"from_id\":\"2\",\"to_id\":\"5\"}},{\"type\":\"action\",\"dimensions\":{\"width\":161,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":77.6846923828125,\"y\":-2.0880584716796875,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":157.4716796875,\"y\":13.409103393554688,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":77.6846923828125,\"y\":28.920455932617188,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2.0880126953125,\"y\":13.409103393554688,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1135,\"y\":280,\"z\":0},\"id\":\"action-4\",\"position\":{\"x\":1135,\"y\":280},\"data\":{\"from_id\":\"2\",\"to_id\":\"3\"}},{\"type\":\"action\",\"dimensions\":{\"width\":125,\"height\":33},\"handleBounds\":{\"source\":[{\"id\":\"top\",\"position\":\"top\",\"x\":59.460205078125,\"y\":-2.0880584716796875,\"width\":6,\"height\":6},{\"id\":\"right\",\"position\":\"right\",\"x\":121.022705078125,\"y\":13.409103393554688,\"width\":6,\"height\":6},{\"id\":\"bottom\",\"position\":\"bottom\",\"x\":59.460205078125,\"y\":28.920455932617188,\"width\":6,\"height\":6},{\"id\":\"left\",\"position\":\"left\",\"x\":-2.088134765625,\"y\":13.409103393554688,\"width\":6,\"height\":6}]},\"computedPosition\":{\"x\":1538,\"y\":183,\"z\":0},\"id\":\"action-5\",\"position\":{\"x\":1538,\"y\":183},\"data\":{\"from_id\":\"3\",\"to_id\":\"2\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"1\",\"target\":\"action-1\",\"updatable\":true,\"id\":\"edge-1-action-1\",\"animated\":true,\"sourceX\":641.835205078125,\"sourceY\":108.41194152832031,\"targetX\":773.911865234375,\"targetY\":102.40910339355469},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-1\",\"target\":\"2\",\"updatable\":true,\"id\":\"edge-action-1-2\",\"animated\":true,\"sourceX\":887.582275390625,\"sourceY\":102.40910339355469,\"targetX\":976.9205322265625,\"targetY\":102.41194152832031,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"2\",\"target\":\"action-2\",\"updatable\":true,\"id\":\"edge-2-action-2\",\"animated\":true,\"sourceX\":1159.7159423828125,\"sourceY\":102.41194152832031,\"targetX\":1225.9119873046875,\"targetY\":105.40910339355469},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-2\",\"target\":\"4\",\"updatable\":true,\"id\":\"edge-action-2-4\",\"animated\":true,\"sourceX\":1308.133544921875,\"sourceY\":105.40910339355469,\"targetX\":1415.92041015625,\"targetY\":104.41194152832031,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"2\",\"target\":\"action-3\",\"updatable\":true,\"id\":\"edge-2-action-3\",\"animated\":true,\"sourceX\":1159.7159423828125,\"sourceY\":102.41194152832031,\"targetX\":1156.9119873046875,\"targetY\":-30.590896606445312},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-3\",\"target\":\"5\",\"updatable\":true,\"id\":\"edge-action-3-5\",\"animated\":true,\"sourceX\":1224.8011474609375,\"sourceY\":-30.590896606445312,\"targetX\":1348.92041015625,\"targetY\":-30.588058471679688,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"2\",\"target\":\"action-4\",\"updatable\":true,\"id\":\"edge-2-action-4\",\"animated\":true,\"sourceX\":1159.7159423828125,\"sourceY\":102.41194152832031,\"targetX\":1132.9119873046875,\"targetY\":296.4091033935547},{\"sourceHandle\":\"right\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-4\",\"target\":\"3\",\"updatable\":true,\"id\":\"edge-action-4-3\",\"animated\":true,\"sourceX\":1298.4716796875,\"sourceY\":296.4091033935547,\"targetX\":1391.9205322265625,\"targetY\":295.9233093261719,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"}},{\"sourceHandle\":\"right\",\"targetHandle\":\"bottom\",\"type\":\"transition\",\"source\":\"3\",\"target\":\"action-5\",\"updatable\":true,\"animated\":true,\"sourceX\":1575.9091796875,\"sourceY\":295.9233093261719,\"targetX\":1600.460205078125,\"targetY\":217.9204559326172,\"id\":\"vueflow__edge-3right-action-5bottom\"},{\"sourceHandle\":\"top\",\"targetHandle\":\"left\",\"type\":\"transition\",\"source\":\"action-5\",\"target\":\"2\",\"updatable\":true,\"animated\":true,\"sourceX\":1600.460205078125,\"sourceY\":180.9119415283203,\"targetX\":976.9205322265625,\"targetY\":102.41194152832031,\"markerEnd\":{\"type\":\"arrow\",\"width\":15,\"height\":15,\"strokeWidth\":1.5,\"color\":\"#687178\"},\"id\":\"vueflow__edge-action-5top-2left\"}]",
   "workflow_name": "End of Probation Assessment Workflow",
   "workflow_state_field": "workflow_state"
  }
