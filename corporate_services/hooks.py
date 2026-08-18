@@ -270,6 +270,7 @@ on_update_map = {
     "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
     "Project Status Report":"corporate_services.api.notification.project.status_report.alert",
     "Employee KPI":"corporate_services.api.notification.employee_kpi.alert",
+    "Month 1 HR Check-In":"corporate_services.api.notification.month_1_hr_check_in.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -290,7 +291,7 @@ timesheet_notifications ={
 
 before_workflow_action_map = {
     "Timesheet Submission":"corporate_services.api.timesheet.before_workflow_action.before_workflow_action_timesheet_submission",
-} 
+}
 
 event_maps = {
     "on_update": {

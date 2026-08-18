@@ -1,5 +1,71 @@
 [
  {
+  "charts": [],
+  "content": "[{\"id\":\"46siqXefvc\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Onboarding Process</span>\",\"col\":12}},{\"id\":\"ErXMIHcHqM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Month 1 Hr Check In\",\"col\":3}},{\"id\":\"7fTWvP2DV3\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Month 1 HR Check-In\",\"col\":4}}]",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "share-people",
+  "indicator_color": "green",
+  "is_hidden": 0,
+  "label": "ICL Onboarding Process",
+  "links": [],
+  "modified": "2026-08-18 09:58:58.570382",
+  "module": "ICL Corporate Services",
+  "name": "ICL Onboarding Process",
+  "number_cards": [],
+  "parent_page": "ICL HR Admin",
+  "public": 1,
+  "quick_lists": [
+   {
+    "document_type": "Month 1 HR Check-In",
+    "label": "Month 1 HR Check-In",
+    "parent": "ICL Onboarding Process",
+    "parentfield": "quick_lists",
+    "parenttype": "Workspace",
+    "quick_list_filter": "[]"
+   }
+  ],
+  "restrict_to_domain": null,
+  "roles": [
+   {
+    "parent": "ICL Onboarding Process",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "ICL Onboarding Process",
+    "parentfield": "roles",
+    "parenttype": "Workspace",
+    "role": "System Manager"
+   }
+  ],
+  "sequence_id": 34.0,
+  "shortcuts": [
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "Month 1 Hr Check In",
+    "link_to": "Month 1 HR Check-In",
+    "parent": "ICL Onboarding Process",
+    "parentfield": "shortcuts",
+    "parenttype": "Workspace",
+    "report_ref_doctype": null,
+    "restrict_to_domain": null,
+    "stats_filter": "[]",
+    "type": "DocType",
+    "url": null
+   }
+  ],
+  "title": "ICL Onboarding Process"
+ },
+ {
   "charts": [
    {
     "chart_name": "Travel Request Trend",
@@ -34,7 +100,7 @@
   "is_hidden": 0,
   "label": "Travel Management",
   "links": [],
-  "modified": "2026-08-05 09:44:56.928610",
+  "modified": "2026-08-18 10:56:17.580952",
   "module": "ICL Corporate Services",
   "name": "Travel Management",
   "number_cards": [],
@@ -271,7 +337,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-06 10:21:40.046418",
+  "modified": "2026-08-18 10:56:17.736649",
   "module": "ICL Corporate Services",
   "name": "ICL Staff",
   "number_cards": [],
@@ -592,7 +658,7 @@
   "is_hidden": 0,
   "label": "Wiki",
   "links": [],
-  "modified": "2026-08-05 09:44:57.444807",
+  "modified": "2026-08-18 10:56:17.871753",
   "module": "ICL Corporate Services",
   "name": "Wiki",
   "number_cards": [],
@@ -1059,7 +1125,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:57.663992",
+  "modified": "2026-08-18 10:56:17.986064",
   "module": "ICL Corporate Services",
   "name": "HR Recruitment",
   "number_cards": [],
@@ -1344,7 +1410,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:57.979288",
+  "modified": "2026-08-18 10:56:18.215439",
   "module": "ICL Corporate Services",
   "name": "ICL Project Manager",
   "number_cards": [],
@@ -1511,7 +1577,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-06 10:23:25.291206",
+  "modified": "2026-08-18 10:56:18.326572",
   "module": "ICL Corporate Services",
   "name": "ICL Supervisor",
   "number_cards": [],
@@ -1754,7 +1820,7 @@
   "is_hidden": 0,
   "label": "Home",
   "links": [],
-  "modified": "2026-08-05 09:44:58.288179",
+  "modified": "2026-08-18 10:56:18.424991",
   "module": "ICL Corporate Services",
   "name": "Home",
   "number_cards": [],
@@ -2152,7 +2218,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:58.578419",
+  "modified": "2026-08-18 10:56:18.654671",
   "module": "ICL Corporate Services",
   "name": "ICL HR Admin",
   "number_cards": [
@@ -2787,7 +2853,7 @@
   "is_hidden": 0,
   "label": "Welcome Workspace",
   "links": [],
-  "modified": "2026-08-05 09:44:58.951746",
+  "modified": "2026-08-18 10:56:18.899385",
   "module": "ICL Corporate Services",
   "name": "Welcome Workspace",
   "number_cards": [],
@@ -3406,7 +3472,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:59.142935",
+  "modified": "2026-08-18 10:56:19.042224",
   "module": "ICL Corporate Services",
   "name": "ICL Finance",
   "number_cards": [],
@@ -4022,7 +4088,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:59.476353",
+  "modified": "2026-08-18 10:56:19.246468",
   "module": "ICL Corporate Services",
   "name": "Financial Reports",
   "number_cards": [],
@@ -4380,7 +4446,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:59.743463",
+  "modified": "2026-08-18 10:56:19.431129",
   "module": "ICL Corporate Services",
   "name": "Receivables",
   "number_cards": [],
@@ -4787,7 +4853,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:44:59.927753",
+  "modified": "2026-08-18 10:56:19.548973",
   "module": "ICL Corporate Services",
   "name": "Payables",
   "number_cards": [],
@@ -5870,7 +5936,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:45:00.349890",
+  "modified": "2026-08-18 10:56:19.745729",
   "module": "ICL Corporate Services",
   "name": "Accounting",
   "number_cards": [
@@ -6338,7 +6404,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:45:00.839831",
+  "modified": "2026-08-18 10:56:19.980176",
   "module": "ICL Corporate Services",
   "name": "Tax & Benefits",
   "number_cards": [],
@@ -7072,7 +7138,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:45:01.085288",
+  "modified": "2026-08-18 10:56:20.122220",
   "module": "ICL Corporate Services",
   "name": "Salary Payout",
   "number_cards": [],
@@ -7256,7 +7322,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:45:01.319555",
+  "modified": "2026-08-18 10:56:20.255908",
   "module": "ICL Corporate Services",
   "name": "Payroll",
   "number_cards": [],
@@ -7488,7 +7554,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-05 09:45:01.494613",
+  "modified": "2026-08-18 10:56:20.355858",
   "module": "ICL Corporate Services",
   "name": "ICL Business Development",
   "number_cards": [
@@ -7618,7 +7684,7 @@
   "is_hidden": 0,
   "label": "Employee Monthly Reflection",
   "links": [],
-  "modified": "2026-08-05 09:45:01.634261",
+  "modified": "2026-08-18 10:56:20.446202",
   "module": "ICL Corporate Services",
   "name": "Employee Monthly Reflection",
   "number_cards": [
@@ -7840,7 +7906,7 @@
   "is_hidden": 0,
   "label": "ICL Clients",
   "links": [],
-  "modified": "2026-08-05 09:45:01.826439",
+  "modified": "2026-08-18 10:56:20.539142",
   "module": "ICL Corporate Services",
   "name": "ICL Clients",
   "number_cards": [],
@@ -7901,7 +7967,7 @@
   "is_hidden": 0,
   "label": "Employee Management",
   "links": [],
-  "modified": "2026-08-05 09:45:01.917667",
+  "modified": "2026-08-18 10:56:20.590479",
   "module": "ICL Corporate Services",
   "name": "Employee Management",
   "number_cards": [
@@ -8417,7 +8483,7 @@
     "type": "Link"
    }
   ],
-  "modified": "2026-08-06 08:49:59.377367",
+  "modified": "2026-08-18 10:56:20.729057",
   "module": "ICL Corporate Services",
   "name": "ICL Procurement & Assets",
   "number_cards": [

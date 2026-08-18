@@ -1,0 +1,51 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"46siqXefvc\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ICL Onboarding Process</span>\",\"col\":12}},{\"id\":\"ErXMIHcHqM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Month 1 Hr Check In\",\"col\":3}},{\"id\":\"7fTWvP2DV3\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Month 1 HR Check-In\",\"col\":4}}]",
+ "creation": "2026-08-18 09:25:19.657588",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "share-people",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "ICL Onboarding Process",
+ "links": [],
+ "modified": "2026-08-18 09:58:58.570382",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "ICL Onboarding Process",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "ICL HR Admin",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Month 1 HR Check-In",
+   "label": "Month 1 HR Check-In",
+   "quick_list_filter": "[]"
+  }
+ ],
+ "roles": [
+  {
+   "role": "HR Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 34.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Month 1 Hr Check In",
+   "link_to": "Month 1 HR Check-In",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "ICL Onboarding Process"
+}
