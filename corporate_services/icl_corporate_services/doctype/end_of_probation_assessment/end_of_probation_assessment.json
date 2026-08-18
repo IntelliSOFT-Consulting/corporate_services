@@ -1,0 +1,403 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-18 02:50:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro_html",
+  "amended_from",
+  "naming_series",
+  "employee_details_section",
+  "employee",
+  "employee_name",
+  "first_name",
+  "last_name",
+  "position",
+  "department",
+  "column_break_details",
+  "date_of_employment",
+  "probation_start_date",
+  "probation_end_date",
+  "assessment_date",
+  "guidance_section",
+  "guidance_html",
+  "rating_scale_section",
+  "rating_scale_html",
+  "assessment_section",
+  "question_template",
+  "ratings",
+  "summary_section",
+  "key_strengths",
+  "development_needs",
+  "behavioural_observations",
+  "column_break_summary",
+  "has_critical_concern",
+  "critical_concerns",
+  "support_required_after_confirmation",
+  "decision_section",
+  "decision_rules_html",
+  "total_score",
+  "percentage",
+  "column_break_decision",
+  "probation_result",
+  "recommended_outcome",
+  "supervisor_recommendation_section",
+  "supervisor_recommendation",
+  "effective_date_of_decision",
+  "date_employee_informed",
+  "hr_review_section",
+  "hr_remarks",
+  "acknowledgement_section",
+  "employee_comments",
+  "acknowledgement"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro_html",
+   "fieldtype": "HTML",
+   "options": "<h4>ICL End of Probation Assessment Form</h4><p><b>Confidential HR Record | 3-Month Probation Review</b></p><p><b>Purpose:</b> To assess whether the employee has demonstrated sufficient role readiness, conduct, reliability, learning ability, and organisational fit for confirmation after the 3-month probation period. Ratings should be supported by brief evidence and discussed fairly with the employee.</p>"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "End of Probation Assessment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "HR-EOP-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "HR-EOP-.YYYY.-.MM.-",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee_details_section",
+   "fieldtype": "Section Break",
+   "label": "1. Employee and Probation Information"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.first_name",
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.last_name",
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "position",
+   "fieldtype": "Data",
+   "label": "Job Title",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "date_of_employment",
+   "fieldtype": "Date",
+   "label": "Date of Employment",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "description": "Defaults to the employee's date of joining. Adjust if probation started on a different date.",
+   "fieldname": "probation_start_date",
+   "fieldtype": "Date",
+   "label": "Probation Start Date",
+   "reqd": 1
+  },
+  {
+   "description": "Defaults to 3 months after the probation start date.",
+   "fieldname": "probation_end_date",
+   "fieldtype": "Date",
+   "label": "Probation End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assessment_date",
+   "fieldtype": "Date",
+   "label": "Assessment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "guidance_section",
+   "fieldtype": "Section Break",
+   "label": "2. Probation Review Guidance"
+  },
+  {
+   "fieldname": "guidance_html",
+   "fieldtype": "HTML",
+   "options": "<table class=\"table table-bordered\"><tbody><tr><td><b>Assessment period</b></td><td>This form is for the end of the 3-month probation period.</td></tr><tr><td><b>Evidence required</b></td><td>Ratings should be based on work outputs, observed behaviour, attendance, feedback records, and examples from the probation period.</td></tr><tr><td><b>Fairness check</b></td><td>Before a negative decision is made, HR should confirm that concerns were communicated, reasonable support was provided, and the employee had an opportunity to respond.</td></tr><tr><td><b>HR involvement</b></td><td>HR should be present where there are concerns, including Confirmed with Development Plan, Not Confirmed, Critical Concern, or disputed recommendations.</td></tr><tr><td><b>Decision principle</b></td><td>The score guides the recommendation, but the final decision must consider role requirements, critical conduct issues, support provided, and HR review.</td></tr><tr><td><b>Appeal / written response</b></td><td>Where the employee disagrees with a Confirmed with Development Plan, Not Confirmed, or Critical Concern outcome, the employee may submit a written response or appeal to HR within five (5) working days after the outcome is communicated.</td></tr></tbody></table>"
+  },
+  {
+   "fieldname": "rating_scale_section",
+   "fieldtype": "Section Break",
+   "label": "3. Probation Rating Scale"
+  },
+  {
+   "fieldname": "rating_scale_html",
+   "fieldtype": "HTML",
+   "options": "<table class=\"table table-bordered\"><thead><tr><th>Rating</th><th>Probation Standard</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td>Not demonstrated</td><td>Performance, conduct, reliability, or role fit is significantly below the minimum standard for confirmation.</td></tr><tr><td>2</td><td>Partially demonstrated</td><td>Some ability is present, but performance is inconsistent or requires close supervision beyond what is expected at this stage.</td></tr><tr><td>3</td><td>Meets probation standard</td><td>The employee has demonstrated acceptable capability and behaviour for confirmation in the role.</td></tr><tr><td>4</td><td>Strong</td><td>The employee is dependable, learns quickly, works with limited supervision, and contributes positively.</td></tr><tr><td>5</td><td>Exceptional</td><td>The employee consistently exceeds the expected probation standard and shows strong ownership, judgement, and impact.</td></tr></tbody></table>"
+  },
+  {
+   "description": "Rate each area from 1 to 5 and provide brief evidence. A rating of 3 is the minimum confirmation standard. Maximum score: 50.",
+   "fieldname": "assessment_section",
+   "fieldtype": "Section Break",
+   "label": "4. Supervisor Probation Assessment"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Probation Assessment Template",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "cannot_add_rows": 1,
+   "cannot_delete_rows": 1,
+   "fieldname": "ratings",
+   "fieldtype": "Table",
+   "label": "Supervisor Probation Assessment",
+   "options": "Probation Assessment Rating"
+  },
+  {
+   "fieldname": "summary_section",
+   "fieldtype": "Section Break",
+   "label": "5. Supervisor Summary"
+  },
+  {
+   "fieldname": "key_strengths",
+   "fieldtype": "Small Text",
+   "label": "Key strengths demonstrated"
+  },
+  {
+   "fieldname": "development_needs",
+   "fieldtype": "Small Text",
+   "label": "Development needs"
+  },
+  {
+   "fieldname": "behavioural_observations",
+   "fieldtype": "Small Text",
+   "label": "Behavioural observations"
+  },
+  {
+   "fieldname": "column_break_summary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "has_critical_concern",
+   "fieldtype": "Check",
+   "label": "Critical Concern"
+  },
+  {
+   "depends_on": "has_critical_concern",
+   "fieldname": "critical_concerns",
+   "fieldtype": "Small Text",
+   "label": "Critical concerns, if any"
+  },
+  {
+   "fieldname": "support_required_after_confirmation",
+   "fieldtype": "Small Text",
+   "label": "Support required after confirmation"
+  },
+  {
+   "fieldname": "decision_section",
+   "fieldtype": "Section Break",
+   "label": "6. Score Summary and Decision"
+  },
+  {
+   "fieldname": "decision_rules_html",
+   "fieldtype": "HTML",
+   "options": "<table class=\"table table-bordered\"><thead><tr><th>Total Score</th><th>Percentage</th><th>Probation Result</th><th>Recommended Outcome Guide</th></tr></thead><tbody><tr><td>40 - 50</td><td>80% - 100%</td><td>Meets / exceeds probation standard</td><td>Confirmed</td></tr><tr><td>30 - 39</td><td>60% - 78%</td><td>Meets minimum standard but requires structured follow-up</td><td>Confirmed with Development Plan</td></tr><tr><td>0 - 29</td><td>0% - 58%</td><td>Does not meet probation confirmation standard</td><td>Not Confirmed</td></tr><tr><td>Critical concern</td><td>N/A</td><td>Serious issue in conduct, confidentiality, attendance, reliability, or role fit</td><td>HR review required regardless of total score</td></tr></tbody></table>"
+  },
+  {
+   "fieldname": "total_score",
+   "fieldtype": "Int",
+   "label": "Total Score Awarded (out of 50)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Percent",
+   "label": "Percentage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_decision",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "probation_result",
+   "fieldtype": "Data",
+   "label": "Probation Result",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recommended_outcome",
+   "fieldtype": "Data",
+   "label": "Recommended Outcome (Guide)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "supervisor_recommendation_section",
+   "fieldtype": "Section Break",
+   "label": "Supervisor Recommendation"
+  },
+  {
+   "fieldname": "supervisor_recommendation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Supervisor Recommendation",
+   "options": "Confirmed\nConfirmed with Development Plan\nNot Confirmed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "effective_date_of_decision",
+   "fieldtype": "Date",
+   "label": "Effective Date of Decision"
+  },
+  {
+   "fieldname": "date_employee_informed",
+   "fieldtype": "Date",
+   "label": "Date Employee Informed"
+  },
+  {
+   "fieldname": "hr_review_section",
+   "fieldtype": "Section Break",
+   "label": "HR Review"
+  },
+  {
+   "depends_on": "eval:in_list([\"Submitted to HR\", \"Needs Clarification\", \"Rejected By HR\"], doc.workflow_state)",
+   "description": "Visible to the supervisor. Explain the reason for rejection or what clarification is needed before resubmitting.",
+   "fieldname": "hr_remarks",
+   "fieldtype": "Small Text",
+   "label": "HR Remarks"
+  },
+  {
+   "description": "The employee's signature confirms receipt and discussion of the outcome, not necessarily agreement with it.",
+   "fieldname": "acknowledgement_section",
+   "fieldtype": "Section Break",
+   "label": "7. Employee Acknowledgement and Sign-Off"
+  },
+  {
+   "fieldname": "employee_comments",
+   "fieldtype": "Small Text",
+   "label": "Employee comments"
+  },
+  {
+   "fieldname": "acknowledgement",
+   "fieldtype": "Table",
+   "label": "Acknowledgement",
+   "options": "Acknowledgement"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-08-18 02:50:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "End of Probation Assessment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Supervisor",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -48,6 +48,12 @@ def get_procurement_team_emails() -> list[str]:
     return list(dict.fromkeys(email for email in emails if email))
 
 
+def get_smt_emails() -> list[str]:
+    emails = frappe.get_all("Has Role", filters={"role": "SMT", "parenttype": "User"}, pluck="parent")
+    emails += frappe.get_all("SMT Members", pluck="email")
+    return list(dict.fromkeys(email for email in emails if email))
+
+
 def get_supervisor_contact(employee):
     if not getattr(employee, "reports_to", None):
         return None

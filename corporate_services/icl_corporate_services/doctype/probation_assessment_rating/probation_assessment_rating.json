@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-18 02:50:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "assessment_area",
+  "guidance",
+  "evidence_comments",
+  "rating"
+ ],
+ "fields": [
+  {
+   "fieldname": "assessment_area",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Assessment Area",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "guidance",
+   "fieldtype": "Small Text",
+   "label": "Guidance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evidence_comments",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Evidence / Comments"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Rating",
+   "options": "\n1\n2\n3\n4\n5"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-18 02:50:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Probation Assessment Rating",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
