@@ -32,13 +32,6 @@ def _effective_reminder_date(employee, calculated_date):
 
 
 def send_month_1_hr_check_in_reminders():
-    """
-    Runs daily at 8 AM (see hooks.py cron). For each Active employee whose
-    1-month anniversary of joining falls today - shifted back to the
-    preceding working day if it lands on a weekend/holiday - emails HR to
-    organize the Month 1 HR Check-In and emails the employee to let them know
-    HR will be in touch about it.
-    """
     reference_today = getdate(today())
 
     employees = frappe.get_all(
