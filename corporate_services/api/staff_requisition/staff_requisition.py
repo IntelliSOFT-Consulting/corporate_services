@@ -37,7 +37,7 @@ def send_clarification_email(docname, message):
                 Clarification Required
             </h2>
             <p style="color:#BDD7EE;margin:4px 0 0;font-size:13px;">
-                Staff Requisition &mdash; {doc.name}
+                Staff Requisition &- {doc.name}
             </p>
         </div>
         <div style="background:#fff;padding:24px 30px;border:1px solid #e0e0e0;
@@ -62,7 +62,7 @@ def send_clarification_email(docname, message):
                 View &amp; Resubmit
             </a>
             <p style="margin:24px 0 0;color:#888;font-size:12px;">
-                Regards &mdash; HR Management
+                Regards &- HR Management
             </p>
         </div>
     </div>
