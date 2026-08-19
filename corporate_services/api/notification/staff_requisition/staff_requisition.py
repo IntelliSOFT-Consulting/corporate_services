@@ -343,7 +343,9 @@ def send_approval_overdue_reminders():
                     recipients=[recipient_email],
                     subject=f"OVERDUE: Staff Requisition Approval Required - {doc.name}",
                     message=email_message,
-                    priority=1
+                    send_priority=frappe.utils.cint(
+                        frappe.db.get_single_value("HR Config", "overdue_reminder_email_priority") or 3
+                    )
                 )
                 
                 # Create ERP inbox notification
