@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2026-08-18 14:00:00.000000",
+ "creation": "2026-08-18 02:50:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -89,13 +89,13 @@
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee",
+   "print_hide": 1,
    "reqd": 1
   },
   {
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "hidden": 1,
    "in_list_view": 1,
    "label": "Employee Name",
    "read_only": 1,
@@ -201,8 +201,6 @@
    "report_hide": 1
   },
   {
-   "cannot_add_rows": 1,
-   "cannot_delete_rows": 1,
    "fieldname": "ratings",
    "fieldtype": "Table",
    "label": "Supervisor Probation Assessment",
@@ -233,6 +231,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "has_critical_concern",
    "fieldtype": "Check",
    "label": "Critical Concern"
@@ -343,7 +342,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-18 14:00:00.000000",
+ "modified": "2026-08-19 09:42:52.124922",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "End of Probation Assessment",

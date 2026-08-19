@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2026-08-18 11:53:00.000000",
+ "creation": "2026-08-18 11:53:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -72,6 +72,7 @@
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee",
+   "print_hide": 1,
    "reqd": 1
   },
   {
@@ -113,7 +114,8 @@
    "reqd": 1
   },
   {
-   "fetch_from": "employee.reports_to",
+   "allow_on_submit": 1,
+   "fetch_from": "employee.custom_reports_to_name",
    "fieldname": "supervisor",
    "fieldtype": "Data",
    "label": "Supervisor",
@@ -143,8 +145,6 @@
    "report_hide": 1
   },
   {
-   "cannot_add_rows": 1,
-   "cannot_delete_rows": 1,
    "fieldname": "checklist",
    "fieldtype": "Table",
    "label": "Quick Progress Review",
@@ -231,7 +231,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-18 11:53:00.000000",
+ "modified": "2026-08-19 09:39:25.135564",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Mid-Probation Check-In",

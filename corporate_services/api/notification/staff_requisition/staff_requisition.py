@@ -1,26 +1,11 @@
 import frappe
 from frappe.utils import get_url_to_form, now_datetime, add_days, get_datetime
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
-
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Staff Requisition", "text/html")
-    )
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, notify_recipient, build_email_body, pdf_attachment
 
 def get_user_full_name(email):
     """Get the full name of a user from their email"""
@@ -30,58 +15,53 @@ def generate_message(doc, employee_name, email_type, recipient_email):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     recipient_name = get_user_full_name(recipient_email)
     
+    def rejection_body(signer):
+        return build_email_body(
+            greeting=f"Dear {recipient_name}",
+            intro=f"Your {doc.doctype} {doc.name} has been rejected by {signer}.",
+            extra=f"<p><b>Rejection Reason:</b><br>{doc.rejection_reason or 'Not provided'}</p>",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer=signer,
+            cta_text="here",
+        )
+
     messages = {
-        "submitted_to_hr": """
-            Dear {},<br><br>
-            {}, {} has been submitted for your review. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            System
-        """.format(recipient_name, employee_name, doc.doctype, doctype_url),
-
-        "submitted_to_finance": """
-            Dear {},<br><br>
-            {}, {} has been reviewed and approved by HR. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            HR
-        """.format(recipient_name, employee_name, doc.doctype, doctype_url),
-        
-        "submitted_to_ceo": """
-            Dear {},<br><br>
-            {}, {} has been reviewed and approved by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance
-        """.format(recipient_name, employee_name, doc.doctype, doctype_url),
-        
-        "approved_by_ceo": """
-            Dear {},<br><br>
-            {}, {} has been approved by the CEO. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            CEO
-        """.format(recipient_name, employee_name, doc.doctype, doctype_url),
-
-        "rejected_by_hr": """
-            Dear {},<br><br>
-            Your {} {} has been rejected by HR. You can view the details <a href="{}">here</a>.<br><br>
-            <b>Rejection Reason:</b><br>{}<br><br>
-            Kind regards,<br>
-            HR
-        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided"),
-
-        "rejected_by_finance": """
-            Dear {},<br><br>
-            Your {} {} has been rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            <b>Rejection Reason:</b><br>{}<br><br>
-            Kind regards,<br>
-            Finance
-        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided"),
-
-        "rejected_by_ceo": """
-            Dear {},<br><br>
-            Your {} {} has been rejected by the CEO. You can view the details <a href="{}">here</a>.<br><br>
-            <b>Rejection Reason:</b><br>{}<br><br>
-            Kind regards,<br>
-            CEO
-        """.format(recipient_name, doc.doctype, doc.name, doctype_url, doc.rejection_reason or "Not provided")
+        "submitted_to_hr": build_email_body(
+            greeting=f"Dear {recipient_name}",
+            intro=f"{employee_name}, {doc.doctype} has been submitted for your review.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="System",
+            cta_text="here",
+        ),
+        "submitted_to_finance": build_email_body(
+            greeting=f"Dear {recipient_name}",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and approved by HR.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="HR",
+            cta_text="here",
+        ),
+        "submitted_to_ceo": build_email_body(
+            greeting=f"Dear {recipient_name}",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and approved by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance",
+            cta_text="here",
+        ),
+        "approved_by_ceo": build_email_body(
+            greeting=f"Dear {recipient_name}",
+            intro=f"{employee_name}, {doc.doctype} has been approved by the CEO.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="CEO",
+            cta_text="here",
+        ),
+        "rejected_by_hr": rejection_body("HR"),
+        "rejected_by_finance": rejection_body("Finance"),
+        "rejected_by_ceo": rejection_body("CEO"),
     }
     return messages[email_type]
 
@@ -139,13 +119,8 @@ def alert(doc, method):
     requestor_email = get_requestor_email(requestor)
     
     
-    pdf_content = frappe.get_print(
-        doc.doctype,
-        doc.name,
-        get_default_print_format(doc.doctype),
-        as_pdf=True,
-    )
-    
+    attachments = pdf_attachment(doc)
+
     
     workflow_config = {
         "Submitted to HR": {
@@ -213,8 +188,8 @@ def alert(doc, method):
                 recipients=[recipient_email],
                 subject=frappe._(config.get("subject") or 'Staff Requisition from {}'.format(requestor_name)),
                 message=message,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header="Staff Requisition",
+                attachments=attachments,
             )
 
 
@@ -372,11 +347,12 @@ def send_approval_overdue_reminders():
                 )
                 
                 # Create ERP inbox notification
-                create_notification_log(
-                    recipient_email,
+                notify_recipient(
                     doc,
+                    recipient_email,
+                    f"Approval Overdue: {doc.name}",
                     f"Staff Requisition {doc.name} is {overdue_display} overdue for approval",
-                    approver_title
+                    error_title="Notification Log Creation Failed",
                 )
             
             # Add comment to document
@@ -398,36 +374,6 @@ def send_approval_overdue_reminders():
         "message": f"{reminders_sent} approval overdue reminders sent.",
         "reminders_sent": reminders_sent
     }
-
-
-def create_notification_log(recipient_email, doc, message, approver_title):
-    """
-    Creates a notification in the ERP inbox (Notification Log).
-    
-    Args:
-        recipient_email (str): Email of the recipient.
-        doc (Document): Staff Requisition document.
-        message (str): Notification message.
-        approver_title (str): Title of the approver role.
-    """
-    try:
-        notification = frappe.get_doc({
-            "doctype": "Notification Log",
-            "subject": f"Approval Overdue: {doc.name}",
-            "email_content": message,
-            "for_user": recipient_email,
-            "type": "Alert",
-            "document_type": doc.doctype,
-            "document_name": doc.name,
-            "from_user": frappe.session.user
-        })
-        notification.insert(ignore_permissions=True)
-        
-    except Exception as e:
-        frappe.log_error(
-            message=f"Failed to create notification log for {recipient_email}: {str(e)}",
-            title="Notification Log Creation Failed"
-        )
 
 
 @frappe.whitelist()

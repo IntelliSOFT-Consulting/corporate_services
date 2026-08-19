@@ -30,6 +30,7 @@
   {
    "fieldname": "key_notes",
    "fieldtype": "Small Text",
+   "in_list_view": 1,
    "label": "Key notes"
   }
  ],
@@ -37,7 +38,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-08-18 10:23:59.811634",
+ "modified": "2026-08-19 09:31:34.372443",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "First-month conversation MONTH 1 HR CHECK-IN",

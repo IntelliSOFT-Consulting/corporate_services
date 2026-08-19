@@ -1,8 +1,11 @@
 from datetime import timedelta
 
 import frappe
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import build_email_body, send_email
 from frappe.utils import get_url_to_form, nowdate, getdate
+
+HEADER = "Weekly Progress Report"
 
 
 # ---------------------------------------------------------------------------
@@ -96,16 +99,7 @@ def _get_supervisor_email(employee):
 
 
 def _send_workflow_email(doc, recipients, subject, message):
-    recipients = filter_recipients(doc, list(dict.fromkeys([r for r in recipients if r])))
-    if not recipients:
-        return
-
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        header=("Weekly Progress Report", "text/html"),
-    )
+    send_email(doc, recipients, subject, message, header=HEADER)
 
 
 # ---------------------------------------------------------------------------
@@ -208,12 +202,14 @@ def alert(doc, method):
             doc,
             recipients=[supervisor_email],
             subject=f"Weekly Progress Report from {employee_name}",
-            message=f"""
-                <p>Dear Supervisor,</p>
-                <p>{frappe.utils.escape_html(employee_name)} has submitted a Weekly Progress Report for your review.</p>
-                <p><a href="{doc_link}">Open Weekly Progress Report</a></p>
-                <p>Kind regards,<br><strong>HR Department</strong></p>
-            """,
+            message=build_email_body(
+                greeting="Dear Supervisor",
+                intro=f"{frappe.utils.escape_html(employee_name)} has submitted a Weekly Progress Report for your review.",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="HR Department",
+                cta_text="here",
+            ),
         )
         return
 
@@ -222,12 +218,14 @@ def alert(doc, method):
             doc,
             recipients=hr_emails,
             subject=f"Weekly Progress Report pending HR review - {employee_name}",
-            message=f"""
-                <p>Dear HR Manager,</p>
-                <p>{frappe.utils.escape_html(employee_name)}'s Weekly Progress Report has been submitted to HR.</p>
-                <p><a href="{doc_link}">Open Weekly Progress Report</a></p>
-                <p>Kind regards,<br><strong>Supervisor</strong></p>
-            """,
+            message=build_email_body(
+                greeting="Dear HR Manager",
+                intro=f"{frappe.utils.escape_html(employee_name)}'s Weekly Progress Report has been submitted to HR.",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="Supervisor",
+                cta_text="here",
+            ),
         )
         return
 
@@ -249,10 +247,12 @@ def alert(doc, method):
         doc,
         recipients=[employee_email],
         subject=state_subject_map.get(doc.workflow_state, "Weekly Progress Report Update"),
-        message=f"""
-            <p>Dear {frappe.utils.escape_html(employee_name)},</p>
-            <p>{state_intro_map.get(doc.workflow_state, "Your Weekly Progress Report has been updated.")}</p>
-            <p><a href="{doc_link}">Open Weekly Progress Report</a></p>
-            <p>Kind regards,<br><strong>HR Department</strong></p>
-        """,
+        message=build_email_body(
+            greeting=f"Dear {frappe.utils.escape_html(employee_name)}",
+            intro=state_intro_map.get(doc.workflow_state, "Your Weekly Progress Report has been updated."),
+            action_line="You can view it",
+            link_url=doc_link,
+            signer="HR Department",
+            cta_text="here",
+        ),
     )

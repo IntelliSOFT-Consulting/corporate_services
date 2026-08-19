@@ -228,7 +228,6 @@ def generate_doc_events(event_maps):
 
 
 on_update_map = {
-    "Employee Grievance": "corporate_services.api.notification.notifications.employee_grievance",
     "Travel Request": "corporate_services.api.notification.travel_request.travel_request.alert",
     "Travel Request Reconciliation": [
         "corporate_services.api.notification.travel_request.travel_request_reconciliation.alert",

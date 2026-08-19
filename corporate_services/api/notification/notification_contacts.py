@@ -54,18 +54,28 @@ def get_smt_emails() -> list[str]:
     return list(dict.fromkeys(email for email in emails if email))
 
 
+def get_employee_contact(employee):
+    """Accepts an Employee name or doc; returns its email/user_id/name, or
+    None if not found. Email falls back from company_email to personal_email."""
+    if not employee:
+        return None
+
+    if isinstance(employee, str):
+        employee = frappe.get_doc("Employee", employee)
+
+    return frappe._dict(
+        employee=employee,
+        email=employee.company_email or employee.personal_email,
+        user_id=employee.user_id,
+        name=employee.employee_name or employee.name,
+    )
+
+
 def get_supervisor_contact(employee):
     if not getattr(employee, "reports_to", None):
         return None
 
-    supervisor = frappe.get_doc("Employee", employee.reports_to)
-
-    return frappe._dict(
-        employee=supervisor,
-        email=supervisor.company_email or supervisor.personal_email,
-        user_id=supervisor.user_id,
-        name=supervisor.employee_name,
-    )
+    return get_employee_contact(employee.reports_to)
 
 
 def get_user_contact(user_id):

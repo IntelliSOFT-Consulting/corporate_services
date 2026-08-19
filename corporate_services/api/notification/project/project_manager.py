@@ -1,18 +1,7 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
-
-def send_email(recipients, subject, message, pdf_content, doc_name):
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Project", "text/html")
-    )
+from corporate_services.api.notification.notification_contacts import get_employee_contact
+from corporate_services.api.notification.mailer import send_email, pdf_attachment
 
 def generate_message(doc, employee_name, email_type):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
@@ -29,22 +18,18 @@ def alert(doc, method):
     if not getattr(doc, "_email_sent", False):
         for row in doc.custom_project_managers:
             if row.email_sent == 0:
-                employee_id = row.employee
-                employee = frappe.get_doc("Employee", employee_id)
-                employee_email = employee.company_email or employee.personal_email
-                
-                pdf_content = frappe.get_print(
-                    doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-                )
+                employee = get_employee_contact(row.employee)
 
-                message = generate_message(doc, employee.employee_name, "project_manager")
-                
+                message = generate_message(doc, employee.name, "project_manager")
+
                 send_email(
-                    recipients=[employee_email],
+                    doc,
+                    recipients=[employee.email],
                     subject=frappe._('Project Manager Role for {}'.format(doc.project_name)),
                     message=message,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    header="Project",
+                    attachments=pdf_attachment(doc),
+                    dedup=False,
                 )
                 frappe.db.set_value(
                     row.doctype, row.name, "email_sent", 1, update_modified=False

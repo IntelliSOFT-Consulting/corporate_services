@@ -86,6 +86,7 @@
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee",
+   "print_hide": 1,
    "reqd": 1
   },
   {
@@ -116,7 +117,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee.reports_to",
+   "fetch_from": "employee.custom_reports_to_name",
    "fieldname": "supervisor",
    "fieldtype": "Data",
    "label": "Supervisor",
@@ -372,7 +373,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-18 14:28:04.907448",
+ "modified": "2026-08-19 09:49:33.968227",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Employee Onboarding Guide",

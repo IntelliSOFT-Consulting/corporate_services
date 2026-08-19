@@ -21,6 +21,7 @@
   "start_date",
   "check_in_date",
   "hr_representative",
+  "hr_representative_name",
   "first_month_conversation_section",
   "question_template",
   "first_month_conversation",
@@ -63,6 +64,7 @@
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee",
+   "print_hide": 1,
    "reqd": 1
   },
   {
@@ -124,6 +126,7 @@
    "ignore_user_permissions": 1,
    "label": "HR representative",
    "options": "Employee",
+   "print_hide": 1,
    "reqd": 1
   },
   {
@@ -193,13 +196,22 @@
    "print_hide": 1,
    "report_hide": 1,
    "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "hr_representative.employee_name",
+   "fieldname": "hr_representative_name",
+   "fieldtype": "Data",
+   "label": "HR Representative Name",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-18 11:41:02.511644",
+ "modified": "2026-08-19 09:36:16.140531",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Month 1 HR Check-In",
