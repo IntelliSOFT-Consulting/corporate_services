@@ -1,75 +1,67 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, build_email_body, pdf_attachment
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Exit Interview", "text/html")
-    )
+HEADER = "Exit Interview"
 
 
 def generate_message(doc, employee_name, email_type):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
         # Employee submits → Supervisor receives
-        "supervisor": """
-            Dear {},<br><br>
-            {} has submitted an {} for your review and approval.
-            You can view it <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(doc.custom_supervisor_name or "Supervisor", employee_name, doc.doctype, doctype_url, employee_name),
+        "supervisor": build_email_body(
+            greeting=f"Dear {doc.custom_supervisor_name or 'Supervisor'}",
+            intro=f"{employee_name} has submitted an {doc.doctype} for your review and approval.",
+            action_line="You can view it",
+            link_url=doctype_url,
+            signer=employee_name,
+            cta_text="here",
+        ),
 
         # Supervisor approves → HR receives
-        "hr": """
-            Dear HR Manager,<br><br>
-            You have a new {} for <b>{}</b>, approved by the Supervisor and submitted for your
-            final review. You can view it <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(doc.doctype, employee_name, doctype_url, employee_name),
+        "hr": build_email_body(
+            greeting="Dear HR Manager",
+            intro=f"You have a new {doc.doctype} for <b>{employee_name}</b>, approved by the Supervisor and submitted for your final review.",
+            action_line="You can view it",
+            link_url=doctype_url,
+            signer=employee_name,
+            cta_text="here",
+        ),
 
         # Supervisor rejects → Employee receives
-        "employee_rejected_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and unfortunately rejected by your Supervisor.
-            You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Supervisor
-        """.format(employee_name, doc.doctype, doctype_url),
+        "employee_rejected_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and unfortunately rejected by your Supervisor.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Supervisor",
+            cta_text="here",
+        ),
 
         # HR rejects → Employee receives
-        "employee_rejected_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed and unfortunately rejected by the HR Department.
-            You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            HR Department
-        """.format(employee_name, doc.doctype, doctype_url),
+        "employee_rejected_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and unfortunately rejected by the HR Department.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="HR Department",
+            cta_text="here",
+        ),
 
         # HR approves → Employee receives
-        "employee_approved_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed and approved by the HR Department.
-            You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            HR Department
-        """.format(employee_name, doc.doctype, doctype_url),
+        "employee_approved_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and approved by the HR Department.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="HR Department",
+            cta_text="here",
+        ),
     }
 
     return messages[email_type]
@@ -90,8 +82,7 @@ def alert(doc, method):
     employee = frappe.get_doc("Employee", doc.employee)
     employee_email = employee.company_email or employee.personal_email
 
-    print_format = get_default_print_format(doc.doctype)
-    pdf_content = frappe.get_print(doc.doctype, doc.name, print_format, as_pdf=True)
+    attachments = pdf_attachment(doc)
 
     if doc.workflow_state == "Submitted to Supervisor":
         supervisor_contact = get_supervisor_contact(employee)
@@ -104,8 +95,8 @@ def alert(doc, method):
             recipients=[supervisor_contact.email],
             subject=frappe._("Exit Interview Submitted - {}".format(employee.employee_name)),
             message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            header=HEADER,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Rejected By Supervisor":
@@ -115,8 +106,8 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Rejected by Supervisor"),
             message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            header=HEADER,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Submitted to HR":
@@ -128,8 +119,8 @@ def alert(doc, method):
             recipients=hr_manager_emails,
             subject=frappe._("Exit Interview Submitted to HR - {}".format(employee.employee_name)),
             message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            header=HEADER,
+            attachments=attachments,
         )
 
         # Tick the exit interview checkbox and set the link on the employee's OffBoarding Schedule
@@ -156,8 +147,8 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Rejected by HR"),
             message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            header=HEADER,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Approved by HR":
@@ -167,8 +158,8 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Exit Interview has been Approved by HR"),
             message=message,
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            header=HEADER,
+            attachments=attachments,
         )
 
 

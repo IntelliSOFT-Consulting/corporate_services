@@ -1,7 +1,10 @@
 import frappe
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
+from corporate_services.api.notification.mailer import send_email, build_email_body
 from frappe.utils import format_date, get_url_to_form
+
+HEADER = "Employee KPI"
 
 
 def _get_supervisor_email(employee):
@@ -19,16 +22,7 @@ def _get_supervisor_email(employee):
 
 
 def _send_workflow_email(doc, recipients, subject, message):
-    recipients = filter_recipients(doc, list(dict.fromkeys([r for r in recipients if r])))
-    if not recipients:
-        return
-
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        header=("Employee KPI", "text/html"),
-    )
+    send_email(doc, recipients, subject, message, header=HEADER)
 
 
 def send_creation_reminder(doc, method):
@@ -50,20 +44,16 @@ def send_creation_reminder(doc, method):
     recipients = [employee_email]
     cc = [supervisor_email] if supervisor_email else []
 
-    frappe.sendmail(
-        recipients=recipients,
-        cc=cc,
-        subject=f"Action Required: Fill in your KPI for {period_text}",
-        message=f"""
-            <p>Dear {frappe.utils.escape_html(employee_name)},</p>
-            <p>A new KPI cycle has been started for the review period <strong>{period_text}</strong>.</p>
-            <p>Please fill in your KPIs and submit them to your supervisor for review
-            {f"by <strong>{deadline_text}</strong>" if deadline_text else ""}.</p>
-            <p><a href="{doc_link}">Open Employee KPI</a></p>
-            <p>Kind regards,<br><strong>HR Department</strong></p>
-        """,
-        header=("Employee KPI", "text/html"),
+    message = build_email_body(
+        greeting=f"Dear {frappe.utils.escape_html(employee_name)}",
+        intro=f"A new KPI cycle has been started for the review period <strong>{period_text}</strong>.",
+        extra=f"<p>Please fill in your KPIs and submit them to your supervisor for review{f' by <strong>{deadline_text}</strong>' if deadline_text else ''}.</p>",
+        action_line="You can access the form",
+        link_url=doc_link,
+        signer="HR Department",
+        cta_text="here",
     )
+    send_email(doc, recipients, f"Action Required: Fill in your KPI for {period_text}", message, header=HEADER, cc=cc, dedup=False)
 
     doc.db_set("kpi_reminder_sent", 1, update_modified=False)
 
@@ -98,12 +88,14 @@ def alert(doc, method):
             doc,
             recipients=[supervisor_email],
             subject=f"Employee KPI from {employee_name}",
-            message=f"""
-                <p>Dear Supervisor,</p>
-                <p>{frappe.utils.escape_html(employee_name)} has submitted their KPI for your review.</p>
-                <p><a href="{doc_link}">Open Employee KPI</a></p>
-                <p>Kind regards,<br><strong>HR Department</strong></p>
-            """,
+            message=build_email_body(
+                greeting="Dear Supervisor",
+                intro=f"{frappe.utils.escape_html(employee_name)} has submitted their KPI for your review.",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="HR Department",
+                cta_text="here",
+            ),
         )
         return
 
@@ -112,12 +104,14 @@ def alert(doc, method):
             doc,
             recipients=hr_emails,
             subject=f"Employee KPI pending HR review - {employee_name}",
-            message=f"""
-                <p>Dear HR Manager,</p>
-                <p>{frappe.utils.escape_html(employee_name)}'s KPI has been submitted to HR.</p>
-                <p><a href="{doc_link}">Open Employee KPI</a></p>
-                <p>Kind regards,<br><strong>Supervisor</strong></p>
-            """,
+            message=build_email_body(
+                greeting="Dear HR Manager",
+                intro=f"{frappe.utils.escape_html(employee_name)}'s KPI has been submitted to HR.",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="Supervisor",
+                cta_text="here",
+            ),
         )
         return
 
@@ -129,13 +123,15 @@ def alert(doc, method):
             doc,
             recipients=[employee_email],
             subject=f"Clarification required on your Employee KPI - {employee_name}",
-            message=f"""
-                <p>Dear {frappe.utils.escape_html(employee_name)},</p>
-                <p>Clarification has been requested on your Employee KPI.</p>
-                <p><strong>Clarification Required:</strong><br>{frappe.utils.escape_html(doc.clarification_required or "Not provided")}</p>
-                <p><a href="{doc_link}">Open Employee KPI</a></p>
-                <p>Kind regards,<br><strong>HR Department</strong></p>
-            """,
+            message=build_email_body(
+                greeting=f"Dear {frappe.utils.escape_html(employee_name)}",
+                intro="Clarification has been requested on your Employee KPI.",
+                extra=f"<p><strong>Clarification Required:</strong><br>{frappe.utils.escape_html(doc.clarification_required or 'Not provided')}</p>",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="HR Department",
+                cta_text="here",
+            ),
         )
         return
 
@@ -154,10 +150,12 @@ def alert(doc, method):
         doc,
         recipients=[employee_email],
         subject=state_subject_map.get(doc.workflow_state, "Employee KPI Update"),
-        message=f"""
-            <p>Dear {frappe.utils.escape_html(employee_name)},</p>
-            <p>{state_intro_map.get(doc.workflow_state, "Your Employee KPI has been updated.")}</p>
-            <p><a href="{doc_link}">Open Employee KPI</a></p>
-            <p>Kind regards,<br><strong>HR Department</strong></p>
-        """,
+        message=build_email_body(
+            greeting=f"Dear {frappe.utils.escape_html(employee_name)}",
+            intro=state_intro_map.get(doc.workflow_state, "Your Employee KPI has been updated."),
+            action_line="You can view it",
+            link_url=doc_link,
+            signer="HR Department",
+            cta_text="here",
+        ),
     )

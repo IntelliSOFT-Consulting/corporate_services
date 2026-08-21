@@ -1,6 +1,7 @@
 import frappe
 from frappe.utils import get_url_to_form, get_fullname
 from corporate_services.api.notification.notification_contacts import get_supervisor_contact
+from corporate_services.api.notification.mailer import build_email_body
 
 
 @frappe.whitelist()
@@ -38,20 +39,14 @@ def notify_supervisor_for_exit_interview(docname):
         doc_url = get_url_to_form("Exit Interview", "new-exit-interview-1") +                   f"?employee={doc.employee}"
     sender_name = get_fullname(frappe.session.user)
 
-    message = """
-        Dear {supervisor_name},<br><br>
-        This is to inform you that <b>{employee_name}</b> is currently in the offboarding process
-        and requires an <b>Exit Interview</b> to be conducted with you as their supervisor.<br><br>
-        Please schedule and complete the exit interview at your earliest convenience.<br><br>
-        You can view the Offboarding Schedule <a href="{doc_url}">here</a>.<br><br>
-        Kind regards,<br>
-        {sender_name}<br>
-        HR Management
-    """.format(
-        supervisor_name=supervisor.employee_name,
-        employee_name=employee.employee_name,
-        doc_url=doc_url,
-        sender_name=sender_name,
+    message = build_email_body(
+        greeting=f"Dear {supervisor.employee_name}",
+        intro=f"This is to inform you that <b>{employee.employee_name}</b> is currently in the offboarding process and requires an <b>Exit Interview</b> to be conducted with you as their supervisor.",
+        extra="<p>Please schedule and complete the exit interview at your earliest convenience.</p>",
+        action_line="You can view the Offboarding Schedule",
+        link_url=doc_url,
+        signer=f"{sender_name}<br>HR Management",
+        cta_text="here",
     )
 
     frappe.sendmail(

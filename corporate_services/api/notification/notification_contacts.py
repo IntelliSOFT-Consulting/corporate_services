@@ -48,18 +48,66 @@ def get_procurement_team_emails() -> list[str]:
     return list(dict.fromkeys(email for email in emails if email))
 
 
+def get_internship_program_coordinator_emails() -> list[str]:
+    users = frappe.get_all(
+        "Has Role",
+        filters={"role": "Internship Program Coordinator", "parenttype": "User"},
+        pluck="parent",
+    )
+    emails = [frappe.db.get_value("User", user, "email") for user in set(users)]
+    return list(dict.fromkeys(email for email in emails if email))
+
+
+def get_smt_emails() -> list[str]:
+    emails = frappe.get_all("Has Role", filters={"role": "SMT", "parenttype": "User"}, pluck="parent")
+    emails += frappe.get_all("SMT Members", pluck="email")
+    return list(dict.fromkeys(email for email in emails if email))
+
+
+def get_ceo_email() -> list[str]:
+    email = frappe.get_all("Has Role", filters={"role": "CEO", "parenttype": "User"}, fieldname="parent")
+    return [email.strip()] if email else []
+
+
+def get_employee_contact(employee):
+    """Accepts an Employee name or doc; returns its email/user_id/name, or
+    None if not found. Email falls back from company_email to personal_email."""
+    if not employee:
+        return None
+
+    if isinstance(employee, str):
+        employee = frappe.get_doc("Employee", employee)
+
+    return frappe._dict(
+        employee=employee,
+        email=employee.company_email or employee.personal_email,
+        user_id=employee.user_id,
+        name=employee.employee_name or employee.name,
+    )
+
+
 def get_supervisor_contact(employee):
     if not getattr(employee, "reports_to", None):
         return None
 
-    supervisor = frappe.get_doc("Employee", employee.reports_to)
+    return get_employee_contact(employee.reports_to)
 
-    return frappe._dict(
-        employee=supervisor,
-        email=supervisor.company_email or supervisor.personal_email,
-        user_id=supervisor.user_id,
-        name=supervisor.employee_name,
+
+def get_intern_contract_types():
+    return frappe.get_all(
+        "HR Config Intern Contract",
+        filters={"parent": "HR Config"},
+        pluck="contract_type",
     )
+
+
+@frappe.whitelist()
+def get_total_interns_count(**kwargs):
+    contract_types = get_intern_contract_types()
+    filters = {"status": "Active"}
+    if contract_types:
+        filters["custom_contract_type"] = ["in", contract_types]
+    return frappe.db.count("Employee", filters)
 
 
 def get_user_contact(user_id):

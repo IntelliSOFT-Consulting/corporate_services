@@ -1,0 +1,90 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"46siqXefvc\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\">ICL Onboarding Process</span>\", \"col\": 12}}, {\"id\": \"ErXMIHcHqM\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Month 1 Hr Check In\", \"col\": 3}}, {\"id\": \"05764a85b2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Mid-Probation Check-In\", \"col\": 3}}, {\"id\": \"ed46dddaa9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"End of Probation Assessment\", \"col\": 3}}, {\"id\": \"4123c4cc7e\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Onboarding Guide\", \"col\": 3}}, {\"id\": \"7fTWvP2DV3\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Month 1 HR Check-In\", \"col\": 4}}, {\"id\": \"9ff918f153\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Mid-Probation Check-In\", \"col\": 4}}, {\"id\": \"f218c643ed\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"End of Probation Assessment\", \"col\": 4}}, {\"id\": \"7fa84b2fd0\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Employee Onboarding Guide\", \"col\": 4}}]",
+ "creation": "2026-08-21 10:43:54.878781",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "share-people",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "ICL Onboarding Process",
+ "links": [],
+ "modified": "2026-08-21 11:06:06.706026",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "ICL Onboarding Process",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "ICL HR Admin",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Month 1 HR Check-In",
+   "label": "Month 1 HR Check-In",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Employee Onboarding Guide",
+   "label": "Employee Onboarding Guide",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Mid-Probation Check-In",
+   "label": "Mid-Probation Check-In",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "End of Probation Assessment",
+   "label": "End of Probation Assessment",
+   "quick_list_filter": "[]"
+  }
+ ],
+ "roles": [
+  {
+   "role": "HR Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 6.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Month 1 Hr Check In",
+   "link_to": "Month 1 HR Check-In",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Onboarding Guide",
+   "link_to": "Employee Onboarding Guide",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Mid-Probation Check-In",
+   "link_to": "Mid-Probation Check-In",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "End of Probation Assessment",
+   "link_to": "End of Probation Assessment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "ICL Onboarding Process"
+}

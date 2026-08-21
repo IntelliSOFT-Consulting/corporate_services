@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-18 14:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "milestone",
+  "owner",
+  "timing",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "milestone",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Milestone",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "owner",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner",
+   "read_only": 1
+  },
+  {
+   "fieldname": "timing",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Timing",
+   "read_only": 1
+  },
+  {
+   "default": "🔴 Not Started",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "🔴 Not Started\n🟡 In Progress\n🟢 Completed\n⚪ Not Applicable"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-18 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Onboarding Guide Milestone",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

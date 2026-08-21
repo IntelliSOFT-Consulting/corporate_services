@@ -31,9 +31,6 @@ def _performance_appraisal_approver_contacts(doc):
 	return [contact] if contact and contact.email else []
 
 
-# Doctype-specific contact resolvers. To extend reminders to another doctype,
-# register its submitter/approver resolvers here and add a matching Reminder
-# Rule row on HR Config.
 SUBMITTER_RESOLVERS = {
 	"Timesheet Submission": _timesheet_submitter_contact,
 }
@@ -66,13 +63,6 @@ def get_rule(reference_doctype, workflow_state):
 
 
 def get_state_entered_at(doc, workflow_state):
-	"""Best-effort timestamp for when `doc` entered `workflow_state`.
-
-	Reuses Notification Dispatch Log: its rows are written the moment the
-	workflow transition email fires, in the same request as the state
-	change, so the earliest sent_on for this state is a closer proxy than
-	doc.modified, which also moves on unrelated edits made while pending.
-	"""
 	entered_at = frappe.db.get_value(
 		DISPATCH_LOG_DOCTYPE,
 		{

@@ -1,27 +1,13 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_supervisor_contact,
+    get_employee_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, build_email_body, pdf_attachment
 
-
-def build_email_body(greeting, intro, action_line, link_url, sign_off, signer):
-    """Return a consistently structured HTML email body."""
-    return """
-        <p>{greeting},</p>
-        <p>{intro}</p>
-        <p>{action_line} <a href="{link}">Click here to view it</a>.</p>
-        <br>
-        <p>Kind regards,<br><strong>{signer}</strong></p>
-    """.format(
-        greeting=greeting,
-        intro=intro,
-        action_line=action_line,
-        link=link_url,
-        signer=signer,
-    )
+HEADER = "Consultant Time Off Application"
 
 
 def generate_message(doc, employee_name, supervisor_name, email_type):
@@ -34,7 +20,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="{} has submitted a {} for your review and approval.".format(employee_name, doctype_label),
             action_line="Please review the application at your earliest convenience.",
             link_url=url,
-            sign_off="Kind regards",
             signer=employee_name,
         ),
         "employee_approved": build_email_body(
@@ -42,7 +27,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="Good news! Your {} has been reviewed and approved by your supervisor.".format(doctype_label),
             action_line="You can view the approved application at any time.",
             link_url=url,
-            sign_off="Kind regards",
             signer="Your Supervisor",
         ),
         "employee_rejected": build_email_body(
@@ -50,29 +34,11 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="We regret to inform you that your {} has been reviewed and rejected by your supervisor.".format(doctype_label),
             action_line="Please review the details and reach out to your supervisor if you have any questions.",
             link_url=url,
-            sign_off="Kind regards",
             signer="Your Supervisor",
         ),
     }
 
     return templates[email_type]
-
-
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            "fname": "{}.pdf".format(doc_name),
-            "fcontent": pdf_content,
-        }],
-        header=("Consultant Time Off Application", "text/html"),
-    )
-
 
 
 def alert(doc, method):
@@ -87,45 +53,42 @@ def alert(doc, method):
     if doc.workflow_state not in WATCHED_STATES:
         return
 
-    employee = frappe.get_doc("Employee", doc.employee)
-    employee_email = employee.company_email or employee.personal_email
+    employee = get_employee_contact(doc.employee)
 
-    print_format = get_default_print_format(doc.doctype)
-    pdf_content = frappe.get_print(doc.doctype, doc.name, print_format, as_pdf=True)
+    attachments = pdf_attachment(doc)
 
     if doc.workflow_state == "Submitted to Supervisor":
-        if not employee.reports_to:
+        supervisor_contact = get_supervisor_contact(employee.employee)
+        if not supervisor_contact:
             return
-
-        supervisor_contact = get_supervisor_contact(employee)
 
         send_email(
             doc,
             recipients=[supervisor_contact.email],
-            subject=frappe._("Time Off Application from {}".format(employee.employee_name)),
-            message=generate_message(doc, employee.employee_name, supervisor_contact.name, "supervisor"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            subject=frappe._("Time Off Application from {}".format(employee.name)),
+            message=generate_message(doc, employee.name, supervisor_contact.name, "supervisor"),
+            header=HEADER,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Approved by Supervisor":
         send_email(
             doc,
-            recipients=[employee_email],
+            recipients=[employee.email],
             subject=frappe._("Your Time Off Application has been Approved"),
-            message=generate_message(doc, employee.employee_name, None, "employee_approved"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            message=generate_message(doc, employee.name, None, "employee_approved"),
+            header=HEADER,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Rejected By Supervisor":
         send_email(
             doc,
-            recipients=[employee_email],
+            recipients=[employee.email],
             subject=frappe._("Your Time Off Application has been Rejected"),
-            message=generate_message(doc, employee.employee_name, None, "employee_rejected"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            message=generate_message(doc, employee.name, None, "employee_rejected"),
+            header=HEADER,
+            attachments=attachments,
         )
 
 

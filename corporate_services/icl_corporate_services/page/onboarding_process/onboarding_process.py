@@ -28,15 +28,6 @@ def get_page_data():
 
     employee_names = [e.name for e in new_employees]
 
-    surveys = []
-    if employee_names:
-        surveys = frappe.get_all(
-            "New Hire Feedback Survey 30-Day",
-            filters={"employee": ["in", employee_names]},
-            fields=["name", "employee", "employee_name", "date_of_joining", "status"],
-            order_by="creation desc",
-        )
-
     onboarding_schedules = []
     if employee_names:
         onboarding_schedules = frappe.db.sql(
@@ -49,7 +40,6 @@ def get_page_data():
                 emp.date_of_joining,
                 os.internship_commencement,
                 os.for_interns_send_internship_commencement_form,
-                os.`30_day_feedback_survey` as thirty_day_feedback_survey,
                 os.formal_supervisory_end_of_probationary_review
             from `tabOnboarding Schedule` os
             left join `tabEmployee` emp on emp.name = os.employee
@@ -87,16 +77,6 @@ def get_page_data():
             }
             for e in new_employees
         ],
-        "surveys": [
-            {
-                "name": s.name,
-                "employee": s.employee,
-                "employee_name": s.employee_name,
-                "date_of_joining": str(s.date_of_joining) if s.date_of_joining else "",
-                "status": s.status or "",
-            }
-            for s in surveys
-        ],
         "onboarding_schedules": [
             {
                 "name": row.name,
@@ -104,7 +84,6 @@ def get_page_data():
                 "employee_name": row.employee_name,
                 "department": row.department or "",
                 "date_of_joining": str(row.date_of_joining) if row.date_of_joining else "",
-                "survey_sent": bool(row.thirty_day_feedback_survey),
                 "probation_review": bool(row.formal_supervisory_end_of_probationary_review),
             }
             for row in onboarding_schedules

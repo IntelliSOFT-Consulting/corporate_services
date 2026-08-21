@@ -66,11 +66,6 @@ TASK_DEFINITIONS = [
         "offset_days": 0,
     },
     {
-        "field": "30_day_feedback_survey",
-        "label": "30-day feedback survey sent",
-        "offset_days": 30,
-    },
-    {
         "field": "formal_supervisory_end_of_probationary_review",
         "label": "Formal supervisory end-of-probation review",
         "offset_days": 90,
@@ -98,19 +93,15 @@ def get_dashboard_data(employee=None):
             "employees": [],
             "cohorts": [],
             "departments": [],
-            "surveys": [],
             "probation_reviews": [],
         }
 
     employee_names = [row.employee for row in schedule_rows if row.employee]
-    survey_map = _get_latest_map(
-        "New Hire Feedback Survey 30-Day", employee_names, extra_fields=["date"]
-    )
     probation_map = _get_probation_appraisal_map(employee_names)
 
     employee_rows = []
     for row in schedule_rows:
-        employee_rows.append(_build_employee_row(row, survey_map, probation_map))
+        employee_rows.append(_build_employee_row(row, probation_map))
 
     summary = _build_summary(employee_rows)
 
@@ -119,7 +110,6 @@ def get_dashboard_data(employee=None):
         "employees": employee_rows,
         "cohorts": _aggregate(employee_rows, "cohort"),
         "departments": _aggregate(employee_rows, "department"),
-        "surveys": _build_survey_rows(employee_rows),
         "probation_reviews": _build_probation_rows(employee_rows),
     }
 
@@ -160,7 +150,6 @@ def _get_schedule_rows(employee=None):
             os.tour_of_office_and_facilities,
             os.lunch_with_new_hire_supervisor_hr_new_hire,
             os.officially_hand_them_over_to_their_supervisor,
-            os.`30_day_feedback_survey` as thirty_day_feedback_survey,
             os.formal_supervisory_end_of_probationary_review,
             emp.department,
             emp.designation,
@@ -174,26 +163,6 @@ def _get_schedule_rows(employee=None):
         params,
         as_dict=True,
     )
-
-
-def _get_latest_map(doctype, employee_names, extra_fields=None):
-    extra_fields = extra_fields or []
-    if not employee_names:
-        return {}
-
-    fields = ["name", "employee"] + extra_fields
-    docs = frappe.get_all(
-        doctype,
-        filters={"employee": ["in", employee_names]},
-        fields=fields,
-        order_by="creation desc",
-    )
-
-    latest = {}
-    for doc in docs:
-        latest.setdefault(doc.employee, doc)
-
-    return latest
 
 
 def _get_probation_appraisal_map(employee_names):
@@ -217,10 +186,9 @@ def _get_probation_appraisal_map(employee_names):
     return latest
 
 
-def _build_employee_row(row, survey_map, probation_map):
+def _build_employee_row(row, probation_map):
     start_date = getdate(row.date_of_joining) if row.date_of_joining else None
     today = getdate(nowdate())
-    survey_doc = survey_map.get(row.employee)
     probation_doc = probation_map.get(row.employee)
 
     task_definitions = list(TASK_DEFINITIONS)
@@ -244,17 +212,7 @@ def _build_employee_row(row, survey_map, probation_map):
     total_tasks = len(task_definitions)
     completion_pct = round((completed_tasks / total_tasks) * 100, 1) if total_tasks else 0
     cohort = start_date.strftime("%B %Y") if start_date else "No Joining Date"
-    survey_due = bool(start_date and getdate(add_days(start_date, 30)) <= today)
     probation_due = bool(start_date and getdate(add_days(start_date, 90)) <= today)
-
-    if survey_doc:
-        survey_status = "Completed"
-    elif survey_due and row.thirty_day_feedback_survey:
-        survey_status = "Sent / Awaiting Response"
-    elif survey_due:
-        survey_status = "Due"
-    else:
-        survey_status = "Not Due"
 
     return {
         "employee": row.employee,
@@ -271,10 +229,6 @@ def _build_employee_row(row, survey_map, probation_map):
         "completed_onboarding": int(completion_pct == 100),
         "overdue_task_count": len(overdue_tasks),
         "overdue_tasks": overdue_tasks,
-        "survey_status": survey_status,
-        "survey_due": survey_due,
-        "survey_completed": int(bool(survey_doc)),
-        "survey_document": survey_doc.name if survey_doc else None,
         "probation_due": probation_due,
         "probation_supervisor_complete": int(
             bool(row.formal_supervisory_end_of_probationary_review)
@@ -298,7 +252,6 @@ def _build_summary(employee_rows):
             1 for row in employee_rows if row["overdue_task_count"] > 0
         ),
         "completed_onboarding": sum(row["completed_onboarding"] for row in employee_rows),
-        "survey_completed": sum(row["survey_completed"] for row in employee_rows),
         "probation_supervisor_completed": sum(
             row["probation_supervisor_complete"] for row in employee_rows if row["probation_due"]
         ),
@@ -312,8 +265,6 @@ def _aggregate(employee_rows, key):
             "employee_count": 0,
             "completed_onboarding": 0,
             "employees_with_overdue_tasks": 0,
-            "survey_completed": 0,
-            "survey_due": 0,
             "completion_total": 0,
         }
     )
@@ -324,8 +275,6 @@ def _aggregate(employee_rows, key):
         bucket["employee_count"] += 1
         bucket["completed_onboarding"] += row["completed_onboarding"]
         bucket["employees_with_overdue_tasks"] += int(row["overdue_task_count"] > 0)
-        bucket["survey_completed"] += row["survey_completed"]
-        bucket["survey_due"] += int(row["survey_due"])
         bucket["completion_total"] += row["completion_pct"]
 
     aggregated = []
@@ -340,27 +289,10 @@ def _aggregate(employee_rows, key):
                 else 0,
                 "completed_onboarding": data["completed_onboarding"],
                 "employees_with_overdue_tasks": data["employees_with_overdue_tasks"],
-                "survey_completed": data["survey_completed"],
-                "survey_due": data["survey_due"],
             }
         )
 
     return sorted(aggregated, key=lambda row: row["label"])
-
-
-def _build_survey_rows(employee_rows):
-    rows = [
-        {
-            "employee": row["employee"],
-            "employee_name": row["employee_name"],
-            "department": row["department"],
-            "date_of_joining": row["date_of_joining"],
-            "survey_status": row["survey_status"],
-            "survey_document": row["survey_document"],
-        }
-        for row in employee_rows
-    ]
-    return sorted(rows, key=lambda row: (row["survey_status"], row["employee_name"]))
 
 
 def _build_probation_rows(employee_rows):

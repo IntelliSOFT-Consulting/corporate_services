@@ -1,0 +1,427 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-18 11:10:50.218795",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro_html",
+  "naming_series",
+  "document_details_section",
+  "employee",
+  "employee_name",
+  "position",
+  "department",
+  "column_break_details",
+  "supervisor",
+  "buddy",
+  "start_date",
+  "probation_end_date",
+  "document_owner",
+  "status_key_section",
+  "status_key_html",
+  "journey_html",
+  "office_attendance_html",
+  "resource_directory_section",
+  "resource_directory_html",
+  "preboarding_section",
+  "question_template",
+  "preboarding_intro_html",
+  "preboarding_milestones",
+  "preboarding_resource_html",
+  "day_1_section",
+  "day_1_milestones",
+  "week_1_section",
+  "week_1_milestones",
+  "week_1_resource_html",
+  "month_1_section",
+  "month_1_milestones",
+  "month_1_resource_html",
+  "mid_probation_section",
+  "mid_probation_milestones",
+  "mid_probation_resource_html",
+  "end_of_probation_section",
+  "end_of_probation_milestones",
+  "end_of_probation_resource_html",
+  "closure_section",
+  "completion_standard_html",
+  "probation_outcome",
+  "outcome_date",
+  "column_break_closure",
+  "communication_issued",
+  "follow_on_action",
+  "final_erp_reference",
+  "column_break_archive",
+  "is_archived",
+  "guide_archived_date",
+  "guide_archived_by",
+  "acknowledgement_section",
+  "acknowledgement",
+  "closing_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro_html",
+   "fieldtype": "HTML",
+   "options": "<h4>Employee Onboarding Guide</h4><p>This working guide supports a clear transition from signed employment documents through confirmation after probation. Update it jointly, keep actions visible and close every outstanding item.</p>"
+  },
+  {
+   "default": "HR-EOG-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "HR-EOG-.YYYY.-.MM.-",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "document_details_section",
+   "fieldtype": "Section Break",
+   "label": "Document Details"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "position",
+   "fieldtype": "Data",
+   "label": "Position",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.custom_reports_to_name",
+   "fieldname": "supervisor",
+   "fieldtype": "Data",
+   "label": "Supervisor",
+   "read_only": 1
+  },
+  {
+   "description": "Where applicable.",
+   "fieldname": "buddy",
+   "fieldtype": "Link",
+   "label": "Buddy",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date",
+   "read_only": 1
+  },
+  {
+   "description": "Defaults to 3 months after the start date.",
+   "fieldname": "probation_end_date",
+   "fieldtype": "Date",
+   "label": "Probation End Date"
+  },
+  {
+   "default": "HR",
+   "fieldname": "document_owner",
+   "fieldtype": "Data",
+   "label": "Document Owner"
+  },
+  {
+   "fieldname": "status_key_section",
+   "fieldtype": "Section Break",
+   "label": "Status Key"
+  },
+  {
+   "fieldname": "status_key_html",
+   "fieldtype": "HTML",
+   "options": "<table class=\"table table-bordered\"><tbody><tr><td>\ud83d\udd34 NOT STARTED</td><td>\ud83d\udfe1 IN PROGRESS</td><td>\ud83d\udfe2 COMPLETED</td><td>\u26aa NOT APPLICABLE</td></tr></tbody></table>"
+  },
+  {
+   "fieldname": "journey_html",
+   "fieldtype": "HTML",
+   "options": "<h4>Your onboarding journey</h4><p>This guide is the employee's onboarding map and progress record. It shows what should happen, who owns it, when it is due and where to find the detailed instructions. HR owns the guide; HR and the supervisor update it jointly, and the employee can view its progress.</p><p><b>How to update a status:</b> click the status field dropdown on any milestone and choose \ud83d\udd34 Not Started, \ud83d\udfe1 In Progress, \ud83d\udfe2 Completed or \u26aa Not Applicable.</p>"
+  },
+  {
+   "fieldname": "office_attendance_html",
+   "fieldtype": "HTML",
+   "options": "<h4>Office attendance during probation</h4><p>During the three-month probation period, employees will ordinarily report physically to the office each working day to support orientation, supervision and integration. Any alternative working arrangement must receive prior written approval in accordance with the applicable company policy.</p>"
+  },
+  {
+   "fieldname": "resource_directory_section",
+   "fieldtype": "Section Break",
+   "label": "Resource Directory"
+  },
+  {
+   "fieldname": "resource_directory_html",
+   "fieldtype": "HTML",
+   "options": "<table class=\"table table-bordered\"><thead><tr><th>Resource</th><th>What it is used for</th></tr></thead><tbody><tr><td>Preboarding Checklist</td><td>Controls documents, accounts, laptop readiness, supervisor-plan deadlines, pre-arrival communication and escalation.</td></tr><tr><td>Supervisor Onboarding Plan</td><td>Prepares departmental access, introductions, first-week activities and first 30-day priorities.</td></tr><tr><td>KPI</td><td>Key performance indicators document. Used to set performance standards. See <a href=\"/app/employee-kpi\">Employee KPI</a>.</td></tr><tr><td>Buddy Guide</td><td>Defines the buddy's practical support role and first-month contact rhythm.</td></tr><tr><td>Month 1 HR Check-In</td><td>Records the formal Month 1 onboarding conversation and agreed actions. See <a href=\"/app/month-1-hr-check-in\">Month 1 HR Check-In</a>.</td></tr><tr><td>Mid-probation review</td><td>Automated mid-probation process on ERP. See <a href=\"/app/mid-probation-check-in\">Mid-Probation Check-In</a>.</td></tr><tr><td>End of probation review</td><td>Automated end-of-probation process on ERP. See <a href=\"/app/end-of-probation-assessment\">End of Probation Assessment</a>.</td></tr></tbody></table>"
+  },
+  {
+   "fieldname": "preboarding_section",
+   "fieldtype": "Section Break",
+   "label": "Preboarding"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Onboarding Guide Template",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "preboarding_intro_html",
+   "fieldtype": "HTML",
+   "options": "<p>Begins immediately after the employment contract and NDA are fully signed.</p>"
+  },
+  {
+   "fieldname": "preboarding_milestones",
+   "fieldtype": "Table",
+   "label": "Preboarding Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "preboarding_resource_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Detailed resource:</b> Employee Preboarding Checklist. Use the linked checklist for required documents, responsible contacts, account and laptop readiness, evidence requirements, plan review and escalation.</p>"
+  },
+  {
+   "fieldname": "day_1_section",
+   "fieldtype": "Section Break",
+   "label": "Day 1"
+  },
+  {
+   "fieldname": "day_1_milestones",
+   "fieldtype": "Table",
+   "label": "Day 1 Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "week_1_section",
+   "fieldtype": "Section Break",
+   "label": "Week 1"
+  },
+  {
+   "fieldname": "week_1_milestones",
+   "fieldtype": "Table",
+   "label": "Week 1 Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "week_1_resource_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Detailed resources:</b> Supervisor Onboarding Plan, KPI and Buddy Guide. Together, these resources contain the departmental plan, early role outcomes, KPI foundation, buddy responsibilities and first-week follow-up.</p>"
+  },
+  {
+   "fieldname": "month_1_section",
+   "fieldtype": "Section Break",
+   "label": "Month 1"
+  },
+  {
+   "fieldname": "month_1_milestones",
+   "fieldtype": "Table",
+   "label": "Month 1 Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "month_1_resource_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Detailed resource:</b> <a href=\"/app/month-1-hr-check-in\">Month 1 HR Check-In Form</a>. Use the linked form for role clarity, supervision, team integration, resources, training needs, workplace concerns and agreed actions.</p>"
+  },
+  {
+   "fieldname": "mid_probation_section",
+   "fieldtype": "Section Break",
+   "label": "Mid-probation"
+  },
+  {
+   "fieldname": "mid_probation_milestones",
+   "fieldtype": "Table",
+   "label": "Mid-probation Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "mid_probation_resource_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>ERP process:</b> <a href=\"/app/mid-probation-check-in\">Mid-Probation Check-In</a>. The complete review, evidence and agreed support actions are recorded through ERP. This guide records progress only.</p>"
+  },
+  {
+   "fieldname": "end_of_probation_section",
+   "fieldtype": "Section Break",
+   "label": "End of Probation"
+  },
+  {
+   "fieldname": "end_of_probation_milestones",
+   "fieldtype": "Table",
+   "label": "End of Probation Milestones",
+   "options": "Onboarding Guide Milestone"
+  },
+  {
+   "fieldname": "end_of_probation_resource_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Detailed resources:</b> <a href=\"/app/end-of-probation-assessment\">Probation Review Process</a> and Templates; ICL Offboarding Checklist.</p>"
+  },
+  {
+   "fieldname": "closure_section",
+   "fieldtype": "Section Break",
+   "label": "Onboarding Closure"
+  },
+  {
+   "fieldname": "completion_standard_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Completion standard:</b> Onboarding closes after the probation outcome has been communicated and recorded. For Outcome A, the confirmation and benefits documents must be issued. For Outcome B, the seven-day notice must be communicated and the ICL Offboarding Checklist started. Any remaining onboarding actions must be resolved or formally transferred.</p>"
+  },
+  {
+   "fieldname": "probation_outcome",
+   "fieldtype": "Select",
+   "label": "Probation Outcome",
+   "options": "\nOutcome A - Confirmed\nOutcome B - Not Confirmed"
+  },
+  {
+   "fieldname": "outcome_date",
+   "fieldtype": "Date",
+   "label": "Outcome Date"
+  },
+  {
+   "fieldname": "column_break_closure",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "communication_issued",
+   "fieldtype": "Select",
+   "label": "Communication Issued",
+   "options": "\nConfirmation letter\nNon-confirmation letter and seven-day notice"
+  },
+  {
+   "fieldname": "follow_on_action",
+   "fieldtype": "Select",
+   "label": "Follow-on Action",
+   "options": "\nBenefits forms issued\nICL Offboarding Checklist started"
+  },
+  {
+   "fieldname": "final_erp_reference",
+   "fieldtype": "Link",
+   "label": "Final ERP Reference",
+   "options": "End of Probation Assessment"
+  },
+  {
+   "fieldname": "column_break_archive",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_archived",
+   "fieldtype": "Check",
+   "label": "Guide Archived"
+  },
+  {
+   "depends_on": "is_archived",
+   "fieldname": "guide_archived_date",
+   "fieldtype": "Date",
+   "label": "Guide Archived Date"
+  },
+  {
+   "default": "HR",
+   "depends_on": "is_archived",
+   "fieldname": "guide_archived_by",
+   "fieldtype": "Data",
+   "label": "Guide Archived By"
+  },
+  {
+   "description": "The acknowledgements confirm that the onboarding process and outcome were discussed and that this guide is complete. Employee acknowledgement confirms receipt and discussion, not necessarily agreement with every entry.",
+   "fieldname": "acknowledgement_section",
+   "fieldtype": "Section Break",
+   "label": "Final Acknowledgement"
+  },
+  {
+   "fieldname": "acknowledgement",
+   "fieldtype": "Table",
+   "label": "Acknowledgement",
+   "options": "Acknowledgement"
+  },
+  {
+   "fieldname": "closing_html",
+   "fieldtype": "HTML",
+   "options": "<p><b>Welcome to IntelliSOFT - we are glad you are here.</b></p>"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-19 09:49:33.968227",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Employee Onboarding Guide",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Supervisor",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

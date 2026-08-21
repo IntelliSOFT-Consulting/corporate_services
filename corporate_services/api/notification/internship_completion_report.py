@@ -4,66 +4,65 @@ from frappe.utils import get_url_to_form
 from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
+    get_employee_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, build_email_body
 
-
-def send_email(doc, recipients, subject, message):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-
-    clean_recipients = [r for r in dict.fromkeys(recipients) if r]
-    if not clean_recipients:
-        return
-
-    frappe.sendmail(
-        recipients=clean_recipients,
-        subject=subject,
-        message=message,
-        header=("Internship Completion Report", "text/html"),
-    )
+HEADER = "Internship Completion Report"
 
 
 def generate_message(doc, employee_name, email_type, sender_name=None):
     doc_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
-        "supervisor": """
-            Dear {},<br><br>
-            {} has submitted an {} for your review and approval. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, sender_name or employee_name, doc.doctype, doc_url, sender_name or employee_name),
-        "employee_approved_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and approved by {}, and submitted to HR for final review. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, sender_name or "your supervisor", doc_url, sender_name or "Supervisor"),
-        "employee_rejected_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and rejected by {}. Please review and resubmit if needed. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, sender_name or "your supervisor", doc_url, sender_name or "Supervisor"),
-        "hr": """
-            Dear HR Manager,<br><br>
-            You have a new {} for {}, submitted for your review and approval. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(doc.doctype, employee_name, doc_url, sender_name or "Supervisor"),
-        "employee_rejected_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed and rejected by {}. Please review and resubmit if needed. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, sender_name or "HR", doc_url, sender_name or "HR Department"),
-        "employee_approved_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed and approved by {}. You can view it <a href=\"{}\">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, sender_name or "HR", doc_url, sender_name or "HR Department"),
+        "supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"{sender_name or employee_name} has submitted an {doc.doctype} for your review and approval.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or employee_name,
+            cta_text="here",
+        ),
+        "employee_approved_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and approved by {sender_name or 'your supervisor'}, and submitted to HR for final review.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or "Supervisor",
+            cta_text="here",
+        ),
+        "employee_rejected_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and rejected by {sender_name or 'your supervisor'}. Please review and resubmit if needed.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or "Supervisor",
+            cta_text="here",
+        ),
+        "hr": build_email_body(
+            greeting="Dear HR Manager",
+            intro=f"You have a new {doc.doctype} for {employee_name}, submitted for your review and approval.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or "Supervisor",
+            cta_text="here",
+        ),
+        "employee_rejected_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and rejected by {sender_name or 'HR'}. Please review and resubmit if needed.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or "HR Department",
+            cta_text="here",
+        ),
+        "employee_approved_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and approved by {sender_name or 'HR'}.",
+            action_line="You can view it",
+            link_url=doc_url,
+            signer=sender_name or "HR Department",
+            cta_text="here",
+        ),
     }
     return messages[email_type]
 
@@ -82,16 +81,12 @@ def alert(doc, method):
     if doc.workflow_state not in watched_states:
         return
 
-    employee = frappe.get_doc("Employee", doc.intern)
-    employee_name = employee.employee_name or employee.name
-    employee_email = employee.company_email or employee.personal_email
+    employee = get_employee_contact(doc.intern)
+    employee_name = employee.name
     actor_name = frappe.get_cached_value("User", frappe.session.user, "full_name") or frappe.session.user
 
     if doc.workflow_state == "Submitted to Supervisor":
-        if not employee.reports_to:
-            return
-
-        supervisor_contact = get_supervisor_contact(employee)
+        supervisor_contact = get_supervisor_contact(employee.employee)
         if not supervisor_contact or not supervisor_contact.email:
             return
 
@@ -105,6 +100,7 @@ def alert(doc, method):
                 "supervisor",
                 sender_name=actor_name,
             ),
+            header=HEADER,
         )
         return
 
@@ -115,41 +111,46 @@ def alert(doc, method):
             recipients=hr_manager_emails,
             subject=frappe._("Internship Completion Report Pending HR Review"),
             message=generate_message(doc, employee_name, "hr", sender_name=actor_name),
+            header=HEADER,
         )
-        if employee_email:
+        if employee.email:
             send_email(
                 doc,
-                recipients=[employee_email],
+                recipients=[employee.email],
                 subject=frappe._("Your Internship Completion Report has been Approved by Supervisor and Submitted to HR"),
                 message=generate_message(doc, employee_name, "employee_approved_supervisor", sender_name=actor_name),
+                header=HEADER,
             )
         return
 
-    if not employee_email:
+    if not employee.email:
         return
 
     if doc.workflow_state == "Rejected By Supervisor":
         send_email(
             doc,
-            recipients=[employee_email],
+            recipients=[employee.email],
             subject=frappe._("Your Internship Completion Report has been Rejected by Supervisor"),
             message=generate_message(doc, employee_name, "employee_rejected_supervisor", sender_name=actor_name),
+            header=HEADER,
         )
         return
 
     if doc.workflow_state == "Rejected By HR":
         send_email(
             doc,
-            recipients=[employee_email],
+            recipients=[employee.email],
             subject=frappe._("Your Internship Completion Report has been Rejected by HR"),
             message=generate_message(doc, employee_name, "employee_rejected_hr", sender_name=actor_name),
+            header=HEADER,
         )
         return
 
     if doc.workflow_state in {"Approved by HR", "Approved By HR"}:
         send_email(
             doc,
-            recipients=[employee_email],
+            recipients=[employee.email],
             subject=frappe._("Your Internship Completion Report has been Approved by HR"),
             message=generate_message(doc, employee_name, "employee_approved_hr", sender_name=actor_name),
+            header=HEADER,
         )

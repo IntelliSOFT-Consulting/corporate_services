@@ -7,8 +7,11 @@
 import frappe
 from frappe.utils import get_url_to_form, escape_html
 
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
 from corporate_services.api.notification.notification_contacts import get_user_contact
+from corporate_services.api.notification.mailer import build_email_body, send_email
+
+HEADER = "Project Status Report"
 
 
 def get_smt_emails() -> list[str]:
@@ -21,16 +24,7 @@ def get_smt_emails() -> list[str]:
 
 
 def _send_workflow_email(doc, recipients, subject, message):
-    recipients = filter_recipients(doc, list(dict.fromkeys([r for r in recipients if r])))
-    if not recipients:
-        return
-
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        header=("Project Status Report", "text/html"),
-    )
+    send_email(doc, recipients, subject, message, header=HEADER)
 
 
 def alert(doc, method):
@@ -58,12 +52,14 @@ def alert(doc, method):
             doc,
             recipients=smt_emails,
             subject=f"Project Status Report submitted for review - {doc.project_name}",
-            message=f"""
-                <p>Dear SMT Member,</p>
-                <p>{escape_html(creator_name)} has submitted a Project Status Report for {escape_html(doc.project_name or "")} for your review.</p>
-                <p><a href="{doc_link}">Open Project Status Report</a></p>
-                <p>Kind regards,<br><strong>Project Management</strong></p>
-            """,
+            message=build_email_body(
+                greeting="Dear SMT Member",
+                intro=f"{escape_html(creator_name)} has submitted a Project Status Report for {escape_html(doc.project_name or '')} for your review.",
+                action_line="You can view it",
+                link_url=doc_link,
+                signer="Project Management",
+                cta_text="here",
+            ),
         )
         return
 
@@ -87,10 +83,12 @@ def alert(doc, method):
         doc,
         recipients=[creator.email],
         subject=state_subject_map.get(doc.workflow_state, "Project Status Report Update"),
-        message=f"""
-            <p>Dear {escape_html(creator_name)},</p>
-            <p>{state_intro_map.get(doc.workflow_state, "Your Project Status Report has been updated.")}</p>
-            <p><a href="{doc_link}">Open Project Status Report</a></p>
-            <p>Kind regards,<br><strong>Project Management</strong></p>
-        """,
+        message=build_email_body(
+            greeting=f"Dear {escape_html(creator_name)}",
+            intro=state_intro_map.get(doc.workflow_state, "Your Project Status Report has been updated."),
+            action_line="You can view it",
+            link_url=doc_link,
+            signer="Project Management",
+            cta_text="here",
+        ),
     )

@@ -2,28 +2,13 @@ from datetime import datetime
 
 import frappe
 from frappe.utils import get_url, get_url_to_form, now_datetime, nowdate
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_hr_manager_emails,
     get_supervisor_contact,
+    get_employee_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
-
-
-def build_email_body(greeting, intro, action_line, link_url, sign_off, signer):
-    return """
-        <p>{greeting},</p>
-        <p>{intro}</p>
-        <p>{action_line} <a href="{link}">Click here to view it</a>.</p>
-        <br>
-        <p>Kind regards,<br><strong>{signer}</strong></p>
-    """.format(
-        greeting=greeting,
-        intro=intro,
-        action_line=action_line,
-        link=link_url,
-        signer=signer,
-    )
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email as _mailer_send_email, build_email_body, pdf_attachment
 
 
 def generate_message(doc, employee_name, supervisor_name, email_type):
@@ -36,7 +21,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="{} has submitted a {} for your review and acknowledgement.".format(employee_name, doctype_label),
             action_line="Please review the reflection at your earliest convenience.",
             link_url=url,
-            sign_off="Kind regards",
             signer=employee_name,
         ),
         "employee_acknowledged": build_email_body(
@@ -44,7 +28,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="Good news! Your {} has been reviewed and acknowledged by your supervisor.".format(doctype_label),
             action_line="You can view the acknowledged reflection at any time.",
             link_url=url,
-            sign_off="Kind regards",
             signer="Your Supervisor",
         ),
         "employee_rejected": build_email_body(
@@ -52,7 +35,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="Your {} has been reviewed and returned by your supervisor for revision.".format(doctype_label),
             action_line="Please review the details and make the necessary updates.",
             link_url=url,
-            sign_off="Kind regards",
             signer="Your Supervisor",
         ),
         "hr_submitted": build_email_body(
@@ -60,7 +42,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="{}'s Monthly Reflection has been acknowledged by their supervisor and submitted to HR.".format(employee_name),
             action_line="Please review the reflection at your earliest convenience.",
             link_url=url,
-            sign_off="Kind regards",
             signer=employee_name,
         ),
         "employee_hr_approved": build_email_body(
@@ -68,7 +49,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="Your {} has been fully reviewed and approved by HR.".format(doctype_label),
             action_line="You can view the approved reflection at any time.",
             link_url=url,
-            sign_off="Kind regards",
             signer="HR Manager",
         ),
         "employee_hr_rejected": build_email_body(
@@ -76,7 +56,6 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
             intro="Your {} has been reviewed by HR and returned for revision.".format(doctype_label),
             action_line="Please review the comments and make the necessary updates.",
             link_url=url,
-            sign_off="Kind regards",
             signer="HR Manager",
         ),
     }
@@ -84,19 +63,17 @@ def generate_message(doc, employee_name, supervisor_name, email_type):
     return templates[email_type]
 
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            "fname": "{}.pdf".format(doc_name),
-            "fcontent": pdf_content,
-        }],
-        header=("Monthly Reflection", "text/html"),
+HEADER = "Monthly Reflection"
+
+
+def send_email(doc, recipients, subject, message, attachments):
+    _mailer_send_email(
+        doc,
+        recipients,
+        subject,
+        message,
+        header=HEADER,
+        attachments=attachments,
     )
 
 
@@ -144,12 +121,11 @@ def alert(doc, method):
         return
 
     employee = frappe.get_doc("Employee", doc.employee)
-    employee_email = employee.company_email or employee.personal_email
+    employee_email = get_employee_contact(employee).email
 
     hr_emails = get_hr_manager_emails()
 
-    print_format = get_default_print_format(doc.doctype)
-    pdf_content = frappe.get_print(doc.doctype, doc.name, print_format, as_pdf=True)
+    attachments = pdf_attachment(doc)
 
     if doc.workflow_state == "Submitted to Supervisor":
         if not employee.reports_to:
@@ -171,8 +147,7 @@ def alert(doc, method):
             recipients=[supervisor_email],
             subject=frappe._("Monthly Reflection from {}".format(employee.employee_name)),
             message=generate_message(doc, employee.employee_name, supervisor_contact.name, "supervisor"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Acknowledged by Supervisor":
@@ -181,8 +156,7 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Acknowledged"),
             message=generate_message(doc, employee.employee_name, None, "employee_acknowledged"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Returned by Supervisor":
@@ -191,8 +165,7 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Returned for Revision"),
             message=generate_message(doc, employee.employee_name, None, "employee_rejected"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Submitted to HR":
@@ -202,8 +175,7 @@ def alert(doc, method):
                 recipients=hr_emails,
                 subject=frappe._("Monthly Reflection from {} - Pending HR Review".format(employee.employee_name)),
                 message=generate_message(doc, employee.employee_name, None, "hr_submitted"),
-                pdf_content=pdf_content,
-                doc_name=doc.name,
+                attachments=attachments,
             )
 
     elif doc.workflow_state == "Approved by HR":
@@ -212,8 +184,7 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Approved by HR"),
             message=generate_message(doc, employee.employee_name, None, "employee_hr_approved"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            attachments=attachments,
         )
 
     elif doc.workflow_state == "Rejected By HR":
@@ -222,8 +193,7 @@ def alert(doc, method):
             recipients=[employee_email],
             subject=frappe._("Your Monthly Reflection has been Returned by HR"),
             message=generate_message(doc, employee.employee_name, None, "employee_hr_rejected"),
-            pdf_content=pdf_content,
-            doc_name=doc.name,
+            attachments=attachments,
         )
 
 
@@ -547,8 +517,9 @@ def _get_overdue_email_recipients(employee_name):
     employee = frappe.get_doc("Employee", employee_name)
     recipients = []
 
-    if employee.company_email or employee.personal_email:
-        recipients.append(employee.company_email or employee.personal_email)
+    employee_contact = get_employee_contact(employee)
+    if employee_contact.email:
+        recipients.append(employee_contact.email)
 
     supervisor_contact = get_supervisor_contact(employee)
     if supervisor_contact and supervisor_contact.email:
