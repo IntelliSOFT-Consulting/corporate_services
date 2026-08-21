@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useApiData } from "./useApiData";
-import { LoadingBox, ErrorBox } from "./common";
+import { LoadingBox, ErrorBox, usePagedRows, ShowMoreFooter } from "./common";
 import { OverdueDeliverablesData } from "./types";
 
 function StatTile({ value, label, color }: { value: number; label: string; color: "red" | "amber" | "green" }) {
@@ -21,15 +21,18 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
     pm ? { pm } : null,
     [pm]
   );
-  if (loading) return <LoadingBox />;
-  if (error) return <ErrorBox msg={error} />;
-
   const isSmt = !!data?.is_smt;
   const pms = data?.pms ?? [];
   const overdueReports = data?.overdue_reports ?? [];
   const milestones = data?.milestones ?? [];
   const paymentAlerts = data?.payment_alerts ?? [];
   const summary = data?.summary ?? { overdue_reports: 0, overdue_milestones: 0, overdue_payments: 0, approaching_payments: 0 };
+  const overdueReportsPage = usePagedRows(overdueReports);
+  const milestonesPage = usePagedRows(milestones);
+  const paymentAlertsPage = usePagedRows(paymentAlerts);
+
+  if (loading) return <LoadingBox />;
+  if (error) return <ErrorBox msg={error} />;
 
   return (
     <div className="container-fluid p-3">
@@ -80,7 +83,7 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             <tbody>
               {overdueReports.length === 0 ? (
                 <tr><td colSpan={7} className="text-muted text-center py-3">No overdue status reports.</td></tr>
-              ) : overdueReports.map((r, i) => (
+              ) : overdueReportsPage.visible.map((r, i) => (
                 <tr key={i}>
                   <td>
                     <a href="#" onClick={(e) => { e.preventDefault(); onOpenProject(r.project); }}>{r.project}</a>
@@ -104,6 +107,11 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             </tbody>
           </table>
         </div>
+        <ShowMoreFooter
+          hidden={overdueReportsPage.hidden}
+          showAll={overdueReportsPage.showAll}
+          onToggle={overdueReportsPage.setShowAll}
+        />
       </div>
 
       <div className="card border mb-3">
@@ -126,7 +134,7 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             <tbody>
               {milestones.length === 0 ? (
                 <tr><td colSpan={7} className="text-muted text-center py-3">No overdue or approaching milestones.</td></tr>
-              ) : milestones.map((m, i) => (
+              ) : milestonesPage.visible.map((m, i) => (
                 <tr
                   key={i}
                   className="ipm-pipeline-row"
@@ -151,6 +159,11 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             </tbody>
           </table>
         </div>
+        <ShowMoreFooter
+          hidden={milestonesPage.hidden}
+          showAll={milestonesPage.showAll}
+          onToggle={milestonesPage.setShowAll}
+        />
       </div>
 
       <div className="card border mb-3">
@@ -172,7 +185,7 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             <tbody>
               {paymentAlerts.length === 0 ? (
                 <tr><td colSpan={6} className="text-muted text-center py-3">No overdue or approaching payments.</td></tr>
-              ) : paymentAlerts.map((r, i) => (
+              ) : paymentAlertsPage.visible.map((r, i) => (
                 <tr
                   key={i}
                   className="ipm-pipeline-row"
@@ -192,6 +205,11 @@ export function OverdueDeliverablesDash({ onOpenProject }: { onOpenProject: (id:
             </tbody>
           </table>
         </div>
+        <ShowMoreFooter
+          hidden={paymentAlertsPage.hidden}
+          showAll={paymentAlertsPage.showAll}
+          onToggle={paymentAlertsPage.setShowAll}
+        />
       </div>
     </div>
   );

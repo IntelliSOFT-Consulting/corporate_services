@@ -1,16 +1,18 @@
 import React from "react";
 import { useApiData } from "./useApiData";
-import { LoadingBox, ErrorBox } from "./common";
+import { LoadingBox, ErrorBox, usePagedRows, ShowMoreFooter } from "./common";
 import { PipelineProject } from "./types";
 
 export function DeliveryPipelineDash({ onOpenProject }: { onOpenProject: (id: string) => void }) {
   const { data, loading, error } = useApiData<{ projects: PipelineProject[]; stages: string[] }>(
     "corporate_services.icl_corporate_services.page.icl_project_management.icl_project_management.get_delivery_pipeline"
   );
-  if (loading) return <LoadingBox />;
-  if (error) return <ErrorBox msg={error} />;
   const projects = data?.projects ?? [];
   const stages = data?.stages ?? [];
+  const projectsPage = usePagedRows(projects);
+
+  if (loading) return <LoadingBox />;
+  if (error) return <ErrorBox msg={error} />;
   if (projects.length === 0) return <div className="p-3 alert alert-info">No projects found.</div>;
   return (
     <div className="container-fluid p-3">
@@ -27,7 +29,7 @@ export function DeliveryPipelineDash({ onOpenProject }: { onOpenProject: (id: st
             </tr>
           </thead>
           <tbody>
-            {projects.map((p) => (
+            {projectsPage.visible.map((p) => (
               <tr key={p.name} className="ipm-pipeline-row" onClick={() => onOpenProject(p.name)}>
                 <td style={{ fontWeight: 600 }}>{p.project_name}</td>
                 <td>{p.customer ?? "-"}</td>
@@ -56,6 +58,11 @@ export function DeliveryPipelineDash({ onOpenProject }: { onOpenProject: (id: st
             ))}
           </tbody>
         </table>
+        <ShowMoreFooter
+          hidden={projectsPage.hidden}
+          showAll={projectsPage.showAll}
+          onToggle={projectsPage.setShowAll}
+        />
       </div>
     </div>
   );

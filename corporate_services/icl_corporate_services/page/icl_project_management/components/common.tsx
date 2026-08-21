@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { RagStatus } from "./types";
 
-// Health status names, kept distinct from the colors used to display them -
-// e.g. "NotStarted" renders in blue, but the status itself isn't called "Blue".
 export const RAG_COLOR: Record<RagStatus, string> = { Red: "#dc3545", Amber: "#e2a336", Green: "#2e9e5b", NotStarted: "#3b6fd1" };
 export const RAG_LABEL: Record<RagStatus, string> = { Red: "At Risk", Amber: "Needs Attention", Green: "On Track", NotStarted: "Not Started" };
 export const RAG_SUMMARY_KEY: Record<RagStatus, string> = { Red: "red", Amber: "amber", Green: "green", NotStarted: "not_started" };
 export const RAG_ORDER: RagStatus[] = ["Red", "Amber", "Green", "NotStarted"];
+export const PRIORITY_COLOR: Record<string, string> = { High: "#dc3545", Medium: "#fd7e14", Low: "#28a745", "Not set": "#adb5bd" };
+export const STATE_COLOR: Record<string, string> = {
+  Approved: "#28a745", Rejected: "#dc3545",
+  "Submitted to Supervisor": "#fd7e14", "Needs Clarification": "#ffc107", Draft: "#adb5bd",
+};
 
 export function Metric({
   label,
@@ -48,13 +51,41 @@ export function ErrorBox({ msg }: { msg: string }) {
   return <div className="alert alert-danger mb-0">{msg}</div>;
 }
 
-export const PRIORITY_COLOR: Record<string, string> = { High: "#dc3545", Medium: "#fd7e14", Low: "#28a745", "Not set": "#adb5bd" };
-export const STATE_COLOR: Record<string, string> = {
-  Approved: "#28a745", Rejected: "#dc3545",
-  "Submitted to Supervisor": "#fd7e14", "Needs Clarification": "#ffc107", Draft: "#adb5bd",
-};
 
 const PAGE_SIZE = 25;
+
+export function usePagedRows<T>(rows: T[], pageSize = PAGE_SIZE) {
+  const [showAll, setShowAll] = useState(false);
+  React.useEffect(() => setShowAll(false), [rows]);
+  const visible = showAll ? rows : rows.slice(0, pageSize);
+  const hidden = rows.length - visible.length;
+  return { visible, hidden, showAll, setShowAll };
+}
+
+export function ShowMoreFooter({
+  hidden,
+  showAll,
+  onToggle,
+}: {
+  hidden: number;
+  showAll: boolean;
+  onToggle: (showAll: boolean) => void;
+}) {
+  if (hidden <= 0 && !showAll) return null;
+  return (
+    <div className="card-footer bg-white text-center" style={{ fontSize: 12 }}>
+      {showAll ? (
+        <button className="btn btn-link btn-sm p-0" onClick={() => onToggle(false)}>
+          Show fewer
+        </button>
+      ) : (
+        <button className="btn btn-link btn-sm p-0" onClick={() => onToggle(true)}>
+          Show {hidden} more row{hidden !== 1 ? "s" : ""}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export function FilterableTable<T extends Record<string, any>>({
   title,
