@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useApiData } from "./useApiData";
-import { LoadingBox, ErrorBox, RAG_COLOR, RAG_LABEL } from "./common";
+import { LoadingBox, ErrorBox, RAG_COLOR, RAG_LABEL, usePagedRows, ShowMoreFooter } from "./common";
 import { PmWorkloadData, RagStatus } from "./types";
 
 function HealthPill({ rag }: { rag: RagStatus }) {
@@ -19,17 +19,19 @@ export function PmWorkloadDash() {
     pm ? { pm } : null,
     [pm]
   );
+  const isSmt = !!data?.is_smt;
+  const pms = data?.pms ?? [];
+  const myView = data?.my_view;
+  const smtView = data?.smt_view ?? [];
+  const myProjectsPage = usePagedRows(myView?.projects ?? []);
+  const smtViewPage = usePagedRows(smtView);
+
   if (loading) return <LoadingBox />;
   if (error) return <ErrorBox msg={error} />;
 
   if (!data || (!data.is_smt && !data.employee)) {
     return <div className="p-3 alert alert-info">No Project Managers with active projects found.</div>;
   }
-
-  const isSmt = !!data.is_smt;
-  const pms = data.pms ?? [];
-  const myView = data.my_view;
-  const smtView = data.smt_view ?? [];
 
   return (
     <div className="container-fluid p-3">
@@ -89,7 +91,7 @@ export function PmWorkloadDash() {
                 <tbody>
                   {myView.projects.length === 0 ? (
                     <tr><td colSpan={5} className="text-muted text-center py-3">No active projects.</td></tr>
-                  ) : myView.projects.map((p) => (
+                  ) : myProjectsPage.visible.map((p) => (
                     <tr key={p.project}>
                       <td>
                         <a href="#" onClick={(e) => e.preventDefault()} style={{ fontWeight: 600 }}>
@@ -107,6 +109,11 @@ export function PmWorkloadDash() {
                 </tbody>
               </table>
             </div>
+            <ShowMoreFooter
+              hidden={myProjectsPage.hidden}
+              showAll={myProjectsPage.showAll}
+              onToggle={myProjectsPage.setShowAll}
+            />
           </div>
         </>
       )}
@@ -128,7 +135,7 @@ export function PmWorkloadDash() {
                 </tr>
               </thead>
               <tbody>
-                {smtView.map((row) => (
+                {smtViewPage.visible.map((row) => (
                   <tr
                     key={row.employee}
                     className={row.health === "Red" ? "ipm-workload-row-danger" : undefined}
@@ -147,6 +154,11 @@ export function PmWorkloadDash() {
               </tbody>
             </table>
           </div>
+          <ShowMoreFooter
+            hidden={smtViewPage.hidden}
+            showAll={smtViewPage.showAll}
+            onToggle={smtViewPage.setShowAll}
+          />
         </div>
       )}
     </div>

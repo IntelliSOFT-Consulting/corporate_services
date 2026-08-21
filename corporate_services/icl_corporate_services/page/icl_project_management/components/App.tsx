@@ -11,8 +11,6 @@ import { LifecycleTab } from "./LifecycleTab";
 import { TemplatesTab } from "./TemplatesTab";
 import { LessonsLearnedTab } from "./LessonsLearnedTab";
 
-const TAB_KEY = "icl_project_management_tab";
-
 function isTab(value: string | null): value is Tab {
   return (
     value === "dashboard" ||
@@ -54,23 +52,42 @@ export function ProjectManagementApp({ page }: { page: any }) {
   const [tab, setTab] = useState<Tab>(() => {
     if (initialRouteProject) return "projects";
     const fromUrl = getTabFromUrl();
-    if (fromUrl) return fromUrl;
-    const saved = globalThis?.localStorage?.getItem(TAB_KEY) || null;
-    return isTab(saved) ? saved : "dashboard";
+    return fromUrl || "dashboard";
   });
+
+  const [openProjectId, setOpenProjectId] = useState<string | null>(
+    initialRouteProject,
+  );
+
+  function openProject(id: string) {
+    globalThis.frappe?.set_route("icl-project-management", id);
+    setOpenProjectId(id);
+    setTab("projects");
+  }
+
+  // Non-project tabs don't carry a project id in the route, so leaving a
+  // project's detail view for one of them must clear the route segment too -
+  // otherwise the URL (.../PROJ-0018?tab=dashboard) and the tab shown
+  // disagree, and a refresh re-opens the project instead of the tab.
+  function goToTab(next: Tab) {
+    if (next !== "projects") {
+      globalThis.frappe?.set_route("icl-project-management");
+    }
+    setTab(next);
+  }
 
   useEffect(() => {
     page.set_primary_action("Create New Project", () => {
       globalThis.frappe?.new_doc("Project");
     });
     page.add_menu_item("HIS Project Lifecycle Guide", () => {
-      setTab("lifecycle");
+      goToTab("lifecycle");
     });
     page.add_menu_item("Project Requirements Templates", () => {
-      setTab("templates");
+      goToTab("templates");
     });
     page.add_menu_item("View All Projects", () => {
-      setTab("projects");
+      goToTab("projects");
     });
     page.add_menu_item("Project Management Settings", () => {
       globalThis.frappe?.set_route(
@@ -82,7 +99,6 @@ export function ProjectManagementApp({ page }: { page: any }) {
   }, [page]);
 
   useEffect(() => {
-    globalThis?.localStorage?.setItem(TAB_KEY, tab);
     writeTabToUrl(tab);
   }, [tab]);
 
@@ -95,21 +111,18 @@ export function ProjectManagementApp({ page }: { page: any }) {
       <GlobalStyles />
       <style>{LOCAL_STYLES}</style>
       {sidebarRoot &&
-        createPortal(<SidebarTabs tab={tab} onChange={setTab} />, sidebarRoot)}
+        createPortal(<SidebarTabs tab={tab} onChange={goToTab} />, sidebarRoot)}
       <div className="ipm-content">
         {tab === "dashboard" && (
           <DashboardTab
-            onOpenLifecycle={() => setTab("lifecycle")}
-            onOpenProject={(id: string) => {
-              globalThis.frappe?.set_route("icl-project-management", id);
-              setTab("projects");
-            }}
+            onOpenLifecycle={() => goToTab("lifecycle")}
+            onOpenProject={openProject}
           />
         )}
         {tab === "projects" && (
           <ProjectsTab
-            initialProjectId={initialRouteProject}
-            onGoToDashboard={() => setTab("dashboard")}
+            initialProjectId={openProjectId}
+            onGoToDashboard={() => goToTab("dashboard")}
           />
         )}
         {tab === "lifecycle" && <LifecycleTab />}

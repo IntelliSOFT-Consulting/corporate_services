@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ProjectsTable } from "../project_components/Tables/Projects";
-import { Metric } from "./common";
-import { ProjectHoursDash } from "./ProjectHoursDash";
+import { Metric, usePagedRows, ShowMoreFooter } from "./common";
 import { PortfolioHealthDash } from "./PortfolioHealthDash";
 import { DeliveryPipelineDash } from "./DeliveryPipelineDash";
 import { OverdueDeliverablesDash } from "./OverdueDeliverablesDash";
@@ -98,6 +97,7 @@ export function DashboardTab({
   const milestonesDueSoon = data.milestones_due_soon || [];
   const paymentSchedule = data.payment_schedule || [];
   const paymentsApproaching = data.payments_approaching || [];
+  const paymentSchedulePage = usePagedRows(paymentSchedule);
 
   if (loading) {
     return (
@@ -207,6 +207,13 @@ export function DashboardTab({
             </div>
           </div>
 
+          <div className="ipm-section-label">All Projects</div>
+          <ProjectsTable
+            onOpen={onOpenProject}
+            title={statusFilter ? `All Projects - ${statusFilter}` : "All Projects"}
+            statusFilter={statusFilter}
+          />
+
           <div id="icl-payment-schedule" className="card border mb-3">
             <div className="card-header bg-light">
               <strong style={{ fontSize: 13 }}>Payment Schedule Overview - All Active Projects</strong>
@@ -230,7 +237,7 @@ export function DashboardTab({
                       <td colSpan={7} className="text-muted text-center py-3">No payment schedule data found.</td>
                     </tr>
                   ) : (
-                    paymentSchedule.map((row, i) => (
+                    paymentSchedulePage.visible.map((row, i) => (
                       <tr key={i} className="ipm-pipeline-row" onClick={() => onOpenProject(row.project)}>
                         <td>{row.project}</td>
                         <td>{row.client ?? "-"}</td>
@@ -256,6 +263,11 @@ export function DashboardTab({
                 </tbody>
               </table>
             </div>
+            <ShowMoreFooter
+              hidden={paymentSchedulePage.hidden}
+              showAll={paymentSchedulePage.showAll}
+              onToggle={paymentSchedulePage.setShowAll}
+            />
           </div>
 
           <div className="ipm-section-label">Charts</div>
@@ -274,14 +286,6 @@ export function DashboardTab({
               )}
             </div>
           </div>
-          <ProjectHoursDash onOpenProject={onOpenProject} />
-
-          <div className="ipm-section-label">All Projects</div>
-          <ProjectsTable
-            onOpen={onOpenProject}
-            title={statusFilter ? `All Projects - ${statusFilter}` : "All Projects"}
-            statusFilter={statusFilter}
-          />
         </div>
       )}
 

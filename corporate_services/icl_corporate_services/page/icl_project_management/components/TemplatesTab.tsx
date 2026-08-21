@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TemplateResource } from "./types";
 
+type StatusFilter = "" | "missing" | "inactive";
+
 export function TemplatesTab() {
   const [loading, setLoading] = useState(true);
   const [resources, setResources] = useState<TemplateResource[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("");
 
   function loadLibrary() {
     setLoading(true);
@@ -70,6 +74,19 @@ export function TemplatesTab() {
     );
   }
 
+  const q = query.trim().toLowerCase();
+  const filtered = resources.filter((item) => {
+    if (statusFilter === "missing" && item.template_file) return false;
+    if (statusFilter === "inactive" && item.is_active) return false;
+    if (!q) return true;
+    return (
+      (item.requirement || "").toLowerCase().includes(q) ||
+      (item.description || "").toLowerCase().includes(q) ||
+      (item.doctype || "").toLowerCase().includes(q)
+    );
+  });
+  const missingCount = resources.filter((item) => !item.template_file).length;
+
   return (
     <div className="container-fluid p-3">
       <div className="alert alert-info mb-3" role="alert">
@@ -77,8 +94,44 @@ export function TemplatesTab() {
         library. Download a template, fill it in, and upload the completed
         version here to keep the shared copy current.
       </div>
+
+      <div className="d-flex justify-content-between align-items-center flex-wrap mb-3" style={{ gap: 8 }}>
+        <strong style={{ fontSize: 13 }}>
+          Templates ({filtered.length}{filtered.length !== resources.length ? ` of ${resources.length}` : ""})
+          {missingCount > 0 && (
+            <span className="text-muted" style={{ fontWeight: 400, marginLeft: 8, fontSize: 12 }}>
+              {missingCount} missing upload
+            </span>
+          )}
+        </strong>
+        <div className="d-flex" style={{ gap: 8 }}>
+          <select
+            className="form-control form-control-sm"
+            style={{ width: 160 }}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+          >
+            <option value="">All statuses</option>
+            <option value="missing">Missing upload</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <input
+            className="form-control form-control-sm"
+            style={{ width: 220 }}
+            placeholder="Search templates..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="text-muted text-center py-4" style={{ fontSize: 13 }}>
+          No templates match your search.
+        </div>
+      ) : (
       <div className="row">
-        {resources.map((item, idx) => (
+        {filtered.map((item, idx) => (
           <div
             className="col-lg-6 mb-3"
             key={`${item.requirement || "resource"}-${idx}`}
@@ -144,6 +197,7 @@ export function TemplatesTab() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
