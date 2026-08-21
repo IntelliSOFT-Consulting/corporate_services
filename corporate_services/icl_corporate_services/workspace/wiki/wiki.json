@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"f6laZQUa0x\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Wiki</span>\",\"col\":12}},{\"id\":\"ir8Llemis5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wiki Pages\",\"col\":4}},{\"id\":\"tZQ_AtqABm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wiki Space\",\"col\":3}},{\"id\":\"cTIBC0weUT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wiki Page Patches\",\"col\":4}},{\"id\":\"BsC6YwujPn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wiki Page Revisions\",\"col\":4}},{\"id\":\"z4qT3yMggL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Wiki Settings\",\"col\":4}}]",
- "creation": "2026-06-15 14:10:31.280318",
+ "creation": "2026-08-21 10:43:55.144691",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "Wiki",
  "links": [],
- "modified": "2026-06-16 15:19:33.317229",
+ "modified": "2026-08-21 11:06:08.949278",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Wiki",
@@ -35,7 +35,7 @@
    "role": "Wiki Approver"
   }
  ],
- "sequence_id": 31.0,
+ "sequence_id": 22.0,
  "shortcuts": [
   {
    "color": "Blue",

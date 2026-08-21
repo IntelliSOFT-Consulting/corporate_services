@@ -42,8 +42,7 @@
   "lunch_with_new_hire_supervisor_hr_new_hire",
   "officially_hand_them_over_to_their_supervisor",
   "month_1_section",
-  "30_day_feedback_survey",
-  "30_day_feedback_survey_file",
+  "month_1_hr_check_in_reminder_sent",
   "column_break_zsiv",
   "policy_quiz_to_ensure_policies_are_well_grasped",
   "policy_quiz",
@@ -246,9 +245,10 @@
   },
   {
    "default": "0",
-   "fieldname": "30_day_feedback_survey",
+   "description": "Ticked automatically once the Month 1 HR Check-In reminder emails have been sent to HR and the employee.",
+   "fieldname": "month_1_hr_check_in_reminder_sent",
    "fieldtype": "Check",
-   "label": "30 day Feedback survey"
+   "label": "Month 1 HR Check-In Reminder Sent"
   },
   {
    "default": "0",
@@ -292,15 +292,6 @@
    "fieldname": "send_company_wide_email_intro",
    "fieldtype": "Check",
    "label": "Send company wide email introducing the new hire"
-  },
-  {
-   "fieldname": "30_day_feedback_survey_file",
-   "fieldtype": "Link",
-   "label": "30 day Feedback survey File",
-   "options": "New Hire Feedback Survey 30-Day",
-   "print_hide": 1,
-   "read_only": 1,
-   "report_hide": 1
   },
   {
    "fieldname": "column_break_zsiv",

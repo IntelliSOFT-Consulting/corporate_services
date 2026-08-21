@@ -14,7 +14,7 @@
   }
  ],
  "content": "[{\"id\":\"MRMsBFaaJo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Travel Management</span>\",\"col\":12}},{\"id\":\"-Knmynkl57\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request\",\"col\":3}},{\"id\":\"gK4-InzmCj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Travel Request Reconciliation\",\"col\":3}},{\"id\":\"s1D5-tX1d3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hFwCQjrvsm\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request Trend\",\"col\":6}},{\"id\":\"i84gKxGyni\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request Reconciliation Trend\",\"col\":6}},{\"id\":\"nhLMCeyDNh\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Travel Request by Travel Type\",\"col\":6}}]",
- "creation": "2026-07-23 11:28:07.133961",
+ "creation": "2026-08-21 10:43:54.944690",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -26,7 +26,7 @@
  "is_hidden": 0,
  "label": "Travel Management",
  "links": [],
- "modified": "2026-07-23 11:41:57.408034",
+ "modified": "2026-08-21 11:06:08.092671",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Travel Management",
@@ -43,7 +43,7 @@
    "role": "System Manager"
   }
  ],
- "sequence_id": 33.0,
+ "sequence_id": 15.0,
  "shortcuts": [
   {
    "color": "Grey",

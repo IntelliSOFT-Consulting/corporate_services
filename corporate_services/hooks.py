@@ -228,7 +228,6 @@ def generate_doc_events(event_maps):
 
 
 on_update_map = {
-    "Employee Grievance": "corporate_services.api.notification.notifications.employee_grievance",
     "Travel Request": "corporate_services.api.notification.travel_request.travel_request.alert",
     "Travel Request Reconciliation": [
         "corporate_services.api.notification.travel_request.travel_request_reconciliation.alert",
@@ -270,6 +269,9 @@ on_update_map = {
     "Internship Completion Report":"corporate_services.api.notification.internship_completion_report.alert",
     "Project Status Report":"corporate_services.api.notification.project.status_report.alert",
     "Employee KPI":"corporate_services.api.notification.employee_kpi.alert",
+    "Month 1 HR Check-In":"corporate_services.api.notification.month_1_hr_check_in.alert",
+    "Mid-Probation Check-In":"corporate_services.api.notification.mid_probation_check_in.alert",
+    "End of Probation Assessment":"corporate_services.api.notification.end_of_probation_assessment.alert",
     # "Supplier Quote Submission": [
     #     "corporate_services.api.supplier.finance_alert.alert",
     #     "corporate_services.api.supplier.vat_calc.calc"
@@ -290,7 +292,7 @@ timesheet_notifications ={
 
 before_workflow_action_map = {
     "Timesheet Submission":"corporate_services.api.timesheet.before_workflow_action.before_workflow_action_timesheet_submission",
-} 
+}
 
 event_maps = {
     "on_update": {
@@ -355,7 +357,6 @@ scheduler_events = {
 	# ],
 	"daily": [
 		# "corporate_services.tasks.daily"
-        "corporate_services.api.notification.onboarding.onboarding_schedule.send_30day_onboarding_surveys",
         "corporate_services.api.quarterly_leave.quarterly_leave.send_quarterly_notifications",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_reminder_if_due",
         "corporate_services.api.notification.monthly_reflection.monthly_reflection.send_monthly_reflection_overdue_reminders_if_due",
@@ -378,6 +379,9 @@ scheduler_events = {
 		# "corporate_services.api.leave.update_annual_leave_allocations.update_annual_leave_allocations"
 	],
     "cron": {
+        "0 8 * * *": [
+            "corporate_services.api.notification.onboarding.onboarding_schedule.send_month_1_hr_check_in_reminders"
+        ],
         "0 8,10,12,14,16,17 * * *": [
             "corporate_services.api.notification.staff_requisition.staff_requisition.send_approval_overdue_reminders",
             "corporate_services.api.notification.reminder_engine.check_overdue_documents"

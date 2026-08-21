@@ -10,6 +10,8 @@
   "hr_settings_section",
   "hr_email",
   "head_of_corporate_services_email",
+  "column_break_hremail",
+  "overdue_reminder_email_priority",
   "hr_team_members_section",
   "table_xqbd",
   "reflection_settings_tab",
@@ -34,6 +36,7 @@
   "column_break_extr",
   "consultant_contract",
   "table_bvpi",
+  "intern_contract",
   "reminder_rules_tab",
   "reminder_rules"
  ],
@@ -53,6 +56,18 @@
    "fieldname": "head_of_corporate_services_email",
    "fieldtype": "Data",
    "label": "Head of Corporate Services Email"
+  },
+  {
+   "fieldname": "column_break_hremail",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3",
+   "description": "Queue priority used when sending overdue approval reminder emails (e.g. Staff Requisition). 1 = High, 3 = Normal, 5 = Low.",
+   "fieldname": "overdue_reminder_email_priority",
+   "fieldtype": "Select",
+   "label": "Overdue Reminder Email Priority",
+   "options": "1\n3\n5"
   },
   {
    "fieldname": "monthly_reflection_notification_section",
@@ -170,6 +185,12 @@
    "fieldtype": "Table",
    "label": "Employee Contracts",
    "options": "HR Config Employee Contracts"
+  },
+  {
+   "fieldname": "intern_contract",
+   "fieldtype": "Table",
+   "label": "Intern Contracts",
+   "options": "HR Config Intern Contract"
   },
   {
    "description": "These Contracts determines the timesheet templates a user will be allocated.",

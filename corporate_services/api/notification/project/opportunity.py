@@ -1,22 +1,9 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, pdf_attachment
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Opportunity", "text/html")
-    )
+HEADER = "Opportunity"
 
 def generate_message(doc, approver_employee_name, employee_name, email_type):
     """
@@ -118,9 +105,7 @@ def alert(doc, method):
                 approver_employee_name = approver_employee.employee_name
                 approver_email = approver_employee.company_email or approver_employee.personal_email
 
-        pdf_content = frappe.get_print(
-            doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-        )
+        attachments = pdf_attachment(doc)
 
         if doc.workflow_state == "Submitted to CEO":
             if employee and approver_email:
@@ -132,8 +117,8 @@ def alert(doc, method):
                     recipients=[approver_email],
                     subject=frappe._('Project Bid Feedback from the Opportunity owner'),
                     message=message_to_employee,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    header=HEADER,
+                    attachments=attachments,
                 )
         elif doc.workflow_state == "Approved by CEO":
             if employee:
@@ -145,8 +130,8 @@ def alert(doc, method):
                     recipients=[employee_email],
                     subject=frappe._('Project Bid Feedback from the CEO'),
                     message=message_to_employee,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    header=HEADER,
+                    attachments=attachments,
                 )
         elif doc.workflow_state == "Rejected by CEO":
             if employee:
@@ -158,8 +143,8 @@ def alert(doc, method):
                     recipients=[employee_email],
                     subject=frappe._('Project Bid Feedback from the CEO'),
                     message=message,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    header=HEADER,
+                    attachments=attachments,
                 )
 
 doc_events = {

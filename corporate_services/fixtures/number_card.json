@@ -2546,5 +2546,31 @@
   "show_percentage_stats": 1,
   "stats_time_interval": "Weekly",
   "type": "Document Type"
+ },
+ {
+  "aggregate_function_based_on": null,
+  "color": null,
+  "currency": null,
+  "docstatus": 0,
+  "doctype": "Number Card",
+  "document_type": "Employee",
+  "dynamic_filters_json": "[]",
+  "filters_config": null,
+  "filters_json": "[[\"Employee\", \"status\", \"=\", \"Active\"], [\"Employee\", \"custom_contract_type\", \"=\", \"Intern\"]]",
+  "function": "Count",
+  "is_public": 1,
+  "is_standard": 1,
+  "label": "Total Interns",
+  "method": "corporate_services.api.notification.notification_contacts.get_total_interns_count",
+  "modified": "2026-08-21 11:10:15.790852",
+  "module": "ICL Corporate Services",
+  "name": "Total Interns",
+  "parent_document_type": null,
+  "report_field": null,
+  "report_function": "Sum",
+  "report_name": null,
+  "show_percentage_stats": 1,
+  "stats_time_interval": "Daily",
+  "type": "Custom"
  }
 ]

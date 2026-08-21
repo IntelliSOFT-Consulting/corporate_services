@@ -1,0 +1,272 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-18 09:27:51.778330",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_vyu7",
+  "purpose_and_approach",
+  "amended_from",
+  "naming_series",
+  "check_in_details_section",
+  "employee",
+  "employee_name",
+  "position",
+  "department",
+  "supervisor",
+  "column_break_ufvs",
+  "start_date",
+  "check_in_date",
+  "hr_representative",
+  "hr_representative_name",
+  "first_month_conversation_section",
+  "question_template",
+  "first_month_conversation",
+  "hr_review_section",
+  "hr_remarks",
+  "confidential_or_sensitive_matters",
+  "follow_up",
+  "check_in_acknowledgement_section",
+  "role"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_vyu7",
+   "fieldtype": "Section Break",
+   "label": "A structured conversation about the employee\u2019s first month"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Month 1 HR Check-In",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "purpose_and_approach",
+   "fieldtype": "HTML",
+   "label": "Purpose and approach",
+   "options": "<p>This check-in gives the employee and HR an early opportunity to confirm what is working, identify practical gaps and agree on any support needed for the remainder of probation.</p><h4>Purpose and approach</h4><p>HR conducts this check-in at the end of Month 1. It is a supportive onboarding conversation, not a performance appraisal. Record concise, factual notes and share information only with those who need it to provide support or address an identified concern.</p>"
+  },
+  {
+   "fieldname": "check_in_details_section",
+   "fieldtype": "Section Break",
+   "label": "1. Check-in details"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "position",
+   "fieldtype": "Data",
+   "label": "Position",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "employee.custom_reports_to_name",
+   "fieldname": "supervisor",
+   "fieldtype": "Data",
+   "label": "Supervisor",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ufvs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "check_in_date",
+   "fieldtype": "Date",
+   "label": "Check-in date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hr_representative",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "HR representative",
+   "options": "Employee",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "description": "Use the prompts as a guide rather than a questionnaire. Capture the main point from the discussion and any matter that requires follow-up.",
+   "fieldname": "first_month_conversation_section",
+   "fieldtype": "Section Break",
+   "label": "2. First-month conversation"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Month 1 Check-In Template",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "first_month_conversation",
+   "fieldtype": "Table",
+   "label": "First-month conversation",
+   "options": "First-month conversation MONTH 1 HR CHECK-IN"
+  },
+  {
+   "fieldname": "hr_review_section",
+   "fieldtype": "Section Break",
+   "label": "HR Review"
+  },
+  {
+   "depends_on": "eval:in_list([\"Submitted to HR\", \"Needs Clarification\", \"Rejected By HR\"], doc.workflow_state)",
+   "description": "Visible to the employee. Explain the reason for rejection or what clarification is needed before resubmitting.",
+   "fieldname": "hr_remarks",
+   "fieldtype": "Small Text",
+   "label": "HR Remarks"
+  },
+  {
+   "fieldname": "confidential_or_sensitive_matters",
+   "fieldtype": "HTML",
+   "label": "Confidential or sensitive matters",
+   "options": "<h4>Confidential or sensitive matters</h4><p>Do not record unnecessary personal detail in this form. Where a concern requires a formal process, record only that the matter was referred and manage the details through the appropriate confidential channel.</p>"
+  },
+  {
+   "fieldname": "follow_up",
+   "fieldtype": "HTML",
+   "label": "Follow-up",
+   "options": "<h4>Follow-up</h4><p>Where follow-up is required, HR should communicate the matter to the appropriate person and track it separately through the applicable HR or onboarding process.</p>"
+  },
+  {
+   "description": "The acknowledgement confirms that the check-in took place and that the recorded actions were discussed. It does not prevent either party from raising further matters.",
+   "fieldname": "check_in_acknowledgement_section",
+   "fieldtype": "Section Break",
+   "label": "3. Check-in acknowledgement"
+  },
+  {
+   "fieldname": "role",
+   "fieldtype": "Table",
+   "label": "Role",
+   "options": "Acknowledgement"
+  },
+  {
+   "default": "HR-M1-CHN-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "HR-M1-CHN-.YYYY.-.MM.-",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "hr_representative.employee_name",
+   "fieldname": "hr_representative_name",
+   "fieldtype": "Data",
+   "label": "HR Representative Name",
+   "read_only": 1,
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-08-19 09:36:16.140531",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Month 1 HR Check-In",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "employee_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

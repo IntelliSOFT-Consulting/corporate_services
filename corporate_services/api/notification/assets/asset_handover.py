@@ -1,87 +1,95 @@
 import frappe
 from frappe.utils import get_url_to_form
 from frappe import _
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
     get_supervisor_contact,
+    get_employee_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email as _mailer_send_email, build_email_body, pdf_attachment
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Asset Movement", "text/html")
+HEADER = "Asset Movement"
+
+
+def send_email(doc, recipients, subject, message, attachments):
+    _mailer_send_email(
+        doc,
+        recipients,
+        subject,
+        message,
+        header=HEADER,
+        attachments=attachments,
     )
 
 def generate_message(doc, employee_name, email_type, supervisor_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
-        "supervisor": """
-            Dear {},<br><br>
-            I have submitted my {} for your review and approval. You can view it <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(supervisor_name, doc.doctype, doctype_url, employee_name),
-        
-        "approved_by_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and Approved by your supervisor. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, doctype_url, supervisor_name),
-
-        "employee_rejected_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and unfortunately, it has been rejected. You can view the reason and details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, doctype_url, supervisor_name),
-
-        "submitted_to_finance": """
-            Dear Finance,<br><br>
-            {}, {} has been reviewed and, it has been Approved by {}. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, supervisor_name, doctype_url, supervisor_name ),
-
-        "employee_approved_finance": """
-            Dear {},<br><br>
-            Your {} has been reviewed and, it has been Approved by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
-
-        "employee_rejected_finance": """
-            Dear {},<br><br>
-            Your {} has been reviewed and, it has been Rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
-        
-        "hr_finance_rejected": """
-            Dear HR,<br><br>
-            {}, {} has been reviewed and, it has been Rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
-
-        "receiver": """
-            Dear {},<br><br>
-            {}, {} has been reviewed and, it has been Approved by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, employee_name, doc.doctype, doctype_url),
+        "supervisor": build_email_body(
+            greeting=f"Dear {supervisor_name}",
+            intro=f"I have submitted my {doc.doctype} for your review and approval.",
+            action_line="You can view it",
+            link_url=doctype_url,
+            signer=employee_name,
+            cta_text="here",
+        ),
+        "approved_by_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and Approved by your supervisor.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer=supervisor_name,
+            cta_text="here",
+        ),
+        "employee_rejected_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and unfortunately, it has been rejected.",
+            action_line="You can view the reason and details",
+            link_url=doctype_url,
+            signer=supervisor_name,
+            cta_text="here",
+        ),
+        "submitted_to_finance": build_email_body(
+            greeting="Dear Finance",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and, it has been Approved by {supervisor_name}.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer=supervisor_name,
+            cta_text="here",
+        ),
+        "employee_approved_finance": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and, it has been Approved by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
+        "employee_rejected_finance": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and, it has been Rejected by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
+        "hr_finance_rejected": build_email_body(
+            greeting="Dear HR",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and, it has been Rejected by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
+        "receiver": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and, it has been Approved by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
     }
     return messages[email_type]
 
@@ -93,9 +101,9 @@ def alert(doc, method):
     ]:
         employee_id = doc.employee_name
         employee = frappe.get_doc("Employee", employee_id)
+        employee_email = get_employee_contact(employee).email
         receiver = frappe.get_doc("Employee", doc.custom_receiver)
         receiver_email = receiver.company_email or employee.personal_email
-        employee_email = employee.company_email or employee.personal_email
 
 
         supervisor_contact = get_supervisor_contact(employee)
@@ -103,9 +111,7 @@ def alert(doc, method):
         supervisor_name = supervisor_contact.name if supervisor_contact else None
 
 
-        pdf_content = frappe.get_print(
-            doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-        )
+        attachments = pdf_attachment(doc)
 
         if doc.workflow_state == "Submitted to Supervisor":
             if employee.reports_to:
@@ -116,8 +122,7 @@ def alert(doc, method):
                     recipients=[supervisor_email],
                     subject=frappe._('Asset Movement from {}'.format(employee.employee_name)),
                     message=message_to_supervisor,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    attachments=attachments
                 )
              
         elif doc.workflow_state == "Approved by Supervisor":
@@ -127,8 +132,7 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Asset Movement Approval by the supervisor'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )     
              
         elif doc.workflow_state == "Rejected By Supervisor":
@@ -138,8 +142,7 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Rejected'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
        
         elif doc.workflow_state == "Submitted to Finance":
@@ -150,8 +153,7 @@ def alert(doc, method):
                 recipients=finance_team_emails,
                 subject=frappe._('Asset Movement from {}'.format(employee.employee_name)),
                 message=message_to_finance,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
        
         elif doc.workflow_state == "Approved by Finance":
@@ -161,8 +163,7 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Approved by Finance'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
 
             message_to_receiver =  generate_message(doc, employee.employee_name, "receiver")
@@ -171,8 +172,7 @@ def alert(doc, method):
                 recipients=[receiver_email],
                 subject=frappe._('Asset Movement has been Approved by Finance'),
                 message=message_to_receiver,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
             
             
@@ -184,8 +184,7 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Asset Movement has been Rejected by Finance'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
 
             hr_manager_emails = get_hr_manager_emails()
@@ -195,8 +194,7 @@ def alert(doc, method):
                 recipients= hr_manager_emails,
                 subject=frappe._('Asset Movement Rejected by Finance'),
                 message=message_to_hr,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                attachments=attachments
             )
 
 doc_events = {

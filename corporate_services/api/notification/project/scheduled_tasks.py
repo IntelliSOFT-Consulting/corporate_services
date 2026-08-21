@@ -105,21 +105,21 @@ def _render_digest_html(projects, milestones, overdue_tasks, high_risks, action_
 			return "<p><em>None.</em></p>"
 		return "<ul>" + "".join(f"<li>{render(i)}</li>" for i in items) + "</ul>"
 
-	html = [f"<h3>Your Weekly PM Digest &mdash; {today.strftime('%d %b %Y')}</h3>"]
+	html = [f"<h3>Your Weekly PM Digest &- {today.strftime('%d %b %Y')}</h3>"]
 
 	html.append("<h4>Active Projects</h4>")
 	html.append(
 		_list_or_none(
 			projects,
-			lambda p: f"{p.get('project_name') or p['name']} &mdash; {p.get('status') or '-'}",
+			lambda p: f"{p.get('project_name') or p['name']} &- {p.get('status') or '-'}",
 		)
 	)
 
-	html.append(f"<h4>Milestones Due This Week ({today} &mdash; {week_end})</h4>")
+	html.append(f"<h4>Milestones Due This Week ({today} &- {week_end})</h4>")
 	html.append(
 		_list_or_none(
 			milestones,
-			lambda m: f"{m.get('subject') or m['name']} &mdash; due {m.get('exp_end_date')}",
+			lambda m: f"{m.get('subject') or m['name']} &- due {m.get('exp_end_date')}",
 		)
 	)
 
@@ -127,7 +127,7 @@ def _render_digest_html(projects, milestones, overdue_tasks, high_risks, action_
 	html.append(
 		_list_or_none(
 			overdue_tasks,
-			lambda t: f"{t.get('subject') or t['name']} &mdash; was due {t.get('exp_end_date')}",
+			lambda t: f"{t.get('subject') or t['name']} &- was due {t.get('exp_end_date')}",
 		)
 	)
 
@@ -219,12 +219,12 @@ def _render_my_tasks_digest_html(due_soon, overdue, today, week_end):
 		title = t.get("subject") or t["name"]
 		project_title = t.get("project_name") or t.get("project") or "-"
 		jira = f" ({t['custom_jira_issue_key']})" if t.get("custom_jira_issue_key") else ""
-		return f"{title}{jira} &mdash; {project_title}, due {t.get('exp_end_date')}"
+		return f"{title}{jira} &- {project_title}, due {t.get('exp_end_date')}"
 
-	html = [f"<h3>Your Tasks Due Soon &mdash; {today.strftime('%d %b %Y')}</h3>"]
+	html = [f"<h3>Your Tasks Due Soon &- {today.strftime('%d %b %Y')}</h3>"]
 	html.append(f"<h4>Overdue</h4>")
 	html.append(_list_or_none(overdue, _render_task))
-	html.append(f"<h4>Due This Week ({today} &mdash; {week_end})</h4>")
+	html.append(f"<h4>Due This Week ({today} &- {week_end})</h4>")
 	html.append(_list_or_none(due_soon, _render_task))
 
 	return "".join(html)

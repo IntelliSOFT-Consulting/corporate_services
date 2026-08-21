@@ -1,7 +1,7 @@
 [
  {
   "announcement_widget": null,
-  "app_logo": null,
+  "app_logo": "",
   "docstatus": 0,
   "doctype": "Navbar Settings",
   "help_dropdown": [
@@ -90,7 +90,7 @@
     "route": "https://frappe.io/support"
    }
   ],
-  "modified": "2024-04-23 13:30:51.989129",
+  "modified": "2026-08-21 11:30:33.060823",
   "name": "Navbar Settings",
   "settings_dropdown": [
    {
@@ -188,6 +188,18 @@
     "parentfield": "settings_dropdown",
     "parenttype": "Navbar Settings",
     "route": null
+   },
+   {
+    "action": null,
+    "condition": null,
+    "hidden": 0,
+    "is_standard": 0,
+    "item_label": "Documentation",
+    "item_type": "Route",
+    "parent": "Navbar Settings",
+    "parentfield": "settings_dropdown",
+    "parenttype": "Navbar Settings",
+    "route": "/wiki"
    },
    {
     "action": "frappe.app.logout()",

@@ -6,7 +6,7 @@
   }
  ],
  "content": "[{\"id\":\"nYU4H5dWqq\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Monthly Reflection</span>\",\"col\":12}},{\"id\":\"d-oNtKRhTx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Reflection Dashboard\",\"col\":3}},{\"id\":\"2kFsbgFBYI\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"LZOVpXnVyQ\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Monthly Reflection Total Submitted\",\"col\":4}},{\"id\":\"J4EZmbjpwf\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Monthly Reflection Total Missing\",\"col\":4}},{\"id\":\"AguijzbgxU\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"zqYZEwJ8f8\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Monthly Reflection Submission\",\"col\":12}},{\"id\":\"Tz3FWUjoq8\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Monthly Reflection\",\"col\":12}}]",
- "creation": "2026-03-26 08:12:19.700843",
+ "creation": "2026-08-21 10:43:56.807913",
  "custom_blocks": [
   {
    "custom_block_name": "HR",
@@ -23,7 +23,7 @@
  "is_hidden": 0,
  "label": "Employee Monthly Reflection",
  "links": [],
- "modified": "2026-03-26 08:17:49.610363",
+ "modified": "2026-08-21 11:06:06.630937",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Employee Monthly Reflection",
@@ -57,7 +57,13 @@
  ],
  "sequence_id": 5.0,
  "shortcuts": [
-  
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Monthly Reflection Dashboard",
+   "link_to": "monthly-reflection-dashboard",
+   "type": "Page"
+  }
  ],
  "title": "Employee Monthly Reflection"
 }

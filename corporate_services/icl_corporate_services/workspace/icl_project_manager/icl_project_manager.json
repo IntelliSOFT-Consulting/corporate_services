@@ -14,7 +14,7 @@
   }
  ],
  "content": "[{\"id\":\"pmWelcome\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Project manager Welcome\",\"col\":12}},{\"id\":\"pmSpacer2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmOverviewHeader\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\ud83d\udcca Overview</b></span>\",\"col\":12}},{\"id\":\"pmChart1\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Project Summary\",\"col\":12}},{\"id\":\"pmChart2\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Status\",\"col\":6}},{\"id\":\"pmChart3\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Projects by Priority\",\"col\":6}},{\"id\":\"pmSpacer3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pmProjectQL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Project\",\"col\":12}}]",
- "creation": "2026-07-30 07:05:21.761535",
+ "creation": "2026-08-21 10:43:55.347024",
  "custom_blocks": [
   {
    "custom_block_name": "Project manager Welcome",
@@ -61,7 +61,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-30 07:11:01.595601",
+ "modified": "2026-08-21 11:06:08.496903",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "ICL Project Manager",

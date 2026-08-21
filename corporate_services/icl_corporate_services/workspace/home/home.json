@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"GNWkxjGMdi\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Welcome\",\"col\":12}},{\"id\":\"lUK9IUIGuR\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"HR\",\"col\":12}},{\"id\":\"D4iuiH6oX4\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Notification Log\",\"col\":6}},{\"id\":\"KSj8Cg07nw\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"ToDo\",\"col\":6}}]",
- "creation": "2026-03-26 08:12:18.119800",
+ "content": "[{\"id\": \"GNWkxjGMdi\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"Welcome\", \"col\": 12}}, {\"id\": \"lUK9IUIGuR\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"HR\", \"col\": 12}}, {\"id\": \"D4iuiH6oX4\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"Notification Log\", \"col\": 6}}, {\"id\": \"KSj8Cg07nw\", \"type\": \"quick_list\", \"data\": {\"quick_list_name\": \"ToDo\", \"col\": 6}}, {\"id\": \"wikilink1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Wiki Documentation\", \"col\": 3}}]",
+ "creation": "2026-08-21 11:20:50.469935",
  "custom_blocks": [
   {
    "custom_block_name": "Welcome",
@@ -21,7 +21,7 @@
  "is_hidden": 0,
  "label": "Home",
  "links": [],
- "modified": "2026-03-26 08:17:23.446958",
+ "modified": "2026-08-21 11:25:24.159575",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Home",
@@ -44,6 +44,14 @@
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Wiki Documentation",
+   "type": "URL",
+   "url": "/wiki"
+  }
+ ],
  "title": "Home"
 }

@@ -3,55 +3,48 @@ from frappe.utils import get_url_to_form
 from corporate_services.api.notification.notification_contacts import (
     get_finance_team_emails,
     get_hr_manager_emails,
+    get_employee_contact,
 )
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, build_email_body
 
-def send_email(doc, recipients, subject, message):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-
-    recipients = [email for email in (recipients or []) if email]
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        header=("Travel Request Reconciliation", "text/html")
-    )
+HEADER = "Travel Request Reconciliation"
 
 def generate_message(doc, employee_name, email_type, supervisor_name=None):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
-        "submitted_to_finance": """
-            Dear Finance,<br><br>
-            Travel Request Reconciliation has been submitted by <b>{}</b> to Finance for further review and approval. You can view the details by clicking <a href="{}">here</a>.<br><br>
-            Thank you for your prompt attention.<br><br>
-            Best regards,<br>
-            ERPNext Travel Module.
-        """.format(employee_name, doctype_url),
-
-        "finance_approved": """
-            Dear {},<br><br>
-            Your {} has been reviewed and, it has been Approved by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
-
-        "finance_rejected": """
-            Dear {},<br><br>
-            Your {} has been reviewed and, it has been Rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
-        
-        "hr_finance_rejected": """
-            Dear HR,<br><br>
-            {}, {} has been reviewed and, it has been Rejected by Finance. You can view the details <a href="{}">here</a>.<br><br>
-            Kind regards,<br>
-            Finance Department
-        """.format(employee_name, doc.doctype, doctype_url),
+        "submitted_to_finance": build_email_body(
+            greeting="Dear Finance",
+            intro=f"Travel Request Reconciliation has been submitted by <b>{employee_name}</b> to Finance for further review and approval. Thank you for your prompt attention.",
+            action_line="You can view the details by clicking",
+            link_url=doctype_url,
+            signer="ERPNext Travel Module.",
+            cta_text="here",
+        ),
+        "finance_approved": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and, it has been Approved by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
+        "finance_rejected": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and, it has been Rejected by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
+        "hr_finance_rejected": build_email_body(
+            greeting="Dear HR",
+            intro=f"{employee_name}, {doc.doctype} has been reviewed and, it has been Rejected by Finance.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Finance Department",
+            cta_text="here",
+        ),
     }
     return messages[email_type]
 
@@ -64,49 +57,49 @@ def alert(doc, method):
         
         travel_request_doc = frappe.get_doc("Travel Request", doc.travel_request)
 
-        employee_id = travel_request_doc.employee
-        
-        employee = frappe.get_doc("Employee", employee_id)
-        
-        employee_email = employee.company_email or employee.personal_email
+        employee = get_employee_contact(travel_request_doc.employee)
 
         finance_team_emails = get_finance_team_emails()
         hr_manager_emails = get_hr_manager_emails()
 
         if doc.workflow_state == "Submitted to Finance":
-            
-            message_to_finance = generate_message(doc, employee.employee_name, "submitted_to_finance")
+
+            message_to_finance = generate_message(doc, employee.name, "submitted_to_finance")
             send_email(
                 doc,
                 recipients=finance_team_emails,
-                subject=frappe._('Travel Request Reconciliation from {}'.format(employee.employee_name)),
+                subject=frappe._('Travel Request Reconciliation from {}'.format(employee.name)),
                 message=message_to_finance,
+                header=HEADER,
             )
 
         elif doc.workflow_state == "Approved by Finance":
-            message_to_employee = generate_message(doc, employee.employee_name, "finance_approved")
+            message_to_employee = generate_message(doc, employee.name, "finance_approved")
             send_email(
                 doc,
-                recipients=[employee_email],
+                recipients=[employee.email],
                 subject=frappe._('Your Travel Request Reconciliation has been Approved by Finance'),
                 message=message_to_employee,
-            )
-          
-        elif doc.workflow_state == "Rejected by Finance":
-            message_to_employee = generate_message(doc, employee.employee_name, "finance_rejected")
-            send_email(
-                doc,
-                recipients=[employee_email],
-                subject=frappe._('Your Travel Request Reconciliation has been Rejected by Finance'),
-                message=message_to_employee,
+                header=HEADER,
             )
 
-            message_to_hr = generate_message(doc, employee.employee_name, "hr_finance_rejected")
+        elif doc.workflow_state == "Rejected by Finance":
+            message_to_employee = generate_message(doc, employee.name, "finance_rejected")
             send_email(
                 doc,
-                recipients= hr_manager_emails,
+                recipients=[employee.email],
+                subject=frappe._('Your Travel Request Reconciliation has been Rejected by Finance'),
+                message=message_to_employee,
+                header=HEADER,
+            )
+
+            message_to_hr = generate_message(doc, employee.name, "hr_finance_rejected")
+            send_email(
+                doc,
+                recipients=hr_manager_emails,
                 subject=frappe._('Travel Request Reconciliation Rejected by Finance'),
                 message=message_to_hr,
+                header=HEADER,
             )
 
 doc_events = {

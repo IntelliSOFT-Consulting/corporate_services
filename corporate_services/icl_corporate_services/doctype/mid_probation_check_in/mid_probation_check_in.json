@@ -1,0 +1,291 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-18 11:53:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "intro_html",
+  "amended_from",
+  "naming_series",
+  "check_in_details_section",
+  "employee",
+  "employee_name",
+  "position",
+  "department",
+  "column_break_details",
+  "start_date",
+  "supervisor",
+  "check_in_date",
+  "progress_review_section",
+  "question_template",
+  "checklist",
+  "overall_position_section",
+  "overall_midway_position",
+  "supervisor_notes_section",
+  "key_strengths",
+  "improvement_areas",
+  "support_required",
+  "agreed_actions",
+  "column_break_actions",
+  "action_owner",
+  "action_due_date",
+  "hr_review_section",
+  "hr_remarks",
+  "acknowledgement_section",
+  "acknowledgement"
+ ],
+ "fields": [
+  {
+   "fieldname": "intro_html",
+   "fieldtype": "HTML",
+   "options": "<h4>ICL Mid-Probation Check-In Form</h4><p><b>1.5-Month Probation Progress Review | 15-Minute Supervisor Check-In</b></p><p><b>Purpose:</b> A light-touch midway check to confirm whether the employee is on track, identify support needs early and prevent surprises at the end-of-probation review. This is not the final confirmation decision.</p>"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Mid-Probation Check-In",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "HR-MID-PROB-.YYYY.-.MM.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "HR-MID-PROB-.YYYY.-.MM.-",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "check_in_details_section",
+   "fieldtype": "Section Break",
+   "label": "1. Employee and Check-In Details"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "position",
+   "fieldtype": "Data",
+   "label": "Job Title",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date Joined",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "employee.custom_reports_to_name",
+   "fieldname": "supervisor",
+   "fieldtype": "Data",
+   "label": "Supervisor",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "check_in_date",
+   "fieldtype": "Date",
+   "label": "Check-in date",
+   "reqd": 1
+  },
+  {
+   "description": "Use the check areas as a guide for a quick 15-minute conversation. Mark each area On Track or Concern and capture any notes or agreed action.",
+   "fieldname": "progress_review_section",
+   "fieldtype": "Section Break",
+   "label": "2. Quick Progress Review"
+  },
+  {
+   "fieldname": "question_template",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Question Template",
+   "options": "Mid-Probation Check-In Template",
+   "print_hide": 1,
+   "read_only": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "checklist",
+   "fieldtype": "Table",
+   "label": "Quick Progress Review",
+   "options": "Mid-Probation Check-In Item"
+  },
+  {
+   "fieldname": "overall_position_section",
+   "fieldtype": "Section Break",
+   "label": "3. Overall Midway Position"
+  },
+  {
+   "fieldname": "overall_midway_position",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Overall Midway Position",
+   "options": "On track for confirmation\nMostly on track - support needed\nSignificant concern - HR to be informed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supervisor_notes_section",
+   "fieldtype": "Section Break",
+   "label": "4. Supervisor Notes and Immediate Actions"
+  },
+  {
+   "fieldname": "key_strengths",
+   "fieldtype": "Small Text",
+   "label": "Key strengths so far"
+  },
+  {
+   "fieldname": "improvement_areas",
+   "fieldtype": "Small Text",
+   "label": "Improvement areas / concerns"
+  },
+  {
+   "fieldname": "support_required",
+   "fieldtype": "Small Text",
+   "label": "Support or clarification required"
+  },
+  {
+   "fieldname": "agreed_actions",
+   "fieldtype": "Small Text",
+   "label": "Agreed actions before final review"
+  },
+  {
+   "fieldname": "column_break_actions",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "action_owner",
+   "fieldtype": "Data",
+   "label": "Action Owner"
+  },
+  {
+   "fieldname": "action_due_date",
+   "fieldtype": "Date",
+   "label": "Action Due Date"
+  },
+  {
+   "fieldname": "hr_review_section",
+   "fieldtype": "Section Break",
+   "label": "HR Review"
+  },
+  {
+   "depends_on": "eval:in_list([\"Submitted to HR\", \"Needs Clarification\", \"Rejected By HR\"], doc.workflow_state)",
+   "description": "Visible to the supervisor. Explain the reason for rejection or what clarification is needed before resubmitting.",
+   "fieldname": "hr_remarks",
+   "fieldtype": "Small Text",
+   "label": "HR Remarks"
+  },
+  {
+   "description": "If a significant concern is identified, the supervisor should inform HR early and document the support or corrective action required before the final probation review.",
+   "fieldname": "acknowledgement_section",
+   "fieldtype": "Section Break",
+   "label": "5. Acknowledgement"
+  },
+  {
+   "fieldname": "acknowledgement",
+   "fieldtype": "Table",
+   "label": "Acknowledgement",
+   "options": "Acknowledgement"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-08-19 09:39:25.135564",
+ "modified_by": "Administrator",
+ "module": "ICL Corporate Services",
+ "name": "Mid-Probation Check-In",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Supervisor",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

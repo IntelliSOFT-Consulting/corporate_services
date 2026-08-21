@@ -1,78 +1,64 @@
 import frappe
 from frappe.utils import get_url_to_form
-from corporate_services.api.helpers.print_formats import get_default_print_format
 from corporate_services.api.notification.notification_contacts import get_hr_manager_emails, get_supervisor_contact
-from corporate_services.api.notification.dispatch_log import on_transition, filter_recipients
+from corporate_services.api.notification.dispatch_log import on_transition
+from corporate_services.api.notification.mailer import send_email, build_email_body, pdf_attachment
 
-def send_email(doc, recipients, subject, message, pdf_content, doc_name):
-    recipients = filter_recipients(doc, recipients)
-    if not recipients:
-        return
-    frappe.sendmail(
-        recipients=recipients,
-        subject=subject,
-        message=message,
-        attachments=[{
-            'fname': '{}.pdf'.format(doc_name),
-            'fcontent': pdf_content
-        }],
-        header=("Appraisal", "text/html")
-    )
+HEADER = "Appraisal"
 
 def generate_message(doc, employee_name, email_type):
     doctype_url = get_url_to_form(doc.doctype, doc.name)
     messages = {
-        "supervisor": """
-            Dear {},<br><br>
-            I have submitted my {} as part of the appraisal process for your review and feedback. You can view the document <a href="{}">here</a>. This marks the first stage of the appraisal, and I look forward to your insights and the next steps, including the appraisal discussion.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(employee_name, doc.doctype, doctype_url, employee_name),
-
-        "employee_approve_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed and approved by your supervisor. You can view the details <a href="{}">here</a>.<br><br>
-            Congratulations on moving to the next stage of the appraisal process.<br><br>
-            Kind regards,<br>
-            Supervisor
-        """.format(employee_name, doc.doctype, doctype_url),
-
-
-        "employee_rejected_supervisor": """
-            Dear {},<br><br>
-            Your {} has been reviewed by your supervisor but unfortunately, it has been rejected. You can view the feedback and details <a href="{}">here</a>. We encourage you to address the feedback and resubmit.<br><br>
-            Kind regards,<br>
-            Supervisor
-        """.format(employee_name, doc.doctype, doctype_url),
-
-
-        "hr": """
-            Dear HR Manager,<br><br>
-            A new {} for {} has been submitted and reviewed by the supervisor. It is now awaiting your review and approval. You can view the details <a href="{}">here</a>.<br><br>
-            Please proceed with the next steps in the appraisal process.<br><br>
-            Kind regards,<br>
-            {}
-        """.format(doc.doctype, employee_name, doctype_url, employee_name),
-
-
-        "employee_rejected_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed by the HR department but unfortunately, it has been rejected. You can view the details and feedback <a href="{}">here</a>. Please review the feedback carefully and take the necessary steps to address the concerns.<br><br>
-            Kind regards,<br>
-            HR Department
-        """.format(employee_name, doc.doctype, doctype_url),
-
-
-        "employee_approved_hr": """
-            Dear {},<br><br>
-            Your {} has been reviewed and approved by the HR department. You can view the details <a href="{}">here</a>.<br><br>
-            Congratulations on completing this stage of the appraisal process.<br><br>
-            Kind regards,<br>
-            HR Department
-        """.format(employee_name, doc.doctype, doctype_url),
-
+        "supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"I have submitted my {doc.doctype} as part of the appraisal process for your review and feedback. This marks the first stage of the appraisal, and I look forward to your insights and the next steps, including the appraisal discussion.",
+            action_line="You can view the document",
+            link_url=doctype_url,
+            signer=employee_name,
+            cta_text="here",
+        ),
+        "employee_approve_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and approved by your supervisor. Congratulations on moving to the next stage of the appraisal process.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="Supervisor",
+            cta_text="here",
+        ),
+        "employee_rejected_supervisor": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed by your supervisor but unfortunately, it has been rejected. We encourage you to address the feedback and resubmit.",
+            action_line="You can view the feedback and details",
+            link_url=doctype_url,
+            signer="Supervisor",
+            cta_text="here",
+        ),
+        "hr": build_email_body(
+            greeting="Dear HR Manager",
+            intro=f"A new {doc.doctype} for {employee_name} has been submitted and reviewed by the supervisor. It is now awaiting your review and approval. Please proceed with the next steps in the appraisal process.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer=employee_name,
+            cta_text="here",
+        ),
+        "employee_rejected_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed by the HR department but unfortunately, it has been rejected. Please review the feedback carefully and take the necessary steps to address the concerns.",
+            action_line="You can view the details and feedback",
+            link_url=doctype_url,
+            signer="HR Department",
+            cta_text="here",
+        ),
+        "employee_approved_hr": build_email_body(
+            greeting=f"Dear {employee_name}",
+            intro=f"Your {doc.doctype} has been reviewed and approved by the HR department. Congratulations on completing this stage of the appraisal process.",
+            action_line="You can view the details",
+            link_url=doctype_url,
+            signer="HR Department",
+            cta_text="here",
+        ),
     }
-    
+
     return messages[email_type]
 
 def alert(doc, method):
@@ -85,9 +71,7 @@ def alert(doc, method):
         employee = frappe.get_doc("Employee", employee_id)
         employee_email = employee.company_email or employee.personal_email
 
-        pdf_content = frappe.get_print(
-            doc.doctype, doc.name, get_default_print_format(doc.doctype), as_pdf=True
-        )
+        attachments = pdf_attachment(doc)
 
         if doc.workflow_state == "Submitted to Supervisor":
             if employee.reports_to:
@@ -99,8 +83,8 @@ def alert(doc, method):
                     recipients=[supervisor_contact.email],
                     subject=frappe._('Appraisal from {}'.format(employee.employee_name)),
                     message=message,
-                    pdf_content=pdf_content,
-                    doc_name=doc.name
+                    header=HEADER,
+                    attachments=attachments,
                 )
         elif doc.workflow_state == "Approved by Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approve_supervisor")
@@ -109,8 +93,8 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Appraisal has been Approved'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header=HEADER,
+                attachments=attachments,
             )
         elif doc.workflow_state == "Rejected By Supervisor":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_supervisor")
@@ -119,8 +103,8 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Appraisal has been Rejected'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header=HEADER,
+                attachments=attachments,
             )
         elif doc.workflow_state == "Submitted to HR":
             hr_manager_emails = get_hr_manager_emails()
@@ -131,8 +115,8 @@ def alert(doc, method):
                 recipients=hr_manager_emails,
                 subject=frappe._('Appraisal'),
                 message=message,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header=HEADER,
+                attachments=attachments,
             )
         elif doc.workflow_state == "Rejected By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_rejected_hr")
@@ -141,8 +125,8 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Appraisal has been Rejected'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header=HEADER,
+                attachments=attachments,
             )
         elif doc.workflow_state == "Approved By HR":
             message_to_employee = generate_message(doc, employee.employee_name, "employee_approved_hr")
@@ -151,8 +135,8 @@ def alert(doc, method):
                 recipients=[employee_email],
                 subject=frappe._('Your Appraisal has been Approved by HR'),
                 message=message_to_employee,
-                pdf_content=pdf_content,
-                doc_name=doc.name
+                header=HEADER,
+                attachments=attachments,
             )
 
 doc_events = {

@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class NewHireFeedbackSurvey30Day(Document):
+class FirstmonthconversationMONTH1HRCHECKIN(Document):
 	pass

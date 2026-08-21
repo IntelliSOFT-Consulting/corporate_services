@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Tax Exemption Declaration\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Additional Salary\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Income Tax Computation\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters &amp; Reports</b></span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Tax Setup\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Exemption\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Benefits\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
- "creation": "2026-03-26 08:12:19.293357",
+ "creation": "2026-08-21 10:43:56.497586",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -153,7 +153,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-26 08:17:25.445147",
+ "modified": "2026-08-21 11:06:07.991638",
  "modified_by": "Administrator",
  "module": "ICL Corporate Services",
  "name": "Tax & Benefits",
@@ -167,7 +167,7 @@
    "role": "Finance"
   }
  ],
- "sequence_id": 15.0,
+ "sequence_id": 14.0,
  "shortcuts": [
   {
    "color": "Red",
