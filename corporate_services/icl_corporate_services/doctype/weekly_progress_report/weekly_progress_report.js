@@ -12,7 +12,7 @@ frappe.ui.form.on("Weekly Progress Report", {
 	},
 	refresh(frm) {
 		frm.add_custom_button(__("Open HR Guide"), () => {
-			frappe.set_route("hr-reporting-guide");
+			window.open("/wiki/weekly-progress-report", "_blank");
 		});
 		render_questionnaire_ui(frm);
 	},

@@ -101,6 +101,15 @@ def get_intern_contract_types():
     )
 
 
+@frappe.whitelist()
+def get_total_interns_count(**kwargs):
+    contract_types = get_intern_contract_types()
+    filters = {"status": "Active"}
+    if contract_types:
+        filters["custom_contract_type"] = ["in", contract_types]
+    return frappe.db.count("Employee", filters)
+
+
 def get_user_contact(user_id):
     if not user_id:
         return None
