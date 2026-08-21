@@ -1,8 +1,14 @@
+import frappe
+
 from datetime import timedelta
 
-import frappe
 from corporate_services.api.notification.dispatch_log import on_transition
 from corporate_services.api.notification.mailer import build_email_body, send_email
+from corporate_services.api.notification.notification_contacts import (
+    get_hr_manager_emails,
+    get_intern_contract_types,
+    get_internship_program_coordinator_emails,
+)
 from frappe.utils import get_url_to_form, nowdate, getdate
 
 HEADER = "Weekly Progress Report"
@@ -17,10 +23,12 @@ def is_weekly_reminder_due(config) -> bool:
         return False
 
     reminder_day = getattr(config, "weekly_progress_reminder_weekday", "Friday")
+    
     day_map = {
         "Monday": 0, "Tuesday": 1, "Wednesday": 2,
         "Thursday": 3, "Friday": 4, "Saturday": 5, "Sunday": 6,
     }
+    
     today = getdate(nowdate())
 
     if today.weekday() != day_map.get(reminder_day, 4):
@@ -33,20 +41,14 @@ def is_weekly_reminder_due(config) -> bool:
     return True
 
 
-def get_dashboard_data(contract_type=None) -> dict:
-    """
-    Returns a dict with:
-      - week_start / week_end  (Monday … Sunday of the current ISO week)
-      - missing_rows: list of {employee, employee_name} for employees who
-        have NOT submitted a Weekly Progress Report covering this week.
-    """
+def get_dashboard_data(contract_types=None) -> dict:
     today = getdate(nowdate())
     week_start = today - timedelta(days=today.weekday())
     week_end = week_start + timedelta(days=6)
 
     filters = {"status": "Active"}
-    if contract_type:
-        filters["employment_type"] = contract_type
+    if contract_types:
+        filters["employment_type"] = ["in", contract_types]
 
     employees = frappe.get_all(
         "Employee",
@@ -63,7 +65,7 @@ def get_dashboard_data(contract_type=None) -> dict:
         "Weekly Progress Report",
         filters={
             "intern": ["in", employee_ids],
-            "week_start": ["between", [str(week_start), str(week_end)]],
+            "week_window_start": ["between", [str(week_start), str(week_end)]],
             "docstatus": ["!=", 2],
         },
         fields=["intern"],
@@ -98,8 +100,19 @@ def _get_supervisor_email(employee):
     return supervisor.get("company_email") or supervisor.get("personal_email")
 
 
-def _send_workflow_email(doc, recipients, subject, message):
-    send_email(doc, recipients, subject, message, header=HEADER)
+def _send_workflow_email(doc, recipients, subject, message, cc=None):
+    send_email(doc, recipients, subject, message, header=HEADER, cc=cc)
+
+
+def _mark_weekly_reminder_sent():
+    frappe.db.set_value(
+        "HR Config",
+        "HR Config",
+        "weekly_progress_last_reminder_sent_on",
+        nowdate(),
+        update_modified=True,
+    )
+    frappe.db.commit()
 
 
 # ---------------------------------------------------------------------------
@@ -111,21 +124,13 @@ def send_weekly_progress_report_reminders_if_due():
     if not is_weekly_reminder_due(config):
         return
 
-    data = get_dashboard_data(getattr(config, "weekly_progress_contract_type", None))
+    data = get_dashboard_data(get_intern_contract_types())
     missing_rows = data.get("missing_rows", [])
 
     if not missing_rows:
-        frappe.db.set_value(
-            "HR Config",
-            "HR Config",
-            "weekly_progress_last_reminder_sent_on",
-            nowdate(),
-            update_modified=True,
-        )
-        frappe.db.commit()
+        _mark_weekly_reminder_sent()
         return
 
-    from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
     hr_emails = get_hr_manager_emails()
     week_start = data.get("week_start")
     week_end = data.get("week_end")
@@ -157,14 +162,7 @@ def send_weekly_progress_report_reminders_if_due():
             header=("Weekly Progress Report", "text/html"),
         )
 
-    frappe.db.set_value(
-        "HR Config",
-        "HR Config",
-        "weekly_progress_last_reminder_sent_on",
-        nowdate(),
-        update_modified=True,
-    )
-    frappe.db.commit()
+    _mark_weekly_reminder_sent()
 
 
 # ---------------------------------------------------------------------------
@@ -185,8 +183,6 @@ def alert(doc, method):
 
     if not on_transition(doc):
         return
-
-    from corporate_services.api.notification.notification_contacts import get_hr_manager_emails
 
     employee = frappe.get_doc("Employee", doc.intern)
     employee_name = employee.employee_name or employee.name
@@ -210,6 +206,7 @@ def alert(doc, method):
                 signer="HR Department",
                 cta_text="here",
             ),
+            cc=get_internship_program_coordinator_emails(),
         )
         return
 

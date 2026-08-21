@@ -149,7 +149,9 @@ def get_permission_query_conditions(user=None):
     if not user:
         return "1=0"
 
-    if user == "Administrator" or _user_has_any_role(user, {"System Manager", "HR Manager"}):
+    if user == "Administrator" or _user_has_any_role(
+        user, {"System Manager", "HR Manager", "Internship Program Coordinator"}
+    ):
         return ""
 
     current_employee = _get_employee_for_user(user)
@@ -175,7 +177,9 @@ def has_permission(doc, user=None, permission_type=None):
     if not user:
         return False
 
-    if user == "Administrator" or _user_has_any_role(user, {"System Manager", "HR Manager"}):
+    if user == "Administrator" or _user_has_any_role(
+        user, {"System Manager", "HR Manager", "Internship Program Coordinator"}
+    ):
         return True
 
     current_employee = _get_employee_for_user(user)

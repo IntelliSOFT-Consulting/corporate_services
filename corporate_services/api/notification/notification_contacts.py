@@ -48,10 +48,25 @@ def get_procurement_team_emails() -> list[str]:
     return list(dict.fromkeys(email for email in emails if email))
 
 
+def get_internship_program_coordinator_emails() -> list[str]:
+    users = frappe.get_all(
+        "Has Role",
+        filters={"role": "Internship Program Coordinator", "parenttype": "User"},
+        pluck="parent",
+    )
+    emails = [frappe.db.get_value("User", user, "email") for user in set(users)]
+    return list(dict.fromkeys(email for email in emails if email))
+
+
 def get_smt_emails() -> list[str]:
     emails = frappe.get_all("Has Role", filters={"role": "SMT", "parenttype": "User"}, pluck="parent")
     emails += frappe.get_all("SMT Members", pluck="email")
     return list(dict.fromkeys(email for email in emails if email))
+
+
+def get_ceo_email() -> list[str]:
+    email = frappe.get_all("Has Role", filters={"role": "CEO", "parenttype": "User"}, fieldname="parent")
+    return [email.strip()] if email else []
 
 
 def get_employee_contact(employee):
@@ -76,6 +91,14 @@ def get_supervisor_contact(employee):
         return None
 
     return get_employee_contact(employee.reports_to)
+
+
+def get_intern_contract_types():
+    return frappe.get_all(
+        "HR Config Intern Contract",
+        filters={"parent": "HR Config"},
+        pluck="contract_type",
+    )
 
 
 def get_user_contact(user_id):
